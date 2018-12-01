@@ -14,6 +14,7 @@ namespace ActivityPub\Type\Validator;
 use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
+use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
 
 /**
  * \ActivityPub\Type\Validator\AttachmentValidator is a dedicated
@@ -21,38 +22,7 @@ use ActivityPub\Type\ValidatorInterface;
  */
 class AttachmentValidator implements ValidatorInterface
 {
-    /**
-     * Validate an ATTACHMENT attribute value
-     * 
-     * @param mixed  $value
-     * @param mixed  $container An object
-     * @return bool
-     */
-    public function validate($value, $container)
-    {
-	// Validate that container is a ObjectType type
-	if (!is_object($container)
-	    || !($container instanceof ObjectType)
-	) {
-	    return false;
-	}
-
-	// Can be a JSON string
-	if (is_string($value)) {
-	    $value = Util::decodeJson($value);
-	}
-
-	// A collection
-	if (is_array($value)) {
-	    return $this->validateObjectCollection($value);
-	}
-
-	if (!is_object($value)) {
-	    return false;
-	}
-
-	return $this->validateObject($value);
-    }
+    use ListOrObjectTrait;
 
     /**
      * Validate an attachment
@@ -73,28 +43,5 @@ class AttachmentValidator implements ValidatorInterface
 	// Validate Object type
 	return Util::hasProperties($item, ['url'])
 	    && Util::validateUrl($item->url);	
-    }
-
-    /**
-     * Validate a list of object
-     * Collection MUST contain objects with following attributes:
-     * - a type
-     * - href or url attribute
-     * 
-     * @param array $collection
-     */
-    protected function validateObjectCollection(array $collection)
-    {
-	foreach ($collection as $item) {
-	    if (is_object($item) && $this->validateObject($item)) {
-		continue;
-	    } elseif (Util::validateUrl($item)) {
-		continue;
-	    }
-	    
-	    return false;
-	}
-	
-	return true;
     }
 }

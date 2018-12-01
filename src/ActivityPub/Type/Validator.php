@@ -36,8 +36,7 @@ abstract class Validator
 	 * @param mixed  $value
 	 * @param mixed  $container An object
 	 * @return bool
-	 * @throws \Exception for several reasons:
-	 * 	- if $container is not an object
+	 * @throws \Exception if $container is not an object
 	 */
     public static function validate($name, $value, $container)
     {
