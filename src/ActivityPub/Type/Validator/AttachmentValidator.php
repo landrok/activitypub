@@ -67,8 +67,7 @@ class AttachmentValidator implements ValidatorInterface
 
 	// Validate Link type
 	if ($item->type == 'Link') {
-	    return Util::hasProperties($item, ['href'])
-		&& Util::validateUrl($item->href);
+	    return Util::validateLink($item);
 	}
 
 	// Validate Object type
@@ -79,8 +78,8 @@ class AttachmentValidator implements ValidatorInterface
     /**
      * Validate a list of object
      * Collection MUST contain objects with following attributes:
-     * - a Note type
-     * - a name attribute
+     * - a type
+     * - href or url attribute
      * 
      * @param array $collection
      */

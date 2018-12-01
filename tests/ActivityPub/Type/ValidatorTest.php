@@ -82,7 +82,31 @@ class ValidatorTest extends TestCase
 												"name": "Sally"
 											}
 										]'							], # Set actor as multiple actors, JSON encoded
-										
+			[Image::class, 'attributedTo', ' [
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											]'							], # Set attributedTo with an array of persons
+			[Image::class, 'attributedTo', '
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											'							], # Set attributedTo with a single actor
+			[Image::class, 'attributedTo', '
+												{
+													"type": "Link",
+													"href": "http://joe.example.org"
+												}
+											'							], # Set attributedTo with a Link
+			[Image::class, 'attributedTo', ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											]'							], # Set attributedTo with an array of mixed URL and persons
 			[Note::class, 'attachment', ' [
 													{
 														"type": "Image",
@@ -159,6 +183,28 @@ class ValidatorTest extends TestCase
 												"name": "Sally"
 											}
 										]'							], # Set actor as multiple actors, JSON encoded, invalid indirect link
+			[Image::class, 'attributedTo', ' [
+												{
+													"type": "Person"
+												}
+											]'							], # Set attributedTo with a missing attribute (Array)
+			[Image::class, 'attributedTo', '
+												{
+													"name": "Sally"
+												}
+											'							], # Set attributedTo with a single malformed type
+			[Image::class, 'attributedTo', '
+												{
+													"type": "Link",
+
+												}
+											'							], # Set attributedTo with a malformed Link
+			[Image::class, 'attributedTo', ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+												}
+											]'							], # Set attributedTo with an array of mixed URL and persons (malformed)
 			[Note::class, 'attachment', '[
 											{
 												"type": "Image",

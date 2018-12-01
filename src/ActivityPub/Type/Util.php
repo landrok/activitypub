@@ -32,6 +32,18 @@ abstract class Util
     }
 
     /**
+     * Validate a Link type
+     * 
+     * @param  object $value
+     * @return bool
+     */
+    public static function validateLink($item)
+    {
+        return self::hasProperties($item, ['href'])
+            && self::validateUrl($item->href);
+    }
+
+    /**
      * Decode a JSON string
      * 
      * @param string $value
