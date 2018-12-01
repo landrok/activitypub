@@ -145,4 +145,28 @@ class TypesTypeAttributeTest extends TestCase
 		$object->{'@mention'} = 1;
 		$this->assertEquals(1, $object->{'@mention'});
 	}
+
+	/**
+	 * tests getAttributes() method
+	 */
+	public function testGetAttributes()
+	{	
+		$object = new Link();
+
+		$expected = [
+			'type',
+			'id',
+			'name',
+			'hreflang',
+			'mediaType',
+			'rel',
+			'height',
+			'width'
+		];
+
+		$this->assertEquals(
+			$expected, 
+			$object->getAttributes()
+		);
+	}
 }
