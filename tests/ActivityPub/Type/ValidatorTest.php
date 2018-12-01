@@ -91,6 +91,7 @@ class ValidatorTest extends TestCase
 			[Place::class, 'accuracy', 0							], # Set accuracy (int)
 			[Place::class, 'accuracy', '0'							], # Set accuracy (numeric int) 
 			[Place::class, 'accuracy', '0.5'						], # Set accuracy (numeric float) 
+			[Place::class, 'altitude', 0.5							], # Set altitude (float) 
 		];
 	}
 
@@ -135,6 +136,10 @@ class ValidatorTest extends TestCase
 			[Place::class, 'accuracy', -0.0000001					], # Set accuracy with a negative float
 			[Place::class, 'accuracy', 'A0.0000001'					], # Set accuracy with a non numeric value
 			[Place::class, 'accuracy', 100.000001					], # Set accuracy with a float value out of range
+			[Place::class, 'altitude', 100							], # Set altitude with an int value
+			[Place::class, 'altitude', '100.5'						], # Set altitude with a text value
+			[Place::class, 'altitude', 'hello'						], # Set altitude with a text value
+			[Place::class, 'altitude', []							], # Set altitude with an array
 		];
 	}
 

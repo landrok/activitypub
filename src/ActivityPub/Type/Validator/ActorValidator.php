@@ -15,7 +15,7 @@ use ActivityPub\Type\ValidatorInterface;
 
 /**
  * \ActivityPub\Type\Validator\ActorValidator is a dedicated
- * validator for accuracy attribute.
+ * validator for actor attribute.
  */
 class ActorValidator implements ValidatorInterface
 {
