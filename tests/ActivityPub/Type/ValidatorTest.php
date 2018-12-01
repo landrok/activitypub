@@ -91,7 +91,17 @@ class ValidatorTest extends TestCase
 			[Place::class, 'accuracy', 0							], # Set accuracy (int)
 			[Place::class, 'accuracy', '0'							], # Set accuracy (numeric int) 
 			[Place::class, 'accuracy', '0.5'						], # Set accuracy (numeric float) 
-			[Place::class, 'altitude', 0.5							], # Set altitude (float) 
+			[Place::class, 'altitude', 0.5							], # Set altitude (float)
+			[Question::class, 'anyOf', '[
+											{
+												"type": "Note",
+												"name": "Option A"
+											},
+											{
+												"type": "Note",
+												"name": "Option B"
+											}
+										]'							], # Set anyOf choices 
 		];
 	}
 
@@ -140,6 +150,30 @@ class ValidatorTest extends TestCase
 			[Place::class, 'altitude', '100.5'						], # Set altitude with a text value
 			[Place::class, 'altitude', 'hello'						], # Set altitude with a text value
 			[Place::class, 'altitude', []							], # Set altitude with an array
+			[Place::class, 'anyOf', []								], # Set anyOf for an inappropriate type
+			[Question::class, 'anyOf', []							], # Set anyOf with an array
+			[Question::class, 'anyOf', '[
+											{
+												"type": "Note",
+											},
+											{
+												"type": "Note",
+												"name": "Option B"
+											}
+										]'							], # Set anyOf with malformed choices 
+			[Question::class, 'anyOf', '[
+											{
+												"type": "Note",
+												"name": "Option A"
+											},
+											{
+												"name": "Option B"
+											}
+										]'							], # Set anyOf with malformed choices 
+			[Question::class, 'anyOf', '{
+												"type": "Note",
+												"name": "Option A"
+										}'							], # Set anyOf with malformed choices 
 		];
 	}
 
@@ -186,8 +220,7 @@ class ValidatorTest extends TestCase
 	public function testValidatorAddNotValidCustomValidator()
 	{	
 		Validator::add('custom', new class {
-			public function log($msg)
-			{
+			public function log($msg) {
 				echo $msg;
 			}
 		});
