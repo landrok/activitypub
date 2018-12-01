@@ -1,0 +1,29 @@
+language: php
+
+sudo: false
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+php:
+    - 7.0
+    - 7.1
+    - 7.2
+    - 7.3
+    - hhvm
+
+install:
+    - composer install
+
+before_script: 
+    ## Install Code climate reporter
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter 
+    - chmod +x ./cc-test-reporter 
+    - ./cc-test-reporter before-build
+
+script: ./vendor/bin/phpunit -c phpunit.xml.dist
+
+after_script:
+    ## Code climate
+    - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
