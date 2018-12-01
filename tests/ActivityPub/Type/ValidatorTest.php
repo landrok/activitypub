@@ -57,6 +57,7 @@ use ActivityPub\Type\Extended\Object\Profile;
 use ActivityPub\Type\Extended\Object\Relationship;
 use ActivityPub\Type\Extended\Object\Tombstone;
 use ActivityPub\Type\Extended\Object\Video;
+use ActivityPub\Type\Validator;
 use PHPUnit\Framework\TestCase;
 
 
@@ -102,6 +103,7 @@ class ValidatorTest extends TestCase
 		return [
 			[Activity::class, 'actor', 'https:/example.com/bob'		], # Set actor as malformed URL
 			[Activity::class, 'actor', 'bob'						], # Set actor as not allowed string
+			[Activity::class, 'actor', 42							], # Set actor as not allowed type
 			[Activity::class, 'actor', '{}'							], # Set actor as a JSON malformed string
 			[Activity::class, 'actor', '[
 											"http://joe.example.org",
@@ -157,5 +159,32 @@ class ValidatorTest extends TestCase
 	{
 		$object = new $type();
 		$object->{$attr} = $value;
+	}
+
+	/**
+	 * Validator validate() method MUST receive an object as third parameter
+	 * 
+	 * @expectedException \Exception
+	 */
+	public function testValidatorValidateContainer()
+	{	
+		Validator::validate('property', 'value', 'NotAnObject');
+	}
+
+
+	/**
+	 * Validator add method MUST receive an object that implements
+	 * \ActivityPub\Type\ValidatorInterface interface
+	 * 
+	 * @expectedException \Exception
+	 */
+	public function testValidatorAddNotValidCustomValidator()
+	{	
+		Validator::add('custom', new class {
+			public function log($msg)
+			{
+				echo $msg;
+			}
+		});
 	}
 }
