@@ -27,7 +27,8 @@ abstract class Util
      */
     public static function validateUrl($value)
     {
-		return filter_var($value, FILTER_VALIDATE_URL);
+		return is_string($value)
+            && filter_var($value, FILTER_VALIDATE_URL);
     }
 
     /**

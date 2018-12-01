@@ -89,7 +89,7 @@ class AttachmentValidator implements ValidatorInterface
 	foreach ($collection as $item) {
 	    if (is_object($item) && $this->validateObject($item)) {
 		continue;
-	    } elseif (is_string($item) && Util::validateUrl($item)) {
+	    } elseif (Util::validateUrl($item)) {
 		continue;
 	    }
 
