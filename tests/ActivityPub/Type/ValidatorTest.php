@@ -60,7 +60,7 @@ use ActivityPub\Type\Extended\Object\Video;
 use PHPUnit\Framework\TestCase;
 
 
-class ValidatorHelperTest extends TestCase
+class ValidatorTest extends TestCase
 {
 	/**
 	 * Valid scenarios provider
@@ -70,6 +70,21 @@ class ValidatorHelperTest extends TestCase
 		# TypeClass, property, value
 		return [
 			[Activity::class, 'actor', 'https://example.com/bob'	], # Set actor as URL
+			[Activity::class, 'actor', '{
+											"type": "Person",
+											"id": "http://sally.example.org",
+											"summary": "Sally"
+										}'							], # Set actor as an Actor type, JSON encoded
+			[Activity::class, 'actor', '[
+											"http://joe.example.org",
+											{
+												"type": "Person",
+												"id": "http://sally.example.org",
+												"name": "Sally"
+											}
+										]'							], # Set actor as multiple actors, JSON encoded
+										
+
 			[ObjectType::class, 'id', 'https://example.com'			], # Set an URL as id  
 			[Place::class, 'accuracy', 100							], # Set accuracy (int) 
 			[Place::class, 'accuracy', 0							], # Set accuracy (int)
@@ -87,6 +102,31 @@ class ValidatorHelperTest extends TestCase
 		return [
 			[Activity::class, 'actor', 'https:/example.com/bob'		], # Set actor as malformed URL
 			[Activity::class, 'actor', 'bob'						], # Set actor as not allowed string
+			[Activity::class, 'actor', '{}'							], # Set actor as a JSON malformed string
+			[Activity::class, 'actor', '[
+											"http://joe.example.org",
+											{
+												"type": "Person",
+												"name": "Sally"
+											}
+										]'							], # Set actor as multiple actors, JSON encoded, missing id for one actor
+			[Activity::class, 'actor', '[
+											"http://joe.example.org",
+											{
+												"type": "Person",
+												"id": "http://",
+												"name": "Sally"
+											}
+										]'							], # Set actor as multiple actors, JSON encoded, invalid id
+			[Activity::class, 'actor', '[
+											"http://",
+											{
+												"type": "Person",
+												"id": "http://joe.example.org",
+												"name": "Sally"
+											}
+										]'							], # Set actor as multiple actors, JSON encoded, invalid indirect link
+										
 			[ObjectType::class, 'id', '1'							], # Set a number as id   (should pass @todo type resolver)
 			[ObjectType::class, 'id', []							], # Set an array as id
 			[Place::class, 'accuracy', -10							], # Set accuracy with a negative int
