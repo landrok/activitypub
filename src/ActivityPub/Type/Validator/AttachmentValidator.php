@@ -87,13 +87,15 @@ class AttachmentValidator implements ValidatorInterface
     protected function validateObjectCollection(array $collection)
     {
 	foreach ($collection as $item) {
-	    if (is_object($item) && !$this->validateObject($item)) {
-		return false;
-	    } elseif (!Util::validateUrl($item)) {
-		return false;
+	    if (is_object($item) && $this->validateObject($item)) {
+		continue;
+	    } elseif (Util::validateUrl($item)) {
+		continue;
 	    }
+	    
+	    return false;
 	}
-
+	
 	return true;
     }
 }
