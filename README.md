@@ -1,6 +1,10 @@
 ActivityPub
 ===========
 
+[![Build Status](https://travis-ci.org/landrok/activitypub.svg?branch=master)](https://travis-ci.org/landrok/activitypub)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/test_coverage)](https://codeclimate.com/github/landrok/activitypub/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/maintainability)](https://codeclimate.com/github/landrok/activitypub/maintainability)
+
 ActivityPub is an implementation of ActivityPub layers in PHP.
 
 It provides two layers:
@@ -175,8 +179,8 @@ You can easily cope with that implementing a custom validator using
 `ValidatorHelper`.
 
 ```php
-use ActivityPub\Type\Helper\ValidatorInterface;
-use ActivityPub\Type\Helper\ValidatorHelper;
+use ActivityPub\Type\ValidatorInterface;
+use ActivityPub\Type\Validator;
 
 // Create a custom validator that implements ValidatorInterface
 class MyPropertyValidator implements ValidatorInterface
@@ -189,7 +193,7 @@ class MyPropertyValidator implements ValidatorInterface
 }
 
 // Attach this validator to a property
-ValidatorHelper::addFilter('myProperty', MyPropertyValidator::class);
+Validator::addFilter('myProperty', MyPropertyValidator::class);
 
 // Now all values are checked
 $note->myProperty = 'Custom Value';
