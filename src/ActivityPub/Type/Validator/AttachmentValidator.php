@@ -11,17 +11,18 @@
 
 namespace ActivityPub\Type\Validator;
 
+use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
 /**
- * \ActivityPub\Type\Validator\ActorValidator is a dedicated
- * validator for actor attribute.
+ * \ActivityPub\Type\Validator\AttachmentValidator is a dedicated
+ * validator for attachment attribute.
  */
-class ActorValidator implements ValidatorInterface
+class AttachmentValidator implements ValidatorInterface
 {
     /**
-     * Validate an ACTOR attribute value
+     * Validate an ATTACHMENT attribute value
      * 
      * @param mixed  $value
      * @param mixed  $container An object
@@ -29,11 +30,13 @@ class ActorValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-	// Can be an indirect link
-	if (is_string($value) && Util::validateUrl($value)) {
-	    return true;
+	// Validate that container is a ObjectType type
+	if (!is_object($container)
+	    || !($container instanceof ObjectType)
+	) {
+	    return false;
 	}
-	
+
 	// Can be a JSON string
 	if (is_string($value)) {
 	    $value = Util::decodeJson($value);
@@ -44,38 +47,42 @@ class ActorValidator implements ValidatorInterface
 	    return $this->validateObjectCollection($value);
 	}
 
-	// Must be an object
 	if (!is_object($value)) {
 	    return false;
 	}
 
-	// A single actor
 	return $this->validateObject($value);
     }
 
     /**
-     * Validate an Actor object type
+     * Validate an attachment
      * 
-     * @param object $value
-     * @return bool
+     * @param string|object $value
      */
     protected function validateObject($item)
     {
-	if (!Util::hasProperties($item, ['id'])) {
+	if (!Util::hasProperties($item, ['type'])) {
 	    return false;
 	}
 
-	return Util::validateUrl($item->id);
+	// Validate Link type
+	if ($item->type == 'Link') {
+	    return Util::hasProperties($item, ['href'])
+		&& Util::validateUrl($item->href);
+	}
+
+	// Validate Object type
+	return Util::hasProperties($item, ['url'])
+	    && Util::validateUrl($item->url);	
     }
 
     /**
      * Validate a list of object
-     * Collection can contain:
-     * - Indirect URL
-     * - An actor object
+     * Collection MUST contain objects with following attributes:
+     * - a Note type
+     * - a name attribute
      * 
      * @param array $collection
-     * @return bool
      */
     protected function validateObjectCollection(array $collection)
     {

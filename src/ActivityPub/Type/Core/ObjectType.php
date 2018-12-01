@@ -42,7 +42,20 @@ class ObjectType extends AbstractObject
     protected $type = 'Object';
 
     /**
-     * @var string|null
+     * A resource attached or related to an object that potentially 
+     * requires special handling.
+     * The intent is to provide a model that is at least semantically
+     * similar to attachments in email.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-attachment
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\Link[]
+     * 
      */
     protected $attachment;
 

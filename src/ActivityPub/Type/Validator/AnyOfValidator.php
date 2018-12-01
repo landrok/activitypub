@@ -11,6 +11,7 @@
 
 namespace ActivityPub\Type\Validator;
 
+use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
 /**
@@ -40,11 +41,7 @@ class AnyOfValidator implements ValidatorInterface
 
 	// Can be a JSON string
 	if (is_string($value)) {
-	    $value = json_decode($value);
-	    
-	    if (json_last_error() !== JSON_ERROR_NONE) {
-		return false;
-	    }
+	    $value = Util::decodeJson($value);
 	}
 
 	// A collection
@@ -66,11 +63,7 @@ class AnyOfValidator implements ValidatorInterface
      */
     protected function validateObject($item)
     {
-	if (!property_exists($item, 'type')) {
-	    return false;
-	}
-
-	if (!property_exists($item, 'name')) {
+	if (!Util::hasProperties($item, ['type', 'name'])) {
 	    return false;
 	}
 

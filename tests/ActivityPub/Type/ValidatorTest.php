@@ -1,7 +1,6 @@
 <?php
 
-namespace ActivityPubTest;
-
+namespace ActivityPubTest\Type;
 
 use ActivityPub\Type\Core\Activity;
 use ActivityPub\Type\Core\Collection;
@@ -60,7 +59,6 @@ use ActivityPub\Type\Extended\Object\Video;
 use ActivityPub\Type\Validator;
 use PHPUnit\Framework\TestCase;
 
-
 class ValidatorTest extends TestCase
 {
 	/**
@@ -85,8 +83,29 @@ class ValidatorTest extends TestCase
 											}
 										]'							], # Set actor as multiple actors, JSON encoded
 										
-
-			[ObjectType::class, 'id', 'https://example.com'			], # Set an URL as id  
+			[Note::class, 'attachment', ' [
+													{
+														"type": "Image",
+														"content": "This is what he looks like.",
+														"url": "http://example.org/cat.jpeg"
+													}
+												]'							], # Set attachment	with an ObjectType
+			[Note::class, 'attachment', ' [
+													{
+														"type": "Link",
+														"href": "http://example.org/cat.jpeg"
+													}
+												]'							], # Set attachment	with an Link
+			[Note::class, 'attachment', '[
+											"http://example.org/cat.jpeg"
+										]'									], # Set attachment with an indirect reference
+			[ObjectType::class, 'attachment', ' [
+													{
+														"type": "Image",
+														"content": "This is what he looks like.",
+														"url": "http://example.org/cat.jpeg"
+													}
+												]'							], # Set attachment	
 			[Place::class, 'accuracy', 100							], # Set accuracy (int) 
 			[Place::class, 'accuracy', 0							], # Set accuracy (int)
 			[Place::class, 'accuracy', '0'							], # Set accuracy (numeric int) 
@@ -102,6 +121,7 @@ class ValidatorTest extends TestCase
 												"name": "Option B"
 											}
 										]'							], # Set anyOf choices 
+
 		];
 	}
 
@@ -139,7 +159,18 @@ class ValidatorTest extends TestCase
 												"name": "Sally"
 											}
 										]'							], # Set actor as multiple actors, JSON encoded, invalid indirect link
-										
+			[Note::class, 'attachment', '[
+											{
+												"type": "Image",
+												"content": "This is what he looks like.",
+											}
+										]'							], # Set attachment with a missing reference
+			[Note::class, 'attachment', '[
+											{
+												"type": "Link",
+												"content": "This is what he looks like.",
+											}
+										]'							], # Set attachment with a missing reference
 			[ObjectType::class, 'id', '1'							], # Set a number as id   (should pass @todo type resolver)
 			[ObjectType::class, 'id', []							], # Set an array as id
 			[Place::class, 'accuracy', -10							], # Set accuracy with a negative int
@@ -174,6 +205,16 @@ class ValidatorTest extends TestCase
 												"type": "Note",
 												"name": "Option A"
 										}'							], # Set anyOf with malformed choices 
+			[Question::class, 'anyOf', '[
+											{
+												"type": "Note",
+												"name": "Option A"
+											},
+											{
+												"type": "Note",
+												"name": ["Option B"]
+											}
+										]'							], # Set anyOf with malformed choices	
 		];
 	}
 
@@ -218,10 +259,10 @@ class ValidatorTest extends TestCase
 	 * @expectedException \Exception
 	 */
 	public function testValidatorAddNotValidCustomValidator()
-	{	
+	{
 		Validator::add('custom', new class {
-			public function log($msg) {
-				echo $msg;
+			public function validate($value) {
+				return true;
 			}
 		});
 	}

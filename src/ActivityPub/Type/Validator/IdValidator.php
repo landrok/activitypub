@@ -11,6 +11,7 @@
 
 namespace ActivityPub\Type\Validator;
 
+use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
 /**
@@ -19,15 +20,15 @@ use ActivityPub\Type\ValidatorInterface;
  */
 class IdValidator implements ValidatorInterface
 {
-	/**
-	 * Validate an ID attribute value
-	 * 
-	 * @param mixed  $value
-	 * @param mixed  $container An object
-	 * @return bool
-	 */
+    /**
+     * Validate an ID attribute value
+     * 
+     * @param mixed  $value
+     * @param mixed  $container An object
+     * @return bool
+     */
     public function validate($value, $container)
     {
-	return filter_var($value, FILTER_VALIDATE_URL);
+        return Util::validateUrl($value);
     }
 }

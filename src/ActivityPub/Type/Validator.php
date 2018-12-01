@@ -14,7 +14,7 @@ namespace ActivityPub\Type;
 use Exception;
 
 /**
- * \ActivityPub\Type\Helper\Validator is an abstract class for
+ * \ActivityPub\Type\Validator is an abstract class for
  * attribute validation.
  */
 abstract class Validator
