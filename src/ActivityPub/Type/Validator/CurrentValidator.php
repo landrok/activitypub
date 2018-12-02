@@ -11,18 +11,18 @@
 
 namespace ActivityPub\Type\Validator;
 
+use ActivityPub\Type\Core\Collection;
 use ActivityPub\Type\Util;
-use ActivityPub\Type\Validator;
 use ActivityPub\Type\ValidatorInterface;
 
 /**
- * \ActivityPub\Type\Validator\ContextValidator is a dedicated
- * validator for context attribute.
+ * \ActivityPub\Type\Validator\CurrentValidator is a dedicated
+ * validator for current attribute.
  */
-class ContextValidator implements ValidatorInterface
+class CurrentValidator implements ValidatorInterface
 {
     /**
-     * Validate a context attribute value
+     * Validate a current attribute value
      * 
      * @param string  $value
      * @param mixed   $container
@@ -30,6 +30,9 @@ class ContextValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
+        // Container must be a Collection
+        Util::subclassOf($container, Collection::class, true);
+
         // URL
         if (Util::validateUrl($value)) {
             return true;
@@ -40,10 +43,9 @@ class ContextValidator implements ValidatorInterface
             $value = Util::decodeJson($value);
         }
 
-        // Link or Object
+        // Link
         if (is_object($value)) {
-            return Util::validateLink($value)
-                || Util::validateObject($value);
+            return Util::validateLink($value);
         }
     }
 }

@@ -227,6 +227,14 @@ class AttributeFormatValidationTest extends TestCase
                                         }
 									'										], # Set context as Link
 
+            ['current', Collection::class, 'http://example.org/collection'	], # Set current as a URL
+			['current', OrderedCollection::class, '{
+                                                        "type": "Link",
+                                                        "summary": "Most Recent Items",
+                                                        "href": "http://example.org/collection"
+                                                    }
+									'										], # Set current as Link
+
 
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
@@ -459,6 +467,14 @@ class AttributeFormatValidationTest extends TestCase
 													"type": "Link"
 												}
 									'										], # Set context as a malformed Link
+
+            ['current', ObjectType::class, 'http://example.org/collection'	], # Set current as a URL for a class which is not a subclass of Collection
+            ['current', Collection::class, 'http:/example.org/collection'	], # Set current as a malformed URL
+			['current', OrderedCollection::class, '{
+                                                        "type": "Link",
+                                                        "summary": "Most Recent Items"
+                                                    }
+									'										], # Set current as Link (malformed)
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id

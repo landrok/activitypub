@@ -109,13 +109,16 @@ abstract class Util
     public static function isType($item, $type)
     {
         // Validate that container is a certain type
-        if (is_object($item)
-            && property_exists($item, 'type')
+        if (!is_object($item)) {
+            return false;
+        }
+        
+        if (property_exists($item, 'type')
             && is_string($item->type)
             && $item->type == $type
         ) {
             return true;
-        }  
+        }
     }
 
 
@@ -180,6 +183,36 @@ abstract class Util
             $dt = new DateTime($value);
             return true;
         } catch(Exception $e) {
+        }
+
+        return false;
+    }
+
+    /**
+     * Check that container class is a subclass of a given class
+     * 
+     * @param object $container
+     * @param string $class
+     * @param bool   $strict If true, throws an exception
+     * @return bool
+     * @throws \Exception
+     */
+    public static function subclassOf($container, $class, $strict = false)
+    {
+        if (get_class($container) == $class
+            || is_subclass_of($container, $class)
+        ) {
+            return true;
+        }
+
+        if ($strict) {
+            throw new Exception(
+                sprintf(
+                    'Class "%s" MUST be a subclass of "%s"',
+                    get_class($container),
+                    $class
+                )
+            );
         }
 
         return false;

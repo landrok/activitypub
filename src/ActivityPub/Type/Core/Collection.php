@@ -38,7 +38,14 @@ class Collection extends ObjectType
     protected $totalItems;
 
     /**
+     * In a paged Collection, indicates the page that contains the most 
+     * recently updated member items. 
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-current
+     * 
      * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Link
      */
     protected $current;
 
