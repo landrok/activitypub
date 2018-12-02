@@ -11,6 +11,7 @@
 
 namespace ActivityPub\Type;
 
+use DateTime;
 use Exception;
 
 /**
@@ -32,15 +33,16 @@ abstract class Util
     }
 
     /**
-     * Validate a Link type
+     * Validate an Object type
      * 
-     * @param  object $value
+     * @param  object $item
      * @return bool
      */
-    public static function validateLink($item)
+    public static function validateObject($item)
     {
-        return self::hasProperties($item, ['href'])
-            && self::validateUrl($item->href);
+        return self::hasProperties($item, ['type'])
+            && is_string($item->type)
+            && $item->type == 'Object';
     }
 
     /**
@@ -95,5 +97,91 @@ abstract class Util
         }
 
         return true;
+    }
+
+    /**
+     * Validate an object type with type attribute
+     * 
+     * @param object $item
+     * @param string $type An expected type
+     * @return bool
+     */
+    public static function isType($item, $type)
+    {
+        // Validate that container is a certain type
+        if (is_object($item)
+            && property_exists($item, 'type')
+            && is_string($item->type)
+            && $item->type == $type
+        ) {
+            return true;
+        }  
+    }
+
+
+    /**
+     * Validate a reference with a Link or an Object with an URL
+     * 
+     * @param object $value
+     * @return bool
+     */
+    public static function isLinkOrUrlObject($item)
+    {
+        self::hasProperties($item, ['type'], true);
+
+        // Validate Link type
+        if ($item->type == 'Link') {
+            return self::validateLink($item);
+        }
+
+        // Validate Object type
+        self::hasProperties($item, ['url'], true);
+
+        return self::validateUrl($item->url);
+    }
+
+    /**
+     * Validate a reference as Link
+     * 
+     * @param object
+     * @return bool
+     */
+    public static function validateLink($item)
+    {
+        self::hasProperties($item, ['type'], true);
+
+        // Validate Link type
+        if ($item->type != 'Link') {
+            return false;
+        }
+
+        // Validate Object type
+        self::hasProperties($item, ['href'], true);
+
+        return self::validateUrl($item->href);
+    }
+
+    /**
+     * Validate a datetime
+     * 
+     * @param  string $value
+     * @return bool
+     */
+    public static function validateDatetime($value)
+    {
+        if (!preg_match(
+            '/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z$/',
+            $value
+        )) {
+            return false;
+        }
+
+        try {
+            $dt = new DateTime($value);
+            return true;
+        } catch(Exception $e) {
+        }
+
+        return false;
     }
 }

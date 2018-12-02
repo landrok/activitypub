@@ -20,7 +20,7 @@ use ActivityPub\Type\Util;
  * (Object) are given.
  * It validates that URL is valid for href attribute.
  */
-trait ValidateLinkOrNamedObject
+trait ValidateLinkOrNamedObjectTrait
 {
     /**
      * Validate a reference with a Link with a valid href

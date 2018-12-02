@@ -59,7 +59,7 @@ use ActivityPub\Type\Extended\Object\Video;
 use ActivityPub\Type\Validator;
 use PHPUnit\Framework\TestCase;
 
-class ValidatorTest extends TestCase
+class AttributeFormatValidationTest extends TestCase
 {
 	/**
 	 * Valid scenarios provider
@@ -178,14 +178,6 @@ class ValidatorTest extends TestCase
 													"url": "http://bob.example.org"
 												}
 									]'										], # Set bcc with an array of mixed URL and persons
-			['cc', Offer::class, ' [
-												"http://sally.example.org",
-												{
-													"type": "Person",
-													"name": "Bob",
-													"url": "http://bob.example.org"
-												}
-									]'										], # Set cc with an array of mixed URL and persons
 			['bto', Offer::class, ' [
 												"http://joe.example.org",
 												{
@@ -194,6 +186,32 @@ class ValidatorTest extends TestCase
 													"url": "http://bob.example.org"
 												}
 									]'										], # Set bto with an array of mixed URL and persons
+			['cc', Offer::class, ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+													"name": "Bob",
+													"url": "http://bob.example.org"
+												}
+									]'										], # Set cc with an array of mixed URL and persons
+			['closed', Question::class, '2016-05-10T00:00:00Z'				], # Set closed as a Datetime
+			['closed', Question::class, true								], # Set closed as a boolean
+			['closed', Question::class, 'http://bob.example.org'			], # Set closed as a URL
+			['closed', Question::class, ' {
+													"type": "Object",
+													"name": "Bob",
+													"url": "http://bob.example.org"
+												}
+									'										], # Set closed as an object
+			['closed', Question::class, ' {
+													"type": "Link",
+													"href": "http://bob.example.org"
+												}
+									'										], # Set closed as Link
+
+
+
+
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
@@ -388,7 +406,18 @@ class ValidatorTest extends TestCase
 												"Not a valid URL"
 									]'										], # Set cc with malformed URL
 									
-									
+			['closed', Question::class, '2016-05-10 00:00:00Z'				], # Set closed as a Datetime (malformed)
+			['closed', Question::class, 42									], # Set closed as a integer
+			['closed', Question::class, 'ob.example.org'					], # Set closed as a URL (malformed)
+			['closed', Question::class, ' {
+													"type": "BadType",
+													"name": "Bob"
+												}
+									'										], # Set closed as a bad type
+			['closed', Question::class, ' {
+													"type": "Link",
+												}
+									'										], # Set closed as a malformed Link
 
 			['id', ObjectType::class, '1'								], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []								], # Set an array as id

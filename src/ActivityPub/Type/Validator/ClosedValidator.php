@@ -1,0 +1,65 @@
+<?php
+
+/*
+ * This file is part of the ActivityPub package.
+ *
+ * Copyright (c) landrok at github.com/landrok
+ *
+ * For the full copyright and license information, please see
+ * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
+ */
+
+namespace ActivityPub\Type\Validator;
+
+use ActivityPub\Type\Util;
+use ActivityPub\Type\ValidatorInterface;
+
+/**
+ * \ActivityPub\Type\Validator\ClosedValidator is a dedicated
+ * validator for closed attribute.
+ */
+class ClosedValidator implements ValidatorInterface
+{
+    /**
+     * Validate an CLOSED attribute value
+     * 
+     * @param bool|string|object  $value
+     * @param mixed  $container A Question type
+     * @return bool
+     */
+    public function validate($value, $container)
+    {
+        // Validate that container is a Question type
+        if (!Util::isType($container, 'Question')) {
+            return false;
+        }
+
+        // Can be a boolean
+        if (is_bool($value)) {
+            return true;
+        }
+        
+        if (is_string($value)) {
+            // Can be a datetime
+            if (Util::validateDatetime($value)) {
+                return true;
+            }
+            
+            // Can be an URL
+            if (Util::validateUrl($value)) {
+                return true;
+            }
+            
+            // Can be a JSON string 
+            $value = Util::decodeJson($value);
+        }
+
+        // An Object or a Link
+        if (is_object($value)) {
+            return Util::validateLink($value)
+                || Util::validateObject($value);
+        }
+
+        return false;
+    }
+}

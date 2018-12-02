@@ -13,7 +13,7 @@ namespace ActivityPub\Type\Validator;
 
 use ActivityPub\Type\ValidatorInterface;
 use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
-use ActivityPub\Type\Validator\Traits\ValidateLinkOrUrlObject;
+use ActivityPub\Type\Validator\Traits\ValidateLinkOrUrlObjectTrait;
 
 /**
  * \ActivityPub\Type\Validator\BccValidator is a dedicated
@@ -29,5 +29,5 @@ class BccValidator implements ValidatorInterface
     /**
      * Validate an Object
      */
-    use ValidateLinkOrUrlObject;
+    use ValidateLinkOrUrlObjectTrait;
 }

@@ -13,7 +13,7 @@ namespace ActivityPub\Type\Validator;
 
 use ActivityPub\Type\ValidatorInterface;
 use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
-use ActivityPub\Type\Validator\Traits\ValidateLinkOrNamedObject;
+use ActivityPub\Type\Validator\Traits\ValidateLinkOrNamedObjectTrait;
 
 /**
  * \ActivityPub\Type\Validator\AudienceValidator is a dedicated
@@ -29,5 +29,5 @@ class AudienceValidator implements ValidatorInterface
     /**
      * Validate an Object
      */
-    use ValidateLinkOrNamedObject;
+    use ValidateLinkOrNamedObjectTrait;
 }

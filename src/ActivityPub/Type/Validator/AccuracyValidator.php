@@ -28,13 +28,13 @@ class AccuracyValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-	if (is_numeric($value)
-	    && (float)$value >= 0 
-	    && (float)$value <= 100.0
-	) {
-	    return true;
-	}
+        if (is_numeric($value)
+            && (float)$value >= 0 
+            && (float)$value <= 100.0
+        ) {
+            return true;
+        }
 
-	return false;
+        return false;
     }
 }

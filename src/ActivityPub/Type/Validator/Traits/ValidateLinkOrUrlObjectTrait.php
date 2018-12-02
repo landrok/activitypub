@@ -20,7 +20,7 @@ use ActivityPub\Type\Util;
  * (Object) are given.
  * It validates that URL are correct.
  */
-trait ValidateLinkOrUrlObject
+trait ValidateLinkOrUrlObjectTrait
 {
     /**
      * Validate a reference with a Link or an Object with an URL
@@ -30,16 +30,6 @@ trait ValidateLinkOrUrlObject
      */
     protected function validateObject($item)
     {
-        Util::hasProperties($item, ['type'], true);
-
-        // Validate Link type
-        if ($item->type == 'Link') {
-            return Util::validateLink($item);
-        }
-
-        // Validate Object type
-        Util::hasProperties($item, ['url'], true);
-
-        return Util::validateUrl($item->url);
+        return Util::isLinkOrUrlObject($item);
     }
 }

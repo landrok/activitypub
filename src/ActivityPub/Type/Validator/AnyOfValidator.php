@@ -32,10 +32,7 @@ class AnyOfValidator implements ValidatorInterface
     public function validate($value, $container)
     {
         // Validate that container is a Question type
-        if (!is_object($container)
-            || !property_exists($container, 'type')
-            || $container->type !== 'Question'
-        ) {
+        if (!Util::isType($container, 'Question')) {
             return false;
         }
 
