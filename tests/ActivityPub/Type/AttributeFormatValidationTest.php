@@ -449,6 +449,15 @@ class AttributeFormatValidationTest extends TestCase
 	}
 
 	/**
+	 * Getting a non defined should return a null
+	 */
+	public function testGetEmptyProperty()
+	{
+		$object = new ObjectType();
+        $this->assertEquals(null, $object->myCustomAttribute);
+	}
+
+	/**
 	 * Validator validate() method MUST receive an object as third parameter
 	 * 
 	 * @expectedException \Exception
