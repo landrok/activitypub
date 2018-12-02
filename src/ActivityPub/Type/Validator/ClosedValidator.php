@@ -59,7 +59,5 @@ class ClosedValidator implements ValidatorInterface
             return Util::validateLink($value)
                 || Util::validateObject($value);
         }
-
-        return false;
     }
 }
