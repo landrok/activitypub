@@ -235,7 +235,9 @@ class AttributeFormatValidationTest extends TestCase
                                                     }
 									'										], # Set current as Link
 
-            ['deleted', Tombstone::class, '2016-05-10T00:00:00Z'				], # Set deleted as a Datetime
+            ['deleted', Tombstone::class, '2016-05-10T00:00:00Z'			], # Set deleted as a Datetime
+            ['describes', Profile::class, new ObjectType()      			], # Set describes as an ObjectType
+            ['describes', Profile::class, new Note()               			], # Set describes as a Note
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
@@ -479,6 +481,7 @@ class AttributeFormatValidationTest extends TestCase
             ['deleted', Tombstone::class, '2016-05-10 00:00:00Z'			], # Set deleted as a bad Datetime
             ['deleted', ObjectType::class, '2016-05-10T00:00:00Z'			], # Set deleted as a Datetime on a bad Type
             ['deleted', Tombstone::class, []                 				], # Set deleted as an array
+            ['deleted', Tombstone::class, 42                 				], # Set deleted as an integer
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id

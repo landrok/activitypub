@@ -25,7 +25,7 @@ class DeletedValidator implements ValidatorInterface
      * Validate an DELETED attribute value
      * 
      * @param string $value
-     * @param mixed  $container A Question type
+     * @param mixed  $container A Tombstone type
      * @return bool
      */
     public function validate($value, $container)
