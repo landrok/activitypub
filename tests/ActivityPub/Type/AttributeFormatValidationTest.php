@@ -439,7 +439,8 @@ class AttributeFormatValidationTest extends TestCase
                                         }'			                        ], # Set a content map (bad key)
             
             ['contentMap', Note::class, ' { "A <em>simple</em> note"}'	    ], # Set a content map (bad key)
-            ['contentMap', Note::class, 'A <em>simple</em> note'	        ], # Set a content map (bad format)
+            ['contentMap', Note::class, 'A <em>simple</em> note'	        ], # Set a content map (bad format, string)
+            ['contentMap', Note::class, 42	                                ], # Set a content map (bad format, integer)
             
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
