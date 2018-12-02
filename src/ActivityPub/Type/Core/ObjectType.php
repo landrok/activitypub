@@ -195,7 +195,17 @@ class ObjectType extends AbstractObject
     protected $to;
 
     /**
-     * @var string|null
+     * An Object that is part of the private primary audience of this 
+     * Object.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-bto
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $bto;
 
