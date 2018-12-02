@@ -90,6 +90,16 @@ class ObjectType extends AbstractObject
     protected $audience;
 
     /**
+     * The content or textual representation of the Object encoded as a 
+     * JSON string. By default, the value of content is HTML.
+     * The mediaType property can be used in the object to indicate a 
+     * different content type.
+     * 
+     * The content MAY be expressed using multiple language-tagged 
+     * values. 
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-content
+     * 
      * @var string|null
      */
     protected $content;
@@ -100,7 +110,12 @@ class ObjectType extends AbstractObject
     protected $context;
 
     /**
-     * @var string|null
+     * The content MAY be expressed using multiple language-tagged 
+     * values. 
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-content
+     * 
+     * @var array|null
      */
     protected $contentMap;
 

@@ -20,10 +20,10 @@ use ActivityPub\Type\ValidatorInterface;
 class ContentValidator implements ValidatorInterface
 {
     /**
-     * Validate an content attribute value
+     * Validate a content attribute value
      * 
      * @param string  $value
-     * @param mixed   $container A Question type
+     * @param mixed   $container
      * @return bool
      */
     public function validate($value, $container)

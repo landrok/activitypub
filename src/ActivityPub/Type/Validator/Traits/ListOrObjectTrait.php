@@ -59,6 +59,7 @@ trait ListOrObjectTrait
      * Validate a list of object
      * 
      * @param array $collection
+     * @return bool
      */
     protected function validateObjectCollection(array $collection)
     {

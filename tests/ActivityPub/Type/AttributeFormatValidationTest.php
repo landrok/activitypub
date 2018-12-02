@@ -203,12 +203,17 @@ class AttributeFormatValidationTest extends TestCase
 													"url": "http://bob.example.org"
 												}
 									'										], # Set closed as an object
-			['closed', Question::class, ' {
+			['closed', Question::class, '{
 													"type": "Link",
 													"href": "http://bob.example.org"
-												}
+                                        }
 									'										], # Set closed as Link
             ['content', Note::class, 'http://bob.example.org'			    ], # Set a content string
+            ['contentMap', Note::class, ' {
+                                            "en": "A <em>simple</em> note",
+                                            "es": "Una nota <em>sencilla</em>",
+                                            "zh-Hans": "一段<em>简单的</em>笔记"
+                                        }'			                        ], # Set a content map
 
 
 
@@ -426,6 +431,15 @@ class AttributeFormatValidationTest extends TestCase
             ['closed', ObjectType::class, '2016-05-10T00:00:00Z'			], # Set closed as a Datetime but on not allowed type
             
             ['content', Note::class, []                     			    ], # Set a content as array
+            
+            ['contentMap', Note::class, ' {
+                                            "en": "A <em>simple</em> note",
+                                            "es": "Una nota <em>sencilla</em>",
+                                            1: "一段<em>简单的</em>笔记"
+                                        }'			                        ], # Set a content map (bad key)
+            
+            ['contentMap', Note::class, ' { "A <em>simple</em> note"}'	    ], # Set a content map (bad key)
+            ['contentMap', Note::class, 'A <em>simple</em> note'	        ], # Set a content map (bad format)
             
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
