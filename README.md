@@ -135,7 +135,7 @@ ________________________________________________________________________
 Usage
 -----
 
-### Hydrate a core type
+### Hydrate an extended type
 
 ```php
 use ActivityPub\Type\Extended\Object\Note;
@@ -144,6 +144,7 @@ $note = new Note();
 $note->id = 'https://example.com/notes/1';
 ```
 
+You could do the same with all core types.
 
 ### Extend a core type
 
@@ -163,6 +164,7 @@ $note = new MyNote();
 $note->id = 'https://example.com/custom-notes/1';
 $note->myProperty = 'Custom Value';
 ```
+Extending types preserves benefits of property validators.
 
 ### Add custom validators for objects attributes
 
@@ -186,15 +188,19 @@ use ActivityPub\Type\Validator;
 class MyPropertyValidator implements ValidatorInterface
 {
 	// A public validate() method is mandatory
-	public function validate($value)
+	public function validate($value, $container)
 	{
 		return true;
 	}
 }
 
-// Attach this validator to a property
-Validator::addFilter('myProperty', MyPropertyValidator::class);
+// Attach this custom validator to a property
+Validator::add('myProperty', MyPropertyValidator::class);
 
-// Now all values are checked
+// Now all values are checked with the validate() method
+// 'myProperty' is passed to the first argument
+// $note is passed to the second one.
+
 $note->myProperty = 'Custom Value';
 
+```
