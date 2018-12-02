@@ -419,7 +419,8 @@ class AttributeFormatValidationTest extends TestCase
 													"type": "Link",
 												}
 									'										], # Set closed as a malformed Link
-
+            ['closed', ObjectType::class, '2016-05-10T00:00:00Z'				], # Set closed as a Datetime but on not allowed type
+            
 			['id', ObjectType::class, '1'								], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []								], # Set an array as id
 		];
