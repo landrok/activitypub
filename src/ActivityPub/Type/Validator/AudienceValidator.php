@@ -11,9 +11,9 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
+use ActivityPub\Type\Validator\Traits\ValidateLinkOrNamedObject;
 
 /**
  * \ActivityPub\Type\Validator\AudienceValidator is a dedicated
@@ -21,26 +21,13 @@ use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
  */
 class AudienceValidator implements ValidatorInterface
 {
+    /**
+     * Browse a list of object or one single object
+     */
     use ListOrObjectTrait;
 
     /**
-     * Validate an audience object
-     * 
-     * @param object $item
+     * Validate an Object
      */
-    protected function validateObject($item)
-    {
-        if (!Util::hasProperties($item, ['type'])) {
-            return false;
-        }
-
-        // Validate Link type
-        if ($item->type == 'Link') {
-            return Util::validateLink($item);
-        }
-
-        // Validate Object type
-        return Util::hasProperties($item, ['name'])
-            && is_string($item->name);
-    }
+    use ValidateLinkOrNamedObject;
 }

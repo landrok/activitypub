@@ -11,9 +11,9 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
+use ActivityPub\Type\Validator\Traits\ValidateLinkOrUrlObject;
 
 /**
  * \ActivityPub\Type\Validator\AttachmentValidator is a dedicated
@@ -21,26 +21,13 @@ use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
  */
 class AttachmentValidator implements ValidatorInterface
 {
-    use ListOrObjectTrait;
-
     /**
-     * Validate an attachment
-     * 
-     * @param string|object $value
+     * Browse a list of object or one single object
      */
-    protected function validateObject($item)
-    {
-	if (!Util::hasProperties($item, ['type'])) {
-	    return false;
-	}
-
-	// Validate Link type
-	if ($item->type == 'Link') {
-	    return Util::validateLink($item);
-	}
-
-	// Validate Object type
-	return Util::hasProperties($item, ['url'])
-	    && Util::validateUrl($item->url);	
-    }
+    use ListOrObjectTrait;
+    
+    /**
+     * Validate an Object
+     */
+    use ValidateLinkOrUrlObject;
 }

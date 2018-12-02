@@ -13,7 +13,6 @@ namespace ActivityPub\Type\Validator\Traits;
 
 use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Util;
-use ActivityPub\Type\ValidatorInterface;
 
 /**
  * This trait provides a classic workflow of validation.
