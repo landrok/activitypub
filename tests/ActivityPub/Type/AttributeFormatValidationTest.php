@@ -214,7 +214,18 @@ class AttributeFormatValidationTest extends TestCase
                                             "es": "Una nota <em>sencilla</em>",
                                             "zh-Hans": "一段<em>简单的</em>笔记"
                                         }'			                        ], # Set a content map
-
+			['context', ObjectType::class, 'http://bob.example.org'			], # Set context as a URL
+			['context', ObjectType::class, ' {
+													"type": "Object",
+													"name": "Bob",
+													"url": "http://bob.example.org"
+												}
+									'										], # Set context as an object
+			['context', ObjectType::class, '{
+													"type": "Link",
+													"href": "http://bob.example.org"
+                                        }
+									'										], # Set context as Link
 
 
 
@@ -425,7 +436,7 @@ class AttributeFormatValidationTest extends TestCase
 												}
 									'										], # Set closed as a bad type
 			['closed', Question::class, ' {
-													"type": "Link",
+													"type": "Link"
 												}
 									'										], # Set closed as a malformed Link
             ['closed', ObjectType::class, '2016-05-10T00:00:00Z'			], # Set closed as a Datetime but on not allowed type
@@ -442,6 +453,13 @@ class AttributeFormatValidationTest extends TestCase
             ['contentMap', Note::class, 'A <em>simple</em> note'	        ], # Set a content map (bad format, string)
             ['contentMap', Note::class, 42	                                ], # Set a content map (bad format, integer)
             
+			['context', ObjectType::class, '1'							    ], # Set a number as context
+			['context', ObjectType::class, []							   	], # Set an array as context
+			['context', ObjectType::class, ' {
+													"type": "Link"
+												}
+									'										], # Set context as a malformed Link
+
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
 		];
