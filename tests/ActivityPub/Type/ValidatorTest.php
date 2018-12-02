@@ -178,6 +178,14 @@ class ValidatorTest extends TestCase
 													"url": "http://bob.example.org"
 												}
 									]'										], # Set bcc with an array of mixed URL and persons
+			['cc', Offer::class, ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+													"name": "Bob",
+													"url": "http://bob.example.org"
+												}
+									]'										], # Set cc with an array of mixed URL and persons
 			['bto', Offer::class, ' [
 												"http://joe.example.org",
 												{
@@ -360,7 +368,28 @@ class ValidatorTest extends TestCase
 			['bto', Offer::class, ' [
 												"Not a valid URL"
 									]'										], # Set bto with malformed URL
+
+			['cc', Offer::class, ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+									]'										], # Set cc with an array of mixed URL and persons (missing url property)
+			['cc', Offer::class, ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+													"name": "Sally",
+													"url": "Not an URL"
+												}
+									]'										], # Set cc with an array of mixed URL and persons (URL property is not valid)
+			['cc', Offer::class, ' [
+												"Not a valid URL"
+									]'										], # Set cc with malformed URL
 									
+									
+
 			['id', ObjectType::class, '1'								], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []								], # Set an array as id
 		];
