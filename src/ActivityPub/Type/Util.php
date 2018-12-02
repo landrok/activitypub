@@ -68,12 +68,19 @@ abstract class Util
      * 
      * @param  object $item
      * @return bool
+     * @throws \Exception if a property is not set
      */
     public static function hasProperties($item, $properties)
     {
         foreach ($properties as $property) {
             if (!property_exists($item, $property)) {
-                return false;
+                throw new Exception(
+                    sprintf(
+                        'Attribute "%s" MUST be set for item: %s',
+                        $property,
+                        print_r($item, true)
+                    )
+                );
             }
         }
 

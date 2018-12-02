@@ -16,17 +16,17 @@ use ActivityPub\Type\ValidatorInterface;
 use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
 
 /**
- * \ActivityPub\Type\Validator\AttributedToValidator is a dedicated
- * validator for attributedTo attribute.
+ * \ActivityPub\Type\Validator\BccValidator is a dedicated
+ * validator for bcc attribute.
  */
-class AttributedToValidator implements ValidatorInterface
+class BccValidator implements ValidatorInterface
 {
     use ListOrObjectTrait;
 
     /**
-     * Validate an attachment
+     * Validate a BCC object
      * 
-     * @param string|object $item
+     * @param object $item
      */
     protected function validateObject($item)
     {
@@ -40,7 +40,7 @@ class AttributedToValidator implements ValidatorInterface
         }
 
         // Validate Object type
-        return Util::hasProperties($item, ['name'])
-            && is_string($item->name);	
+        return Util::hasProperties($item, ['url'])
+            && Util::validateUrl($item->url);
     }
 }

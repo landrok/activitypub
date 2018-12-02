@@ -68,13 +68,17 @@ class ValidatorTest extends TestCase
 	{
 		# TypeClass, property, value
 		return [
-			[Activity::class, 'actor', 'https://example.com/bob'			], # Set actor as URL
-			[Activity::class, 'actor', '{
+			['accuracy', Place::class, 100									], # Set accuracy (int) 
+			['accuracy', Place::class, 0									], # Set accuracy (int)
+			['accuracy', Place::class, '0'									], # Set accuracy (numeric int) 
+			['accuracy', Place::class, '0.5'								], # Set accuracy (numeric float) 
+			['actor', Activity::class, 'https://example.com/bob'			], # Set actor as URL
+			['actor', Activity::class, '{
 											"type": "Person",
 											"id": "http://sally.example.org",
 											"summary": "Sally"
 										}'									], # Set actor as an Actor type, JSON encoded
-			[Activity::class, 'actor', '[
+			['actor', Activity::class, '[
 											"http://joe.example.org",
 											{
 												"type": "Person",
@@ -82,85 +86,8 @@ class ValidatorTest extends TestCase
 												"name": "Sally"
 											}
 										]'									], # Set actor as multiple actors, JSON encoded
-			[Image::class, 'attributedTo', ' [
-												{
-													"type": "Person",
-													"name": "Sally"
-												}
-											]'								], # Set attributedTo with an array of persons
-			[Image::class, 'attributedTo', '
-												{
-													"type": "Person",
-													"name": "Sally"
-												}
-											'								], # Set attributedTo with a single actor
-			[Image::class, 'attributedTo', '
-												{
-													"type": "Link",
-													"href": "http://joe.example.org"
-												}
-											'								], # Set attributedTo with a Link
-			[Image::class, 'attributedTo', ' [
-												"http://sally.example.org",
-												{
-													"type": "Person",
-													"name": "Sally"
-												}
-											]'								], # Set attributedTo with an array of mixed URL and persons
-			[Note::class, 'audience', ' [
-												{
-													"type": "Person",
-													"name": "Sally"
-												}
-											]'								], # Set audience with an array of persons
-			[Note::class, 'audience', '
-												{
-													"type": "Person",
-													"name": "Sally"
-												}
-											'								], # Set audience with a single actor
-			[Note::class, 'audience', '
-												{
-													"type": "Link",
-													"href": "http://joe.example.org"
-												}
-											'								], # Set audience with a Link
-			[Note::class, 'audience', ' [
-												"http://sally.example.org",
-												{
-													"type": "Person",
-													"name": "Sally"
-												}
-											]'								], # Set attributedTo with an array of mixed URL and persons
-			[Note::class, 'attachment', ' [
-													{
-														"type": "Image",
-														"content": "This is what he looks like.",
-														"url": "http://example.org/cat.jpeg"
-													}
-												]'							], # Set attachment	with an ObjectType
-			[Note::class, 'attachment', ' [
-													{
-														"type": "Link",
-														"href": "http://example.org/cat.jpeg"
-													}
-												]'							], # Set attachment	with an Link
-			[Note::class, 'attachment', '[
-											"http://example.org/cat.jpeg"
-										]'									], # Set attachment with an indirect reference
-			[ObjectType::class, 'attachment', ' [
-													{
-														"type": "Image",
-														"content": "This is what he looks like.",
-														"url": "http://example.org/cat.jpeg"
-													}
-												]'							], # Set attachment	
-			[Place::class, 'accuracy', 100							], # Set accuracy (int) 
-			[Place::class, 'accuracy', 0							], # Set accuracy (int)
-			[Place::class, 'accuracy', '0'							], # Set accuracy (numeric int) 
-			[Place::class, 'accuracy', '0.5'						], # Set accuracy (numeric float) 
-			[Place::class, 'altitude', 0.5							], # Set altitude (float)
-			[Question::class, 'anyOf', '[
+			['altitude', Place::class, 0.5									], # Set altitude (float)
+			['anyOf', Question::class, '[
 											{
 												"type": "Note",
 												"name": "Option A"
@@ -169,8 +96,90 @@ class ValidatorTest extends TestCase
 												"type": "Note",
 												"name": "Option B"
 											}
-										]'							], # Set anyOf choices 
+										]'									], # Set anyOf choices 
+			['attachment', Note::class, ' [
+													{
+														"type": "Image",
+														"content": "This is what he looks like.",
+														"url": "http://example.org/cat.jpeg"
+													}
+												]'							], # Set attachment	with an ObjectType
+			['attachment', Note::class, ' [
+													{
+														"type": "Link",
+														"href": "http://example.org/cat.jpeg"
+													}
+												]'							], # Set attachment	with an Link
+			['attachment', Note::class, '[
+											"http://example.org/cat.jpeg"
+										]'									], # Set attachment with an indirect reference
+			['attachment', ObjectType::class, ' [
+													{
+														"type": "Image",
+														"content": "This is what he looks like.",
+														"url": "http://example.org/cat.jpeg"
+													}
+												]'							], # Set attachment	
+			['attributedTo', Image::class, ' [
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											]'								], # Set attributedTo with an array of persons
+			['attributedTo', Image::class, '
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											'								], # Set attributedTo with a single actor
+			['attributedTo', Image::class, '
+												{
+													"type": "Link",
+													"href": "http://joe.example.org"
+												}
+											'								], # Set attributedTo with a Link
+			['attributedTo', Image::class, ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											]'								], # Set attributedTo with an array of mixed URL and persons
+			['audience', Note::class, ' [
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											]'								], # Set audience with an array of persons
+			['audience', Note::class, '
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											'								], # Set audience with a single actor
+			['audience', Note::class, '
+												{
+													"type": "Link",
+													"href": "http://joe.example.org"
+												}
+											'								], # Set audience with a Link
+			['audience', Note::class, ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											]'								], # Set attributedTo with an array of mixed URL and persons
+			['bcc', Offer::class, ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+													"name": "Bob",
+													"url": "http://bob.example.org"
+												}
+									]'										], # Set bcc with an array of mixed URL and persons
 
+			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
 	}
 
@@ -181,80 +190,44 @@ class ValidatorTest extends TestCase
 	{
 		# TypeClass, property, value
 		return [
-			[Activity::class, 'actor', 'https:/example.com/bob'		], # Set actor as malformed URL
-			[Activity::class, 'actor', 'bob'						], # Set actor as not allowed string
-			[Activity::class, 'actor', 42							], # Set actor as not allowed type
-			[Activity::class, 'actor', '{}'							], # Set actor as a JSON malformed string
-			[Activity::class, 'actor', '[
+			['actor', Activity::class, 'https:/example.com/bob'			], # Set actor as malformed URL
+			['actor', Activity::class, 'bob'							], # Set actor as not allowed string
+			['actor', Activity::class, 42								], # Set actor as not allowed type
+			['actor', Activity::class, '{}'								], # Set actor as a JSON malformed string
+			['actor', Activity::class, '[
 											"http://joe.example.org",
 											{
 												"type": "Person",
 												"name": "Sally"
 											}
-										]'							], # Set actor as multiple actors, JSON encoded, missing id for one actor
-			[Activity::class, 'actor', '[
+										]'								], # Set actor as multiple actors, JSON encoded, missing id for one actor
+			['actor', Activity::class, '[
 											"http://joe.example.org",
 											{
 												"type": "Person",
 												"id": "http://",
 												"name": "Sally"
 											}
-										]'							], # Set actor as multiple actors, JSON encoded, invalid id
-			[Activity::class, 'actor', '[
+										]'								], # Set actor as multiple actors, JSON encoded, invalid id
+			['actor', Activity::class, '[
 											"http://",
 											{
 												"type": "Person",
 												"id": "http://joe.example.org",
 												"name": "Sally"
 											}
-										]'							], # Set actor as multiple actors, JSON encoded, invalid indirect link
-			[Image::class, 'attributedTo', ' [
-												{
-													"type": "Person"
-												}
-											]'							], # Set attributedTo with a missing attribute (Array)
-			[Image::class, 'attributedTo', '
-												{
-													"name": "Sally"
-												}
-											'							], # Set attributedTo with a single malformed type
-			[Image::class, 'attributedTo', '
-												{
-													"type": "Link",
-
-												}
-											'							], # Set attributedTo with a malformed Link
-			[Image::class, 'attributedTo', ' [
-												"http://sally.example.org",
-												{
-													"type": "Person",
-												}
-											]'							], # Set attributedTo with an array of mixed URL and persons (malformed)
-			[Note::class, 'attachment', '[
-											{
-												"type": "Image",
-												"content": "This is what he looks like.",
-											}
-										]'							], # Set attachment with a missing reference
-			[Note::class, 'attachment', '[
-											{
-												"type": "Link",
-												"content": "This is what he looks like.",
-											}
-										]'							], # Set attachment with a missing reference
-			[ObjectType::class, 'id', '1'							], # Set a number as id   (should pass @todo type resolver)
-			[ObjectType::class, 'id', []							], # Set an array as id
-			[Place::class, 'accuracy', -10							], # Set accuracy with a negative int
-			[Place::class, 'accuracy', -0.0000001					], # Set accuracy with a negative float
-			[Place::class, 'accuracy', 'A0.0000001'					], # Set accuracy with a non numeric value
-			[Place::class, 'accuracy', 100.000001					], # Set accuracy with a float value out of range
-			[Place::class, 'altitude', 100							], # Set altitude with an int value
-			[Place::class, 'altitude', '100.5'						], # Set altitude with a text value
-			[Place::class, 'altitude', 'hello'						], # Set altitude with a text value
-			[Place::class, 'altitude', []							], # Set altitude with an array
-			[Place::class, 'anyOf', []								], # Set anyOf for an inappropriate type
-			[Question::class, 'anyOf', []							], # Set anyOf with an array
-			[Question::class, 'anyOf', '[
+										]'								], # Set actor as multiple actors, JSON encoded, invalid indirect link
+			['accuracy', Place::class, -10								], # Set accuracy with a negative int
+			['accuracy', Place::class, -0.0000001						], # Set accuracy with a negative float
+			['accuracy', Place::class, 'A0.0000001'						], # Set accuracy with a non numeric value
+			['accuracy', Place::class, 100.000001						], # Set accuracy with a float value out of range
+			['altitude', Place::class, 100								], # Set altitude with an int value
+			['altitude', Place::class, '100.5'							], # Set altitude with a text value
+			['altitude', Place::class, 'hello'							], # Set altitude with a text value
+			['altitude', Place::class, []								], # Set altitude with an array
+			['anyOf', Place::class, []									], # Set anyOf for an inappropriate type
+			['anyOf', Question::class, []								], # Set anyOf with an array
+			['anyOf', Question::class, '[
 											{
 												"type": "Note",
 											},
@@ -262,8 +235,8 @@ class ValidatorTest extends TestCase
 												"type": "Note",
 												"name": "Option B"
 											}
-										]'							], # Set anyOf with malformed choices 
-			[Question::class, 'anyOf', '[
+										]'								], # Set anyOf with malformed choices 
+			['anyOf', Question::class, '[
 											{
 												"type": "Note",
 												"name": "Option A"
@@ -271,12 +244,12 @@ class ValidatorTest extends TestCase
 											{
 												"name": "Option B"
 											}
-										]'							], # Set anyOf with malformed choices 
-			[Question::class, 'anyOf', '{
+										]'								], # Set anyOf with malformed choices 
+			['anyOf', Question::class, '{
 												"type": "Note",
 												"name": "Option A"
-										}'							], # Set anyOf with malformed choices 
-			[Question::class, 'anyOf', '[
+										}'								], # Set anyOf with malformed choices 
+			['anyOf', Question::class, '[
 											{
 												"type": "Note",
 												"name": "Option A"
@@ -285,7 +258,84 @@ class ValidatorTest extends TestCase
 												"type": "Note",
 												"name": ["Option B"]
 											}
-										]'							], # Set anyOf with malformed choices	
+										]'								], # Set anyOf with malformed choices	
+			['attachment', Note::class, '[
+											{
+												"type": "Image",
+												"content": "This is what he looks like.",
+											}
+										]'								], # Set attachment with a missing reference
+			['attachment', Note::class, '[
+											{
+												"type": "Link",
+												"content": "This is what he looks like.",
+											}
+										]'								], # Set attachment with a missing reference
+			['attributedTo', Image::class, ' [
+												{
+													"type": "Person"
+												}
+											]'							], # Set attributedTo with a missing attribute (Array)
+			['attributedTo', Image::class, '
+												{
+													"name": "Sally"
+												}
+											'							], # Set attributedTo with a single malformed type
+			['attributedTo', Image::class, '
+												{
+													"type": "Link",
+
+												}
+											'							], # Set attributedTo with a malformed Link
+			['attributedTo', Image::class, ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+												}
+											]'							], # Set attributedTo with an array of mixed URL and persons (malformed)
+			['audience', Image::class, ' [
+												{
+													"type": "Person"
+												}
+											]'							], # Set audience with a missing attribute (Array)
+			['audience', Image::class, '
+												{
+													"name": "Sally"
+												}
+											'							], # Set audience with a single malformed type
+			['audience', Image::class, '
+												{
+													"type": "Link",
+
+												}
+											'							], # Set audience with a malformed Link
+			['audience', Image::class, ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+												}
+											]'							], # Set audience with an array of mixed URL and persons (malformed)
+			['bcc', Offer::class, ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+									]'										], # Set bcc with an array of mixed URL and persons (missing url property)
+			['bcc', Offer::class, ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+													"name": "Sally",
+													"url": "Not an URL"
+												}
+									]'										], # Set bcc with an array of mixed URL and persons (URL property is not valid)
+			['bcc', Offer::class, ' [
+												"Not a valid URL"
+									]'										], # Set bcc with malformed URL
+									
+			['id', ObjectType::class, '1'								], # Set a number as id   (should pass @todo type resolver)
+			['id', ObjectType::class, []								], # Set an array as id
 		];
 	}
 
@@ -295,7 +345,7 @@ class ValidatorTest extends TestCase
 	 * 
 	 * @dataProvider      getValidAttributesScenarios
 	 */
-	public function testValidAttributesScenarios($type, $attr, $value)
+	public function testValidAttributesScenarios($attr, $type, $value)
 	{
 		$object = new $type();
 		$object->{$attr} = $value;
@@ -306,7 +356,7 @@ class ValidatorTest extends TestCase
 	 * @dataProvider      getExceptionScenarios
 	 * @expectedException \Exception
 	 */
-	public function testExceptionScenarios($type, $attr, $value)
+	public function testExceptionScenarios($attr, $type, $value)
 	{
 		$object = new $type();
 		$object->{$attr} = $value;

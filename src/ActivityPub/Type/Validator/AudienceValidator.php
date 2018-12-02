@@ -14,6 +14,7 @@ namespace ActivityPub\Type\Validator;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
+
 /**
  * \ActivityPub\Type\Validator\AudienceValidator is a dedicated
  * validator for audience attribute.
@@ -23,9 +24,9 @@ class AudienceValidator implements ValidatorInterface
     use ListOrObjectTrait;
 
     /**
-     * Validate an audience
+     * Validate an audience object
      * 
-     * @param string|object $item
+     * @param object $item
      */
     protected function validateObject($item)
     {
@@ -40,6 +41,6 @@ class AudienceValidator implements ValidatorInterface
 
         // Validate Object type
         return Util::hasProperties($item, ['name'])
-            && is_string($item->name);	
+            && is_string($item->name);
     }
 }

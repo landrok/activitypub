@@ -205,7 +205,17 @@ class ObjectType extends AbstractObject
     protected $cc;
 
     /**
-     * @var string|null
+     * One or more Objects that are part of the private secondary
+     * audience of this Object.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-bcc
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $bcc;
 
