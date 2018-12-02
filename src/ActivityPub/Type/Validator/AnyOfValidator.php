@@ -31,43 +31,42 @@ class AnyOfValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-	// Validate that container is a Question type
-	if (!is_object($container)
-	    || !property_exists($container, 'type')
-	    || $container->type !== 'Question'
-	) {
-	    return false;
-	}
+        // Validate that container is a Question type
+        if (!is_object($container)
+            || !property_exists($container, 'type')
+            || $container->type !== 'Question'
+        ) {
+            return false;
+        }
 
-	// Can be a JSON string
-	if (is_string($value)) {
-	    $value = Util::decodeJson($value);
-	}
+        // Can be a JSON string
+        if (is_string($value)) {
+            $value = Util::decodeJson($value);
+        }
 
-	// A collection
-	if (!is_array($value)) {
-	    return false;
-	}
+        // A collection
+        if (!is_array($value)) {
+            return false;
+        }
 
-	if (!count($value)) {
-	    return false;
-	}
+        if (!count($value)) {
+            return false;
+        }
 
-	return $this->validateObjectCollection($value);
+        return $this->validateObjectCollection($value);
     }
 
     /**
      * Validate a Note type
      * 
      * @param object $value
+     * @return bool
      */
     protected function validateObject($item)
     {
-	if (!Util::hasProperties($item, ['type', 'name'])) {
-	    return false;
-	}
+        Util::hasProperties($item, ['type', 'name'], true);
 
-	return $item->type == 'Note' && is_scalar($item->name);
+        return $item->type == 'Note' && is_scalar($item->name);
     }
 
     /**
@@ -80,14 +79,14 @@ class AnyOfValidator implements ValidatorInterface
      */
     protected function validateObjectCollection(array $collection)
     {
-	foreach ($collection as $item) {
-	    if (is_object($item) && $this->validateObject($item)) {
-		continue;
-	    }
+        foreach ($collection as $item) {
+            if (is_object($item) && $this->validateObject($item)) {
+                continue;
+            }
 
-	    return false;
-	}
+            return false;
+        }
 
-	return true;
+        return true;
     }
 }

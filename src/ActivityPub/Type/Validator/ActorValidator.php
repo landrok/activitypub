@@ -29,28 +29,28 @@ class ActorValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-	// Can be an indirect link
-	if (is_string($value) && Util::validateUrl($value)) {
-	    return true;
-	}
-	
-	// Can be a JSON string
-	if (is_string($value)) {
-	    $value = Util::decodeJson($value);
-	}
+        // Can be an indirect link
+        if (is_string($value) && Util::validateUrl($value)) {
+            return true;
+        }
+        
+        // Can be a JSON string
+        if (is_string($value)) {
+            $value = Util::decodeJson($value);
+        }
 
-	// A collection
-	if (is_array($value)) {
-	    return $this->validateObjectCollection($value);
-	}
+        // A collection
+        if (is_array($value)) {
+            return $this->validateObjectCollection($value);
+        }
 
-	// Must be an object
-	if (!is_object($value)) {
-	    return false;
-	}
+        // Must be an object
+        if (!is_object($value)) {
+            return false;
+        }
 
-	// A single actor
-	return $this->validateObject($value);
+        // A single actor
+        return $this->validateObject($value);
     }
 
     /**
@@ -61,11 +61,9 @@ class ActorValidator implements ValidatorInterface
      */
     protected function validateObject($item)
     {
-	if (!Util::hasProperties($item, ['id'])) {
-	    return false;
-	}
+        Util::hasProperties($item, ['id'], true);
 
-	return Util::validateUrl($item->id);
+        return Util::validateUrl($item->id);
     }
 
     /**
@@ -79,16 +77,16 @@ class ActorValidator implements ValidatorInterface
      */
     protected function validateObjectCollection(array $collection)
     {
-	foreach ($collection as $item) {
-	    if (is_object($item) && $this->validateObject($item)) {
-		continue;
-	    } elseif (is_string($item) && Util::validateUrl($item)) {
-		continue;
-	    }
+        foreach ($collection as $item) {
+            if (is_object($item) && $this->validateObject($item)) {
+                continue;
+            } elseif (is_string($item) && Util::validateUrl($item)) {
+                continue;
+            }
 
-	    return false;
-	}
+            return false;
+        }
 
-	return true;
+        return true;
     }
 }

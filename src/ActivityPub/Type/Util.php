@@ -67,20 +67,30 @@ abstract class Util
      * Checks that all properties exist for a stdClass
      * 
      * @param  object $item
+     * @param  array  $properties
+     * @param  bool   $strict If true throws an \Exception,
+     *                        otherwise returns false
      * @return bool
      * @throws \Exception if a property is not set
      */
-    public static function hasProperties($item, $properties)
-    {
+    public static function hasProperties(
+        $item, 
+        array $properties,
+        $strict = false
+    ) {
         foreach ($properties as $property) {
             if (!property_exists($item, $property)) {
-                throw new Exception(
-                    sprintf(
-                        'Attribute "%s" MUST be set for item: %s',
-                        $property,
-                        print_r($item, true)
-                    )
-                );
+                if ($strict) {
+                    throw new Exception(
+                        sprintf(
+                            'Attribute "%s" MUST be set for item: %s',
+                            $property,
+                            print_r($item, true)
+                        )
+                    );
+                }
+
+                return false;
             }
         }
 

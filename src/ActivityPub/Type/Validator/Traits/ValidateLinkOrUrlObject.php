@@ -30,9 +30,7 @@ trait ValidateLinkOrUrlObject
      */
     protected function validateObject($item)
     {
-        if (!Util::hasProperties($item, ['type'])) {
-            return false;
-        }
+        Util::hasProperties($item, ['type'], true);
 
         // Validate Link type
         if ($item->type == 'Link') {
@@ -40,7 +38,8 @@ trait ValidateLinkOrUrlObject
         }
 
         // Validate Object type
-        return Util::hasProperties($item, ['url'])
-            && Util::validateUrl($item->url);
+        Util::hasProperties($item, ['url'], true);
+
+        return Util::validateUrl($item->url);
     }
 }
