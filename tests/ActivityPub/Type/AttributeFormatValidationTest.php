@@ -407,6 +407,7 @@ class AttributeFormatValidationTest extends TestCase
 									]'										], # Set cc with malformed URL
 									
 			['closed', Question::class, '2016-05-10 00:00:00Z'				], # Set closed as a Datetime (malformed)
+            ['closed', Question::class, '2016-05-32T00:00:00Z'				], # Set closed as a Datetime (malformed)
 			['closed', Question::class, 42									], # Set closed as a integer
 			['closed', Question::class, 'ob.example.org'					], # Set closed as a URL (malformed)
 			['closed', Question::class, ' {
