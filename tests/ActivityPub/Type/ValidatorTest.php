@@ -68,12 +68,12 @@ class ValidatorTest extends TestCase
 	{
 		# TypeClass, property, value
 		return [
-			[Activity::class, 'actor', 'https://example.com/bob'	], # Set actor as URL
+			[Activity::class, 'actor', 'https://example.com/bob'			], # Set actor as URL
 			[Activity::class, 'actor', '{
 											"type": "Person",
 											"id": "http://sally.example.org",
 											"summary": "Sally"
-										}'							], # Set actor as an Actor type, JSON encoded
+										}'									], # Set actor as an Actor type, JSON encoded
 			[Activity::class, 'actor', '[
 											"http://joe.example.org",
 											{
@@ -81,32 +81,57 @@ class ValidatorTest extends TestCase
 												"id": "http://sally.example.org",
 												"name": "Sally"
 											}
-										]'							], # Set actor as multiple actors, JSON encoded
+										]'									], # Set actor as multiple actors, JSON encoded
 			[Image::class, 'attributedTo', ' [
 												{
 													"type": "Person",
 													"name": "Sally"
 												}
-											]'							], # Set attributedTo with an array of persons
+											]'								], # Set attributedTo with an array of persons
 			[Image::class, 'attributedTo', '
 												{
 													"type": "Person",
 													"name": "Sally"
 												}
-											'							], # Set attributedTo with a single actor
+											'								], # Set attributedTo with a single actor
 			[Image::class, 'attributedTo', '
 												{
 													"type": "Link",
 													"href": "http://joe.example.org"
 												}
-											'							], # Set attributedTo with a Link
+											'								], # Set attributedTo with a Link
 			[Image::class, 'attributedTo', ' [
 												"http://sally.example.org",
 												{
 													"type": "Person",
 													"name": "Sally"
 												}
-											]'							], # Set attributedTo with an array of mixed URL and persons
+											]'								], # Set attributedTo with an array of mixed URL and persons
+			[Note::class, 'audience', ' [
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											]'								], # Set audience with an array of persons
+			[Note::class, 'audience', '
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											'								], # Set audience with a single actor
+			[Note::class, 'audience', '
+												{
+													"type": "Link",
+													"href": "http://joe.example.org"
+												}
+											'								], # Set audience with a Link
+			[Note::class, 'audience', ' [
+												"http://sally.example.org",
+												{
+													"type": "Person",
+													"name": "Sally"
+												}
+											]'								], # Set attributedTo with an array of mixed URL and persons
 			[Note::class, 'attachment', ' [
 													{
 														"type": "Image",

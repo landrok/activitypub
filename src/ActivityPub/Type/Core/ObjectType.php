@@ -55,17 +55,37 @@ class ObjectType extends AbstractObject
      *    | \ActivityPub\Type\Core\Link
      *    | \ActivityPub\Type\Core\Object[]
      *    | \ActivityPub\Type\Core\Link[]
-     * 
      */
     protected $attachment;
 
     /**
-     * @var string|null
+     * One or more entities to which this object is attributed. 
+     * The attributed entities might not be Actors. For instance, an 
+     * object might be attributed to the completion of another activity.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-attributedto
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $attributedTo;
 
     /**
-     * @var string|null
+     * One or more entities that represent the total population of 
+     * entities for which the object can considered to be relevant. 
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-audience
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $audience;
 

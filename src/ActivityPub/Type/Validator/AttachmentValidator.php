@@ -11,7 +11,6 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
