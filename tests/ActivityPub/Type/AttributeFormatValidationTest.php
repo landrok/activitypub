@@ -493,7 +493,7 @@ class AttributeFormatValidationTest extends TestCase
             ['duration', Link::class, 'PT2H'               					], # Set duration on a bad type
             ['duration', ObjectType::class, 'P5DD'               			], # Set duration as malformed short format
             ['duration', Activity::class, 'PY0M1DT3H2M12S'              	], # Set duration as malformed format
-            ['duration', Activity::class, Link::class            		  	], # Set duration as unallowed format
+            ['duration', Activity::class, new Link()            		  	], # Set duration as unallowed format
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
