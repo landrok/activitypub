@@ -486,6 +486,9 @@ class AttributeFormatValidationTest extends TestCase
             ['deleted', ObjectType::class, '2016-05-10T00:00:00Z'			], # Set deleted as a Datetime on a bad Type
             ['deleted', Tombstone::class, []                 				], # Set deleted as an array
             ['deleted', Tombstone::class, 42                 				], # Set deleted as an integer
+            
+            ['describes', Profile::class, 42                 				], # Set describes as an integer
+            ['describes', ObjectType::class, 42                 			], # Set describes on a bad type
 
             ['duration', Link::class, 'PT2H'               					], # Set duration on a bad type
             ['duration', ObjectType::class, 'P5DD'               			], # Set duration as malformed short format
