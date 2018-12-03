@@ -245,6 +245,18 @@ class AttributeFormatValidationTest extends TestCase
             
             ['endTime', ObjectType::class, '2016-05-10T00:00:00Z'			], # Set endTime as a Datetime (UTC)
             ['endTime', ObjectType::class, '2015-01-31T06:00:00-08:00'		], # Set endTime as a Datetime (TZ)
+            
+            ['endpoints', Person::class, 
+                            'http://sally.example.org/endpoints.json'		], # Set endpoints as a string
+            ['endpoints', Person::class, '{
+                                                "proxyUrl": "http://example.org/proxy.json",
+                                                "oauthAuthorizationEndpoint": "http://example.org/oauth.json",
+                                                "oauthTokenEndpoint": "http://example.org/oauth/token.json",
+                                                "provideClientKey": "http://example.org/provide-client-key.json",
+                                                "signClientKey": "http://example.org/sign-client-key.json",
+                                                "sharedInbox": "http://example.org/shared-inbox.json"
+                                                
+                                        }'		                               ], # Set endpoints as a mapping
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
@@ -372,8 +384,7 @@ class AttributeFormatValidationTest extends TestCase
 											'							], # Set audience with a single malformed type
 			['audience', Image::class, '
 												{
-													"type": "Link",
-
+													"type": "Link"
 												}
 											'							], # Set audience with a malformed Link
 			['audience', Image::class, ' [
@@ -484,7 +495,7 @@ class AttributeFormatValidationTest extends TestCase
                                                         "summary": "Most Recent Items"
                                                     }
 									'										], # Set current as Link (malformed)
-            ['current', Collection::class, 42                           	], # Set current as a bad type value
+            ['current', Collection::class, 42                               ], # Set current as a bad type value
             
             ['deleted', Tombstone::class, '2016-05-10 00:00:00Z'			], # Set deleted as a bad Datetime
             ['deleted', ObjectType::class, '2016-05-10T00:00:00Z'			], # Set deleted as a Datetime on a bad Type
@@ -502,6 +513,31 @@ class AttributeFormatValidationTest extends TestCase
             ['endTime', ObjectType::class, '2016-05-10 00:00:00Z'			], # Set endTime as a bad Datetime
             ['endTime', Link::class, '2016-05-10 00:00:00Z'			        ], # Set endTime on a bad type
             ['endTime', ObjectType::class, new ObjectType()   			    ], # Set endTime as a bad type
+
+            ['endpoints', Person::class, 
+                            'htt://sally.example.org/endpoints.json'		], # Set endpoints as a bad url
+            ['endpoints', Person::class, 
+                            42		                                        ], # Set endpoints with a bad type value
+            ['endpoints', Activity::class,
+                            'http://sally.example.org/endpoints.json'		], # Set endpoints on a bad type
+            ['endpoints', Person::class, '{
+                                                "proxyUrl": "http://example.org/proxy.json",
+                                                "oauthAuthorizationEndpoint": "http://example.org/oauth.json",
+                                                "oauthTokenEndpoint": "http://example.org/oauth/token.json",
+                                                "provideClientKey": "http://example.org/provide-client-key.json",
+                                                "signClientKey": "htp://example.org/sign-client-key.json",
+                                                "sharedInbox": "http://example.org/shared-inbox.json"
+                                                
+                                        }'		                               ], # Set endpoints as a mapping with a malformed URL
+            ['endpoints', Person::class, '{
+                                                1: "http://example.org/proxy.json",
+                                                "oauthAuthorizationEndpoint": "http://example.org/oauth.json",
+                                                "oauthTokenEndpoint": "http://example.org/oauth/token.json",
+                                                "provideClientKey": "http://example.org/provide-client-key.json",
+                                                "signClientKey": "http://example.org/sign-client-key.json",
+                                                "sharedInbox": "http://example.org/shared-inbox.json"
+                                                
+                                        }'		                               ], # Set endpoints as a mapping with a malformed key
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id

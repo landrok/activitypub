@@ -15,9 +15,9 @@ use ActivityPub\Type\Core\ObjectType;
 
 /**
  * \ActivityPub\Type\Extended\AbstractActor is an abstract class that
- * provides dedicated Actor's methods
+ * provides dedicated Actor's properties
  */ 
-class AbstractActor extends ObjectType
+abstract class AbstractActor extends ObjectType
 {
     /**
      * A reference to an ActivityStreams OrderedCollection comprised of 
@@ -93,7 +93,7 @@ class AbstractActor extends ObjectType
      * 
      * @see https://www.w3.org/TR/activitypub/#endpoints
      *  
-     * @var array
+     * @var null|string|array
      */
-    protected $endpoints = [];
+    protected $endpoints;
 }
