@@ -481,7 +481,8 @@ class AttributeFormatValidationTest extends TestCase
                                                         "summary": "Most Recent Items"
                                                     }
 									'										], # Set current as Link (malformed)
-                                    
+            ['current', Collection::class, 42                           	], # Set current as a bad type value
+            
             ['deleted', Tombstone::class, '2016-05-10 00:00:00Z'			], # Set deleted as a bad Datetime
             ['deleted', ObjectType::class, '2016-05-10T00:00:00Z'			], # Set deleted as a Datetime on a bad Type
             ['deleted', Tombstone::class, []                 				], # Set deleted as an array
