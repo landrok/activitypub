@@ -143,6 +143,14 @@ class ObjectType extends AbstractObject
     protected $nameMap;
 
     /**
+     * The date and time describing the actual or expected ending time 
+     * of the object.
+     * When used with an Activity object, for instance, the endTime 
+     * property specifies the moment the activity concluded or 
+     * is expected to conclude.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-endtime
+     * 
      * @var string|null
      */
     protected $endTime;

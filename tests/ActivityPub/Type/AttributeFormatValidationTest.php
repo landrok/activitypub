@@ -242,6 +242,9 @@ class AttributeFormatValidationTest extends TestCase
             ['duration', ObjectType::class, 'PT2H'               			], # Set duration as short format
             ['duration', ObjectType::class, 'P5D'               			], # Set duration as short format
             ['duration', Activity::class, 'P5Y0M1DT3H2M12S'              	], # Set duration as long format
+            
+            ['endTime', ObjectType::class, '2016-05-10T00:00:00Z'			], # Set endTime as a Datetime (UTC)
+            ['endTime', ObjectType::class, '2015-01-31T06:00:00-08:00'		], # Set endTime as a Datetime (TZ)
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
@@ -495,6 +498,10 @@ class AttributeFormatValidationTest extends TestCase
             ['duration', ObjectType::class, 'P5DD'               			], # Set duration as malformed short format
             ['duration', Activity::class, 'PY0M1DT3H2M12S'              	], # Set duration as malformed format
             ['duration', Activity::class, new Link()            		  	], # Set duration as unallowed format
+
+            ['endTime', ObjectType::class, '2016-05-10 00:00:00Z'			], # Set endTime as a bad Datetime
+            ['endTime', Link::class, '2016-05-10 00:00:00Z'			        ], # Set endTime on a bad type
+            ['endTime', ObjectType::class, new ObjectType()   			    ], # Set endTime as a bad type
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
