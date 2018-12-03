@@ -238,6 +238,10 @@ class AttributeFormatValidationTest extends TestCase
             ['deleted', Tombstone::class, '2016-05-10T00:00:00Z'			], # Set deleted as a Datetime
             ['describes', Profile::class, new ObjectType()      			], # Set describes as an ObjectType
             ['describes', Profile::class, new Note()               			], # Set describes as a Note
+            
+            ['duration', ObjectType::class, 'PT2H'               			], # Set duration as short format
+            ['duration', ObjectType::class, 'P5D'               			], # Set duration as short format
+            ['duration', Activity::class, 'P5Y0M1DT3H2M12S'              	], # Set duration as long format
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
@@ -482,6 +486,11 @@ class AttributeFormatValidationTest extends TestCase
             ['deleted', ObjectType::class, '2016-05-10T00:00:00Z'			], # Set deleted as a Datetime on a bad Type
             ['deleted', Tombstone::class, []                 				], # Set deleted as an array
             ['deleted', Tombstone::class, 42                 				], # Set deleted as an integer
+
+            ['duration', Link::class, 'PT2H'               					], # Set duration on a bad type
+            ['duration', ObjectType::class, 'P5DD'               			], # Set duration as malformed short format
+            ['duration', Activity::class, 'PY0M1DT3H2M12S'              	], # Set duration as malformed format
+            ['duration', Activity::class, Link::class            		  	], # Set duration as unallowed format
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id

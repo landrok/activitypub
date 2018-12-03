@@ -11,6 +11,7 @@
 
 namespace ActivityPub\Type;
 
+use DateInterval;
 use DateTime;
 use Exception;
 
@@ -211,6 +212,35 @@ abstract class Util
                     'Class "%s" MUST be a subclass of "%s"',
                     get_class($container),
                     $class
+                )
+            );
+        }
+
+        return false;
+    }
+
+    /**
+     * Check that a given string is a valid XML Schema xsd:duration
+     * 
+     * @param string $duration
+     * @param bool   $strict If true, throws an exception
+     * @return bool
+     * @throws \Exception
+     */
+    public static function isDuration($duration, $strict = false)
+    {
+		try {
+			new DateInterval($duration);
+
+			return true;
+		} catch(\Exception $e) {
+		}
+
+        if ($strict) {
+            throw new Exception(
+                sprintf(
+                    'Duration "%s" MUST respect xsd:duration',
+                    $duration
                 )
             );
         }
