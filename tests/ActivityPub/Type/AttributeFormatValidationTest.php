@@ -528,16 +528,10 @@ class AttributeFormatValidationTest extends TestCase
                                                 "signClientKey": "htp://example.org/sign-client-key.json",
                                                 "sharedInbox": "http://example.org/shared-inbox.json"
                                                 
-                                        }'		                               ], # Set endpoints as a mapping with a malformed URL
+                                        }'		                            ], # Set endpoints as a mapping with a malformed URL
             ['endpoints', Person::class, '{
-                                                1: "http://example.org/proxy.json",
-                                                "oauthAuthorizationEndpoint": "http://example.org/oauth.json",
-                                                "oauthTokenEndpoint": "http://example.org/oauth/token.json",
-                                                "provideClientKey": "http://example.org/provide-client-key.json",
-                                                "signClientKey": "http://example.org/sign-client-key.json",
-                                                "sharedInbox": "http://example.org/shared-inbox.json"
-                                                
-                                        }'		                               ], # Set endpoints as a mapping with a malformed key
+                                                "http://example.org/proxy.json"
+                                        }'		                            ], # Set endpoints as a mapping with a malformed key
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
