@@ -11,37 +11,37 @@ class UtilTest extends TestCase
     /**
      * Pass a non object as container
      */
-	public function testIsTypeReturnFalse()
+    public function testIsTypeReturnFalse()
     {
-		$this->assertEquals(
-			false, 
-			Util::isType('hello', 'type')
-		);
+        $this->assertEquals(
+            false, 
+            Util::isType('hello', 'type')
+        );
 	}
 
     /**
      * Pass an object which is not a subclass
      * without strict mode.
      */
-	public function testIsNotASubclass()
+    public function testIsNotASubclass()
     {
         $obj = new \StdClass;
 
-		$this->assertEquals(
-			false, 
-			Util::subclassOf($obj, 'Class')
-		);
+        $this->assertEquals(
+            false, 
+            Util::subclassOf($obj, 'Class')
+        );
 	}
 
     /**
      * Pass an malformed XML ISO 8601 duration
      * without strict mode.
      */
-	public function testIsNotAValidDuration()
+    public function testIsNotAValidDuration()
     {
-		$this->assertEquals(
-			false, 
-			Util::isDuration('MALFORMED')
-		);
+        $this->assertEquals(
+            false, 
+            Util::isDuration('MALFORMED')
+        );
 	}
 }

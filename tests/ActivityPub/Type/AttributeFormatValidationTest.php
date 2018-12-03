@@ -256,7 +256,16 @@ class AttributeFormatValidationTest extends TestCase
                                                 "signClientKey": "http://example.org/sign-client-key.json",
                                                 "sharedInbox": "http://example.org/shared-inbox.json"
                                                 
-                                        }'		                               ], # Set endpoints as a mapping
+                                        }'		                            ], # Set endpoints as a mapping
+
+            ['first', Collection::class,
+                                    'http://example.org/collection?page=0'	], # Set first as a URL
+			['first', OrderedCollection::class, '{
+                                                        "type": "Link",
+                                                        "summary": "First Page",
+                                                        "href": "http://example.org/collection?page=0"
+                                                    }
+									'										], # Set first as Link
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
@@ -532,6 +541,19 @@ class AttributeFormatValidationTest extends TestCase
             ['endpoints', Person::class, '{
                                                 "http://example.org/proxy.json"
                                         }'		                            ], # Set endpoints as a mapping with a malformed key
+
+            ['first', ObjectType::class,
+                                    'http://example.org/collection?page=0'  ], # Set first as a URL for a class which is not a subclass of Collection
+            ['first', Collection::class,
+                                    'http:/example.org/collection?page=0'	], # Set first as a malformed URL
+			['first', OrderedCollection::class, '{
+                                                        "type": "Link",
+                                                        "summary": "First page"
+                                                    }
+									'										], # Set first as Link (malformed)
+            
+            ['first', Collection::class, 42                                 ], # Set first as a bad type value
+
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
