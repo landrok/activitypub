@@ -15,12 +15,13 @@ use ActivityPub\Type\Core\Collection;
 use ActivityPub\Type\Core\OrderedCollection;
 use ActivityPub\Type\Extended\AbstractActor;
 use ActivityPub\Type\Util;
+use ActivityPub\Type\ValidatorInterface;
 
 /**
  * \ActivityPub\Type\Validator\FollowersValidator is a dedicated
  * validator for followers attribute.
  */
-class FollowersValidator extends CurrentValidator
+class FollowersValidator implements ValidatorInterface
 {
     /**
      * Validate a FOLLOWERS attribute value
