@@ -11,7 +11,6 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Extended\Object\Tombstone;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
@@ -25,13 +24,13 @@ class FormerTypeValidator implements ValidatorInterface
     /**
      * Validate a formerType attribute value
      * 
-     * @param object $value
+     * @param string|object $value
      * @param mixed  $container
      * @return bool
      */
     public function validate($value, $container)
     {
-        // Validate that container has an Tomstone type
+        // Validate that container has an Tombstone type
         Util::subclassOf($container, Tombstone::class, true);
 
         // MUST be a valid Object type

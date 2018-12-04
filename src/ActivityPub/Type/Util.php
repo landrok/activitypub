@@ -200,6 +200,14 @@ abstract class Util
      */
     public static function validateLink($item)
     {
+        if (is_string($item)) {
+            $item = self::decodeJson($item);
+        }
+
+        if (!is_object($item)) {
+            return false;
+        }
+
         self::hasProperties($item, ['type'], true);
 
         // Validate Link type
@@ -314,6 +322,26 @@ abstract class Util
             && is_string($item->type)
         ) {
             return in_array($item->type, self::$objectTypes);
+        }
+    }
+
+    /**
+     * Checks that it's an actor type
+     * 
+     * @param  string $item
+     * @return bool
+     */
+    public function isActorType($item)
+    {
+        if (is_string($item)) {
+            $item = self::decodeJson($item);
+        }
+
+        if (is_object($item)
+            && isset($item->type)
+            && is_string($item->type)
+        ) {
+            return in_array($item->type, self::$actorTypes);
         }
     }
 }

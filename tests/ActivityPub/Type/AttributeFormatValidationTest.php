@@ -271,9 +271,17 @@ class AttributeFormatValidationTest extends TestCase
             ['following', Person::class, new Collection()	            	], # Set following as collection
             ['following', Person::class, new OrderedCollection()	        ], # Set following as OrderedCollection
 
-            ['formerType', Tombstone::class, new Note()   			        ], # Set formerType as an ObjectType
-            ['formerType', Tombstone::class, '{"type":"Video"}'  		   
-            	], # Set formerType as an ObjectType
+            ['formerType', Tombstone::class, new Note()   			        ], # Set formerType as an Note
+            ['formerType', Tombstone::class, '{"type":"Video"}'  		    ], # Set formerType as an Video string
+
+
+            ['generator', ObjectType::class, new Person()   			    ], # Set generator as a Person
+            ['generator', Note::class, '{"type":"Application"}'  		    ], # Set generator as an Application string
+            ['generator', Note::class, 'http://example.org/generator'       ], # Set generator as URL
+            ['generator', Note::class, '{
+                                            "type": "Link",
+                                            "href": "http://example.org/generator"
+                                        }'  		                        ], # Set generator as Link
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
@@ -571,9 +579,19 @@ class AttributeFormatValidationTest extends TestCase
             ['following', Person::class, 'http:/example.org/following'      ], # Set following as a bad type (@todo should be changed, indirect reference should be supported)
 
             ['formerType', Tombstone::class, 'PoorString'		           	], # Set formerType as a string
-            ['formerType', ObjectType::class, '2016-05-10T00:00:00Z'			], # Set formerType as a Datetime on a bad Type
-            ['formerType', Tombstone::class, []                 				], # Set formerType as an array
-            ['formerType', Tombstone::class, 42                 				], # Set formerType as an integer
+            ['formerType', ObjectType::class, '{"type":"Person"}'   		], # Set formerType as a Datetime on a bad Type
+            ['formerType', Tombstone::class, '{"type":"Person"}'            ], # Set formerType as a person
+            ['formerType', Tombstone::class, 42                 			], # Set formerType as an integer
+
+            ['generator', Note::class, '{"type":"Activity"}'		        ], # Set generator as an activity
+            ['generator', ObjectType::class, '2016-05-10T00:00:00Z'		    ], # Set generator as a Datetime on a bad Type
+            ['generator', Tombstone::class, 42                 			    ], # Set generator as an integer
+            ['generator', Link::class, 'http://example.org/generator'       ], # Set generator on a bad type
+            ['generator', ObjectType::class, 'htp://example.org/generator'  ], # Set generator with a bad URL
+            ['generator', Note::class, '{
+                                            "type": "Link",
+                                            "href": "htp://example.org/generator"
+                                        }'  		                        ], # Set generator as a malformed Link
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
