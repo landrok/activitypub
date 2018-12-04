@@ -283,6 +283,8 @@ class AttributeFormatValidationTest extends TestCase
                                             "href": "http://example.org/generator"
                                         }'  		                        ], # Set generator as Link
             ['height', Link::class, 42 		                                ], # Set height
+            
+            ['href', Link::class, "http://example.org/generator"            ], # Set href
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
@@ -599,6 +601,11 @@ class AttributeFormatValidationTest extends TestCase
             ['height', Link::class, 'cat'                                   ], # Set height with a bad type
             ['height', Link::class, -42                                     ], # Set height with an out of range value
 
+            ['href', ObjectType::class, "http://example.org/generator"      ], # Set href on a bad type
+            ['href', Link::class, "htp://example.org/generator"             ], # Set href with a bad URL
+            ['href', Link::class, new Activity()                            ], # Set href with a bad type
+            
+            
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
 		];
