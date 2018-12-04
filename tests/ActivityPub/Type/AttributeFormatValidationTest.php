@@ -282,6 +282,7 @@ class AttributeFormatValidationTest extends TestCase
                                             "type": "Link",
                                             "href": "http://example.org/generator"
                                         }'  		                        ], # Set generator as Link
+            ['height', Link::class, 42 		                                ], # Set height
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
@@ -592,6 +593,11 @@ class AttributeFormatValidationTest extends TestCase
                                             "type": "Link",
                                             "href": "htp://example.org/generator"
                                         }'  		                        ], # Set generator as a malformed Link
+
+            ['height', ObjectType::class, 42                                ], # Set height on a bad type
+            ['height', Link::class, 42.5                                    ], # Set height with a bad type
+            ['height', Link::class, 'cat'                                   ], # Set height with a bad type
+            ['height', Link::class, -42                                     ], # Set height with an out of range value
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
