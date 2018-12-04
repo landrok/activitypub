@@ -178,7 +178,7 @@ you try to set this property, it would be done without any check on
 values you're providing.
 
 You can easily cope with that implementing a custom validator using 
-`ValidatorHelper`.
+`Validator`.
 
 ```php
 use ActivityPub\Type\ValidatorInterface;
