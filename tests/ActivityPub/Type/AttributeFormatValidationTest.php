@@ -266,6 +266,8 @@ class AttributeFormatValidationTest extends TestCase
                                                         "href": "http://example.org/collection?page=0"
                                                     }
 									'										], # Set first as Link
+            ['followers', Person::class, new Collection()	            	], # Set followers as collection
+            ['followers', Person::class, new OrderedCollection()	        ], # Set followers as OrderedCollection
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
@@ -554,6 +556,9 @@ class AttributeFormatValidationTest extends TestCase
             
             ['first', Collection::class, 42                                 ], # Set first as a bad type value
 
+            ['followers', Activity::class, new Collection()	            	], # Set followers on a bad container (must be an actor)
+            ['followers', Person::class, new Activity()	            	], # Set followers as a bad type (must be a Collection or an OrderedCollection)
+            ['followers', Person::class, 'http:/example.org/followers'      ], # Set followers as a bad type (@todo should be changed, indirect reference should be supported)
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
