@@ -181,7 +181,12 @@ class ObjectType extends AbstractObject
     protected $location;
 
     /**
-     * @var string|null
+     * An entity that provides a preview of this object. 
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
      */
     protected $preview;
 

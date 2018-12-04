@@ -72,6 +72,16 @@ class Link extends AbstractObject
     protected $height;
 
     /**
+     * An entity that provides a preview of this link. 
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
+     */
+    protected $preview;
+
+    /**
      * @var string
      */
     protected $width;
