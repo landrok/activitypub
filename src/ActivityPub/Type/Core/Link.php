@@ -42,6 +42,13 @@ class Link extends AbstractObject
     protected $name;
 
     /**
+     * The target resource pointed to by a Link. 
+     * 
+     * @var null|string
+     */
+    protected $href;
+
+    /**
      * @var string
      */
     protected $hreflang;
@@ -57,7 +64,10 @@ class Link extends AbstractObject
     protected $rel;
 
     /**
-     * @var string
+     * Specifies a hint as to the rendering height 
+     * in device-independentpixels of the linked resource
+     * 
+     * @var null|int A non negative integer
      */
     protected $height;
 
