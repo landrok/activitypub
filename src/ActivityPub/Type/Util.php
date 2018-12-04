@@ -149,29 +149,6 @@ abstract class Util
     }
 
     /**
-     * Validate an object type with type attribute
-     * 
-     * @param object $item
-     * @param string $type An expected type
-     * @return bool
-     */
-    public static function isType($item, $type)
-    {
-        // Validate that container is a certain type
-        if (!is_object($item)) {
-            return false;
-        }
-        
-        if (property_exists($item, 'type')
-            && is_string($item->type)
-            && $item->type == $type
-        ) {
-            return true;
-        }
-    }
-
-
-    /**
      * Validate a reference with a Link or an Object with an URL
      * 
      * @param object $value
@@ -313,16 +290,7 @@ abstract class Util
      */
     public static function isObjectType($item)
     {
-        if (is_string($item)) {
-            $item = self::decodeJson($item);
-        }
-
-        if (is_object($item)
-            && isset($item->type)
-            && is_string($item->type)
-        ) {
-            return in_array($item->type, self::$objectTypes);
-        }
+        return self::isScope($item, self::$objectTypes);
     }
 
     /**
@@ -333,6 +301,40 @@ abstract class Util
      */
     public static function isActorType($item)
     {
+        return self::isScope($item, self::$actorTypes);
+    }
+
+    /**
+     * Validate an object type with type attribute
+     * 
+     * @param object $item
+     * @param string $type An expected type
+     * @return bool
+     */
+    public static function isType($item, $type)
+    {
+        // Validate that container is a certain type
+        if (!is_object($item)) {
+            return false;
+        }
+        
+        if (property_exists($item, 'type')
+            && is_string($item->type)
+            && $item->type == $type
+        ) {
+            return true;
+        }
+    }
+
+    /**
+     * Validate an object pool type with type attribute
+     * 
+     * @param object $item
+     * @param array $scope An expected pool type
+     * @return bool
+     */
+    public static function isScope($item, array $pool)
+    {
         if (is_string($item)) {
             $item = self::decodeJson($item);
         }
@@ -341,7 +343,7 @@ abstract class Util
             && isset($item->type)
             && is_string($item->type)
         ) {
-            return in_array($item->type, self::$actorTypes);
+            return in_array($item->type, $pool);
         }
     }
 }
