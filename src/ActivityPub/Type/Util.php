@@ -311,7 +311,7 @@ abstract class Util
      * @param  string $item
      * @return bool
      */
-    public function isObjectType($item)
+    public static function isObjectType($item)
     {
         if (is_string($item)) {
             $item = self::decodeJson($item);
@@ -331,7 +331,7 @@ abstract class Util
      * @param  string $item
      * @return bool
      */
-    public function isActorType($item)
+    public static function isActorType($item)
     {
         if (is_string($item)) {
             $item = self::decodeJson($item);
