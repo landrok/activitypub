@@ -22,6 +22,50 @@ use Exception;
 abstract class Util
 {
     /**
+     * A list of core types
+     * 
+     * @var array
+     */
+    protected static $coreTypes = [
+        'Activity', 'Collection',
+        'CollectionPage', 'IntransitiveActivity',
+        'Link', 'ObjectType',
+        'OrderedCollection', 'OrderedCollectionPage'
+    ];
+
+    /**
+     * A list of actor types
+     * 
+     * @var array
+     */
+    protected static $actorTypes = [
+        'Application', 'Group', 'Organization', 'Person', 'Service'
+    ];
+
+    /**
+     * A list of activity types
+     * 
+     * @var array
+     */
+    protected static $activityTypes = [
+        'Accept', 'Add', 'Announce', 'Arrive',
+        'Block', 'Create', 'Delete', 'Dislike', 'Flag', 'Follow', 'Ignore', 'Invite',
+        'Join', 'Leave', 'Like', 'Listen', 'Move',  'Offer',
+        'Question', 'Read', 'Reject', 'Remove', 'TentativeAccept', 'TentativeReject',
+        'Travel', 'Undo', 'Update', 'View', 
+    ];
+
+    /**
+     * A list of object types
+     * 
+     * @var array
+     */
+    protected static $objectTypes = [
+        'Article', 'Audio', 'Document', 'Event', 'Image', 'Mention', 'Note', 
+        'Page', 'Place', 'Profile', 'Relationship', 'Tombstone', 'Video',
+    ];
+
+    /**
      * Validate an URL
      * 
      * @param  string $value
@@ -251,5 +295,25 @@ abstract class Util
         }
 
         return false;
+    }
+
+    /**
+     * Checks that it's an object type
+     * 
+     * @param  string $item
+     * @return bool
+     */
+    public function isObjectType($item)
+    {
+        if (is_string($item)) {
+            $item = self::decodeJson($item);
+        }
+
+        if (is_object($item)
+            && isset($item->type)
+            && is_string($item->type)
+        ) {
+            return in_array($item->type, self::$objectTypes);
+        }
     }
 }

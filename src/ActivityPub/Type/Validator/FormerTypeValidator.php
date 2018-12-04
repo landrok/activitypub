@@ -11,33 +11,30 @@
 
 namespace ActivityPub\Type\Validator;
 
+use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Extended\Object\Tombstone;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
 /**
- * \ActivityPub\Type\Validator\DeletedValidator is a dedicated
- * validator for deleted attribute.
+ * \ActivityPub\Type\Validator\FormerTypeValidator is a dedicated
+ * validator for formerType attribute.
  */
-class DeletedValidator implements ValidatorInterface
+class FormerTypeValidator implements ValidatorInterface
 {
     /**
-     * Validate a DELETED attribute value
+     * Validate a formerType attribute value
      * 
-     * @param string $value
-     * @param mixed  $container A Tombstone type
+     * @param object $value
+     * @param mixed  $container
      * @return bool
      */
     public function validate($value, $container)
     {
-        // Validate that container is a Tombstone type
+        // Validate that container has an Tomstone type
         Util::subclassOf($container, Tombstone::class, true);
 
-        if (is_string($value)) {
-            // MUST be a datetime
-            if (Util::validateDatetime($value)) {
-                return true;
-            }
-        }
-    }
+        // MUST be a valid Object type
+        return Util::isObjectType($value);
+    }    
 }

@@ -271,6 +271,10 @@ class AttributeFormatValidationTest extends TestCase
             ['following', Person::class, new Collection()	            	], # Set following as collection
             ['following', Person::class, new OrderedCollection()	        ], # Set following as OrderedCollection
 
+            ['formerType', Tombstone::class, new Note()   			        ], # Set formerType as an ObjectType
+            ['formerType', Tombstone::class, '{"type":"Video"}'  		   
+            	], # Set formerType as an ObjectType
+
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
 	}
@@ -565,6 +569,11 @@ class AttributeFormatValidationTest extends TestCase
             ['following', Activity::class, new Collection()	            	], # Set following on a bad container (must be an actor)
             ['following', Person::class, new Activity()	            	    ], # Set following as a bad type (must be a Collection or an OrderedCollection)
             ['following', Person::class, 'http:/example.org/following'      ], # Set following as a bad type (@todo should be changed, indirect reference should be supported)
+
+            ['formerType', Tombstone::class, 'PoorString'		           	], # Set formerType as a string
+            ['formerType', ObjectType::class, '2016-05-10T00:00:00Z'			], # Set formerType as a Datetime on a bad Type
+            ['formerType', Tombstone::class, []                 				], # Set formerType as an array
+            ['formerType', Tombstone::class, 42                 				], # Set formerType as an integer
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id

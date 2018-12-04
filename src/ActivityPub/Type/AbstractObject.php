@@ -22,6 +22,17 @@ use Exception;
 abstract class AbstractObject
 {
 	/**
+	 * Magical isset method
+	 * 
+	 * @param string $name
+	 * @return bool
+	 */
+    public function __isset($name)
+    {
+        return property_exists($this, $name);
+    }
+
+	/**
 	 * Magical setter method
 	 * 
 	 * @param string $name
