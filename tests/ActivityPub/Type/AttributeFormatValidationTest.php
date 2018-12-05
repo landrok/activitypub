@@ -320,6 +320,28 @@ class AttributeFormatValidationTest extends TestCase
                                             "href": "http://example.org/icon"
                                         }'  		                        ], # Set icon as Link
 
+            ['image', Note::class, '{
+                                        "type": "Image",
+                                        "name": "A Cat",
+                                        "url": "http://example.org/cat.png"
+                                    }'  		                            ], # Set image as  an Image
+            ['image', Note::class, '[
+                                        {
+                                            "type": "Image",
+                                            "name": "Cat 1",
+                                            "url": "http://example.org/cat1.png"
+                                        },
+                                        {
+                                            "type": "Image",
+                                            "name": "Cat 2",
+                                            "url": "http://example.org/cat2.png"
+                                        }
+                                    ]'  		                                ], # Set image as an array of Image's
+            ['image', Note::class, '{
+                                            "type": "Link",
+                                            "href": "http://example.org/image"
+                                        }'  		                        ], # Set image as Link
+
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
 	}
@@ -669,6 +691,27 @@ class AttributeFormatValidationTest extends TestCase
             ['icon', Note::class, '{
                                             "type": "Link"
                                         }'  		                        ], # Set icon as Link
+
+            ['image', Note::class, '{
+                                    "type": "Imag",
+                                    "name": "Note image",
+                                    "url": "http://example.org/note.png"
+                                   }'  		                                ], # Set image as a bad type
+            ['image', Note::class, '[
+                                    {
+                                      "type": "Imag",
+                                      "summary": "Note image",
+                                      "url": "http://example.org/note1.png"
+                                    },
+                                    {
+                                      "type": "Image",
+                                      "summary": "A cat",
+                                      "url": "http://example.org/note2.png"
+                                    }
+                                  ]'  		                                ], # Set image as an array of Image's (bad type)
+            ['image', Note::class, '{
+                                            "type": "Link"
+                                        }'  		                        ], # Set image as Link (malformed)
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id

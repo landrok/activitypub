@@ -27,6 +27,8 @@ class IconValidator implements ValidatorInterface
      * @param string $item
      * @param mixed  $container An object
      * @return bool
+     * @todo Support Image objects and Link objects
+     * @todo Implement size checks
      */
     public function validate($item, $container)
     {

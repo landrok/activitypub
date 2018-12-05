@@ -180,7 +180,18 @@ class ObjectType extends AbstractObject
     protected $icon;
 
     /**
-     * @var string|null
+     * An entity that describes an image for this object.
+     * Unlike the icon property, there are no aspect ratio 
+     * or display size limitations assumed.  
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-image-term
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Image
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Image[]
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $image;
 
