@@ -156,6 +156,8 @@ class ObjectType extends AbstractObject
     protected $endTime;
 
     /**
+     * The entity (e.g. an application) that generated the object. 
+     * 
      * @var string|null
      */
     protected $generator;

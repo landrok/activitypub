@@ -285,6 +285,12 @@ class AttributeFormatValidationTest extends TestCase
             ['height', Link::class, 42 		                                ], # Set height
             
             ['href', Link::class, "http://example.org/generator"            ], # Set href
+            
+            ['hreflang', Link::class, "i-navajo"                            ], # Set hreflang irregular
+            ['hreflang', Link::class, "en-GB"                               ], # Set hreflang lang+region
+            ['hreflang', Link::class, "fr"                                  ], # Set hreflang lang
+            ['hreflang', Link::class, "mn-Cyrl-MN"                          ], # Set hreflang case
+            ['hreflang', Link::class, "mN-cYrL-Mn"                          ], # Set hreflang icase
 
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
@@ -604,7 +610,9 @@ class AttributeFormatValidationTest extends TestCase
             ['href', ObjectType::class, "http://example.org/generator"      ], # Set href on a bad type
             ['href', Link::class, "htp://example.org/generator"             ], # Set href with a bad URL
             ['href', Link::class, new Activity()                            ], # Set href with a bad type
-            
+
+            ['hreflang', Link::class, "i-navajoK"                           ], # Set hreflang bad irregular
+            ['hreflang', Activity::class, "en-GB"                           ], # Set hreflang on a bad type
             
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
