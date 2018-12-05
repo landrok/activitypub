@@ -243,12 +243,25 @@ class ObjectType extends AbstractObject
     protected $startTime;
 
     /**
-     * @var string|null
+     * A natural language summarization of the object encoded as HTML.
+     * Multiple language tagged summaries MAY be provided. 
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-summary
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
      */
     protected $summary;
 
     /**
-     * @var string|null
+     * The content MAY be expressed using multiple language-tagged 
+     * values.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-summary
+     * 
+     * @var array|null
      */
     protected $summaryMap;
 

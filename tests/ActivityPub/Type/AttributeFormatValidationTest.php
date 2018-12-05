@@ -328,7 +328,7 @@ class AttributeFormatValidationTest extends TestCase
                                      "es": "Una <em>nota</em> sencilla",
                                      "zh-Hans": "一段<em>简单的</em>笔记"
                                     }'                                 ], # Set summaryMap as a map
-
+['width', Link::class, 42                                              ], # Set width
 
 ['id', ObjectType::class, "http://sally.example.org"                   ], # Set an id
 		];
@@ -685,6 +685,11 @@ class AttributeFormatValidationTest extends TestCase
                               "zh-Hans": "一段<em>简单的</em>笔记"
                              }'                                        ], # Set summaryMap on a bad type
 ['summaryMap', Note::class, 'A simple <em>note</em>'                   ], # Set summaryMap on a bad type
+
+['width', ObjectType::class, 42                                        ], # Set width on a bad type
+['width', Link::class, 42.5                                            ], # Set width with a bad type
+['width', Link::class, 'cat'                                           ], # Set width with a bad type
+['width', Link::class, -42                                             ], # Set width with an out of range value
 
 ['id', ObjectType::class, '1'                                          ], # Set a number as id   (should pass @todo type resolver)
 ['id', ObjectType::class, []                                           ], # Set an array as id

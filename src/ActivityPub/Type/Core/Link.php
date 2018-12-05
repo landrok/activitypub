@@ -44,12 +44,19 @@ class Link extends AbstractObject
     /**
      * The target resource pointed to by a Link. 
      * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-href
+     * 
      * @var null|string
      */
     protected $href;
 
     /**
-     * @var string
+     * Hints as to the language used by the target resource.
+     * Value MUST be a BCP47 Language-Tag. 
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-hreflang
+     * 
+     * @var null|string
      */
     protected $hreflang;
 
@@ -67,12 +74,16 @@ class Link extends AbstractObject
      * Specifies a hint as to the rendering height 
      * in device-independentpixels of the linked resource
      * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-height
+     * 
      * @var null|int A non negative integer
      */
     protected $height;
 
     /**
      * An entity that provides a preview of this link. 
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-preview
      * 
      * @var string
      *    | null
@@ -82,7 +93,12 @@ class Link extends AbstractObject
     protected $preview;
 
     /**
-     * @var string
+     * On a Link, specifies a hint as to the rendering width in 
+     * device-independent pixels of the linked resource.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-width
+     * 
+     * @var null|int A non negative integer
      */
     protected $width;
 }
