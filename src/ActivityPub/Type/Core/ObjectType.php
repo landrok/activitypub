@@ -196,7 +196,17 @@ class ObjectType extends AbstractObject
     protected $image;
 
     /**
-     * @var string|null
+     * One or more entities for which this object is considered a 
+     * response.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-inreplyto
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $inReplyTo;
 
@@ -207,6 +217,8 @@ class ObjectType extends AbstractObject
 
     /**
      * An entity that provides a preview of this object. 
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-preview
      * 
      * @var string
      *    | null
