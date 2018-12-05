@@ -345,6 +345,10 @@ class AttributeFormatValidationTest extends TestCase
             ['inbox', Person::class, new OrderedCollection()                ], # Set inbox as an OrderedCollection
             ['inbox', Application::class, new OrderedCollectionPage()       ], # Set inbox as an OrderedCollectionPage
 
+
+            ['outbox', Person::class, new OrderedCollection()                ], # Set outbox as an OrderedCollection
+            ['outbox', Application::class, new OrderedCollectionPage()       ], # Set outbox as an OrderedCollectionPage
+
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
 	}
@@ -719,6 +723,10 @@ class AttributeFormatValidationTest extends TestCase
             ['inbox', Activity::class, new OrderedCollection()              ], # Set inbox on a bad type (Activity)
             ['inbox', Application::class, new CollectionPage()              ], # Set inbox as a bad type (Must be an ordered Type)
             ['inbox', Application::class, 'string'                          ], # Set inbox as a bad type (Must be a valid object)
+
+            ['outbox', Activity::class, new OrderedCollection()              ], # Set outbox on a bad type (Activity)
+            ['outbox', Application::class, new CollectionPage()              ], # Set outbox as a bad type (Must be an ordered Type)
+            ['outbox', Application::class, 'string'                          ], # Set outbox as a bad type (Must be a valid object)
 
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id

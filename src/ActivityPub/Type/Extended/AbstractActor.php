@@ -37,7 +37,9 @@ abstract class AbstractActor extends ObjectType
      * 
      * @see https://www.w3.org/TR/activitypub/#outbox
      * 
-     * @var string
+     * @var null
+     *    | \ActivityPub\Type\Core\OrderedCollection
+     *    | \ActivityPub\Type\Core\OrderedCollectionPage
      */
     protected $outbox;
 
