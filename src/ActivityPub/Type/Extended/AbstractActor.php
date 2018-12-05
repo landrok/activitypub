@@ -25,7 +25,9 @@ abstract class AbstractActor extends ObjectType
      * 
      * @see https://www.w3.org/TR/activitypub/#inbox
      * 
-     * @var string
+     * @var null
+     *    | \ActivityPub\Type\Core\OrderedCollection
+     *    | \ActivityPub\Type\Core\OrderedCollectionPage
      */
     protected $inbox;
 

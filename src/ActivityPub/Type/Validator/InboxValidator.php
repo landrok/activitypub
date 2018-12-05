@@ -11,20 +11,20 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\Core\Collection;
 use ActivityPub\Type\Core\OrderedCollection;
+use ActivityPub\Type\Core\OrderedCollectionPage;
 use ActivityPub\Type\Extended\AbstractActor;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
 /**
- * \ActivityPub\Type\Validator\FollowersValidator is a dedicated
- * validator for followers attribute.
+ * \ActivityPub\Type\Validator\InboxValidator is a dedicated
+ * validator for inbox attribute.
  */
-class FollowersValidator implements ValidatorInterface
+class InboxValidator implements ValidatorInterface
 {
     /**
-     * Validate a FOLLOWERS attribute value
+     * Validate a inbox attribute value
      * 
      * @param object $value
      * @param mixed  $container
@@ -36,14 +36,14 @@ class FollowersValidator implements ValidatorInterface
         // Validate that container is an AbstractActor type
         Util::subclassOf($container, AbstractActor::class, true);
 
-        // A collection
+        // An OrderedCollection
         return is_object($value)
             ? $this->validateObject($value)
             : false;
     }
 
     /**
-     * Validate that it is an OrderedCollection or a Collection
+     * Validate that it is an OrderedCollection
      * 
      * @param object $collection
      * @return bool
@@ -51,11 +51,11 @@ class FollowersValidator implements ValidatorInterface
     protected function validateObject($collection)
     {
         return Util::subclassOf(
-                $collection,
-                OrderedCollection::class
+            $collection,
+            OrderedCollection::class
         ) || Util::subclassOf(
-                $collection,
-                Collection::class
+            $collection,
+            OrderedCollectionPage::class
         );
     }
 }
