@@ -21,7 +21,7 @@ use ActivityPub\Type\Core\ObjectType;
  * be used in Collections to signify that there used to be an object at 
  * this position, but it has been deleted.
  *
- * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-deleted
+ * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-tombstone
  */ 
 class Tombstone extends ObjectType
 {
@@ -33,14 +33,18 @@ class Tombstone extends ObjectType
     /**
      * The type of the object that was deleted. 
      * 
-     * @var \ActivityPub\Type\Core\ObjectType
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-formertype
+     * 
+     * @var null|string
      */
     protected $formerType;
 
     /**
      * A timestamp for when the object was deleted. 
      * 
-     * @var \DateTime
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-deleted
+     * 
+     * @var null|string xsd:dateTime formatted
      */
     protected $deleted;
 }

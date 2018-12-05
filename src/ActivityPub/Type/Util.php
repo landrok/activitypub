@@ -27,9 +27,8 @@ abstract class Util
      * @var array
      */
     protected static $coreTypes = [
-        'Activity', 'Collection',
-        'CollectionPage', 'IntransitiveActivity',
-        'Link', 'ObjectType',
+        'Activity', 'Collection', 'CollectionPage', 
+        'IntransitiveActivity', 'Link', 'ObjectType',
         'OrderedCollection', 'OrderedCollectionPage'
     ];
 
@@ -48,11 +47,12 @@ abstract class Util
      * @var array
      */
     protected static $activityTypes = [
-        'Accept', 'Add', 'Announce', 'Arrive',
-        'Block', 'Create', 'Delete', 'Dislike', 'Flag', 'Follow', 'Ignore', 'Invite',
-        'Join', 'Leave', 'Like', 'Listen', 'Move',  'Offer',
-        'Question', 'Read', 'Reject', 'Remove', 'TentativeAccept', 'TentativeReject',
-        'Travel', 'Undo', 'Update', 'View', 
+        'Accept', 'Add', 'Announce', 'Arrive', 'Block', 
+        'Create', 'Delete', 'Dislike', 'Flag', 'Follow',
+        'Ignore', 'Invite', 'Join', 'Leave', 'Like', 'Listen',
+        'Move',  'Offer', 'Question', 'Read', 'Reject', 'Remove', 
+        'TentativeAccept', 'TentativeReject', 'Travel', 'Undo', 
+        'Update', 'View', 
     ];
 
     /**
@@ -61,8 +61,9 @@ abstract class Util
      * @var array
      */
     protected static $objectTypes = [
-        'Article', 'Audio', 'Document', 'Event', 'Image', 'Mention', 'Note', 
-        'Page', 'Place', 'Profile', 'Relationship', 'Tombstone', 'Video',
+        'Article', 'Audio', 'Document', 'Event', 'Image', 
+        'Mention', 'Note', 'Page', 'Place', 'Profile', 
+        'Relationship', 'Tombstone', 'Video',
     ];
 
     /**
@@ -219,8 +220,6 @@ abstract class Util
             return true;
         } catch(Exception $e) {
         }
-
-        return false;
     }
 
     /**
@@ -249,8 +248,6 @@ abstract class Util
                 )
             );
         }
-
-        return false;
     }
 
     /**
@@ -278,8 +275,6 @@ abstract class Util
                 )
             );
         }
-
-        return false;
     }
 
     /**

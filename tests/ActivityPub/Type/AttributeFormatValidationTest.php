@@ -292,6 +292,34 @@ class AttributeFormatValidationTest extends TestCase
             ['hreflang', Link::class, "mn-Cyrl-MN"                          ], # Set hreflang case
             ['hreflang', Link::class, "mN-cYrL-Mn"                          ], # Set hreflang icase
 
+            ['icon', Note::class, '{
+                                    "type": "Image",
+                                    "name": "Note icon",
+                                    "url": "http://example.org/note.png",
+                                    "width": 16,
+                                    "height": 16
+                                   }'  		                                ], # Set icon as  an Image
+            ['icon', Note::class, '[
+                                    {
+                                      "type": "Image",
+                                      "summary": "Note (16x16)",
+                                      "url": "http://example.org/note1.png",
+                                      "width": 16,
+                                      "height": 16
+                                    },
+                                    {
+                                      "type": "Image",
+                                      "summary": "Note (32x32)",
+                                      "url": "http://example.org/note2.png",
+                                      "width": 32,
+                                      "height": 32
+                                    }
+                                  ]'  		                                ], # Set icon as an array of Image's
+            ['icon', Note::class, '{
+                                            "type": "Link",
+                                            "href": "http://example.org/icon"
+                                        }'  		                        ], # Set icon as Link
+
 			['id', ObjectType::class, "http://sally.example.org"			], # Set an id
 		];
 	}
@@ -613,7 +641,35 @@ class AttributeFormatValidationTest extends TestCase
 
             ['hreflang', Link::class, "i-navajoK"                           ], # Set hreflang bad irregular
             ['hreflang', Activity::class, "en-GB"                           ], # Set hreflang on a bad type
-            
+
+
+            ['icon', Note::class, '{
+                                    "type": "Imag",
+                                    "name": "Note icon",
+                                    "url": "http://example.org/note.png",
+                                    "width": 16,
+                                    "height": 16
+                                   }'  		                                ], # Set icon as a bad type
+            ['icon', Note::class, '[
+                                    {
+                                      "type": "Imag",
+                                      "summary": "Note (16x16)",
+                                      "url": "http://example.org/note1.png",
+                                      "width": 16,
+                                      "height": 16
+                                    },
+                                    {
+                                      "type": "Image",
+                                      "summary": "Note (32x32)",
+                                      "url": "http://example.org/note2.png",
+                                      "width": 32,
+                                      "height": 32
+                                    }
+                                  ]'  		                                ], # Set icon as an array of Image's
+            ['icon', Note::class, '{
+                                            "type": "Link"
+                                        }'  		                        ], # Set icon as Link
+
 			['id', ObjectType::class, '1'								    ], # Set a number as id   (should pass @todo type resolver)
 			['id', ObjectType::class, []							    	], # Set an array as id
 		];

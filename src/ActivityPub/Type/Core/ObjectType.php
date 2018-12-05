@@ -163,7 +163,19 @@ class ObjectType extends AbstractObject
     protected $generator;
 
     /**
-     * @var string|null
+     * An entity that describes an icon for this object. 
+     * The image should have an aspect ratio of one (horizontal) 
+     * to one (vertical) and should be suitable for presentation 
+     * at a small size. 
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-icon
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Image
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Image[]
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $icon;
 
