@@ -320,6 +320,8 @@ class AttributeFormatValidationTest extends TestCase
 
 ['latitude', Place::class, 42                                          ], # Set latitude as an integer
 ['latitude', Place::class, -42.6                                       ], # Set latitude as a float number
+['longitude', Place::class, 92                                         ], # Set longitude as an integer
+['longitude', Place::class, -92.6                                      ], # Set longitude as a float number
 
 ['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
 ['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
@@ -682,6 +684,10 @@ class AttributeFormatValidationTest extends TestCase
 ['latitude', Place::class, -142                                        ], # Set latitude as an out of range value
 ['latitude', Place::class, 'Bad Type'                                  ], # Set latitude as a bad type
 ['latitude', ObjectType::class, 42                                     ], # Set latitude on a bad type
+
+['longitude', Place::class, -182                                       ], # Set longitude as an out of range value
+['longitude', Place::class, 'Bad Type'                                 ], # Set longitude as a bad type
+['longitude', ObjectType::class, 42                                    ], # Set longitude on a bad type
 
 ['outbox', Activity::class, new OrderedCollection()                    ], # Set outbox on a bad type (Activity)
 ['outbox', Application::class, new CollectionPage()                    ], # Set outbox as a bad type (Must be an ordered Type)

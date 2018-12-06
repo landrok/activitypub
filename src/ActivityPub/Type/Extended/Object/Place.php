@@ -50,13 +50,15 @@ class Place extends ObjectType
     protected $altitude;
 
     /**
-     *  The latitude of a place 
+     * The latitude of a place.
      * 
      * @var float|int|null
      */
     protected $latitude;
 
     /**
+     * The longitude of a place.
+     * 
      * @var float|int|null
      */
     protected $longitude;
