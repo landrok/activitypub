@@ -44,4 +44,26 @@ class UtilTest extends TestCase
             Util::isDuration('MALFORMED')
         );
 	}
+
+    /**
+     * Test between() method.
+     */
+    public function testBetween()
+    {
+        // tests true
+        $this->assertEquals(true, Util::between(0, 0, 20));
+        $this->assertEquals(true, Util::between(10.5, 10, null));
+        $this->assertEquals(true, Util::between(10, null, 10));
+        $this->assertEquals(true, Util::between(15, 15, null));
+        $this->assertEquals(true, Util::between(-9.6, -10, 10));
+
+        // tests false
+        $this->assertEquals(false, Util::between(0, 10, 20));
+        $this->assertEquals(false, Util::between(0, 10, null));
+        $this->assertEquals(false, Util::between(15, null, 10));
+        $this->assertEquals(false, Util::between(15, null, null));
+        $this->assertEquals(false, Util::between("Hello", -10, 10));
+	}
+
+
 }
