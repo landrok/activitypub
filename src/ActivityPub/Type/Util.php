@@ -251,6 +251,36 @@ abstract class Util
     }
 
     /**
+     * Checks that a numeric value is part of a range.
+     * If a minimal value is null, value has to be inferior to max value
+     * If a maximum value is null, value has to be superior to min value
+     * 
+     * @param int|float $value
+     * @param null|int|float $min
+     * @param null|int|float $max
+     * @return bool
+     */
+    public static function between($value, $min, $max)
+    {
+        if (!is_numeric($value)) {
+            return false;
+        }
+
+        switch (true) {
+            case is_null($min) && is_null($max):
+                return false;
+            case is_null($min):
+                return $value <= $max;
+            case is_null($max):
+                return $value >= $min;
+            default:
+                return $value >= $min
+                    && $value <= $max;
+        }
+    }
+            
+
+    /**
      * Check that a given string is a valid XML Schema xsd:duration
      * 
      * @param string $duration

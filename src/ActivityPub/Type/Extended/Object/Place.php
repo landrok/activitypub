@@ -40,17 +40,24 @@ class Place extends ObjectType
     protected $accuracy;
 
     /**
+     * The altitude of a place. 
+     * The measurement units is indicated using the units property.
+     * If units is not specified, the default is assumed to be "m" 
+     * indicating meters.
+     *  
      * @var float|null
      */
     protected $altitude;
 
     /**
-     * @var float|null
+     *  The latitude of a place 
+     * 
+     * @var float|int|null
      */
     protected $latitude;
 
     /**
-     * @var float|null
+     * @var float|int|null
      */
     protected $longitude;
 
