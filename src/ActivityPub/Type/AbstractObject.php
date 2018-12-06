@@ -22,39 +22,6 @@ use Exception;
 abstract class AbstractObject
 {
     /**
-     * Magical isset method
-     * 
-     * @param string $name
-     * @return bool
-     */
-    public function __isset($name)
-    {
-        return property_exists($this, $name);
-    }
-
-    /**
-     * Magical setter method
-     * 
-     * @param string $name
-     * @param mixed  $value
-     */
-    public function __set($name, $value)
-    {
-        $this->set($name, $value);
-    }
-
-    /**
-     * Magical getter method
-     * 
-     * @param string $name
-     * @return mixed
-     */
-    public function __get($name)
-    {
-        return $this->get($name);
-    }
-
-    /**
      * Standard setter method
      * - Perform content validation if a validator exists
      * 
@@ -85,9 +52,30 @@ abstract class AbstractObject
      */
     public function get($name)
     {
-        if (property_exists($this, $name)) {
+        if ($this->has($name)) {
             return $this->{$name};
         }
+    }
+
+    /**
+     * Checks that property exists
+     * 
+     * @param string $name
+     * @return bool
+     */
+    public function has($name)
+    {
+        if (property_exists($this, $name)) {
+            return true;
+        }
+        
+        throw new Exception(
+            sprintf(
+                'Property "%s" is not defined for class "%s"',
+                $name,
+                self::class
+            )
+        );
     }
 
     /**
@@ -99,6 +87,78 @@ abstract class AbstractObject
     {
         return array_keys(
             get_object_vars($this)
+        );
+    }
+
+    /**
+     * Magical isset method
+     * 
+     * @param string $name
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return property_exists($this, $name);
+    }
+
+    /**
+     * Magical setter method
+     * 
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function __set($name, $value)
+    {
+        $this->has($name);
+        $this->set($name, $value);
+    }
+
+    /**
+     * Magical getter method
+     * 
+     * @param string $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+
+    /**
+     * Overloading methods
+     * 
+     * @param  string $name
+     * @param  array  $arguments
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        // Getters
+        if (strpos($name, 'get') === 0) {
+            $attr = lcfirst(substr($name, 3));
+            return $this->get($attr);
+        }
+
+        // Setters
+        if (strpos($name, 'set') === 0) {
+            if (count($arguments) == 1) {
+                $attr = lcfirst(substr($name, 3));
+                return $this->set($attr, $arguments[0]);
+            } else {
+                throw new Exception(
+                    sprintf(
+                        'Expected exactly one argument for method "%s()"',
+                        $name
+                    )
+                );
+            }
+        }
+
+        throw new Exception(
+            sprintf(
+                'Method "%s" is not defined',
+                $name
+            )
         );
     }
 }

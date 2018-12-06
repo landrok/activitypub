@@ -25,8 +25,8 @@ Table of contents
 - [Install](#install)
 - [Requirements](#requirements)
 - [Features](#features)
-    - [Core Types](#core-types)
-    - [Extended Types](#extended-types)
+    - [ActivityStreams Core Types](#activitystreams-core-types)
+    - [ActivityStreams Extended Types](#activitystreams-extended-types)
 - [Usage](#usage)
 
 ________________________________________________________________________
@@ -47,8 +47,8 @@ composer require landrok/activitypub
 
 ________________________________________________________________________
 
-ActivityPub Core Types
-----------------------
+ActivityStreams Core Types
+--------------------------
 
 All core types are provided:
 
@@ -64,8 +64,8 @@ use ActivityPub\Type\Core\OrderedCollectionPage;
 ```
 ________________________________________________________________________
 
-ActivityPub Extended Types
---------------------------
+ActivityStreams Extended Types
+------------------------------
 
 All extended types are provided:
 
@@ -164,7 +164,45 @@ $note = new MyNote();
 $note->id = 'https://example.com/custom-notes/1';
 $note->myProperty = 'Custom Value';
 ```
-Extending types preserves benefits of property validators.
+
+There are 3 equivalent ways for setting a property:
+
+```php
+
+$note = new Note();
+
+$note->id = 'https://example.com/custom-notes/1';
+$note->set('id', 'https://example.com/custom-notes/1');
+$note->setId('https://example.com/custom-notes/1');
+
+```
+
+There are 3 equivalent ways for getting a property:
+
+```php
+
+$note = new Note();
+
+// each method returns same value
+echo $note->id;
+echo $note->get('id');
+echo $note->getId();
+
+```
+
+You can check that a property is defined with `has()` method:
+
+```php
+
+$note = new Note();
+
+echo $note->has('id'); // Returns true
+```
+
+Extending types preserves benefits of getters, setters and 
+their validators.
+
+________________________________________________________________________
 
 ### Add custom validators for objects attributes
 
@@ -181,17 +219,18 @@ You can easily cope with that implementing a custom validator using
 `Validator`.
 
 ```php
+
 use ActivityPub\Type\ValidatorInterface;
 use ActivityPub\Type\Validator;
 
 // Create a custom validator that implements ValidatorInterface
 class MyPropertyValidator implements ValidatorInterface
 {
-	// A public validate() method is mandatory
-	public function validate($value, $container)
-	{
-		return true;
-	}
+    // A public validate() method is mandatory
+    public function validate($value, $container)
+    {
+        return true;
+    }
 }
 
 // Attach this custom validator to a property

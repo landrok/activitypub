@@ -135,16 +135,6 @@ class TypesTypeAttributeTest extends TestCase
 		$object = new $type();
 		$this->assertEquals($value, $object->{$attr});
 	}
-	
-	/**
-	 * Quick test for a special setter
-	 */
-	public function testObjectSetterGetter()
-	{	
-		$object = new ObjectType();
-		$object->{'@mention'} = 1;
-		$this->assertEquals(1, $object->{'@mention'});
-	}
 
 	/**
 	 * tests getAttributes() method
