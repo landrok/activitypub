@@ -326,6 +326,9 @@ class AttributeFormatValidationTest extends TestCase
 ['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
 ['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
 
+['rel', Link::class, ["canonical", "preview"]                          ], # Set rel as an array
+['rel', Link::class, "alternate"                                       ], # Set rel as a string
+
 ['summary', Application::class, 'A simple <em>note</em>'               ], # Set summary as a string
 ['summaryMap', Application::class, '{
                                      "en": "A simple <em>note</em>",
@@ -692,6 +695,13 @@ class AttributeFormatValidationTest extends TestCase
 ['outbox', Activity::class, new OrderedCollection()                    ], # Set outbox on a bad type (Activity)
 ['outbox', Application::class, new CollectionPage()                    ], # Set outbox as a bad type (Must be an ordered Type)
 ['outbox', Application::class, 'string'                                ], # Set outbox as a bad type (Must be a valid object)
+
+['rel', Video::class, ["canonical", "preview"]                         ], # Set rel on a bad type
+['rel', Link::class, new Note()                                        ], # Set rel as a bad type
+['rel', Link::class, "hello "                                          ], # Set rel as an illegal chain " "
+['rel', Link::class, "hello,"                                          ], # Set rel as an illegal chain ,
+['rel', Link::class, "hello\n"                                         ], # Set rel as an illegal chain \n
+['rel', Link::class, "hello\r"                                         ], # Set rel as an illegal chain \r
 
 ['summary', Link::class, 'A simple <em>note</em>'                      ], # Set summary on a bad type
 ['summary', ObjectType::class, new Note()                              ], # Set summary as a bad type

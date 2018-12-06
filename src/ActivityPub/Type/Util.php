@@ -83,6 +83,20 @@ abstract class Util
     }
 
     /**
+     * Validate a rel attribute value.
+     * 
+     * @see https://tools.ietf.org/html/rfc5988
+     * 
+     * @param  string $value
+     * @return bool
+     */
+    public static function validateRel($value)
+    {
+        return is_string($value)
+            && preg_match("/^[^\s\r\n\,]+\z/i", $value);
+    }
+
+    /**
      * Validate an Object type
      * 
      * @param  object $item

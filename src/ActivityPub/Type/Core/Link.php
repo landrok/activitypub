@@ -66,7 +66,13 @@ class Link extends AbstractObject
     protected $mediaType;
 
     /**
-     * @var string
+     * A link relation associated with a Link.
+     * The value MUST conform to both the HTML5
+     * and RFC5988 "link relation" definitions.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-rel
+     * 
+     * @var null|string|array
      */
     protected $rel;
 
