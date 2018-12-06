@@ -21,68 +21,68 @@ use Exception;
  */ 
 abstract class AbstractObject
 {
-	/**
-	 * Magical isset method
-	 * 
-	 * @param string $name
-	 * @return bool
-	 */
+    /**
+     * Magical isset method
+     * 
+     * @param string $name
+     * @return bool
+     */
     public function __isset($name)
     {
         return property_exists($this, $name);
     }
 
-	/**
-	 * Magical setter method
-	 * 
-	 * @param string $name
-	 * @param mixed  $value
-	 */
+    /**
+     * Magical setter method
+     * 
+     * @param string $name
+     * @param mixed  $value
+     */
     public function __set($name, $value)
     {
-		$this->set($name, $value);
+        $this->set($name, $value);
     }
 
-	/**
-	 * Magical getter method
-	 * 
-	 * @param string $name
-	 * @return mixed
-	 */
+    /**
+     * Magical getter method
+     * 
+     * @param string $name
+     * @return mixed
+     */
     public function __get($name)
     {
         return $this->get($name);
     }
 
-	/**
-	 * Standard setter method
-	 * - Perform content validation if a validator exists
-	 * 
-	 * @param string $name
-	 * @param mixed  $value
-	 * @return $this
-	 */
+    /**
+     * Standard setter method
+     * - Perform content validation if a validator exists
+     * 
+     * @param string $name
+     * @param mixed  $value
+     * @return $this
+     */
 	public function set($name, $value)
     {
-		// Is there any validators
-		if (!Validator::validate($name, $value, $this)) {
-			throw new Exception(
-				"Rejected value. Attribute={$name}, value="
-				. print_r($value, true)
-			);
-		}
+        // Is there any validators
+        if (!Validator::validate($name, $value, $this)) {
+        	throw new Exception(
+                "Rejected value. Attribute={$name}, value="
+                . print_r($value, true)
+        	);
+        }
 
         $this->{$name} = $value;
 
         return $this;
     }
 
-	/**
-	 * Standard getter method
-	 * 
-	 * @param string $name
-	 * @return mixed
-	 */
+    /**
+     * Standard getter method
+     * 
+     * @param string $name
+     * @return mixed
+     */
     public function get($name)
     {
         if (property_exists($this, $name)) {

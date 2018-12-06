@@ -74,7 +74,7 @@ abstract class Util
      */
     public static function validateUrl($value)
     {
-		return is_string($value)
+        return is_string($value)
             && filter_var($value, FILTER_VALIDATE_URL) !== false
             && in_array(
                 parse_url($value, PHP_URL_SCHEME),
@@ -106,11 +106,11 @@ abstract class Util
     {
         $json = json_decode($value);
 
-	    if (json_last_error() !== JSON_ERROR_NONE) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception(
                 'JSON decoding failed for string: ' . $value
             );
-	    }
+        }
 
         return $json;
     }

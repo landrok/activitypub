@@ -30,12 +30,12 @@ class IntransitiveActivity extends Activity
      */
     protected $type = 'IntransitiveActivity';
 
-	/**
-	 * Instanciate
-	 */
-	public function __construct()
-	{
-		// Inherits all properties from Activity except object.
-		unset($this->object);
-	}
+    /**
+     * Instanciate
+     */
+    public function __construct()
+    {
+        // Inherits all properties from Activity except object.
+        unset($this->object);
+    }
 }

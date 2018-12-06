@@ -64,6 +64,4 @@ class UtilTest extends TestCase
         $this->assertEquals(false, Util::between(15, null, null));
         $this->assertEquals(false, Util::between("Hello", -10, 10));
 	}
-
-
 }

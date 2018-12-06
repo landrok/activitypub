@@ -22,7 +22,7 @@ use ActivityPub\Type\ValidatorInterface;
 class LongitudeValidator implements ValidatorInterface
 {
     /**
-     * Validate a latitude attribute value
+     * Validate a longitude value
      * 
      * @param mixed  $value
      * @param mixed  $container An object
