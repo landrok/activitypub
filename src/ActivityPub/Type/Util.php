@@ -97,6 +97,19 @@ abstract class Util
     }
 
     /**
+     * Validate a non negative integer.
+     * 
+     * @param  int $value
+     * @return bool
+     */
+    public static function validateNonNegativeInteger($value)
+    {
+        if (is_int($value) && $value >= 0) {
+            return true;
+        }
+    }
+
+    /**
      * Validate an Object type
      * 
      * @param  object $item

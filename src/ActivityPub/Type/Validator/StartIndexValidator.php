@@ -11,29 +11,29 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\Core\Link;
+use ActivityPub\Type\Core\OrderedCollectionPage;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
 /**
- * \ActivityPub\Type\Validator\HeightValidator is a dedicated
- * validator for height attribute.
+ * \ActivityPub\Type\Validator\StartIndexValidator is a dedicated
+ * validator for startIndex attribute.
  */
-class HeightValidator implements ValidatorInterface
+class StartIndexValidator implements ValidatorInterface
 {
     /**
-     * Validate height value
+     * Validate startIndex value
      * 
      * @param int    $value
-     * @param mixed  $container An object
+     * @param mixed  $container An OrderedCollectionPage
      * @return bool
      */
     public function validate($value, $container)
     {
-        // Validate that container is a Link
-        Util::subclassOf($container, Link::class, true);
+        // Container type is OrderedCollectionPage
+        Util::subclassOf($container, OrderedCollectionPage::class, true);
 
         // Must be a non negative integer
         return Util::validateNonNegativeInteger($value);
-    }
+    }    
 }

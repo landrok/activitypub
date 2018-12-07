@@ -334,6 +334,9 @@ class AttributeFormatValidationTest extends TestCase
 ['rel', Link::class, ["canonical", "preview"]                          ], # Set rel as an array
 ['rel', Link::class, "alternate"                                       ], # Set rel as a string
 
+['startIndex', OrderedCollectionPage::class, 0                         ], # Set startIndex as 0
+['startIndex', OrderedCollectionPage::class, 42                        ], # Set startIndex as 42
+
 ['startTime', ObjectType::class, '2016-05-10T00:00:00Z'                ], # Set startTime as a Datetime (UTC)
 ['startTime', ObjectType::class, '2015-01-31T06:00:00-08:00'           ], # Set startTime as a Datetime (TZ)
 
@@ -721,6 +724,10 @@ class AttributeFormatValidationTest extends TestCase
 ['rel', Link::class, "hello,"                                          ], # Set rel as an illegal chain ,
 ['rel', Link::class, "hello\n"                                         ], # Set rel as an illegal chain \n
 ['rel', Link::class, "hello\r"                                         ], # Set rel as an illegal chain \r
+
+['startIndex', ObjectType::class, 0                                    ], # Set startIndex on a bad type
+['startIndex', OrderedCollectionPage::class, 42.5                      ], # Set startIndex as a bad type
+['startIndex', OrderedCollectionPage::class, -41                       ], # Set startIndex as an out of range value
 
 ['startTime', ObjectType::class, '2016-05-10 00:00:00Z'                ], # Set startTime as a bad Datetime
 ['startTime', Link::class, '2016-05-10 00:00:00Z'                      ], # Set startTime on a bad type
