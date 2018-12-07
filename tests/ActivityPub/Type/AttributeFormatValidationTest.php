@@ -326,6 +326,8 @@ class AttributeFormatValidationTest extends TestCase
 ['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
 ['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
 
+['preferredUsername', Person::class, "My Name"                         ], # Set preferredUsername as a string
+
 ['published', ObjectType::class, '2016-05-10T00:00:00Z'                ], # Set published as a Datetime (UTC)
 ['published', ObjectType::class, '2015-01-31T06:00:00-08:00'           ], # Set published as a Datetime (TZ)
 
@@ -705,6 +707,9 @@ class AttributeFormatValidationTest extends TestCase
 ['outbox', Activity::class, new OrderedCollection()                    ], # Set outbox on a bad type (Activity)
 ['outbox', Application::class, new CollectionPage()                    ], # Set outbox as a bad type (Must be an ordered Type)
 ['outbox', Application::class, 'string'                                ], # Set outbox as a bad type (Must be a valid object)
+
+['preferredUsername', Activity::class, 'My name'                       ], # Set preferredUsername on a bad type (Activity)
+['preferredUsername', Application::class, new OrderedCollection()      ], # Set preferredUsername as a bad type (OrderedCollection)
 
 ['published', ObjectType::class, '2016-05-10 00:00:00Z'                ], # Set published as a bad Datetime
 ['published', Link::class, '2016-05-10 00:00:00Z'                      ], # Set published on a bad type

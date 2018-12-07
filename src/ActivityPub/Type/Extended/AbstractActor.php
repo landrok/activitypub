@@ -21,7 +21,7 @@ abstract class AbstractActor extends ObjectType
 {
     /**
      * A reference to an ActivityStreams OrderedCollection comprised of 
-     * all the messages received by the actor
+     * all the messages received by the actor.
      * 
      * @see https://www.w3.org/TR/activitypub/#inbox
      * 
@@ -33,7 +33,7 @@ abstract class AbstractActor extends ObjectType
 
     /**
      * A reference to an ActivityStreams OrderedCollection comprised of 
-     * all the messages produced by the actor
+     * all the messages produced by the actor.
      * 
      * @see https://www.w3.org/TR/activitypub/#outbox
      * 
@@ -45,7 +45,7 @@ abstract class AbstractActor extends ObjectType
 
     /**
      * A link to an ActivityStreams collection of the actors that this 
-     * actor is following
+     * actor is following.
      * 
      * @see https://www.w3.org/TR/activitypub/#following
      * 
@@ -55,7 +55,7 @@ abstract class AbstractActor extends ObjectType
 
     /**
      * A link to an ActivityStreams collection of the actors that 
-     * follow this actor
+     * follow this actor.
      * 
      * @see https://www.w3.org/TR/activitypub/#followers
      * 
@@ -65,7 +65,7 @@ abstract class AbstractActor extends ObjectType
 
     /**
      * A link to an ActivityStreams collection of objects this actor has 
-     * liked
+     * liked.
      * 
      * @see https://www.w3.org/TR/activitypub/#liked
      * 
@@ -82,9 +82,11 @@ abstract class AbstractActor extends ObjectType
 
     /**
      * A short username which may be used to refer to the actor, with no
-     * uniqueness guarantees.  
+     * uniqueness guarantees.
      * 
-     * @var string
+     * @see https://www.w3.org/TR/activitypub/#preferredUsername  
+     * 
+     * @var null|string
      */
     protected $preferredUsername;
 
