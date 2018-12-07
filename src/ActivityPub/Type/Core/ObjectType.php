@@ -283,7 +283,11 @@ class ObjectType extends AbstractObject
     protected $tag;
 
     /**
-     * @var string|null
+     * The date and time at which the object was updated  
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-updated
+     * 
+     * @var string|null xsd:dateTime
      */
     protected $updated;
 
