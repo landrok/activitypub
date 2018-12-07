@@ -228,7 +228,11 @@ class ObjectType extends AbstractObject
     protected $preview;
 
     /**
-     * @var string|null
+     * The date and time at which the object was published  
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-published
+     * 
+     * @var string|null xsd:dateTime
      */
     protected $published;
 

@@ -326,11 +326,14 @@ class AttributeFormatValidationTest extends TestCase
 ['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
 ['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
 
+['published', ObjectType::class, '2016-05-10T00:00:00Z'                ], # Set published as a Datetime (UTC)
+['published', ObjectType::class, '2015-01-31T06:00:00-08:00'           ], # Set published as a Datetime (TZ)
+
 ['rel', Link::class, ["canonical", "preview"]                          ], # Set rel as an array
 ['rel', Link::class, "alternate"                                       ], # Set rel as a string
 
-['startTime', ObjectType::class, '2016-05-10T00:00:00Z'                  ], # Set startTime as a Datetime (UTC)
-['startTime', ObjectType::class, '2015-01-31T06:00:00-08:00'             ], # Set startTime as a Datetime (TZ)
+['startTime', ObjectType::class, '2016-05-10T00:00:00Z'                ], # Set startTime as a Datetime (UTC)
+['startTime', ObjectType::class, '2015-01-31T06:00:00-08:00'           ], # Set startTime as a Datetime (TZ)
 
 ['summary', Application::class, 'A simple <em>note</em>'               ], # Set summary as a string
 ['summaryMap', Application::class, '{
@@ -699,6 +702,10 @@ class AttributeFormatValidationTest extends TestCase
 ['outbox', Application::class, new CollectionPage()                    ], # Set outbox as a bad type (Must be an ordered Type)
 ['outbox', Application::class, 'string'                                ], # Set outbox as a bad type (Must be a valid object)
 
+['published', ObjectType::class, '2016-05-10 00:00:00Z'                ], # Set published as a bad Datetime
+['published', Link::class, '2016-05-10 00:00:00Z'                      ], # Set published on a bad type
+['published', ObjectType::class, new ObjectType()                      ], # Set published as a bad type
+
 ['rel', Video::class, ["canonical", "preview"]                         ], # Set rel on a bad type
 ['rel', Link::class, new Note()                                        ], # Set rel as a bad type
 ['rel', Link::class, "hello "                                          ], # Set rel as an illegal chain " "
@@ -706,10 +713,9 @@ class AttributeFormatValidationTest extends TestCase
 ['rel', Link::class, "hello\n"                                         ], # Set rel as an illegal chain \n
 ['rel', Link::class, "hello\r"                                         ], # Set rel as an illegal chain \r
 
-
-['startTime', ObjectType::class, '2016-05-10 00:00:00Z'                  ], # Set startTime as a bad Datetime
-['startTime', Link::class, '2016-05-10 00:00:00Z'                        ], # Set startTime on a bad type
-['startTime', ObjectType::class, new ObjectType()                        ], # Set startTime as a bad type
+['startTime', ObjectType::class, '2016-05-10 00:00:00Z'                ], # Set startTime as a bad Datetime
+['startTime', Link::class, '2016-05-10 00:00:00Z'                      ], # Set startTime on a bad type
+['startTime', ObjectType::class, new ObjectType()                      ], # Set startTime as a bad type
 
 ['summary', Link::class, 'A simple <em>note</em>'                      ], # Set summary on a bad type
 ['summary', ObjectType::class, new Note()                              ], # Set summary as a bad type
