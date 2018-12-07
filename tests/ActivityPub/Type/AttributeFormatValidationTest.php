@@ -329,6 +329,9 @@ class AttributeFormatValidationTest extends TestCase
 ['rel', Link::class, ["canonical", "preview"]                          ], # Set rel as an array
 ['rel', Link::class, "alternate"                                       ], # Set rel as a string
 
+['startTime', ObjectType::class, '2016-05-10T00:00:00Z'                  ], # Set startTime as a Datetime (UTC)
+['startTime', ObjectType::class, '2015-01-31T06:00:00-08:00'             ], # Set startTime as a Datetime (TZ)
+
 ['summary', Application::class, 'A simple <em>note</em>'               ], # Set summary as a string
 ['summaryMap', Application::class, '{
                                      "en": "A simple <em>note</em>",
@@ -702,6 +705,11 @@ class AttributeFormatValidationTest extends TestCase
 ['rel', Link::class, "hello,"                                          ], # Set rel as an illegal chain ,
 ['rel', Link::class, "hello\n"                                         ], # Set rel as an illegal chain \n
 ['rel', Link::class, "hello\r"                                         ], # Set rel as an illegal chain \r
+
+
+['startTime', ObjectType::class, '2016-05-10 00:00:00Z'                  ], # Set startTime as a bad Datetime
+['startTime', Link::class, '2016-05-10 00:00:00Z'                        ], # Set startTime on a bad type
+['startTime', ObjectType::class, new ObjectType()                        ], # Set startTime as a bad type
 
 ['summary', Link::class, 'A simple <em>note</em>'                      ], # Set summary on a bad type
 ['summary', ObjectType::class, new Note()                              ], # Set summary as a bad type
