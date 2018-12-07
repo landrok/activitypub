@@ -67,6 +67,15 @@ abstract class Util
     ];
 
     /**
+     * Allowed units
+     * 
+     * @var string[]
+     */
+    protected static $units = [
+        'cm', 'feet', 'inches', 'km', 'm', 'miles'
+    ];
+
+    /**
      * Validate an URL
      * 
      * @param  string $value
@@ -106,6 +115,23 @@ abstract class Util
     {
         if (is_int($value) && $value >= 0) {
             return true;
+        }
+    }
+
+    /**
+     * Validate units format.
+     * 
+     * @param  string $value
+     * @return bool
+     */
+    public static function validateUnits($value)
+    {
+        if (is_string($value)) {
+            if (in_array($value, self::$units)
+                || self::validateUrl($value)
+            ) {
+                return true;
+            }
         }
     }
 

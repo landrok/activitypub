@@ -347,6 +347,9 @@ class AttributeFormatValidationTest extends TestCase
                                      "zh-Hans": "一段<em>简单的</em>笔记"
                                     }'                                 ], # Set summaryMap as a map
 
+['units', Place::class, 'miles'                                        ], # Set units as a basic units
+['units', Place::class, 'http://example.org/my-units'                  ], # Set units as a xsd:anyURI
+
 ['updated', ObjectType::class, '2016-05-10T00:00:00Z'                  ], # Set updated as a Datetime (UTC)
 ['updated', ObjectType::class, '2015-01-31T06:00:00-08:00'             ], # Set updated as a Datetime (TZ)
 
@@ -741,6 +744,10 @@ class AttributeFormatValidationTest extends TestCase
                               "zh-Hans": "一段<em>简单的</em>笔记"
                              }'                                        ], # Set summaryMap on a bad type
 ['summaryMap', Note::class, 'A simple <em>note</em>'                   ], # Set summaryMap on a bad type
+
+['units', Place::class, 'mile'                                         ], # Set units as a bad units
+['units', Place::class, 'htp://example.org/my-units'                   ], # Set units as a bad xsd:anyURI
+['units', ObjectType::class, 'miles'                                   ], # Set units on a bad type
 
 ['updated', ObjectType::class, '2016-05-10 00:00:00Z'                  ], # Set updated as a bad Datetime
 ['updated', Link::class, '2016-05-10 00:00:00Z'                        ], # Set updated on a bad type
