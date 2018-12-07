@@ -44,6 +44,8 @@ class Place extends ObjectType
      * The measurement units is indicated using the units property.
      * If units is not specified, the default is assumed to be "m" 
      * indicating meters.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-altitude
      *  
      * @var float|null
      */
@@ -52,6 +54,8 @@ class Place extends ObjectType
     /**
      * The latitude of a place.
      * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-latitude
+     * 
      * @var float|int|null
      */
     protected $latitude;
@@ -59,16 +63,31 @@ class Place extends ObjectType
     /**
      * The longitude of a place.
      * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-longitude
+     * 
      * @var float|int|null
      */
     protected $longitude;
 
     /**
-     * @var float|null
+     * The radius from the given latitude and longitude for a Place.
+     * The units is expressed by the units property.
+     * If units is not specified, the default is assumed to be "m" 
+     * indicating "meters".
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-radius
+     * 
+     * @var float|int|null
      */
     protected $radius;
 
     /**
+     * Specifies the measurement units for the radius and altitude 
+     * properties on a Place object.
+     * If not specified, the default is assumed to be "m" for "meters".
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-units
+     * 
      * "cm" | " feet" | " inches" | " km" | " m" | " miles" | xsd:anyURI
      *
      * @var string

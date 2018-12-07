@@ -119,6 +119,19 @@ abstract class Util
     }
 
     /**
+     * Validate a non negative number.
+     * 
+     * @param  int|float $value
+     * @return bool
+     */
+    public static function validateNonNegativeNumber($value)
+    {
+        if (is_numeric($value) && $value >= 0) {
+            return true;
+        }
+    }
+
+    /**
      * Validate units format.
      * 
      * @param  string $value

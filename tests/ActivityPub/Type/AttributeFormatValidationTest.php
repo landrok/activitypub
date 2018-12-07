@@ -331,6 +331,10 @@ class AttributeFormatValidationTest extends TestCase
 ['published', ObjectType::class, '2016-05-10T00:00:00Z'                ], # Set published as a Datetime (UTC)
 ['published', ObjectType::class, '2015-01-31T06:00:00-08:00'           ], # Set published as a Datetime (TZ)
 
+['radius', Place::class, 0                                             ], # Set radius as an integer
+['radius', Place::class, 42                                            ], # Set radius as an integer
+['radius', Place::class, 42.6                                          ], # Set radius as a float number
+
 ['rel', Link::class, ["canonical", "preview"]                          ], # Set rel as an array
 ['rel', Link::class, "alternate"                                       ], # Set rel as a string
 
@@ -720,6 +724,10 @@ class AttributeFormatValidationTest extends TestCase
 ['published', ObjectType::class, '2016-05-10 00:00:00Z'                ], # Set published as a bad Datetime
 ['published', Link::class, '2016-05-10 00:00:00Z'                      ], # Set published on a bad type
 ['published', ObjectType::class, new ObjectType()                      ], # Set published as a bad type
+
+['radius', Place::class, -182                                          ], # Set radius as an out of range value
+['radius', Place::class, 'Bad Type'                                    ], # Set radius as a bad type
+['radius', ObjectType::class, 42                                       ], # Set radius on a bad type
 
 ['rel', Video::class, ["canonical", "preview"]                         ], # Set rel on a bad type
 ['rel', Link::class, new Note()                                        ], # Set rel as a bad type
