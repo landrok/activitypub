@@ -360,6 +360,17 @@ class AttributeFormatValidationTest extends TestCase
 ['updated', ObjectType::class, '2016-05-10T00:00:00Z'                  ], # Set updated as a Datetime (UTC)
 ['updated', ObjectType::class, '2015-01-31T06:00:00-08:00'             ], # Set updated as a Datetime (TZ)
 
+['url', Note::class, '{
+                         "type": "Link",
+                         "href": "http://example.org/url"
+                      }'                                               ], # Set url as Link
+['url', Note::class, [[
+                         "type"=> "Link",
+                         "href"=> "http://example.org/url"
+                      ],
+                      "http://example.org/4q-sales-forecast.pdf"]      ], # Set url as an array of Link and URL
+['url', Document::class, 'http://example.org/4q-sales-forecast.pdf'    ], # Set url as a URL
+
 ['width', Link::class, 42                                              ], # Set width
 
 ['id', ObjectType::class, "http://sally.example.org"                   ], # Set an id
@@ -768,6 +779,21 @@ class AttributeFormatValidationTest extends TestCase
 ['updated', ObjectType::class, '2016-05-10 00:00:00Z'                  ], # Set updated as a bad Datetime
 ['updated', Link::class, '2016-05-10 00:00:00Z'                        ], # Set updated on a bad type
 ['updated', ObjectType::class, new ObjectType()                        ], # Set updated as a bad type
+
+['url', Link::class, 'http://example.org/4q-sales-forecast.pdf'        ], # Set url on a bad type
+['url', Note::class, '{
+                         "type": "Link"
+                      }'                                               ], # Set url as malformed Link
+['url', Note::class, '{
+                         "type": "Link",
+                         "href"=> "htp://example.org/url"
+                      }'                                               ], # Set url as malformed Link
+['url', Note::class, [[
+                         "type"=> "Link",
+                         "href"=> "http://example.org/url"
+                      ],
+                      "htp://example.org/4q-sales-forecast.pdf"]       ], # Set url as an array of Link and URL (malformed URL)
+['url', Document::class, 'http:/example.org/4q-sales-forecast.pdf'     ], # Set url as a malformed  URL
 
 ['width', ObjectType::class, 42                                        ], # Set width on a bad type
 ['width', Link::class, 42.5                                            ], # Set width with a bad type

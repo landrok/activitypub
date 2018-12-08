@@ -11,18 +11,18 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\Core\Link;
+use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
 /**
- * \ActivityPub\Type\Validator\RelValidator is a dedicated
- * validator for rel attribute.
+ * \ActivityPub\Type\Validator\UrlValidator is a dedicated
+ * validator for url attribute.
  */
-class RelValidator implements ValidatorInterface
+class UrlValidator implements ValidatorInterface
 {
     /**
-     * Validate rel value
+     * Validate url value
      * 
      * @param string|array $value
      * @param mixed  $container A Link
@@ -30,14 +30,14 @@ class RelValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-        // Validate that container is a Link
-        Util::subclassOf($container, Link::class, true);
+        // Validate that container is an ObjectType
+        Util::subclassOf($container, ObjectType::class, true);
 
-        // Must be a valid Rel
+        // Must be a valid URL
         if (is_array($value)) {
             foreach ($value as $key => $item) {
                 if (!is_int($key)
-                    || !Util::validateRel($item)) {
+                    || !$this->validateUrlOrLink($item)) {
                     return false;
                 }
             }
@@ -45,6 +45,18 @@ class RelValidator implements ValidatorInterface
             return true;
         }
 
-        return Util::validateRel($value);
+        return $this->validateUrlOrLink($value);
+    }
+
+    /**
+     * Validate that a value is a Link or an URL
+     * 
+     * @param string|\ActivityPub\Type\Core\Link
+     * @return bool
+     */
+    protected function validateUrlOrLink($value)
+    {
+        return Util::validateUrl($value)
+            || Util::validateLink($value);
     }
 }

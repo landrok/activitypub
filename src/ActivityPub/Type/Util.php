@@ -248,6 +248,10 @@ abstract class Util
             $item = self::decodeJson($item);
         }
 
+        if (is_array($item)) {
+            $item = (object)$item;
+        }
+
         if (!is_object($item)) {
             return false;
         }

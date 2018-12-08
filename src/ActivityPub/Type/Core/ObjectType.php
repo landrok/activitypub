@@ -292,7 +292,13 @@ class ObjectType extends AbstractObject
     protected $updated;
 
     /**
-     * @var string|null
+     * One or more links to representations of the object.
+     * 
+     * @var null
+     *    | string
+     *    | string[]
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $url;
 
