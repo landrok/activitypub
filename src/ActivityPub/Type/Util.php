@@ -121,10 +121,9 @@ abstract class Util
         }
 
         foreach ($map as $key => $value) {
-            if (!is_string($key) 
+            if (!self::validateBcp47($key) 
                 || !Validator::validate($type, $value, $container)
             ) {
-                
                 return false;
             }
         }
@@ -389,7 +388,6 @@ abstract class Util
     {
         try {
             new DateInterval($duration);
-
             return true;
         } catch(\Exception $e) {
         }
