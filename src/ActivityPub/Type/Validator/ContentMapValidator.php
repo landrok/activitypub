@@ -12,21 +12,19 @@
 namespace ActivityPub\Type\Validator;
 
 use ActivityPub\Type\Util;
-use ActivityPub\Type\Validator;
 use ActivityPub\Type\ValidatorInterface;
-use stdClass;
 
 /**
- * \ActivityPub\Type\Validator\ContentValidator is a dedicated
- * validator for content attribute.
+ * \ActivityPub\Type\Validator\ContentMapValidator is a dedicated
+ * validator for contentMap attribute.
  */
 class ContentMapValidator implements ValidatorInterface
 {
     /**
-     * Validate a contentMap attribute value
+     * Validate a contentMap value
      * 
      * @param string  $value
-     * @param mixed   $container A Question type
+     * @param mixed   $container
      * @return bool
      */
     public function validate($value, $container)
@@ -36,28 +34,6 @@ class ContentMapValidator implements ValidatorInterface
             $value = Util::decodeJson($value);
         }
 
-        // A map
-        if (is_object($value)) {
-            return $this->validateObject($value, $container);
-        }
-    }
-
-    /**
-     * Validate a list of key=>value strings
-     * 
-     * @param  object $map
-     * @return bool
-     */
-    protected function validateObject(stdClass $map, $container)
-    {
-        foreach ($map as $key => $value) {
-            if (!is_string($key) 
-                || !Validator::validate('content', $value, $container)
-            ) {
-                return false;
-            }
-        }
-
-        return true;
+        return Util::validateMap('content', $value, $container);
     }
 }

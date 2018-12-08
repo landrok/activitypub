@@ -12,9 +12,7 @@
 namespace ActivityPub\Type\Validator;
 
 use ActivityPub\Type\Util;
-use ActivityPub\Type\Validator;
 use ActivityPub\Type\ValidatorInterface;
-use stdClass;
 
 /**
  * \ActivityPub\Type\Validator\SummaryMapValidator is a dedicated
@@ -36,28 +34,6 @@ class SummaryMapValidator implements ValidatorInterface
             $value = Util::decodeJson($value);
         }
 
-        // A map
-        if (is_object($value)) {
-            return $this->validateObject($value, $container);
-        }
-    }
-
-    /**
-     * Validate a list of key=>value strings
-     * 
-     * @param  object $map
-     * @return bool
-     */
-    protected function validateObject(stdClass $map, $container)
-    {
-        foreach ($map as $key => $value) {
-            if (!is_string($key) 
-                || !Validator::validate('summary', $value, $container)
-            ) {
-                return false;
-            }
-        }
-
-        return true;
+        return Util::validateMap('summary', $value, $container);
     }
 }
