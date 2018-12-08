@@ -41,7 +41,7 @@ class RelValidator implements ValidatorInterface
                     return false;
                 }
             }
-            
+
             return true;
         }
 

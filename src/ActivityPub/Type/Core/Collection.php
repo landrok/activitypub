@@ -33,6 +33,13 @@ class Collection extends ObjectType
     protected $id;
 
     /**
+     * A non-negative integer specifying the total number of objects 
+     * contained by the logical view of the collection.
+     * This number might not reflect the actual number of items 
+     * serialized within the Collection object instance.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-totalitems
+     *
      * @var int
      */
     protected $totalItems;

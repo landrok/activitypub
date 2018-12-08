@@ -351,6 +351,9 @@ class AttributeFormatValidationTest extends TestCase
                                      "zh-Hans": "一段<em>简单的</em>笔记"
                                     }'                                 ], # Set summaryMap as a map
 
+['totalItems', Collection::class, 0                                    ], # Set totalItems as 0
+['totalItems', Collection::class, 42                                   ], # Set totalItems as 42
+
 ['units', Place::class, 'miles'                                        ], # Set units as a basic units
 ['units', Place::class, 'http://example.org/my-units'                  ], # Set units as a xsd:anyURI
 
@@ -743,6 +746,11 @@ class AttributeFormatValidationTest extends TestCase
 ['startTime', ObjectType::class, '2016-05-10 00:00:00Z'                ], # Set startTime as a bad Datetime
 ['startTime', Link::class, '2016-05-10 00:00:00Z'                      ], # Set startTime on a bad type
 ['startTime', ObjectType::class, new ObjectType()                      ], # Set startTime as a bad type
+
+['totalItems', ObjectType::class, 42                                   ], # Set totalItems on a bad type
+['totalItems', Collection::class, 42.5                                 ], # Set totalItems with a bad type
+['totalItems', Collection::class, 'cat'                                ], # Set totalItems with a bad type
+['totalItems', Collection::class, -42                                  ], # Set totalItems with an out of range value
 
 ['summary', Link::class, 'A simple <em>note</em>'                      ], # Set summary on a bad type
 ['summary', ObjectType::class, new Note()                              ], # Set summary as a bad type
