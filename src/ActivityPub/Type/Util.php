@@ -493,7 +493,7 @@ abstract class Util
     {
         if (is_string($value)) {
             return preg_match(
-                '/^([[:alnum:][:blank:][\*\-\=\[\]\'&~|{}#"%$^@+!:;§.,\\\\\/]+)$/i',
+                '/^([^<]+)$/',
                 $value
             );
         }

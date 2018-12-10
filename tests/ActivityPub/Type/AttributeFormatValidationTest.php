@@ -266,9 +266,15 @@ class AttributeFormatValidationTest extends TestCase
 ['hreflang', Link::class, "mN-cYrL-Mn"                                 ], # Set hreflang icase
 
 ['name', ObjectType::class, "Bob"                                      ], # Set name with a simple string
-['name', ObjectType::class, "Bob 123 !:.,\\/"                          ], # Set name with a words, digits and special characters
-['name', ObjectType::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"               ], # Set name with a words, digits and special characters
-['name', Link::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"                     ], # Set name with a words, digits and special characters on a Link
+['name', ObjectType::class, "Bob 123 !:.,\\/"                          ], # Set name with words, digits and special characters
+['name', ObjectType::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"               ], # Set name with words, digits and special characters
+['name', Link::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"                     ], # Set name with words, digits and special characters on a Link
+
+['nameMap', Link::class, '{
+        "en": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
+        "es": "Una nota sencilla",
+        "zh-Hans": "一段简单的笔记"
+    }'                                                                 ], # Set nameMap with words, digits and special characters on a Link
 
 ['icon', Note::class, '{
                         "type": "Image",
@@ -674,6 +680,17 @@ class AttributeFormatValidationTest extends TestCase
 
 ['name', Link::class, "Bob <span></span>"                              ], # Set name with illegal characters (HTML)
 ['name', ObjectType::class, "Bob <script></script>"                    ], # Set name with illegal characters (HTML)
+
+['nameMap', Link::class, '{
+        "en": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
+        "es": "Una nota sencilla",
+        "zh-Hans": "<script></script>"
+    }'                                                                 ], # Set nameMap with an illegal string (HTML)
+
+['nameMap', Link::class, '{
+        "abcdefghijkl": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
+        "es": "Una nota sencilla"
+    }'                                                                 ], # Set nameMap with an illegal key (Non valid BCP47)
 
 ['icon', Note::class, '{
                         "type": "Imag",
