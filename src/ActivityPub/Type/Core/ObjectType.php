@@ -133,12 +133,21 @@ class ObjectType extends AbstractObject
     protected $contentMap;
 
     /**
-     * @var string|null
+     * A simple, human-readable, plain-text name for the object.
+     * HTML markup MUST NOT be included.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-name
+     * 
+     * @var string|null xsd:string
      */
     protected $name;
 
     /**
-     * @var string|null
+     * The name MAY be expressed using multiple language-tagged values.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-name
+     *
+     * @var array|null rdf:langString
      */
     protected $nameMap;
 

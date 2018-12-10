@@ -265,6 +265,11 @@ class AttributeFormatValidationTest extends TestCase
 ['hreflang', Link::class, "mn-Cyrl-MN"                                 ], # Set hreflang case
 ['hreflang', Link::class, "mN-cYrL-Mn"                                 ], # Set hreflang icase
 
+['name', ObjectType::class, "Bob"                                      ], # Set name with a simple string
+['name', ObjectType::class, "Bob 123 !:.,\\/"                          ], # Set name with a words, digits and special characters
+['name', ObjectType::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"               ], # Set name with a words, digits and special characters
+['name', Link::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"                     ], # Set name with a words, digits and special characters on a Link
+
 ['icon', Note::class, '{
                         "type": "Image",
                         "name": "Note icon",
@@ -667,6 +672,8 @@ class AttributeFormatValidationTest extends TestCase
 ['hreflang', Link::class, "i-navajoK"                                  ], # Set hreflang bad irregular
 ['hreflang', Activity::class, "en-GB"                                  ], # Set hreflang on a bad type
 
+['name', Link::class, "Bob <span></span>"                              ], # Set name with illegal characters (HTML)
+['name', ObjectType::class, "Bob <script></script>"                    ], # Set name with illegal characters (HTML)
 
 ['icon', Note::class, '{
                         "type": "Imag",

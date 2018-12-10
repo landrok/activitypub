@@ -147,6 +147,7 @@ class TypesTypeAttributeTest extends TestCase
 			'type',
 			'id',
 			'name',
+            'nameMap',
 			'href',
             'hreflang',
 			'mediaType',
