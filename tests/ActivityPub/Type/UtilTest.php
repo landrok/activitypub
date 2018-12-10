@@ -34,6 +34,22 @@ class UtilTest extends TestCase
 	}
 
     /**
+     * Pass an object which is not a subclass
+     * with strict mode.
+     * 
+     * @expectedException \Exception
+     */
+    public function testIsStrictlyNotASubclass()
+    {
+        $obj = new \StdClass;
+
+        $this->assertEquals(
+            false, 
+            Util::subclassOf($obj, 'Class', true)
+        );
+	}
+
+    /**
      * Pass an malformed XML ISO 8601 duration
      * without strict mode.
      */
@@ -63,5 +79,16 @@ class UtilTest extends TestCase
         $this->assertEquals(false, Util::between(15, null, 10));
         $this->assertEquals(false, Util::between(15, null, null));
         $this->assertEquals(false, Util::between("Hello", -10, 10));
+	}
+
+    /**
+     * Pass an illegal type for validateBcp47 string
+     */
+    public function testIsNotAValidBcp47Type()
+    {
+        $this->assertEquals(
+            false, 
+            Util::validateBcp47([])
+        );
 	}
 }

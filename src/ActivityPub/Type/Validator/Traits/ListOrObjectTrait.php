@@ -31,12 +31,7 @@ trait ListOrObjectTrait
      */
     public function validate($value, $container)
     {
-        // Validate that container is a ObjectType type
-        if (!is_object($container)
-            || !($container instanceof ObjectType)
-        ) {
-            return false;
-        }
+        Util::subclassOf($container, ObjectType::class, true);
 
         // Can be a JSON string
         if (is_string($value)) {

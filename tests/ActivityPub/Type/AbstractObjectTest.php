@@ -68,4 +68,15 @@ class AbstractObjectTest extends TestCase
 		$object = new ObjectType();
         $object->setMyCustomAttribute();
 	}
+
+	/**
+	 * Call an undefined method
+     * 
+     * @expectedException \Exception
+	 */
+	public function testCallUndefinedMethod()
+	{
+		$object = new ObjectType();
+        $object->illegalCall();
+	}
 }

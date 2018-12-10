@@ -11,6 +11,7 @@
 
 namespace ActivityPub\Type\Validator;
 
+use ActivityPub\Type\Extended\Activity\Question;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
@@ -32,9 +33,7 @@ class AnyOfValidator implements ValidatorInterface
     public function validate($value, $container)
     {
         // Validate that container is a Question type
-        if (!Util::isType($container, 'Question')) {
-            return false;
-        }
+        Util::subclassOf($container, Question::class, true);
 
         // Can be a JSON string
         if (is_string($value)) {

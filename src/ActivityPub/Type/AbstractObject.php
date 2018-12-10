@@ -52,9 +52,9 @@ abstract class AbstractObject
      */
     public function get($name)
     {
-        if ($this->has($name)) {
-            return $this->{$name};
-        }
+        $this->has($name);
+
+        return $this->{$name};
     }
 
     /**
