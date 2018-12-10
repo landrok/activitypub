@@ -265,6 +265,13 @@ class AttributeFormatValidationTest extends TestCase
 ['hreflang', Link::class, "mn-Cyrl-MN"                                 ], # Set hreflang case
 ['hreflang', Link::class, "mN-cYrL-Mn"                                 ], # Set hreflang icase
 
+['mediaType', Link::class, "application/pdf"                           ], # Set mediaType on a Link
+['mediaType', ObjectType::class, "multipart/form-data"                 ], # Set mediaType on an ObjectType
+['mediaType', ObjectType::class, "application/xhtml+xml"               ], # Set mediaType
+['mediaType', ObjectType::class, "application/*"                       ], # Set mediaType
+['mediaType', ObjectType::class, "application/octet-stream"            ], # Set mediaType
+['mediaType', ObjectType::class, "application/vnd.mspowerpoint"        ], # Set mediaType
+
 ['name', ObjectType::class, "Bob"                                      ], # Set name with a simple string
 ['name', ObjectType::class, "Bob 123 !:.,\\/"                          ], # Set name with words, digits and special characters
 ['name', ObjectType::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"               ], # Set name with words, digits and special characters
@@ -677,6 +684,10 @@ class AttributeFormatValidationTest extends TestCase
 
 ['hreflang', Link::class, "i-navajoK"                                  ], # Set hreflang bad irregular
 ['hreflang', Activity::class, "en-GB"                                  ], # Set hreflang on a bad type
+
+['mediaType', ObjectType::class, "application/audio-*"                 ], # Set mediaType
+['mediaType', ObjectType::class, "application.octet-stream"            ], # Set mediaType
+['mediaType', ObjectType::class, "application+vnd.mspowerpoint"        ], # Set mediaType
 
 ['name', Link::class, "Bob <span></span>"                              ], # Set name with illegal characters (HTML)
 ['name', ObjectType::class, "Bob <script></script>"                    ], # Set name with illegal characters (HTML)

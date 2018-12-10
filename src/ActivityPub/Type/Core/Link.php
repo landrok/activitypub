@@ -75,7 +75,11 @@ class Link extends AbstractObject
     protected $hreflang;
 
     /**
-     * @var string
+     * The MIME media type of the referenced resource.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-mediatype
+     * 
+     * @var null|string
      */
     protected $mediaType;
 

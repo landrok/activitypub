@@ -352,7 +352,7 @@ class ObjectType extends AbstractObject
      * 
      * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-bcc
      * 
-     * @var string
+     * @var string|null
      *    | null
      *    | \ActivityPub\Type\Core\Object
      *    | \ActivityPub\Type\Core\Link
@@ -362,6 +362,12 @@ class ObjectType extends AbstractObject
     protected $bcc;
 
     /**
+     * The MIME media type of the value of the content property.
+     * If not specified, the content property is assumed to contain 
+     * text/html content. 
+     *
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-mediatype
+     *
      * @var string|null
      */
     protected $mediaType;

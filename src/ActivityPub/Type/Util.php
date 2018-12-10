@@ -498,4 +498,20 @@ abstract class Util
             );
         }
     }
+
+    /**
+     * Validate mediaType format
+     * 
+     * @param  string $value
+     * @return bool
+     */
+    public static function validateMediaType($value)
+    {
+        if (is_string($value)) {
+            return preg_match(
+                '#^([\w]+)/(([\w\-\.\+]+[\w]+)|(\*))$#',
+                $value
+            );
+        }
+    }
 }
