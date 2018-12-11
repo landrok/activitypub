@@ -372,6 +372,14 @@ class AttributeFormatValidationTest extends TestCase
 
 ['preferredUsername', Person::class, "My Name"                         ], # Set preferredUsername as a string
 
+['prev', CollectionPage::class, '{
+                            "type": "Link",
+                            "name": "Prev Page",
+                            "href": "http://example.org/collection?page=1"
+                        }'                                             ], # Set prev as a Link
+['prev', CollectionPage::class, 'http://example.org/collection?page=1' ], # Set prev as a URL
+['prev', CollectionPage::class, new CollectionPage()                   ], # Set prev as a CollectionPage
+
 ['published', ObjectType::class, '2016-05-10T00:00:00Z'                ], # Set published as a Datetime (UTC)
 ['published', ObjectType::class, '2015-01-31T06:00:00-08:00'           ], # Set published as a Datetime (TZ)
 
@@ -851,6 +859,19 @@ class AttributeFormatValidationTest extends TestCase
 
 ['preferredUsername', Activity::class, 'My name'                       ], # Set preferredUsername on a bad type (Activity)
 ['preferredUsername', Application::class, new OrderedCollection()      ], # Set preferredUsername as a bad type (OrderedCollection)
+
+['prev', Collection::class, '{
+                            "type": "Link",
+                            "name": "prev Page",
+                            "href": "http://example.org/collection?page=2"
+                        }'                                             ], # Set prev on a bad type
+['prev', CollectionPage::class, '{
+                            "type": "Link",
+                            "name": "prev Page",
+                            "href": "htp://example.org/collection?page=2"
+                        }'                                             ], # Set prev as a malformed Link
+['prev', CollectionPage::class, 'htp://example.org/collection?page=2'  ], # Set prev as a malformed URL
+['prev', CollectionPage::class, new Collection()                       ], # Set prev as a bad type
 
 ['published', ObjectType::class, '2016-05-10 00:00:00Z'                ], # Set published as a bad Datetime
 ['published', Link::class, '2016-05-10 00:00:00Z'                      ], # Set published on a bad type
