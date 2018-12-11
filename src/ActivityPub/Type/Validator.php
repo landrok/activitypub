@@ -75,7 +75,7 @@ abstract class Validator
      * 
      * @param string $name
      * @param string $class A validator class name
-     * @throws \Exception if validator classs does not implement
+     * @throws \Exception if validator class does not implement
      * \ActivityPub\Type\Helper\ValidatorInterface
      */
     public static function add($name, $class)
@@ -85,7 +85,7 @@ abstract class Validator
         if (!($validator instanceof ValidatorInterface)) {
             throw new Exception(
                 sprintf(
-                    'Validator "%s" does not implement "%s" interface',
+                    'Validator "%s" MUST implement "%s" interface',
                     get_class($validator),
                     ValidatorInterface::class
                 )

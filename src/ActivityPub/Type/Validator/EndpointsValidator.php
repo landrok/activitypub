@@ -22,7 +22,7 @@ use ActivityPub\Type\ValidatorInterface;
 class EndpointsValidator implements ValidatorInterface
 {
     /**
-     * Validate an ENDPOINTS attribute value
+     * Validate ENDPOINTS value
      * 
      * @param string $value
      * @param mixed  $container
@@ -49,18 +49,14 @@ class EndpointsValidator implements ValidatorInterface
     }
 
     /**
-     * Validate an endpoints mapping
+     * Validate endpoints mapping
      * 
-     * @param object $map
+     * @param  object $map
      * @return bool
      */
     protected function validateObject($item)
     {
         foreach ($item as $key => $value) {
-            // Mapping has a bad key format
-            if (!is_string($key)) {
-                return false;
-            }
 
             switch ($key) {
                 case 'proxyUrl':
