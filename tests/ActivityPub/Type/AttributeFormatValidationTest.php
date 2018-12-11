@@ -283,6 +283,14 @@ class AttributeFormatValidationTest extends TestCase
         "zh-Hans": "一段简单的笔记"
     }'                                                                 ], # Set nameMap with words, digits and special characters on a Link
 
+['next', CollectionPage::class, '{
+                            "type": "Link",
+                            "name": "Next Page",
+                            "href": "http://example.org/collection?page=2"
+                        }'                                             ], # Set next as a Link
+['next', CollectionPage::class, 'http://example.org/collection?page=2' ], # Set next as a URL
+['next', CollectionPage::class, new CollectionPage()                   ], # Set next as a CollectionPage
+                   
 ['icon', Note::class, '{
                         "type": "Image",
                         "name": "Note icon",
@@ -720,6 +728,19 @@ class AttributeFormatValidationTest extends TestCase
         "abcdefghijkl": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
         "es": "Una nota sencilla"
     }'                                                                 ], # Set nameMap with an illegal key (Non valid BCP47)
+
+['next', Collection::class, '{
+                            "type": "Link",
+                            "name": "Next Page",
+                            "href": "http://example.org/collection?page=2"
+                        }'                                             ], # Set next on a bad type
+['next', CollectionPage::class, '{
+                            "type": "Link",
+                            "name": "Next Page",
+                            "href": "htp://example.org/collection?page=2"
+                        }'                                             ], # Set next as a malformed Link
+['next', CollectionPage::class, 'htp://example.org/collection?page=2'  ], # Set next as a malformed URL
+['next', CollectionPage::class, new Collection()                       ], # Set next as a bad type
 
 ['icon', Note::class, '{
                         "type": "Imag",

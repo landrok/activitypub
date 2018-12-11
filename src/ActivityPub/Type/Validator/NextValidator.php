@@ -17,13 +17,13 @@ use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
 /**
- * \ActivityPub\Type\Validator\PartOfValidator is a dedicated
- * validator for partOf attribute.
+ * \ActivityPub\Type\Validator\NextValidator is a dedicated
+ * validator for next attribute.
  */
-class PartOfValidator implements ValidatorInterface
+class NextValidator implements ValidatorInterface
 {
     /**
-     * Validate a partOf value
+     * Validate a next value
      * 
      * @param  object $value
      * @param  mixed  $container
@@ -47,7 +47,7 @@ class PartOfValidator implements ValidatorInterface
         // Link or Collection
         if (is_object($value)) {
             return Util::validateLink($value)
-                || Util::validateCollection($value);
+                || Util::validateCollectionPage($value);
         }
     }
 }

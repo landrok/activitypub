@@ -485,7 +485,7 @@ abstract class Util
     }
 
     /**
-     * Validate a CollectionPage type
+     * Validate a Collection type
      * 
      * @param object $collection
      * @return bool
@@ -499,6 +499,32 @@ abstract class Util
         self::hasProperties(
             $item,
             ['totalItems', 'current', 'first', 'last', 'items'],
+            true
+        );
+
+        return true;
+    }
+
+    /**
+     * Validate a CollectionPage type
+     * 
+     * @param object $collection
+     * @return bool
+     */
+    public static function validateCollectionPage($item)
+    {
+        if (!is_object($item)) {
+            return false;
+        }
+
+        // Must be a Collection
+        if (!self::validateCollection($item)) {
+            return false;
+        }
+
+        self::hasProperties(
+            $item,
+            ['partOf', 'next', 'prev'],
             true
         );
 
