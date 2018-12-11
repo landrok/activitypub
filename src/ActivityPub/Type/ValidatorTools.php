@@ -11,6 +11,8 @@
 
 namespace ActivityPub\Type;
 
+use ActivityPub\Type\Core\ObjectType;
+
 /**
  * \ActivityPub\Type\ValidatorTools is an abstract class for
  * attribute validation.
@@ -45,5 +47,95 @@ abstract class ValidatorTools implements ValidatorInterface
         }
 
         return true;
+    }
+
+    /**
+     * Validate an attribute value
+     * 
+     * @param  mixed $value
+     * @param  mixed $container An object
+     * @param  \callable A dedicated validator
+     * @return bool
+     */
+    public function validateListOrObject($value, $container, callable $callback)
+    {
+        Util::subclassOf($container, ObjectType::class, true);
+
+        // Can be a JSON string
+        if (is_string($value)) {
+            $value = Util::decodeJson($value);
+        }
+
+        // A collection
+        if (is_array($value)) {
+            return $this->validateObjectCollection($value, $callback);
+        }
+
+        if (!is_object($value)) {
+            return false;
+        }
+
+        return $callback($value);
+    }
+
+    /**
+     * Validate a list of Collection
+     * 
+     * @param  array $collection
+     * @param  \callable A dedicated validator
+     * @return bool
+     */
+    protected function validateObjectCollection(array $collection, callable $callback)
+    {
+        foreach ($collection as $item) {
+            if (is_object($item) 
+                && $callback($item)) {
+                continue;
+            } elseif (Util::validateUrl($item)) {
+                continue;
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * A callback function for validateListOrObject method
+     * 
+     * It validate a Link or a named object
+     * 
+     * @return \callable
+     */
+    protected function getLinkOrNamedObjectValidator()
+    {
+        return function ($item) {
+            Util::hasProperties($item, ['type'], true);
+
+            // Validate Link type
+            if ($item->type == 'Link') {
+                return Util::validateLink($item);
+            }
+
+            // Validate Object type
+            Util::hasProperties($item, ['name'], true);
+
+            return is_string($item->name);
+        };
+    }
+
+    /**
+     * A callback function for validateListOrObject method
+     * 
+     * Validate a reference with a Link or an Object with an URL
+     * 
+     * @return \callable
+     */
+    protected function getLinkOrUrlObjectValidator()
+    {
+        return function ($item) {
+            return Util::isLinkOrUrlObject($item);
+        };
     }
 }

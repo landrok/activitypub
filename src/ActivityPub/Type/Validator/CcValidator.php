@@ -11,23 +11,27 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\ValidatorInterface;
-use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
-use ActivityPub\Type\Validator\Traits\ValidateLinkOrUrlObjectTrait;
+use ActivityPub\Type\ValidatorTools;
 
 /**
  * \ActivityPub\Type\Validator\CcValidator is a dedicated
  * validator for cc attribute.
  */
-class CcValidator implements ValidatorInterface
+class CcValidator extends ValidatorTools
 {
     /**
-     * Browse a list of object or one single object
+     * Validate a cc value
+     * 
+     * @param  string $value
+     * @param  mixed  $container An Object type
+     * @return bool
      */
-    use ListOrObjectTrait;
-    
-    /**
-     * Validate an Object
-     */
-    use ValidateLinkOrUrlObjectTrait;
+    public function validate($value, $container)
+    {
+        return $this->validateListOrObject(
+            $value,
+            $container,
+            $this->getLinkOrUrlObjectValidator()
+        );
+    }
 }

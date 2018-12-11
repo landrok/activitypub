@@ -11,23 +11,27 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\ValidatorInterface;
-use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
-use ActivityPub\Type\Validator\Traits\ValidateLinkOrNamedObjectTrait;
+use ActivityPub\Type\ValidatorTools;
 
 /**
  * \ActivityPub\Type\Validator\AttributedToValidator is a dedicated
  * validator for attributedTo attribute.
  */
-class AttributedToValidator implements ValidatorInterface
+class AttributedToValidator extends ValidatorTools
 {
     /**
-     * Browse a list of object or one single object
+     * Validate an attributedTo value
+     * 
+     * @param  string $value
+     * @param  mixed  $container An Object type
+     * @return bool
      */
-    use ListOrObjectTrait;
-
-    /**
-     * Validate an Object
-     */
-    use ValidateLinkOrNamedObjectTrait;
+    public function validate($value, $container)
+    {
+        return $this->validateListOrObject(
+            $value,
+            $container,
+            $this->getLinkOrNamedObjectValidator()
+        );
+    }
 }

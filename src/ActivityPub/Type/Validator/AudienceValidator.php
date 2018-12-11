@@ -11,23 +11,27 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\ValidatorInterface;
-use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
-use ActivityPub\Type\Validator\Traits\ValidateLinkOrNamedObjectTrait;
+use ActivityPub\Type\ValidatorTools;
 
 /**
  * \ActivityPub\Type\Validator\AudienceValidator is a dedicated
  * validator for audience attribute.
  */
-class AudienceValidator implements ValidatorInterface
+class AudienceValidator extends ValidatorTools
 {
     /**
-     * Browse a list of object or one single object
+     * Validate an audience value
+     * 
+     * @param  string $value
+     * @param  mixed  $container An Object type
+     * @return bool
      */
-    use ListOrObjectTrait;
-
-    /**
-     * Validate an Object
-     */
-    use ValidateLinkOrNamedObjectTrait;
+    public function validate($value, $container)
+    {
+        return $this->validateListOrObject(
+            $value,
+            $container,
+            $this->getLinkOrNamedObjectValidator()
+        );
+    }
 }

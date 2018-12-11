@@ -11,23 +11,27 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\ValidatorInterface;
-use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
-use ActivityPub\Type\Validator\Traits\ValidateLinkOrUrlObjectTrait;
+use ActivityPub\Type\ValidatorTools;
 
 /**
  * \ActivityPub\Type\Validator\AttachmentValidator is a dedicated
  * validator for attachment attribute.
  */
-class AttachmentValidator implements ValidatorInterface
+class AttachmentValidator extends ValidatorTools
 {
     /**
-     * Browse a list of object or one single object
+     * Validate an attachment value
+     * 
+     * @param  string $value
+     * @param  mixed  $container An Object type
+     * @return bool
      */
-    use ListOrObjectTrait;
-    
-    /**
-     * Validate an Object
-     */
-    use ValidateLinkOrUrlObjectTrait;
+    public function validate($value, $container)
+    {
+        return $this->validateListOrObject(
+            $value,
+            $container,
+            $this->getLinkOrUrlObjectValidator()
+        );
+    }
 }

@@ -11,23 +11,27 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\ValidatorInterface;
-use ActivityPub\Type\Validator\Traits\ListOrObjectTrait;
-use ActivityPub\Type\Validator\Traits\ValidateLinkOrUrlObjectTrait;
+use ActivityPub\Type\ValidatorTools;
 
 /**
  * \ActivityPub\Type\Validator\BtoValidator is a dedicated
  * validator for bto attribute.
  */
-class BtoValidator implements ValidatorInterface
+class BtoValidator extends ValidatorTools
 {
     /**
-     * Browse a list of object or one single object
+     * Validate a bto value
+     * 
+     * @param  string $value
+     * @param  mixed  $container An Object type
+     * @return bool
      */
-    use ListOrObjectTrait;
-    
-    /**
-     * Validate an Object
-     */
-    use ValidateLinkOrUrlObjectTrait;
+    public function validate($value, $container)
+    {
+        return $this->validateListOrObject(
+            $value,
+            $container,
+            $this->getLinkOrUrlObjectValidator()
+        );
+    }
 }
