@@ -352,6 +352,13 @@ class AttributeFormatValidationTest extends TestCase
                               }
                             ]'                                         ], # Set oneOf choices 
 
+['partOf', CollectionPage::class, "http://example.org/collection"      ], # Set partOf as URL
+['partOf', CollectionPage::class, '{
+                         "type": "Link",
+                         "href": "http://example.org/image"
+                        }'                                             ], # Set partOf as Link
+['partOf', CollectionPage::class, new Collection()                     ], # Set partOf as Collection
+
 ['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
 ['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
 
@@ -812,6 +819,14 @@ class AttributeFormatValidationTest extends TestCase
 ['outbox', Activity::class, new OrderedCollection()                    ], # Set outbox on a bad type (Activity)
 ['outbox', Application::class, new CollectionPage()                    ], # Set outbox as a bad type (Must be an ordered Type)
 ['outbox', Application::class, 'string'                                ], # Set outbox as a bad type (Must be a valid object)
+
+['partOf', CollectionPage::class, "htp://example.org/collection"       ], # Set partOf as a bad URL
+['partOf', CollectionPage::class, '{
+                         "type": "Lin",
+                         "href": "http://example.org/image"
+                        }'                                             ], # Set partOf as as bad Link
+['partOf', Collection::class, new Collection()                         ], # Set partOf on a bad type
+['partOf', CollectionPage::class, []                                   ], # Set partOf as a bad type
 
 ['preferredUsername', Activity::class, 'My name'                       ], # Set preferredUsername on a bad type (Activity)
 ['preferredUsername', Application::class, new OrderedCollection()      ], # Set preferredUsername as a bad type (OrderedCollection)

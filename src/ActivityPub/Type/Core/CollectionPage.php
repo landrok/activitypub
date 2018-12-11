@@ -32,24 +32,39 @@ class CollectionPage extends Collection
     protected $id;
 
     /**
-     * Identifies the Collection to which a CollectionPage objects items 
+     * Identifies the Collection to which CollectionPage objects items 
      * belong. 
      *
-     * @var string 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-partof
+     * 
+     * @var null
+     *    | string
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Collection 
      */
     protected $partOf;
 
     /**
      * Indicates the next page of items. 
      * 
-     * @var string|ActivityPub\Type\Core\Link 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-next
+     *
+     * @var null
+     *    | string
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\CollectionPage 
      */
     protected $next;
 
     /**
      * Identifies the previous page of items. 
      * 
-     * @var string|ActivityPub\Type\Core\Link
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-prev
+     *
+     * @var null
+     *    | string
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\CollectionPage
      */
     protected $prev;
 }

@@ -483,4 +483,25 @@ abstract class Util
                 $value
         );
     }
+
+    /**
+     * Validate a CollectionPage type
+     * 
+     * @param object $collection
+     * @return bool
+     */
+    public static function validateCollection($item)
+    {
+        if (!is_object($item)) {
+            return false;
+        }
+
+        self::hasProperties(
+            $item,
+            ['totalItems', 'current', 'first', 'last', 'items'],
+            true
+        );
+
+        return true;
+    }
 }
