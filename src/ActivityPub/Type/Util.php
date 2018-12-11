@@ -106,32 +106,6 @@ abstract class Util
     }
 
     /**
-     * Validate a map attribute value.
-     * 
-     * @param  string $type An attribute name
-     * @param  object $map
-     * @param  object $container A valid container
-     * @return bool
-     */
-    public static function validateMap($type, $map, $container)
-    {
-        // A map
-        if (!is_object($map)) {
-            return false;
-        }
-
-        foreach ($map as $key => $value) {
-            if (!self::validateBcp47($key) 
-                || !Validator::validate($type, $value, $container)
-            ) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Validate a non negative integer.
      * 
      * @param  int $value

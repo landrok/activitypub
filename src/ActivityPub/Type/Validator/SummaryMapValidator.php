@@ -12,13 +12,13 @@
 namespace ActivityPub\Type\Validator;
 
 use ActivityPub\Type\Util;
-use ActivityPub\Type\ValidatorInterface;
+use ActivityPub\Type\ValidatorTools;
 
 /**
  * \ActivityPub\Type\Validator\SummaryMapValidator is a dedicated
  * validator for summaryMap attribute.
  */
-class SummaryMapValidator implements ValidatorInterface
+class SummaryMapValidator extends ValidatorTools
 {
     /**
      * Validate a summaryMap attribute value
@@ -34,6 +34,6 @@ class SummaryMapValidator implements ValidatorInterface
             $value = Util::decodeJson($value);
         }
 
-        return Util::validateMap('summary', $value, $container);
+        return $this->validateMap('summary', $value, $container);
     }
 }

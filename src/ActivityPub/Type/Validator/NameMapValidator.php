@@ -12,13 +12,13 @@
 namespace ActivityPub\Type\Validator;
 
 use ActivityPub\Type\Util;
-use ActivityPub\Type\ValidatorInterface;
+use ActivityPub\Type\ValidatorTools;
 
 /**
  * \ActivityPub\Type\Validator\NameMapValidator is a dedicated
  * validator for nameMap attribute.
  */
-class NameMapValidator implements ValidatorInterface
+class NameMapValidator extends ValidatorTools
 {
     /**
      * Validate a nameMap value
@@ -34,6 +34,6 @@ class NameMapValidator implements ValidatorInterface
             $value = Util::decodeJson($value);
         }
 
-        return Util::validateMap('name', $value, $container);
+        return $this->validateMap('name', $value, $container);
     }
 }

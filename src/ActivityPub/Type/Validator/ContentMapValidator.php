@@ -12,13 +12,13 @@
 namespace ActivityPub\Type\Validator;
 
 use ActivityPub\Type\Util;
-use ActivityPub\Type\ValidatorInterface;
+use ActivityPub\Type\ValidatorTools;
 
 /**
  * \ActivityPub\Type\Validator\ContentMapValidator is a dedicated
  * validator for contentMap attribute.
  */
-class ContentMapValidator implements ValidatorInterface
+class ContentMapValidator extends ValidatorTools
 {
     /**
      * Validate a contentMap value
@@ -34,6 +34,6 @@ class ContentMapValidator implements ValidatorInterface
             $value = Util::decodeJson($value);
         }
 
-        return Util::validateMap('content', $value, $container);
+        return $this->validateMap('content', $value, $container);
     }
 }
