@@ -341,6 +341,17 @@ class AttributeFormatValidationTest extends TestCase
 ['longitude', Place::class, 92                                         ], # Set longitude as an integer
 ['longitude', Place::class, -92.6                                      ], # Set longitude as a float number
 
+['oneOf', Question::class, '[
+                              {
+                                "type": "Note",
+                                "name": "Option A"
+                              },
+                              {
+                                "type": "Note",
+                                "name": "Option B"
+                              }
+                            ]'                                         ], # Set oneOf choices 
+
 ['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
 ['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
 
@@ -762,6 +773,41 @@ class AttributeFormatValidationTest extends TestCase
 ['longitude', Place::class, -182                                       ], # Set longitude as an out of range value
 ['longitude', Place::class, 'Bad Type'                                 ], # Set longitude as a bad type
 ['longitude', ObjectType::class, 42                                    ], # Set longitude on a bad type
+
+['oneOf', Place::class, []                                             ], # Set oneOf for an inappropriate type
+['oneOf', Question::class, []                                          ], # Set oneOf with an array
+['oneOf', Question::class, '[
+                             {
+                              "type": "Note",
+                             },
+                             {
+                              "type": "Note",
+                              "name": "Option B"
+                             }
+                            ]'                                         ], # Set oneOf with malformed choices 
+['oneOf', Question::class, '[
+                             {
+                              "type": "Note",
+                              "name": "Option A"
+                             },
+                             {
+                              "name": "Option B"
+                             }
+                            ]'                                         ], # Set oneOf with malformed choices 
+['oneOf', Question::class, '{
+                             "type": "Note",
+                             "name": "Option A"
+                            }'                                         ], # Set oneOf with malformed choices 
+['oneOf', Question::class, '[
+                             {
+                              "type": "Note",
+                              "name": "Option A"
+                             },
+                             {
+                              "type": "Note",
+                              "name": ["Option B"]
+                             }
+                            ]'                                         ], # Set oneOf with malformed choices
 
 ['outbox', Activity::class, new OrderedCollection()                    ], # Set outbox on a bad type (Activity)
 ['outbox', Application::class, new CollectionPage()                    ], # Set outbox as a bad type (Must be an ordered Type)

@@ -13,13 +13,13 @@ namespace ActivityPub\Type\Validator;
 
 use ActivityPub\Type\Extended\Activity\Question;
 use ActivityPub\Type\Util;
-use ActivityPub\Type\ValidatorInterface;
+use ActivityPub\Type\ValidatorTools;
 
 /**
  * \ActivityPub\Type\Validator\AnyOfValidator is a dedicated
  * validator for anyOf attribute.
  */
-class AnyOfValidator implements ValidatorInterface
+class AnyOfValidator extends ValidatorTools
 {
     /**
      * Validate an ANYOF attribute value
@@ -49,40 +49,9 @@ class AnyOfValidator implements ValidatorInterface
             return false;
         }
 
-        return $this->validateObjectCollection($value);
-    }
-
-    /**
-     * Validate a Note type
-     * 
-     * @param object $value
-     * @return bool
-     */
-    protected function validateObject($item)
-    {
-        Util::hasProperties($item, ['type', 'name'], true);
-
-        return $item->type == 'Note' && is_scalar($item->name);
-    }
-
-    /**
-     * Validate a list of object
-     * Collection MUST contain objects with following attributes:
-     * - a Note type
-     * - a name attribute
-     * 
-     * @param array $collection
-     */
-    protected function validateObjectCollection(array $collection)
-    {
-        foreach ($collection as $item) {
-            if (is_object($item) && $this->validateObject($item)) {
-                continue;
-            }
-
-            return false;
-        }
-
-        return true;
+        return $this->validateObjectCollection(
+            $value,
+            $this->getQuestionAnswerValidator()
+        );
     }
 }

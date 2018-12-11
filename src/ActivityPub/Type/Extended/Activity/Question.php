@@ -36,23 +36,26 @@ class Question extends IntransitiveActivity
 
     /**
      * An exclusive option for a Question
-     * 
-     * @var \ActivityPub\Type\Core\ObjectType
-     * 	   |\ActivityPub\Type\Core\Link
-     *     |null
+     * Use of oneOf implies that the Question can have only a 
+     * single answer.
      * 
      * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-oneof
+     * 
+     * @var \ActivityPub\Type\Core\ObjectType[]
+     * 	   |\ActivityPub\Type\Core\Link[]
+     *     |null
      */
     protected $oneOf;
 
 	/**
 	 * An inclusive option for a Question.
-	 *
-     * @var \ActivityPub\Type\Core\ObjectType
-     * 	   |\ActivityPub\Type\Core\Link
-     *     |null
+	 * Use of anyOf implies that the Question can have multiple answers.
      *
      * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-anyof
+     *
+     * @var \ActivityPub\Type\Core\ObjectType[]
+     * 	   |\ActivityPub\Type\Core\Link[]
+     *     |null
      */
     protected $anyOf;
 
@@ -60,13 +63,13 @@ class Question extends IntransitiveActivity
 	 * Indicates that a question has been closed, and answers are no 
 	 * longer accepted. 
 	 * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-closed
+     * 
      * @var \ActivityPub\Type\Core\ObjectType
      * 	   |\ActivityPub\Type\Core\Link
      * 	   |\DateTime
      *     |bool
      *     |null
-     * 
-     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-closed
      */
     protected $closed;
 }

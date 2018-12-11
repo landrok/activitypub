@@ -88,10 +88,7 @@ abstract class ValidatorTools implements ValidatorInterface
     protected function validateObjectCollection(array $collection, callable $callback)
     {
         foreach ($collection as $item) {
-            if (is_object($item) 
-                && $callback($item)) {
-                continue;
-            } elseif (Util::validateUrl($item)) {
+            if ($callback($item)) {
                 continue;
             }
 
@@ -111,6 +108,10 @@ abstract class ValidatorTools implements ValidatorInterface
     protected function getLinkOrNamedObjectValidator()
     {
         return function ($item) {
+            if (is_string($item)) {
+                return Util::validateUrl($item);
+            }
+
             Util::hasProperties($item, ['type'], true);
 
             // Validate Link type
@@ -127,15 +128,34 @@ abstract class ValidatorTools implements ValidatorInterface
 
     /**
      * A callback function for validateListOrObject method
-     * 
+     *
      * Validate a reference with a Link or an Object with an URL
-     * 
+     *
      * @return \callable
      */
     protected function getLinkOrUrlObjectValidator()
     {
         return function ($item) {
-            return Util::isLinkOrUrlObject($item);
+            if (is_object($item) 
+                && Util::isLinkOrUrlObject($item)) {
+                return true;
+            } elseif (Util::validateUrl($item)) {
+                return true;
+            }
+        };
+    }
+
+    /**
+     * Validate that a Question answer is a Note
+     *
+     * @return \callable
+     */
+    protected function getQuestionAnswerValidator()
+    {
+        return function ($item) {
+            Util::hasProperties($item, ['type', 'name'], true);
+            return $item->type == 'Note'
+                && is_scalar($item->name);
         };
     }
 }
