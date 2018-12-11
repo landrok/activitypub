@@ -82,7 +82,22 @@ class Collection extends ObjectType
     protected $last;
 
     /**
+     * The items contained in a collection. 
+     * The items are considered as unordered.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-items
+     * 
      * @var array
      */
     protected $items = [];
+
+    /**
+     * The items contained in a collection. 
+     * The items are considered as ordered.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-items
+     * 
+     * @var array
+     */
+    protected $orderedItems = [];
 }

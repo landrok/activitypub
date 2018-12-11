@@ -52,7 +52,7 @@ abstract class AbstractObject
      */
     public function get($name)
     {
-        $this->has($name);
+        $this->has($name, true);
 
         return $this->{$name};
     }
@@ -60,22 +60,25 @@ abstract class AbstractObject
     /**
      * Checks that property exists
      * 
-     * @param string $name
+     * @param  string $name
+     * @param  bool   $strict
      * @return bool
      */
-    public function has($name)
+    public function has($name, $strict = false)
     {
         if (property_exists($this, $name)) {
             return true;
         }
         
-        throw new Exception(
-            sprintf(
-                'Property "%s" is not defined for class "%s"',
-                $name,
-                self::class
-            )
-        );
+        if ($strict) {
+            throw new Exception(
+                sprintf(
+                    'Property "%s" is not defined for class "%s"',
+                    $name,
+                    self::class
+                )
+            );
+        }
     }
 
     /**
