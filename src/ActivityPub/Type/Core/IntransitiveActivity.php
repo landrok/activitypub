@@ -11,8 +11,6 @@
 
 namespace ActivityPub\Type\Core;
 
-use ActivityPub\Type\AbstractObject;
-
 /**
  * \ActivityPub\Type\Core\IntransitiveActivity is an implementation of 
  * one of the Activity Streams Core Types.
@@ -23,19 +21,10 @@ use ActivityPub\Type\AbstractObject;
  *
  * @see https://www.w3.org/TR/activitystreams-core/#intransitiveactivities
  */
-class IntransitiveActivity extends Activity
+class IntransitiveActivity extends AbstractActivity
 {
     /**
      * @var string
      */
     protected $type = 'IntransitiveActivity';
-
-    /**
-     * Instanciate
-     */
-    public function __construct()
-    {
-        // Inherits all properties from Activity except object.
-        unset($this->object);
-    }
 }
