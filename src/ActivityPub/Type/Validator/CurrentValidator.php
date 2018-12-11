@@ -43,9 +43,8 @@ class CurrentValidator implements ValidatorInterface
             $value = Util::decodeJson($value);
         }
 
-        // Link
-        if (is_object($value)) {
-            return Util::validateLink($value);
-        }
+        // Link or CollectionPage
+        return Util::validateLink($value)
+            || Util::validateCollectionPage($value);
     }
 }

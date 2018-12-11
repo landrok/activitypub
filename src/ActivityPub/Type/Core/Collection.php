@@ -53,16 +53,31 @@ class Collection extends ObjectType
      * @var string
      *    | null
      *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\CollectionPage
      */
     protected $current;
 
     /**
+     * The furthest preceeding page of items in the collection.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-last
+     * 
      * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\CollectionPage
      */
     protected $first;
 
     /**
+     * The furthest proceeding page of the collection.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-last
+     * 
      * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\CollectionPage
      */
     protected $last;
 

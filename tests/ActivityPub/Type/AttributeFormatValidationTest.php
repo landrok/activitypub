@@ -211,6 +211,7 @@ class AttributeFormatValidationTest extends TestCase
                                         "summary": "Most Recent Items",
                                         "href": "http://example.org/collection"
                                        }'                              ], # Set current as Link
+['current', Collection::class, new CollectionPage()                    ], # Set current as a CollectionPage
 
 ['deleted', Tombstone::class, '2016-05-10T00:00:00Z'                   ], # Set deleted as a Datetime
 ['describes', Profile::class, new ObjectType()                         ], # Set describes as an ObjectType
@@ -343,6 +344,15 @@ class AttributeFormatValidationTest extends TestCase
 
 ['inbox', Person::class, new OrderedCollection()                       ], # Set inbox as an OrderedCollection
 ['inbox', Application::class, new OrderedCollectionPage()              ], # Set inbox as an OrderedCollectionPage
+
+
+['last', Collection::class, 'http://example.org/collection?page=1'     ], # Set last as a URL
+['last', OrderedCollection::class, '{
+                                        "type": "Link",
+                                        "summary": "Last page",
+                                        "href": "http://example.org/collection?page=1"
+                                    }'                                 ], # Set last as Link
+['last', Collection::class, new CollectionPage()                       ], # Set last as a CollectionPage
 
 ['latitude', Place::class, 42                                          ], # Set latitude as an integer
 ['latitude', Place::class, -42.6                                       ], # Set latitude as a float number
@@ -801,6 +811,19 @@ class AttributeFormatValidationTest extends TestCase
 ['inbox', Activity::class, new OrderedCollection()                     ], # Set inbox on a bad type (Activity)
 ['inbox', Application::class, new CollectionPage()                     ], # Set inbox as a bad type (Must be an ordered Type)
 ['inbox', Application::class, 'string'                                 ], # Set inbox as a bad type (Must be a valid object)
+
+['last', Activity::class, '{
+                            "type": "Link",
+                            "name": "last Page",
+                            "href": "htp://example.org/collection?page=2"
+                        }'                                             ], # Set last on a bad type
+['last', CollectionPage::class, '{
+                            "type": "Link",
+                            "name": "last Page",
+                            "href": "htp://example.org/collection?page=2"
+                        }'                                             ], # Set last as a malformed Link
+['last', CollectionPage::class, 'htp://example.org/collection?page=2'  ], # Set last as a malformed URL
+['last', CollectionPage::class, new Collection()                       ], # Set last as a bad type
 
 ['latitude', Place::class, -142                                        ], # Set latitude as an out of range value
 ['latitude', Place::class, 'Bad Type'                                  ], # Set latitude as a bad type
