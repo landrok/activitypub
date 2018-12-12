@@ -11,19 +11,19 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\Core\CollectionPage;
-use ActivityPub\Type\Core\OrderedCollectionPage;
+use ActivityPub\Type\Core\Link;
+use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
 /**
- * \ActivityPub\Type\Validator\NextValidator is a dedicated
- * validator for next attribute.
+ * \ActivityPub\Type\Validator\PreviewValidator is a dedicated
+ * validator for preview attribute.
  */
-class NextValidator implements ValidatorInterface
+class PreviewValidator implements ValidatorInterface
 {
     /**
-     * Validate a next value
+     * Validate a preview value
      * 
      * @param  object $value
      * @param  mixed  $container
@@ -31,10 +31,10 @@ class NextValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-        // Container is CollectionPage or OrderedCollectionPage type
+        // Container is an ObjectType or a Link
         Util::subclassOf(
-            $container,
-            [CollectionPage::class, OrderedCollectionPage::class],
+            $container, 
+            [ObjectType::class, Link::class],
             true
         );
 
@@ -44,10 +44,10 @@ class NextValidator implements ValidatorInterface
                 || Util::validateLink($value);
         }
 
-        // Link or Collection
+        // Link or Object
         if (is_object($value)) {
             return Util::validateLink($value)
-                || Util::validateCollectionPage($value);
+                || Util::isObjectType($value);
         }
     }
 }

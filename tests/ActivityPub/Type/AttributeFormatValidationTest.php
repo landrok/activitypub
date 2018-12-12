@@ -266,32 +266,6 @@ class AttributeFormatValidationTest extends TestCase
 ['hreflang', Link::class, "mn-Cyrl-MN"                                 ], # Set hreflang case
 ['hreflang', Link::class, "mN-cYrL-Mn"                                 ], # Set hreflang icase
 
-['mediaType', Link::class, "application/pdf"                           ], # Set mediaType on a Link
-['mediaType', ObjectType::class, "multipart/form-data"                 ], # Set mediaType on an ObjectType
-['mediaType', ObjectType::class, "application/xhtml+xml"               ], # Set mediaType
-['mediaType', ObjectType::class, "application/*"                       ], # Set mediaType
-['mediaType', ObjectType::class, "application/octet-stream"            ], # Set mediaType
-['mediaType', ObjectType::class, "application/vnd.mspowerpoint"        ], # Set mediaType
-
-['name', ObjectType::class, "Bob"                                      ], # Set name with a simple string
-['name', ObjectType::class, "Bob 123 !:.,\\/"                          ], # Set name with words, digits and special characters
-['name', ObjectType::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"               ], # Set name with words, digits and special characters
-['name', Link::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"                     ], # Set name with words, digits and special characters on a Link
-
-['nameMap', Link::class, '{
-        "en": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
-        "es": "Una nota sencilla",
-        "zh-Hans": "一段简单的笔记"
-    }'                                                                 ], # Set nameMap with words, digits and special characters on a Link
-
-['next', CollectionPage::class, '{
-                            "type": "Link",
-                            "name": "Next Page",
-                            "href": "http://example.org/collection?page=2"
-                        }'                                             ], # Set next as a Link
-['next', CollectionPage::class, 'http://example.org/collection?page=2' ], # Set next as a URL
-['next', CollectionPage::class, new CollectionPage()                   ], # Set next as a CollectionPage
-                   
 ['icon', Note::class, '{
                         "type": "Image",
                         "name": "Note icon",
@@ -359,6 +333,32 @@ class AttributeFormatValidationTest extends TestCase
 ['longitude', Place::class, 92                                         ], # Set longitude as an integer
 ['longitude', Place::class, -92.6                                      ], # Set longitude as a float number
 
+['mediaType', Link::class, "application/pdf"                           ], # Set mediaType on a Link
+['mediaType', ObjectType::class, "multipart/form-data"                 ], # Set mediaType on an ObjectType
+['mediaType', ObjectType::class, "application/xhtml+xml"               ], # Set mediaType
+['mediaType', ObjectType::class, "application/*"                       ], # Set mediaType
+['mediaType', ObjectType::class, "application/octet-stream"            ], # Set mediaType
+['mediaType', ObjectType::class, "application/vnd.mspowerpoint"        ], # Set mediaType
+
+['name', ObjectType::class, "Bob"                                      ], # Set name with a simple string
+['name', ObjectType::class, "Bob 123 !:.,\\/"                          ], # Set name with words, digits and special characters
+['name', ObjectType::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"               ], # Set name with words, digits and special characters
+['name', Link::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"                     ], # Set name with words, digits and special characters on a Link
+
+['nameMap', Link::class, '{
+        "en": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
+        "es": "Una nota sencilla",
+        "zh-Hans": "一段简单的笔记"
+    }'                                                                 ], # Set nameMap with words, digits and special characters on a Link
+
+['next', CollectionPage::class, '{
+                            "type": "Link",
+                            "name": "Next Page",
+                            "href": "http://example.org/collection?page=2"
+                        }'                                             ], # Set next as a Link
+['next', CollectionPage::class, 'http://example.org/collection?page=2' ], # Set next as a URL
+['next', CollectionPage::class, new CollectionPage()                   ], # Set next as a CollectionPage
+
 ['oneOf', Question::class, '[
                               {
                                 "type": "Note",
@@ -376,6 +376,13 @@ class AttributeFormatValidationTest extends TestCase
                          "href": "http://example.org/image"
                         }'                                             ], # Set partOf as Link
 ['partOf', CollectionPage::class, new Collection()                     ], # Set partOf as Collection
+
+['preview', Link::class, "http://example.org/collection"               ], # Set preview as URL
+['preview', ObjectType::class, '{
+                         "type": "Link",
+                         "href": "http://example.org/image"
+                        }'                                             ], # Set preview as Link
+['preview', ObjectType::class, new ObjectType()                        ], # Set preview as Collection
 
 ['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
 ['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
@@ -703,8 +710,7 @@ class AttributeFormatValidationTest extends TestCase
 ['following', Person::class, 'http:/example.org/following'             ], # Set following as a bad type (@todo should be changed, indirect reference should be supported)
 
 ['formerType', Tombstone::class, 'PoorString'                          ], # Set formerType as a string
-['formerType', ObjectType::class, '{"type":"Person"}'                  ], # Set formerType as a Datetime on a bad Type
-['formerType', Tombstone::class, '{"type":"Person"}'                   ], # Set formerType as a person
+['formerType', ObjectType::class, '{"type":"Person"}'                  ], # Set formerType on a bad Type
 ['formerType', Tombstone::class, 42                                    ], # Set formerType as an integer
 
 ['generator', Note::class, '{"type":"Activity"}'                       ], # Set generator as an activity
@@ -729,36 +735,6 @@ class AttributeFormatValidationTest extends TestCase
 ['hreflang', Link::class, "i-navajoK"                                  ], # Set hreflang bad irregular
 ['hreflang', Activity::class, "en-GB"                                  ], # Set hreflang on a bad type
 
-['mediaType', ObjectType::class, "application/audio-*"                 ], # Set mediaType
-['mediaType', ObjectType::class, "application.octet-stream"            ], # Set mediaType
-['mediaType', ObjectType::class, "application+vnd.mspowerpoint"        ], # Set mediaType
-
-['name', Link::class, "Bob <span></span>"                              ], # Set name with illegal characters (HTML)
-['name', ObjectType::class, "Bob <script></script>"                    ], # Set name with illegal characters (HTML)
-
-['nameMap', Link::class, '{
-        "en": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
-        "es": "Una nota sencilla",
-        "zh-Hans": "<script></script>"
-    }'                                                                 ], # Set nameMap with an illegal string (HTML)
-
-['nameMap', Link::class, '{
-        "abcdefghijkl": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
-        "es": "Una nota sencilla"
-    }'                                                                 ], # Set nameMap with an illegal key (Non valid BCP47)
-
-['next', Collection::class, '{
-                            "type": "Link",
-                            "name": "Next Page",
-                            "href": "http://example.org/collection?page=2"
-                        }'                                             ], # Set next on a bad type
-['next', CollectionPage::class, '{
-                            "type": "Link",
-                            "name": "Next Page",
-                            "href": "htp://example.org/collection?page=2"
-                        }'                                             ], # Set next as a malformed Link
-['next', CollectionPage::class, 'htp://example.org/collection?page=2'  ], # Set next as a malformed URL
-['next', CollectionPage::class, new Collection()                       ], # Set next as a bad type
 
 ['icon', Note::class, '{
                         "type": "Imag",
@@ -833,6 +809,37 @@ class AttributeFormatValidationTest extends TestCase
 ['longitude', Place::class, 'Bad Type'                                 ], # Set longitude as a bad type
 ['longitude', ObjectType::class, 42                                    ], # Set longitude on a bad type
 
+['mediaType', ObjectType::class, "application/audio-*"                 ], # Set mediaType
+['mediaType', ObjectType::class, "application.octet-stream"            ], # Set mediaType
+['mediaType', ObjectType::class, "application+vnd.mspowerpoint"        ], # Set mediaType
+
+['name', Link::class, "Bob <span></span>"                              ], # Set name with illegal characters (HTML)
+['name', ObjectType::class, "Bob <script></script>"                    ], # Set name with illegal characters (HTML)
+
+['nameMap', Link::class, '{
+        "en": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
+        "es": "Una nota sencilla",
+        "zh-Hans": "<script></script>"
+    }'                                                                 ], # Set nameMap with an illegal string (HTML)
+
+['nameMap', Link::class, '{
+        "abcdefghijkl": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
+        "es": "Una nota sencilla"
+    }'                                                                 ], # Set nameMap with an illegal key (Non valid BCP47)
+
+['next', Collection::class, '{
+                            "type": "Link",
+                            "name": "Next Page",
+                            "href": "http://example.org/collection?page=2"
+                        }'                                             ], # Set next on a bad type
+['next', CollectionPage::class, '{
+                            "type": "Link",
+                            "name": "Next Page",
+                            "href": "htp://example.org/collection?page=2"
+                        }'                                             ], # Set next as a malformed Link
+['next', CollectionPage::class, 'htp://example.org/collection?page=2'  ], # Set next as a malformed URL
+['next', CollectionPage::class, new Collection()                       ], # Set next as a bad type
+
 ['oneOf', Place::class, []                                             ], # Set oneOf for an inappropriate type
 ['oneOf', Question::class, []                                          ], # Set oneOf with an array
 ['oneOf', Question::class, '[
@@ -879,6 +886,9 @@ class AttributeFormatValidationTest extends TestCase
                         }'                                             ], # Set partOf as as bad Link
 ['partOf', Collection::class, new Collection()                         ], # Set partOf on a bad type
 ['partOf', CollectionPage::class, []                                   ], # Set partOf as a bad type
+
+['preview', CollectionPage::class, []                                  ], # Set preview as a bad type
+['preview', ObjectType::class, "htp://example.org"                     ], # Set preview as a bad type
 
 ['preferredUsername', Activity::class, 'My name'                       ], # Set preferredUsername on a bad type (Activity)
 ['preferredUsername', Application::class, new OrderedCollection()      ], # Set preferredUsername as a bad type (OrderedCollection)

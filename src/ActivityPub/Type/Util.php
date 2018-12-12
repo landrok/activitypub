@@ -29,7 +29,8 @@ abstract class Util
     protected static $coreTypes = [
         'Activity', 'Collection', 'CollectionPage', 
         'IntransitiveActivity', 'Link', 'ObjectType',
-        'OrderedCollection', 'OrderedCollectionPage'
+        'OrderedCollection', 'OrderedCollectionPage',
+        'Object'
     ];
 
     /**
@@ -294,17 +295,23 @@ abstract class Util
      * Check that container class is a subclass of a given class
      * 
      * @param object $container
-     * @param string $class
+     * @param string|array $classes
      * @param bool   $strict If true, throws an exception
      * @return bool
      * @throws \Exception
      */
-    public static function subclassOf($container, $class, $strict = false)
+    public static function subclassOf($container, $classes, $strict = false)
     {
-        if (get_class($container) == $class
-            || is_subclass_of($container, $class)
-        ) {
-            return true;
+        if (!is_array($classes)) {
+            $classes = [$classes];
+        }
+
+        foreach ($classes as $class) {
+            if (get_class($container) == $class
+                || is_subclass_of($container, $class)
+            ) {
+                return true;
+            }
         }
 
         if ($strict) {
@@ -312,7 +319,7 @@ abstract class Util
                 sprintf(
                     'Class "%s" MUST be a subclass of "%s"',
                     get_class($container),
-                    $class
+                    implode(', ', $classes)
                 )
             );
         }
@@ -382,7 +389,15 @@ abstract class Util
      */
     public static function isObjectType($item)
     {
-        return self::isScope($item, self::$objectTypes);
+        return self::isScope(
+            $item, 
+            array_merge(
+                self::$coreTypes,
+                self::$activityTypes,
+                self::$actorTypes,
+                self::$objectTypes
+            )
+        );
     }
 
     /**
