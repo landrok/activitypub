@@ -66,6 +66,9 @@ class AttributeFormatValidationTest extends TestCase
 	 */
 	public function getValidAttributesScenarios()
 	{
+        $link = new Link();
+        $link->href = 'https://example.com/my-href';
+
 		# TypeClass, property, value
 		return [
 ['accuracy', Place::class, 100                                         ], # Set accuracy (int) 
@@ -375,6 +378,9 @@ class AttributeFormatValidationTest extends TestCase
                               }
                             ]'                                         ], # Set oneOf choices 
 
+['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
+['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
+
 ['partOf', CollectionPage::class, "http://example.org/collection"      ], # Set partOf as URL
 ['partOf', CollectionPage::class, '{
                          "type": "Link",
@@ -388,9 +394,6 @@ class AttributeFormatValidationTest extends TestCase
                          "href": "http://example.org/image"
                         }'                                             ], # Set preview as Link
 ['preview', ObjectType::class, new ObjectType()                        ], # Set preview as ObjectType
-
-['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
-['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
 
 ['preferredUsername', Person::class, "My Name"                         ], # Set preferredUsername as a string
 
@@ -411,6 +414,15 @@ class AttributeFormatValidationTest extends TestCase
 
 ['rel', Link::class, ["canonical", "preview"]                          ], # Set rel as an array
 ['rel', Link::class, "alternate"                                       ], # Set rel as a string
+
+['replies', ObjectType::class, 'http://example.org/collection?page=1'  ], # Set replies as a URL
+['replies', ObjectType::class, new Collection()                        ], # Set replies as a Collection
+['replies', ObjectType::class, $link                                   ], # Set replies as a Link
+['replies', CollectionPage::class, '{
+                            "type": "Link",
+                            "name": "Collection of replies",
+                            "href": "http://example.org/replies"
+                        }'                                             ], # Set prev as a Link
 
 ['startIndex', OrderedCollectionPage::class, 0                         ], # Set startIndex as 0
 ['startIndex', OrderedCollectionPage::class, 42                        ], # Set startIndex as 42
@@ -931,6 +943,15 @@ class AttributeFormatValidationTest extends TestCase
 ['rel', Link::class, "hello\n"                                         ], # Set rel as an illegal chain \n
 ['rel', Link::class, "hello\r"                                         ], # Set rel as an illegal chain \r
 
+['replies', ObjectType::class, 'htp://example.org/collection?page=1'   ], # Set replies as a bad URL
+['replies', ObjectType::class, new ObjectType()                        ], # Set replies as a bad type
+['replies', Link::class, new Link()                                    ], # Set replies on a bad type (Link)
+['replies', CollectionPage::class, '{
+                            "type": "Object",
+                            "name": "Collection of replies",
+                            "href": "http://example.org/replies"
+                        }'                                             ], # Set prev as a text Object (bad format)
+
 ['startIndex', ObjectType::class, 0                                    ], # Set startIndex on a bad type
 ['startIndex', OrderedCollectionPage::class, 42.5                      ], # Set startIndex as a bad type
 ['startIndex', OrderedCollectionPage::class, -41                       ], # Set startIndex as an out of range value
@@ -998,7 +1019,7 @@ class AttributeFormatValidationTest extends TestCase
 		$object->{$attr} = $value;
 		$this->assertEquals($value, $object->{$attr});
 	}
-	
+
 	/**
 	 * @dataProvider      getExceptionScenarios
 	 * @expectedException \Exception
@@ -1019,7 +1040,6 @@ class AttributeFormatValidationTest extends TestCase
 		Validator::validate('property', 'value', 'NotAnObject');
 	}
 
-
 	/**
 	 * Validator add method MUST receive an object that implements
 	 * \ActivityPub\Type\ValidatorInterface interface
@@ -1035,23 +1055,23 @@ class AttributeFormatValidationTest extends TestCase
 		});
 	}
 
-	/**
-	 * Validator has no validator for a defined property
+    /**
+     * Validator has no validator for a defined property
      * This is a custom type context.
-	 */
-	public function testValidatorForFreeValidationAttribute()
-	{
+     */
+    public function testValidatorForFreeValidationAttribute()
+    {
         require dirname(__DIR__) . '/MyCustomType.php';
 
-		$ret = Validator::validate(
+        $ret = Validator::validate(
             'customProperty',
             'My value',
             new MyCustomType()
         );
-        
+
         $this->assertEquals(
             true, 
             $ret
         );
-	}
+    }
 }

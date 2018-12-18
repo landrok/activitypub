@@ -246,7 +246,15 @@ class ObjectType extends AbstractObject
     protected $published;
 
     /**
-     * @var string|null
+     * A Collection containing objects considered to be responses to 
+     * this object.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-replies
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Collection
+     *    | \ActivityPub\Type\Core\Link
      */
     protected $replies;
 
