@@ -315,10 +315,15 @@ class AttributeFormatValidationTest extends TestCase
                          "type": "Link",
                          "href": "http://example.org/image"
                         }'                                             ], # Set image as Link
-
 ['inbox', Person::class, new OrderedCollection()                       ], # Set inbox as an OrderedCollection
 ['inbox', Application::class, new OrderedCollectionPage()              ], # Set inbox as an OrderedCollectionPage
 
+['inReplyTo', ObjectType::class, "http://example.org/collection"       ], # Set inReplyTo as URL
+['inReplyTo', ObjectType::class, '{
+                         "type": "Link",
+                         "href": "http://example.org/image"
+                        }'                                             ], # Set inReplyTo as Link
+['inReplyTo', ObjectType::class, new ObjectType()                      ], # Set inReplyTo as ObjectType
 
 ['last', Collection::class, 'http://example.org/collection?page=1'     ], # Set last as a URL
 ['last', OrderedCollection::class, '{
@@ -382,7 +387,7 @@ class AttributeFormatValidationTest extends TestCase
                          "type": "Link",
                          "href": "http://example.org/image"
                         }'                                             ], # Set preview as Link
-['preview', ObjectType::class, new ObjectType()                        ], # Set preview as Collection
+['preview', ObjectType::class, new ObjectType()                        ], # Set preview as ObjectType
 
 ['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
 ['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
@@ -787,6 +792,10 @@ class AttributeFormatValidationTest extends TestCase
 ['inbox', Activity::class, new OrderedCollection()                     ], # Set inbox on a bad type (Activity)
 ['inbox', Application::class, new CollectionPage()                     ], # Set inbox as a bad type (Must be an ordered Type)
 ['inbox', Application::class, 'string'                                 ], # Set inbox as a bad type (Must be a valid object)
+
+['inReplyTo', CollectionPage::class, []                                ], # Set inReplyTo as a bad type
+['inReplyTo', ObjectType::class, "htp://example.org"                   ], # Set inReplyTo as a bad URl value
+['inReplyTo', Link::class, "http://example.org"                        ], # Set inReplyTo on a bad type (Link)
 
 ['last', Activity::class, '{
                             "type": "Link",
