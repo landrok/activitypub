@@ -422,13 +422,22 @@ class AttributeFormatValidationTest extends TestCase
                             "type": "Link",
                             "name": "Collection of replies",
                             "href": "http://example.org/replies"
-                        }'                                             ], # Set prev as a Link
+                        }'                                             ], # Set replies as a Link
 
 ['startIndex', OrderedCollectionPage::class, 0                         ], # Set startIndex as 0
 ['startIndex', OrderedCollectionPage::class, 42                        ], # Set startIndex as 42
 
 ['startTime', ObjectType::class, '2016-05-10T00:00:00Z'                ], # Set startTime as a Datetime (UTC)
 ['startTime', ObjectType::class, '2015-01-31T06:00:00-08:00'           ], # Set startTime as a Datetime (TZ)
+
+['subject', RelationShip::class, 'http://example.org/collection?page=1'], # Set subject as a URL
+['subject', RelationShip::class, new ObjectType()                      ], # Set subject as a ObjectType
+['subject', RelationShip::class, $link                                 ], # Set subject as a Link
+['subject', RelationShip::class, '{
+                            "type": "Link",
+                            "name": "Collection of subject",
+                            "href": "http://example.org/subject"
+                        }'                                             ], # Set subject as a Link
 
 ['summary', Application::class, 'A simple <em>note</em>'               ], # Set summary as a string
 ['summaryMap', Application::class, '{
@@ -959,6 +968,15 @@ class AttributeFormatValidationTest extends TestCase
 ['startTime', ObjectType::class, '2016-05-10 00:00:00Z'                ], # Set startTime as a bad Datetime
 ['startTime', Link::class, '2016-05-10 00:00:00Z'                      ], # Set startTime on a bad type
 ['startTime', ObjectType::class, new ObjectType()                      ], # Set startTime as a bad type
+
+['subject', RelationShip::class, 'htp://example.org/collection?page=1' ], # Set subject as a bad URL
+['subject', RelationShip::class, new \StdClass()                       ], # Set subject as a bad type
+['subject', Person::class, new ObjectType()                            ], # Set subject on a bad type
+['subject', RelationShip::class, '{
+                            "type": "Link",
+                            "name": "Collection of subject",
+                            "href": "htp://example.org/subject"
+                        }'                                             ], # Set subject as a malformed Link
 
 ['totalItems', ObjectType::class, 42                                   ], # Set totalItems on a bad type
 ['totalItems', Collection::class, 42.5                                 ], # Set totalItems with a bad type

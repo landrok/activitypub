@@ -32,8 +32,12 @@ class RelationShip extends ObjectType
     /**
      * One of the connected individuals. 
      * 
-     * @var \ActivityPub\Type\Core\ObjectType
-     *     |\ActivityPub\Type\Core\Link
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-subject
+     *
+     * @var null
+     *     | string
+     *     | \ActivityPub\Type\Core\ObjectType
+     *     | \ActivityPub\Type\Core\Link
      */
     protected $subject;
 
