@@ -430,20 +430,20 @@ class AttributeFormatValidationTest extends TestCase
 ['startTime', ObjectType::class, '2016-05-10T00:00:00Z'                ], # Set startTime as a Datetime (UTC)
 ['startTime', ObjectType::class, '2015-01-31T06:00:00-08:00'           ], # Set startTime as a Datetime (TZ)
 
-['subject', RelationShip::class, 'http://example.org/collection?page=1'], # Set subject as a URL
-['subject', RelationShip::class, new ObjectType()                      ], # Set subject as a ObjectType
-['subject', RelationShip::class, $link                                 ], # Set subject as a Link
-['subject', RelationShip::class, '{
+['subject', Relationship::class, 'http://example.org/collection?page=1'], # Set subject as a URL
+['subject', Relationship::class, new ObjectType()                      ], # Set subject as a ObjectType
+['subject', Relationship::class, $link                                 ], # Set subject as a Link
+['subject', Relationship::class, '{
                             "type": "Link",
                             "name": "Collection of subject",
                             "href": "http://example.org/subject"
                         }'                                             ], # Set subject as a Link
 
-['relationship', RelationShip::class,
+['relationship', Relationship::class,
         'http://purl.org/vocab/relationship/acquaintanceOf'            ], # Set relationship as a URL
-['relationship', RelationShip::class, new ObjectType()                 ], # Set relationship as a ObjectType
-['relationship', RelationShip::class, $link                            ], # Set relationship as a Link
-['relationship', RelationShip::class, '{
+['relationship', Relationship::class, new ObjectType()                 ], # Set relationship as a ObjectType
+['relationship', Relationship::class, $link                            ], # Set relationship as a Link
+['relationship', Relationship::class, '{
                             "type": "Link",
                             "name": "Collection of relationship",
                             "href": "http://example.org/relationship"
@@ -979,20 +979,20 @@ class AttributeFormatValidationTest extends TestCase
 ['startTime', Link::class, '2016-05-10 00:00:00Z'                      ], # Set startTime on a bad type
 ['startTime', ObjectType::class, new ObjectType()                      ], # Set startTime as a bad type
 
-['subject', RelationShip::class, 'htp://example.org/collection?page=1' ], # Set subject as a bad URL
-['subject', RelationShip::class, new \StdClass()                       ], # Set subject as a bad type
+['subject', Relationship::class, 'htp://example.org/collection?page=1' ], # Set subject as a bad URL
+['subject', Relationship::class, new \StdClass()                       ], # Set subject as a bad type
 ['subject', Person::class, new ObjectType()                            ], # Set subject on a bad type
-['subject', RelationShip::class, '{
+['subject', Relationship::class, '{
                             "type": "Link",
                             "name": "Collection of subject",
                             "href": "htp://example.org/subject"
                         }'                                             ], # Set subject as a malformed Link
 
-['relationship', RelationShip::class, 
+['relationship', Relationship::class, 
         'hp://purl.org/vocab/relationship/acquaintanceOf'              ], # Set relationship as a bad URL
-['relationship', RelationShip::class, new \StdClass()                  ], # Set relationship as a bad type
+['relationship', Relationship::class, new \StdClass()                  ], # Set relationship as a bad type
 ['relationship', Person::class, new ObjectType()                            ], # Set relationship on a bad type
-['relationship', RelationShip::class, '{
+['relationship', Relationship::class, '{
                             "type": "Link",
                             "name": "Collection of relationship",
                             "href": "htp://example.org/relationship"
