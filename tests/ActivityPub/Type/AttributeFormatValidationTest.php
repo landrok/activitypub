@@ -847,7 +847,8 @@ class AttributeFormatValidationTest extends TestCase
                             "href": "htp://example.org/collection?page=2"
                         }'                                             ], # Set next as a malformed Link
 ['next', CollectionPage::class, 'htp://example.org/collection?page=2'  ], # Set next as a malformed URL
-['next', CollectionPage::class, new Collection()                       ], # Set next as a bad type
+['next', CollectionPage::class, new Collection()                       ], # Set next as a bad object type
+['next', CollectionPage::class, []                                     ], # Set next as a bad type (array)
 
 ['oneOf', Place::class, []                                             ], # Set oneOf for an inappropriate type
 ['oneOf', Question::class, []                                          ], # Set oneOf with an array
@@ -1032,5 +1033,25 @@ class AttributeFormatValidationTest extends TestCase
 				return true;
 			}
 		});
+	}
+
+	/**
+	 * Validator has no validator for a defined property
+     * This is a custom type context.
+	 */
+	public function testValidatorForFreeValidationAttribute()
+	{
+        require dirname(__DIR__) . '/MyCustomType.php';
+
+		$ret = Validator::validate(
+            'customProperty',
+            'My value',
+            new MyCustomType()
+        );
+        
+        $this->assertEquals(
+            true, 
+            $ret
+        );
 	}
 }

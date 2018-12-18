@@ -2,8 +2,8 @@
 
 namespace ActivityPubTest\Type;
 
+use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Util;
-
 use PHPUnit\Framework\TestCase;
 
 class UtilTest extends TestCase
@@ -89,6 +89,30 @@ class UtilTest extends TestCase
         $this->assertEquals(
             false, 
             Util::validateBcp47([])
+        );
+	}
+
+    /**
+     * Pass an illegal type for validateCollection
+     */
+    public function testValidateCollectionNotAnObject()
+    {
+        $this->assertEquals(
+            false, 
+            Util::validateCollection('MyStringCollection')
+        );
+	}
+
+    /**
+     * Pass an illegal type for validateCollectionPage
+     * 
+     * @expectedException \Exception
+     */
+    public function testValidateCollectionPageInvalidObject()
+    {
+        $this->assertEquals(
+            false, 
+            Util::validateCollectionPage(new ObjectType())
         );
 	}
 }
