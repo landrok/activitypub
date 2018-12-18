@@ -16,13 +16,13 @@ use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
 /**
- * \ActivityPub\Type\Validator\SubjectValidator is a dedicated
- * validator for subject attribute.
+ * \ActivityPub\Type\Validator\RelationshipValidator is a dedicated
+ * validator for relationship attribute.
  */
-class SubjectValidator implements ValidatorInterface
+class RelationshipValidator implements ValidatorInterface
 {
     /**
-     * Validate subject value
+     * Validate relationship value
      * 
      * @param  object $value
      * @param  mixed  $container

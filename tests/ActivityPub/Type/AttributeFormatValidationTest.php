@@ -439,6 +439,16 @@ class AttributeFormatValidationTest extends TestCase
                             "href": "http://example.org/subject"
                         }'                                             ], # Set subject as a Link
 
+['relationship', RelationShip::class,
+        'http://purl.org/vocab/relationship/acquaintanceOf'            ], # Set relationship as a URL
+['relationship', RelationShip::class, new ObjectType()                 ], # Set relationship as a ObjectType
+['relationship', RelationShip::class, $link                            ], # Set relationship as a Link
+['relationship', RelationShip::class, '{
+                            "type": "Link",
+                            "name": "Collection of relationship",
+                            "href": "http://example.org/relationship"
+                        }'                                             ], # Set relationship as a Link
+
 ['summary', Application::class, 'A simple <em>note</em>'               ], # Set summary as a string
 ['summaryMap', Application::class, '{
                                      "en": "A simple <em>note</em>",
@@ -977,6 +987,16 @@ class AttributeFormatValidationTest extends TestCase
                             "name": "Collection of subject",
                             "href": "htp://example.org/subject"
                         }'                                             ], # Set subject as a malformed Link
+
+['relationship', RelationShip::class, 
+        'hp://purl.org/vocab/relationship/acquaintanceOf'              ], # Set relationship as a bad URL
+['relationship', RelationShip::class, new \StdClass()                  ], # Set relationship as a bad type
+['relationship', Person::class, new ObjectType()                            ], # Set relationship on a bad type
+['relationship', RelationShip::class, '{
+                            "type": "Link",
+                            "name": "Collection of relationship",
+                            "href": "htp://example.org/relationship"
+                        }'                                             ], # Set relationship as a malformed Link
 
 ['totalItems', ObjectType::class, 42                                   ], # Set totalItems on a bad type
 ['totalItems', Collection::class, 42.5                                 ], # Set totalItems with a bad type

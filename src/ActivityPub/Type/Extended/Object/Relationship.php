@@ -22,7 +22,7 @@ use ActivityPub\Type\Core\ObjectType;
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-relationship
  */ 
-class RelationShip extends ObjectType
+class Relationship extends ObjectType
 {
     /**
      * @var string
