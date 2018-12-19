@@ -2,8 +2,8 @@ ActivityPub
 ===========
 
 [![Build Status](https://travis-ci.org/landrok/activitypub.svg?branch=master)](https://travis-ci.org/landrok/activitypub)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/test_coverage)](https://codeclimate.com/github/landrok/activitypub/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/maintainability)](https://codeclimate.com/github/landrok/activitypub/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/test_coverage)](https://codeclimate.com/github/landrok/activitypub/test_coverage)
 
 ActivityPub is an implementation of ActivityPub layers in PHP.
 
@@ -28,6 +28,14 @@ Table of contents
     - [ActivityStreams Core Types](#activitystreams-core-types)
     - [ActivityStreams Extended Types](#activitystreams-extended-types)
 - [Usage](#usage)
+    - [Properties names](#properties-names)
+    - [All properties and their values](#all-properties-and-their-values)
+    - [Get a property](#get-a-property)
+    - [Set a property](#set-a-property)
+    - [Check if property exists](#check-if-property-exists)
+    - [Use native types](#use-native-types)
+    - [Use your own extended types](#use-own-extended-types)
+    - [Create your own property validator](#create-own-property-validator)
 
 ________________________________________________________________________
 
@@ -62,6 +70,7 @@ use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Core\OrderedCollection;
 use ActivityPub\Type\Core\OrderedCollectionPage;
 ```
+
 ________________________________________________________________________
 
 ActivityStreams Extended Types
@@ -135,18 +144,146 @@ ________________________________________________________________________
 Usage
 -----
 
-### Hydrate an extended type
+### Properties names
+
+Whatever be your object or link, you can get all properties names with
+`getProperties()` method.
+
+```php
+use ActivityPub\Type\Core\Link;
+
+$link = new Link();
+
+print_r(
+    $link->getProperties()
+);
+```
+
+Would output something like:
+
+```
+Array
+(
+    [0] => type
+    [1] => id
+    [2] => name
+    [3] => nameMap
+    [4] => href
+    [5] => hreflang
+    [6] => mediaType
+    [7] => rel
+    [8] => height
+    [9] => preview
+    [10] => width
+)
+```
+
+________________________________________________________________________
+
+### All properties and their values
+
+In order to dump all properties and associated values, use `toArray()`
+method.
+
+```php
+use ActivityPub\Type\Core\Link;
+
+$link = new Link();
+$link->setName('An example');
+$link->setHref('http://example.com');
+
+print_r(
+    $link->toArray()
+);
+```
+
+Would output something like:
+
+```
+Array
+(
+    [type] => Link
+    [id] =>
+    [name] => An example
+    [nameMap] =>
+    [href] => http://example.com
+    [hreflang] =>
+    [mediaType] =>
+    [rel] =>
+    [height] =>
+    [preview] =>
+    [width] =>
+)
+```
+
+________________________________________________________________________
+
+### Get a property
+
+There are 3 equivalent ways to get a value.
 
 ```php
 use ActivityPub\Type\Extended\Object\Note;
 
 $note = new Note();
-$note->id = 'https://example.com/notes/1';
+
+// Each method returns the same value
+echo $note->id;
+echo $note->get('id');
+echo $note->getId();
 ```
 
-You could do the same with all core types.
+________________________________________________________________________
 
-### Extend a core type
+### Set a property
+
+There are 3 equivalent ways to set a value.
+
+```php
+$note = new Note();
+
+$note->id = 'https://example.com/custom-notes/1';
+$note->set('id', 'https://example.com/custom-notes/1');
+$note->setId('https://example.com/custom-notes/1');
+
+```
+
+Whenever you assign a value, the format of this value is checked.
+
+This action is made by a validator. If rules are not respected an 
+Exception is thrown.
+
+________________________________________________________________________
+
+
+### Check if property exists
+
+```php
+$note = new Note();
+
+echo $note->has('id'); // true
+echo $note->has('anotherProperty'); // false
+
+```
+
+________________________________________________________________________
+
+### Use native types
+
+All core and extended types are used with a classic instanciation.
+
+```php
+use ActivityPub\Type\Extended\Object\Note;
+
+$note = new Note();
+```
+
+________________________________________________________________________
+
+
+### Use your own extended types
+
+If you need some custom attributes, you can extend predefined types.
 
 ```php
 use ActivityPub\Type\Extended\Object\Note;
@@ -163,40 +300,8 @@ class MyNote extends Note
 $note = new MyNote();
 $note->id = 'https://example.com/custom-notes/1';
 $note->myProperty = 'Custom Value';
-```
 
-There are 3 equivalent ways for setting a property:
-
-```php
-
-$note = new Note();
-
-$note->id = 'https://example.com/custom-notes/1';
-$note->set('id', 'https://example.com/custom-notes/1');
-$note->setId('https://example.com/custom-notes/1');
-
-```
-
-There are 3 equivalent ways for getting a property:
-
-```php
-
-$note = new Note();
-
-// each method returns same value
-echo $note->id;
-echo $note->get('id');
-echo $note->getId();
-
-```
-
-You can check that a property is defined with `has()` method:
-
-```php
-
-$note = new Note();
-
-echo $note->has('id'); // Returns true
+echo $note->getMyProperty(); // Custom Value
 ```
 
 Extending types preserves benefits of getters, setters and 
@@ -204,12 +309,11 @@ their validators.
 
 ________________________________________________________________________
 
-### Add custom validators for objects attributes
 
-There is 2 possible cases:
+### Create your own property validator
 
-1. Usage of custom attributes
-2. Override ActivityPub attribute validation
+Use a custom property validator when you define custom attributes or 
+when you want to override ActivityPub attribute default validation.
 
 Regarding to previous example with a custom attribute `$myProperty`, if
 you try to set this property, it would be done without any check on
@@ -219,7 +323,6 @@ You can easily cope with that implementing a custom validator using
 `Validator`.
 
 ```php
-
 use ActivityPub\Type\ValidatorInterface;
 use ActivityPub\Type\Validator;
 
@@ -243,3 +346,5 @@ Validator::add('myProperty', MyPropertyValidator::class);
 $note->myProperty = 'Custom Value';
 
 ```
+
+________________________________________________________________________

@@ -82,15 +82,26 @@ abstract class AbstractObject
     }
 
     /**
-     * Get a list of all attributes names
+     * Get a list of all properties names
      * 
      * @return array
      */
-    public function getAttributes()
+    public function getProperties()
     {
         return array_keys(
             get_object_vars($this)
         );
+    }
+
+    /**
+     * Get a list of all properties and their values 
+     * as an associative array
+     * 
+     * @return array
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
     }
 
     /**

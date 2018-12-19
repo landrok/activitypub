@@ -528,10 +528,6 @@ abstract class Util
      */
     public static function validateCollectionPage($item)
     {
-        if (!is_object($item)) {
-            return false;
-        }
-
         // Must be a Collection
         if (!self::validateCollection($item)) {
             return false;
