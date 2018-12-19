@@ -14,7 +14,7 @@ namespace ActivityPub\Type\Extended\Object;
 use ActivityPub\Type\Core\ObjectType;
 
 /**
- * \ActivityPub\Type\Extended\Object\RelationShip is an implementation of 
+ * \ActivityPub\Type\Extended\Object\Relationship is an implementation of 
  * one of the Activity Streams Extended Types.
  *
  * Describes a relationship between two individuals. 
@@ -22,7 +22,7 @@ use ActivityPub\Type\Core\ObjectType;
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-relationship
  */ 
-class RelationShip extends ObjectType
+class Relationship extends ObjectType
 {
     /**
      * @var string
@@ -30,17 +30,26 @@ class RelationShip extends ObjectType
     protected $type = 'Relationship';
 
     /**
-     * One of the connected individuals. 
+     * One of the connected individuals.
      * 
-     * @var \ActivityPub\Type\Core\ObjectType
-     *     |\ActivityPub\Type\Core\Link
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-subject
+     *
+     * @var null
+     *     | string
+     *     | \ActivityPub\Type\Core\ObjectType
+     *     | \ActivityPub\Type\Core\Link
      */
     protected $subject;
 
     /**
-     * Object of the relationship. 
+     * The entity to which the subject is related.  
      * 
-     * @var \ActivityPub\Type\Core\ObjectType
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object-term
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
      */
     protected $object;
 
