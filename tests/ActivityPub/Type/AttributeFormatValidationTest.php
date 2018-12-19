@@ -370,6 +370,16 @@ class AttributeFormatValidationTest extends TestCase
                               }
                             ]'                                         ], # Set oneOf choices 
 
+['origin', Activity::class, "http://example.org/origin"                ], # Set origin as URL
+['origin', Like::class, '{
+                         "type": "Link",
+                         "href": "http://example.org/image"
+                        }'                                             ], # Set origin as Link
+['origin', Create::class, new ObjectType()                             ], # Set origin as ObjectType
+
+['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
+['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
+
 ['partOf', CollectionPage::class, "http://example.org/collection"      ], # Set partOf as URL
 ['partOf', CollectionPage::class, '{
                          "type": "Link",
@@ -382,10 +392,7 @@ class AttributeFormatValidationTest extends TestCase
                          "type": "Link",
                          "href": "http://example.org/image"
                         }'                                             ], # Set preview as Link
-['preview', ObjectType::class, new ObjectType()                        ], # Set preview as Collection
-
-['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
-['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
+['preview', ObjectType::class, new ObjectType()                        ], # Set preview as ObjectType
 
 ['preferredUsername', Person::class, "My Name"                         ], # Set preferredUsername as a string
 
@@ -879,6 +886,9 @@ class AttributeFormatValidationTest extends TestCase
 ['outbox', Application::class, new CollectionPage()                    ], # Set outbox as a bad type (Must be an ordered Type)
 ['outbox', Application::class, 'string'                                ], # Set outbox as a bad type (Must be a valid object)
 
+['origin', Collection::class, []                                       ], # Set origin on a bad type
+['origin', Activity::class, "htp://example.org"                        ], # Set origin as a bad URL
+
 ['partOf', CollectionPage::class, "htp://example.org/collection"       ], # Set partOf as a bad URL
 ['partOf', CollectionPage::class, '{
                          "type": "Lin",
@@ -888,7 +898,7 @@ class AttributeFormatValidationTest extends TestCase
 ['partOf', CollectionPage::class, []                                   ], # Set partOf as a bad type
 
 ['preview', CollectionPage::class, []                                  ], # Set preview as a bad type
-['preview', ObjectType::class, "htp://example.org"                     ], # Set preview as a bad type
+['preview', ObjectType::class, "htp://example.org"                     ], # Set preview as a bad URL
 
 ['preferredUsername', Activity::class, 'My name'                       ], # Set preferredUsername on a bad type (Activity)
 ['preferredUsername', Application::class, new OrderedCollection()      ], # Set preferredUsername as a bad type (OrderedCollection)
