@@ -29,14 +29,11 @@ class Activity extends AbstractActivity
     protected $type = 'Activity';
 
     /**
-     * Describes an indirect object of the activity from which the 
-     * activity is directed.
-     * The precise meaning of the origin is the object of the English 
-     * preposition "from".
-     * For instance, in the activity "John moved an item to List B 
-     * from List A", the origin of the activity is "List A".
+     * Describes the direct object of the activity.
+     * For instance, in the activity "John added a movie to his 
+     * wishlist", the object of the activity is the movie added.
      * 
-     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-origin
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-object-term
      * 
      * @var string
      *    | null

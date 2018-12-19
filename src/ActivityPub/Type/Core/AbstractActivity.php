@@ -54,7 +54,19 @@ abstract class AbstractActivity extends ObjectType
     protected $result;
 
     /**
+     * Describes an indirect object of the activity from which the 
+     * activity is directed.
+     * The precise meaning of the origin is the object of the English 
+     * preposition "from".
+     * For instance, in the activity "John moved an item to List B 
+     * from List A", the origin of the activity is "List A".
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-origin
+     * 
      * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
      */
     protected $origin;
 

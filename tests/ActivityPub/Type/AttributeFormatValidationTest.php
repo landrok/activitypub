@@ -359,6 +359,13 @@ class AttributeFormatValidationTest extends TestCase
 ['next', CollectionPage::class, 'http://example.org/collection?page=2' ], # Set next as a URL
 ['next', CollectionPage::class, new CollectionPage()                   ], # Set next as a CollectionPage
 
+['object', Activity::class, "http://example.org/object"                ], # Set object as URL
+['object', Relationship::class, '{
+                         "type": "Link",
+                         "href": "http://example.org/image"
+                        }'                                             ], # Set object as Link
+['object', Activity::class, new ObjectType()                           ], # Set object as ObjectType
+
 ['oneOf', Question::class, '[
                               {
                                 "type": "Note",
@@ -847,6 +854,10 @@ class AttributeFormatValidationTest extends TestCase
 ['next', CollectionPage::class, 'htp://example.org/collection?page=2'  ], # Set next as a malformed URL
 ['next', CollectionPage::class, new Collection()                       ], # Set next as a bad type
 
+['object', ObjectType::class, 'http://example.org/object'              ], # Set object on a bad type
+['object', Relationship::class, []                                     ], # Set object as a bad type
+['object', Activity::class, "htp://example.org"                        ], # Set object as a bad URL
+
 ['oneOf', Place::class, []                                             ], # Set oneOf for an inappropriate type
 ['oneOf', Question::class, []                                          ], # Set oneOf with an array
 ['oneOf', Question::class, '[
@@ -882,12 +893,12 @@ class AttributeFormatValidationTest extends TestCase
                              }
                             ]'                                         ], # Set oneOf with malformed choices
 
+['origin', Collection::class, []                                       ], # Set origin on a bad type
+['origin', Activity::class, "htp://example.org"                        ], # Set origin as a bad URL
+
 ['outbox', Activity::class, new OrderedCollection()                    ], # Set outbox on a bad type (Activity)
 ['outbox', Application::class, new CollectionPage()                    ], # Set outbox as a bad type (Must be an ordered Type)
 ['outbox', Application::class, 'string'                                ], # Set outbox as a bad type (Must be a valid object)
-
-['origin', Collection::class, []                                       ], # Set origin on a bad type
-['origin', Activity::class, "htp://example.org"                        ], # Set origin as a bad URL
 
 ['partOf', CollectionPage::class, "htp://example.org/collection"       ], # Set partOf as a bad URL
 ['partOf', CollectionPage::class, '{
