@@ -66,6 +66,9 @@ class AttributeFormatValidationTest extends TestCase
 	 */
 	public function getValidAttributesScenarios()
 	{
+        $link = new Link();
+        $link->href = 'https://example.com/my-href';
+
 		# TypeClass, property, value
 		return [
 ['accuracy', Place::class, 100                                         ], # Set accuracy (int) 
