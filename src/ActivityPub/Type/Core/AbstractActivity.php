@@ -35,8 +35,10 @@ abstract class AbstractActivity extends ObjectType
      * Any single activity can have multiple actors.
      * The actor MAY be specified using an indirect Link.
      *
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-actor
+     * 
      * @var string
-     *    | \ActivityPub\Type\Core\Actor
+     *    | \ActivityPub\Type\Extended\AbstractActor
      *    | \ActivityPub\Type\Core\Actor[]
      *    | \ActivityPub\Type\Core\Link
      *    | \ActivityPub\Type\Core\Link[]
@@ -44,7 +46,21 @@ abstract class AbstractActivity extends ObjectType
     protected $actor;
 
     /**
+     * The indirect object, or target, of the activity.
+     * The precise meaning of the target is largely dependent on the 
+     * type of action being described but will often be the object of
+     * the English preposition "to".
+     * For instance, in the activity "John added a movie to his 
+     * wishlist", the target of the activity is John's wishlist.
+     * An activity can have more than one target. 
+     *
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-target
+     * 
      * @var string
+     *    | \ActivityPub\Type\Core\ObjectType
+     *    | \ActivityPub\Type\Core\ObjectType[]
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $target;
 
@@ -54,7 +70,7 @@ abstract class AbstractActivity extends ObjectType
     protected $result;
 
     /**
-     * Describes an indirect object of the activity from which the 
+     * An indirect object of the activity from which the 
      * activity is directed.
      * The precise meaning of the origin is the object of the English 
      * preposition "from".
@@ -65,7 +81,7 @@ abstract class AbstractActivity extends ObjectType
      * 
      * @var string
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
      */
     protected $origin;

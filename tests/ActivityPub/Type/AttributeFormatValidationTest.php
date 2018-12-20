@@ -461,6 +461,19 @@ class AttributeFormatValidationTest extends TestCase
                                      "zh-Hans": "一段<em>简单的</em>笔记"
                                     }'                                 ], # Set summaryMap as a map
 
+['target', Activity::class, 'https://example.com/bob'                  ], # Set target as URL
+['target', Activity::class, '{ "type": "Person",
+                              "id": "http://sally.example.org",
+                              "summary": "Sally"
+                            }'                                         ], # Set target as an target type, JSON encoded
+['target', Activity::class, '[ "http://joe.example.org",
+                              {
+                                "type": "Person",
+                                "id": "http://sally.example.org",
+                                "name": "Sally"
+                              }
+                            ]'                                         ], # Set target as multiple targets, JSON encoded
+
 ['to', Offer::class, '["http://joe.example.org",
                         {
                           "type": "Person",
@@ -1037,6 +1050,34 @@ class AttributeFormatValidationTest extends TestCase
                               "zh-Hans": "一段<em>简单的</em>笔记"
                              }'                                        ], # Set summaryMap on a bad type
 ['summaryMap', Note::class, 'A simple <em>note</em>'                   ], # Set summaryMap on a bad type
+
+['target', Activity::class, 'https:/example.com/bob'                    ], # Set target as malformed URL
+['target', Activity::class, 'bob'                                       ], # Set target as not allowed string
+['target', Activity::class, 42                                          ], # Set target as not allowed type
+['target', Activity::class, '{}'                                        ], # Set target as a JSON malformed string
+['target', Activity::class, '[
+                             "http://joe.example.org",
+                             {
+                              "type": "Person",
+                              "name": "Sally"
+                             }
+                            ]'                                         ], # Set target as multiple targets, JSON encoded, missing id for one target
+['target', Activity::class, '[
+                             "http://joe.example.org",
+                             {
+                              "type": "Person",
+                              "id": "http://",
+                              "name": "Sally"
+                             }
+                            ]'                                         ], # Set target as multiple targets, JSON encoded, invalid id
+['target', Activity::class, '[
+                             "http://",
+                             {
+                              "type": "Person",
+                              "id": "http://joe.example.org",
+                              "name": "Sally"
+                             }
+                            ]'                                         ], # Set target as multiple targets, JSON encoded, invalid indirect link
 
 ['units', Place::class, 'mile'                                         ], # Set units as a bad units
 ['units', Place::class, 'htp://example.org/my-units'                   ], # Set units as a bad xsd:anyURI
