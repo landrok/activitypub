@@ -51,9 +51,9 @@ class ObjectType extends AbstractObject
      * 
      * @var string
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
-     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\ObjectType[]
      *    | \ActivityPub\Type\Core\Link[]
      */
     protected $attachment;
@@ -67,9 +67,9 @@ class ObjectType extends AbstractObject
      * 
      * @var string
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
-     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\ObjectType[]
      *    | \ActivityPub\Type\Core\Link[]
      */
     protected $attributedTo;
@@ -82,9 +82,9 @@ class ObjectType extends AbstractObject
      * 
      * @var string
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
-     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\ObjectType[]
      *    | \ActivityPub\Type\Core\Link[]
      */
     protected $audience;
@@ -117,7 +117,7 @@ class ObjectType extends AbstractObject
      * 
      * @var string
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
      */
     protected $context;
@@ -212,9 +212,9 @@ class ObjectType extends AbstractObject
      * 
      * @var string
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
-     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\ObjectType[]
      *    | \ActivityPub\Type\Core\Link[]
      */
     protected $inReplyTo;
@@ -231,7 +231,7 @@ class ObjectType extends AbstractObject
      * 
      * @var string
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
      */
     protected $preview;
@@ -279,7 +279,7 @@ class ObjectType extends AbstractObject
      * 
      * @var string
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
      */
     protected $summary;
@@ -295,7 +295,20 @@ class ObjectType extends AbstractObject
     protected $summaryMap;
 
     /**
-     * @var string|null
+     * One or more "tags" that have been associated with an objects.
+     * A tag can be any kind of Object.
+     * The key difference between attachment and tag is that the former
+     * implies association by inclusion, while the latter implies 
+     * associated by reference. 
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-tag
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\ObjectType
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\ObjectType[]
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $tag;
 
@@ -327,9 +340,9 @@ class ObjectType extends AbstractObject
      * 
      * @var string
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
-     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\ObjectType[]
      *    | \ActivityPub\Type\Core\Link[]
      */
     protected $to;
@@ -342,9 +355,9 @@ class ObjectType extends AbstractObject
      * 
      * @var string
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
-     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\ObjectType[]
      *    | \ActivityPub\Type\Core\Link[]
      */
     protected $bto;
@@ -357,9 +370,9 @@ class ObjectType extends AbstractObject
      * 
      * @var string
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
-     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\ObjectType[]
      *    | \ActivityPub\Type\Core\Link[]
      */
     protected $cc;
@@ -372,9 +385,9 @@ class ObjectType extends AbstractObject
      * 
      * @var string|null
      *    | null
-     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\ObjectType
      *    | \ActivityPub\Type\Core\Link
-     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\ObjectType[]
      *    | \ActivityPub\Type\Core\Link[]
      */
     protected $bcc;

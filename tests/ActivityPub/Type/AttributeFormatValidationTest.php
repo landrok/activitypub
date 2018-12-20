@@ -461,6 +461,27 @@ class AttributeFormatValidationTest extends TestCase
                                      "zh-Hans": "一段<em>简单的</em>笔记"
                                     }'                                 ], # Set summaryMap as a map
 
+['tag', Note::class, '[
+                               {
+                                 "type": "Image",
+                                 "url": "http://example.org/tag"
+                              }
+                            ]'                                         ], # Set tag with an ObjectType
+['tag', Note::class, '[
+                              {
+                                "type": "Link",
+                                "href": "http://example.org/tag"
+                              }
+                            ]'                                         ], # Set tag with an Link
+['tag', Note::class, '["http://example.org/tag"]'                      ], # Set tag with an indirect reference
+['tag', ObjectType::class, '[
+                                     {
+                                       "type": "Object",
+                                       "url": "http://example.org/tag"
+                                     }
+                                   ]'                                  ], # Set tag
+
+
 ['target', Activity::class, 'https://example.com/bob'                  ], # Set target as URL
 ['target', Activity::class, '{ "type": "Person",
                               "id": "http://sally.example.org",
@@ -1011,28 +1032,6 @@ class AttributeFormatValidationTest extends TestCase
 ['startTime', Link::class, '2016-05-10 00:00:00Z'                      ], # Set startTime on a bad type
 ['startTime', ObjectType::class, new ObjectType()                      ], # Set startTime as a bad type
 
-['to', Offer::class, '[
-                        "http://sally.example.org",
-                        {
-                         "type": "Person",
-                         "name": "Sally"
-                        }
-                       ]'                                              ], # Set to with an array of mixed URL and persons (missing url property)
-['to', Offer::class, '[
-                        "http://sally.example.org",
-                        {
-                         "type": "Person",
-                         "name": "Sally",
-                         "url": "Not an URL"
-                        }
-                       ]'                                              ], # Set to with an array of mixed URL and persons (URL property is not valid)
-['to', Offer::class, '["Not a valid URL"]'                             ], # Set to with malformed URL
-
-['totalItems', ObjectType::class, 42                                   ], # Set totalItems on a bad type
-['totalItems', Collection::class, 42.5                                 ], # Set totalItems with a bad type
-['totalItems', Collection::class, 'cat'                                ], # Set totalItems with a bad type
-['totalItems', Collection::class, -42                                  ], # Set totalItems with an out of range value
-
 ['subject', Relationship::class, 'htp://example.org/collection?page=1' ], # Set subject as a bad URL
 ['subject', Relationship::class, new \StdClass()                       ], # Set subject as a bad type
 ['subject', Person::class, new ObjectType()                            ], # Set subject on a bad type
@@ -1050,6 +1049,18 @@ class AttributeFormatValidationTest extends TestCase
                               "zh-Hans": "一段<em>简单的</em>笔记"
                              }'                                        ], # Set summaryMap on a bad type
 ['summaryMap', Note::class, 'A simple <em>note</em>'                   ], # Set summaryMap on a bad type
+
+['tag', Note::class, '[
+                              {
+                               "content": "This is what he looks like.",
+                              }
+                             ]'                                        ], # Set tag with a missing type
+['tag', Note::class, '[
+                              {
+                               "type": "Link",
+                               "content": "This is what he looks like.",
+                              }
+                             ]'                                        ], # Set tag with a missing reference
 
 ['target', Activity::class, 'https:/example.com/bob'                    ], # Set target as malformed URL
 ['target', Activity::class, 'bob'                                       ], # Set target as not allowed string
@@ -1078,6 +1089,29 @@ class AttributeFormatValidationTest extends TestCase
                               "name": "Sally"
                              }
                             ]'                                         ], # Set target as multiple targets, JSON encoded, invalid indirect link
+
+
+['to', Offer::class, '[
+                        "http://sally.example.org",
+                        {
+                         "type": "Person",
+                         "name": "Sally"
+                        }
+                       ]'                                              ], # Set to with an array of mixed URL and persons (missing url property)
+['to', Offer::class, '[
+                        "http://sally.example.org",
+                        {
+                         "type": "Person",
+                         "name": "Sally",
+                         "url": "Not an URL"
+                        }
+                       ]'                                              ], # Set to with an array of mixed URL and persons (URL property is not valid)
+['to', Offer::class, '["Not a valid URL"]'                             ], # Set to with malformed URL
+
+['totalItems', ObjectType::class, 42                                   ], # Set totalItems on a bad type
+['totalItems', Collection::class, 42.5                                 ], # Set totalItems with a bad type
+['totalItems', Collection::class, 'cat'                                ], # Set totalItems with a bad type
+['totalItems', Collection::class, -42                                  ], # Set totalItems with an out of range value
 
 ['units', Place::class, 'mile'                                         ], # Set units as a bad units
 ['units', Place::class, 'htp://example.org/my-units'                   ], # Set units as a bad xsd:anyURI
