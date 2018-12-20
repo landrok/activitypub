@@ -461,6 +461,14 @@ class AttributeFormatValidationTest extends TestCase
                                      "zh-Hans": "一段<em>简单的</em>笔记"
                                     }'                                 ], # Set summaryMap as a map
 
+['to', Offer::class, '["http://joe.example.org",
+                        {
+                          "type": "Person",
+                          "name": "Bob",
+                          "url": "http://bob.example.org"
+                        }
+                       ]'                                              ], # Set to with an array of mixed URL and persons
+
 ['totalItems', Collection::class, 0                                    ], # Set totalItems as 0
 ['totalItems', Collection::class, 42                                   ], # Set totalItems as 42
 
@@ -989,6 +997,23 @@ class AttributeFormatValidationTest extends TestCase
 ['startTime', ObjectType::class, '2016-05-10 00:00:00Z'                ], # Set startTime as a bad Datetime
 ['startTime', Link::class, '2016-05-10 00:00:00Z'                      ], # Set startTime on a bad type
 ['startTime', ObjectType::class, new ObjectType()                      ], # Set startTime as a bad type
+
+['to', Offer::class, '[
+                        "http://sally.example.org",
+                        {
+                         "type": "Person",
+                         "name": "Sally"
+                        }
+                       ]'                                              ], # Set to with an array of mixed URL and persons (missing url property)
+['to', Offer::class, '[
+                        "http://sally.example.org",
+                        {
+                         "type": "Person",
+                         "name": "Sally",
+                         "url": "Not an URL"
+                        }
+                       ]'                                              ], # Set to with an array of mixed URL and persons (URL property is not valid)
+['to', Offer::class, '["Not a valid URL"]'                             ], # Set to with malformed URL
 
 ['totalItems', ObjectType::class, 42                                   ], # Set totalItems on a bad type
 ['totalItems', Collection::class, 42.5                                 ], # Set totalItems with a bad type

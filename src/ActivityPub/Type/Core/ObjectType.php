@@ -320,7 +320,17 @@ class ObjectType extends AbstractObject
     protected $url;
 
     /**
-     * @var string|null
+     * An entity considered to be part of the public primary audience 
+     * of an Object 
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-to
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\Object
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\Object[]
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $to;
 
