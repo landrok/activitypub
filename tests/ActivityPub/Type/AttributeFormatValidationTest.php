@@ -319,6 +319,12 @@ class AttributeFormatValidationTest extends TestCase
 ['inbox', Person::class, new OrderedCollection()                       ], # Set inbox as an OrderedCollection
 ['inbox', Application::class, new OrderedCollectionPage()              ], # Set inbox as an OrderedCollectionPage
 
+['inReplyTo', ObjectType::class, "http://example.org/collection"       ], # Set inReplyTo as URL
+['inReplyTo', ObjectType::class, '{
+                         "type": "Link",
+                         "href": "http://example.org/image"
+                        }'                                             ], # Set inReplyTo as Link
+['inReplyTo', ObjectType::class, new ObjectType()                      ], # Set inReplyTo as ObjectType
 
 ['last', Collection::class, 'http://example.org/collection?page=1'     ], # Set last as a URL
 ['last', OrderedCollection::class, '{
@@ -421,11 +427,29 @@ class AttributeFormatValidationTest extends TestCase
 ['rel', Link::class, ["canonical", "preview"]                          ], # Set rel as an array
 ['rel', Link::class, "alternate"                                       ], # Set rel as a string
 
+['replies', ObjectType::class, 'http://example.org/collection?page=1'  ], # Set replies as a URL
+['replies', ObjectType::class, new Collection()                        ], # Set replies as a Collection
+['replies', ObjectType::class, $link                                   ], # Set replies as a Link
+['replies', CollectionPage::class, '{
+                            "type": "Link",
+                            "name": "Collection of replies",
+                            "href": "http://example.org/replies"
+                        }'                                             ], # Set replies as a Link
+
 ['startIndex', OrderedCollectionPage::class, 0                         ], # Set startIndex as 0
 ['startIndex', OrderedCollectionPage::class, 42                        ], # Set startIndex as 42
 
 ['startTime', ObjectType::class, '2016-05-10T00:00:00Z'                ], # Set startTime as a Datetime (UTC)
 ['startTime', ObjectType::class, '2015-01-31T06:00:00-08:00'           ], # Set startTime as a Datetime (TZ)
+
+['subject', Relationship::class, 'http://example.org/collection?page=1'], # Set subject as a URL
+['subject', Relationship::class, new ObjectType()                      ], # Set subject as a ObjectType
+['subject', Relationship::class, $link                                 ], # Set subject as a Link
+['subject', Relationship::class, '{
+                            "type": "Link",
+                            "name": "Collection of subject",
+                            "href": "http://example.org/subject"
+                        }'                                             ], # Set subject as a Link
 
 ['summary', Application::class, 'A simple <em>note</em>'               ], # Set summary as a string
 ['summaryMap', Application::class, '{
@@ -802,6 +826,10 @@ class AttributeFormatValidationTest extends TestCase
 ['inbox', Application::class, new CollectionPage()                     ], # Set inbox as a bad type (Must be an ordered Type)
 ['inbox', Application::class, 'string'                                 ], # Set inbox as a bad type (Must be a valid object)
 
+['inReplyTo', CollectionPage::class, []                                ], # Set inReplyTo as a bad type
+['inReplyTo', ObjectType::class, "htp://example.org"                   ], # Set inReplyTo as a bad URl value
+['inReplyTo', Link::class, "http://example.org"                        ], # Set inReplyTo on a bad type (Link)
+
 ['last', Activity::class, '{
                             "type": "Link",
                             "name": "last Page",
@@ -942,6 +970,15 @@ class AttributeFormatValidationTest extends TestCase
 ['rel', Link::class, "hello\n"                                         ], # Set rel as an illegal chain \n
 ['rel', Link::class, "hello\r"                                         ], # Set rel as an illegal chain \r
 
+['replies', ObjectType::class, 'htp://example.org/collection?page=1'   ], # Set replies as a bad URL
+['replies', ObjectType::class, new ObjectType()                        ], # Set replies as a bad type
+['replies', Link::class, new Link()                                    ], # Set replies on a bad type (Link)
+['replies', CollectionPage::class, '{
+                            "type": "Object",
+                            "name": "Collection of replies",
+                            "href": "http://example.org/replies"
+                        }'                                             ], # Set prev as a text Object (bad format)
+
 ['startIndex', ObjectType::class, 0                                    ], # Set startIndex on a bad type
 ['startIndex', OrderedCollectionPage::class, 42.5                      ], # Set startIndex as a bad type
 ['startIndex', OrderedCollectionPage::class, -41                       ], # Set startIndex as an out of range value
@@ -954,6 +991,15 @@ class AttributeFormatValidationTest extends TestCase
 ['totalItems', Collection::class, 42.5                                 ], # Set totalItems with a bad type
 ['totalItems', Collection::class, 'cat'                                ], # Set totalItems with a bad type
 ['totalItems', Collection::class, -42                                  ], # Set totalItems with an out of range value
+
+['subject', Relationship::class, 'htp://example.org/collection?page=1' ], # Set subject as a bad URL
+['subject', Relationship::class, new \StdClass()                       ], # Set subject as a bad type
+['subject', Person::class, new ObjectType()                            ], # Set subject on a bad type
+['subject', Relationship::class, '{
+                            "type": "Link",
+                            "name": "Collection of subject",
+                            "href": "htp://example.org/subject"
+                        }'                                             ], # Set subject as a malformed Link
 
 ['summary', Link::class, 'A simple <em>note</em>'                      ], # Set summary on a bad type
 ['summary', ObjectType::class, new Note()                              ], # Set summary as a bad type

@@ -24,9 +24,8 @@ Table of contents
 
 - [Install](#install)
 - [Requirements](#requirements)
-- [Features](#features)
-    - [ActivityStreams Core Types](#activitystreams-core-types)
-    - [ActivityStreams Extended Types](#activitystreams-extended-types)
+- [ActivityStreams Core Types](#activitystreams-core-types)
+- [ActivityStreams Extended Types](#activitystreams-extended-types)
 - [Usage](#usage)
     - [Properties names](#properties-names)
     - [All properties and their values](#all-properties-and-their-values)
@@ -34,8 +33,8 @@ Table of contents
     - [Set a property](#set-a-property)
     - [Check if property exists](#check-if-property-exists)
     - [Use native types](#use-native-types)
-    - [Use your own extended types](#use-own-extended-types)
-    - [Create your own property validator](#create-own-property-validator)
+    - [Use your own extended types](#use-your-own-extended-types)
+    - [Create your own property validator](#create-your-own-property-validator)
 
 ________________________________________________________________________
 
