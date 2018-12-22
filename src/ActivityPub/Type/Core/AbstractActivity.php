@@ -65,7 +65,17 @@ abstract class AbstractActivity extends ObjectType
     protected $target;
 
     /**
+     * Describes the result of the activity.
+     * For instance, if a particular action results in the creation of 
+     * a new resource, the result property can be used to describe 
+     * that new resource.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-result
+     * 
      * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\ObjectType
+     *    | \ActivityPub\Type\Core\Link
      */
     protected $result;
 

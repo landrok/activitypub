@@ -439,6 +439,15 @@ class AttributeFormatValidationTest extends TestCase
                             "href": "http://example.org/replies"
                         }'                                             ], # Set replies as a Link
 
+['result', Activity::class, "http://example.org/result"                ], # Set result as URL
+['result', Like::class, '{
+                         "type": "Link",
+                         "href": "http://example.org/image"
+                        }'                                             ], # Set result as Link
+['result', Create::class, new ObjectType()                             ], # Set result as ObjectType
+
+
+
 ['startIndex', OrderedCollectionPage::class, 0                         ], # Set startIndex as 0
 ['startIndex', OrderedCollectionPage::class, 42                        ], # Set startIndex as 42
 
@@ -1023,6 +1032,9 @@ class AttributeFormatValidationTest extends TestCase
                             "name": "Collection of replies",
                             "href": "http://example.org/replies"
                         }'                                             ], # Set prev as a text Object (bad format)
+
+['result', Collection::class, []                                       ], # Set result on a bad type
+['result', Activity::class, "htp://example.org"                        ], # Set result as a bad URL
 
 ['startIndex', ObjectType::class, 0                                    ], # Set startIndex on a bad type
 ['startIndex', OrderedCollectionPage::class, 42.5                      ], # Set startIndex as a bad type
