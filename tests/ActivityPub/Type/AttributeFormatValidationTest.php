@@ -446,7 +446,14 @@ class AttributeFormatValidationTest extends TestCase
                         }'                                             ], # Set result as Link
 ['result', Create::class, new ObjectType()                             ], # Set result as ObjectType
 
-
+['source', ObjectType::class, '{
+                                "content": "I *really* like strawberries!",
+                                "mediaType": "text/markdown"
+                            }'                                         ], # Set source as a string object
+['source', Note::class, [
+                            "content"   => "I *really* like strawberries!",
+                            "mediaType" => "text/markdown"
+                        ]                                              ], # Set source as an array
 
 ['startIndex', OrderedCollectionPage::class, 0                         ], # Set startIndex as 0
 ['startIndex', OrderedCollectionPage::class, 42                        ], # Set startIndex as 42
@@ -1035,6 +1042,21 @@ class AttributeFormatValidationTest extends TestCase
 
 ['result', Collection::class, []                                       ], # Set result on a bad type
 ['result', Activity::class, "htp://example.org"                        ], # Set result as a bad URL
+
+['source', Link::class, '{
+                                "content": "I *really* like strawberries!",
+                                "mediaType": "text/markdown"
+                            }'                                         ], # Set source on a bad type
+['source', ObjectType::class, '{
+                                "content": "I *really* like strawberries!",
+                                "mediaType": "text/markdown"
+                            '                                          ], # Set source with a malformed JSON
+['source', ObjectType::class, '{
+                                "mediaType": "text/markdown"
+                            }'                                         ], # Set source with an incomplete object
+['source', Note::class, [
+                            "content"   => "I *really* like strawberries!",
+                        ]                                              ], # Set source with an incomplete object
 
 ['startIndex', ObjectType::class, 0                                    ], # Set startIndex on a bad type
 ['startIndex', OrderedCollectionPage::class, 42.5                      ], # Set startIndex as a bad type
