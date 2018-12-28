@@ -12,6 +12,7 @@
 namespace ActivityPub\Type;
 
 use ActivityPub\Type\Core\ObjectType;
+use Exception;
 
 /**
  * \ActivityPub\Type\ValidatorTools is an abstract class for
@@ -93,6 +94,26 @@ abstract class ValidatorTools implements ValidatorInterface
             }
 
             return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Validate that a value is a string
+     *
+     * @param  string $value
+     * @return bool
+     */
+    protected function validateString($value)
+    {
+        if (!is_string($value) || strlen($value) < 1) {
+            throw new Exception(
+                sprintf(
+                    'Value must be a non-empty string. Given: "%s"',
+                    print_r($value, true)
+                )
+            );
         }
 
         return true;

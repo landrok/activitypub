@@ -522,6 +522,8 @@ class AttributeFormatValidationTest extends TestCase
 ['totalItems', Collection::class, 0                                    ], # Set totalItems as 0
 ['totalItems', Collection::class, 42                                   ], # Set totalItems as 42
 
+['type', Person::class, "Person"                                       ], # Set type as a string
+
 ['units', Place::class, 'miles'                                        ], # Set units as a basic units
 ['units', Place::class, 'http://example.org/my-units'                  ], # Set units as a xsd:anyURI
 
@@ -1146,6 +1148,11 @@ class AttributeFormatValidationTest extends TestCase
 ['totalItems', Collection::class, 42.5                                 ], # Set totalItems with a bad type
 ['totalItems', Collection::class, 'cat'                                ], # Set totalItems with a bad type
 ['totalItems', Collection::class, -42                                  ], # Set totalItems with an out of range value
+
+['type', ObjectType::class, ""                                         ], # Set type as an empty string
+['type', ObjectType::class, null                                       ], # Set type as a null value
+['type', ObjectType::class, 42                                         ], # Set type as an integer
+['type', ObjectType::class, []                                         ], # Set type as an array
 
 ['units', Place::class, 'mile'                                         ], # Set units as a bad units
 ['units', Place::class, 'htp://example.org/my-units'                   ], # Set units as a bad xsd:anyURI

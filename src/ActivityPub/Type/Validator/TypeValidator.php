@@ -11,27 +11,32 @@
 
 namespace ActivityPub\Type\Validator;
 
-use ActivityPub\Type\Extended\AbstractActor;
+use ActivityPub\Type\Core\Link;
+use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorTools;
 
 /**
- * \ActivityPub\Type\Validator\PreferredUsernameValidator is a dedicated
- * validator for preferredUsername attribute.
+ * \ActivityPub\Type\Validator\TypeValidator is a dedicated
+ * validator for type attribute.
  */
-class PreferredUsernameValidator extends ValidatorTools
+class TypeValidator extends ValidatorTools
 {
     /**
-     * Validate preferredUsername value
+     * Validate a type value
      * 
-     * @param string $value
-     * @param mixed  $container An Actor
+     * @param  string $value
+     * @param  mixed  $container An Object type
      * @return bool
      */
     public function validate($value, $container)
     {
-        // Validate that container is an Actor
-        Util::subclassOf($container, AbstractActor::class, true);
+        // Validate that container is an ObjectType or a Link
+        Util::subclassOf(
+            $container, 
+            [ObjectType::class, Link::class],
+            true
+        );
 
         return $this->validateString(
             $value
