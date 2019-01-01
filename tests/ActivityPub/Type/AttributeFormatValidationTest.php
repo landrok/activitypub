@@ -414,6 +414,19 @@ class AttributeFormatValidationTest extends TestCase
                               }
                             ]'                                         ], # Set oneOf choices 
 
+['orderedItems', OrderedCollection::class, $link                       ], # Set orderedItems as a link
+['orderedItems', OrderedCollection::class, '[
+                                {
+                                    "type": "Note",
+                                    "name": "Reminder for Going-Away Party"
+                                },
+                                {
+                                    "type": "Note",
+                                    "name": "Meeting 2016-11-17"
+                                }
+                            ]'                                         ], # Set orderedItems as a list, JSON encoded
+['orderedItems', OrderedCollection::class, [$note, $note]              ], # Set orderedItems as a list, Array encoded
+
 ['origin', Activity::class, "http://example.org/origin"                ], # Set origin as URL
 ['origin', Like::class, '{
                          "type": "Link",
@@ -1052,6 +1065,20 @@ class AttributeFormatValidationTest extends TestCase
                               "name": ["Option B"]
                              }
                             ]'                                         ], # Set oneOf with malformed choices
+
+['orderedItems', Activity::class, '{
+                             "type": "Link",
+                             "href": "http://example.org/orderedItems"
+                            }'                                         ], # Set orderedItems on a bad type
+['orderedItems', OrderedCollection::class, '{
+                             "type": "Note",
+                             "name": "It\'s a note"
+                            }'                                         ], # Set orderedItems as a bad type (must be a list)
+['orderedItems', OrderedCollection::class, '[]'                        ], # Set orderedItems as an empty list (JSON)
+['orderedItems', OrderedCollection::class, []                          ], # Set orderedItems as an empty list (Array)
+['orderedItems', OrderedCollection::class, '[{
+                             "name": "It\'s a note"
+                            }]'                                        ], # Set orderedItems as a malformed list (Item has no type)
 
 ['origin', Collection::class, []                                       ], # Set origin on a bad type
 ['origin', Activity::class, "htp://example.org"                        ], # Set origin as a bad URL
