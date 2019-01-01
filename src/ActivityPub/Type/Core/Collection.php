@@ -88,6 +88,8 @@ class Collection extends ObjectType
      * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-items
      * 
      * @var array
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\ObjectType[]
      */
     protected $items = [];
 
@@ -98,6 +100,8 @@ class Collection extends ObjectType
      * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-items
      * 
      * @var array
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\ObjectType[]
      */
     protected $orderedItems = [];
 }

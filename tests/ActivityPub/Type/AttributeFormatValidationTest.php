@@ -68,6 +68,8 @@ class AttributeFormatValidationTest extends TestCase
 	{
         $link = new Link();
         $link->href = 'https://example.com/my-href';
+        $note = new Note();
+        $note->name = "It's a note";
 
 		# TypeClass, property, value
 		return [
@@ -341,6 +343,19 @@ class AttributeFormatValidationTest extends TestCase
                                 "name": "Sally"
                               }
                             ]'                                         ], # Set instrument as multiple instruments, JSON encoded
+
+['items', Collection::class, $link                                     ], # Set items as a link
+['items', Collection::class, '[
+                                {
+                                    "type": "Note",
+                                    "name": "Reminder for Going-Away Party"
+                                },
+                                {
+                                    "type": "Note",
+                                    "name": "Meeting 2016-11-17"
+                                }
+                            ]'                                         ], # Set items as a list, JSON encoded
+['items', Collection::class, [$note, $note]                            ], # Set items as a list, Array encoded
 
 ['last', Collection::class, 'http://example.org/collection?page=1'     ], # Set last as a URL
 ['last', OrderedCollection::class, '{
@@ -932,6 +947,20 @@ class AttributeFormatValidationTest extends TestCase
                               "name": "Sally"
                              }
                             ]'                                         ], # Set instrument as multiple instruments, JSON encoded, invalid indirect link
+
+['items', Activity::class, '{
+                             "type": "Link",
+                             "href": "http://example.org/items"
+                            }'                                         ], # Set items on a bad type
+['items', Collection::class, '{
+                             "type": "Note",
+                             "name": "It\'s a note"
+                            }'                                         ], # Set items as a bad type (must be a list)
+['items', Collection::class, '[]'                                      ], # Set items as an empty list (JSON)
+['items', Collection::class, []                                        ], # Set items as an empty list (Array)
+['items', Collection::class, '[{
+                             "name": "It\'s a note"
+                            }]'                                        ], # Set items as a malformed list (Item has no type)
 
 ['last', Activity::class, '{
                             "type": "Link",

@@ -179,4 +179,16 @@ abstract class ValidatorTools implements ValidatorInterface
                 && is_scalar($item->name);
         };
     }
+
+    /**
+     * Validate that a list of items is valid
+     *
+     * @return \callable
+     */
+    protected function getCollectionItemsValidator()
+    {
+        return function ($item) {
+            return Util::hasProperties($item, ['type'], true);
+        };
+    }
 }
