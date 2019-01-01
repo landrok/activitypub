@@ -97,7 +97,15 @@ abstract class AbstractActivity extends ObjectType
     protected $origin;
 
     /**
+     * One or more objects used (or to be used) in the completion of an 
+     * Activity.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-instrument
+     * 
      * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\ObjectType
+     *    | \ActivityPub\Type\Core\Link
      */
     protected $instrument;
 }

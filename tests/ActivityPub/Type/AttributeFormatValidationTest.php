@@ -329,6 +329,19 @@ class AttributeFormatValidationTest extends TestCase
                         }'                                             ], # Set inReplyTo as Link
 ['inReplyTo', ObjectType::class, new ObjectType()                      ], # Set inReplyTo as ObjectType
 
+['instrument', Activity::class, 'https://example.com/bob'              ], # Set instrument as URL
+['instrument', Activity::class, '{ "type": "Person",
+                              "id": "http://sally.example.org",
+                              "summary": "Sally"
+                            }'                                         ], # Set instrument as an instrument type, JSON encoded
+['instrument', Activity::class, '[ "http://joe.example.org",
+                              {
+                                "type": "Person",
+                                "id": "http://sally.example.org",
+                                "name": "Sally"
+                              }
+                            ]'                                         ], # Set instrument as multiple instruments, JSON encoded
+
 ['last', Collection::class, 'http://example.org/collection?page=1'     ], # Set last as a URL
 ['last', OrderedCollection::class, '{
                                         "type": "Link",
@@ -496,7 +509,6 @@ class AttributeFormatValidationTest extends TestCase
                                        "url": "http://example.org/tag"
                                      }
                                    ]'                                  ], # Set tag
-
 
 ['target', Activity::class, 'https://example.com/bob'                  ], # Set target as URL
 ['target', Activity::class, '{ "type": "Person",
@@ -893,6 +905,34 @@ class AttributeFormatValidationTest extends TestCase
 ['inReplyTo', ObjectType::class, "htp://example.org"                   ], # Set inReplyTo as a bad URl value
 ['inReplyTo', Link::class, "http://example.org"                        ], # Set inReplyTo on a bad type (Link)
 
+['instrument', Activity::class, 'https:/example.com/bob'               ], # Set instrument as malformed URL
+['instrument', Activity::class, 'bob'                                  ], # Set instrument as not allowed string
+['instrument', Activity::class, 42                                     ], # Set instrument as not allowed type
+['instrument', Activity::class, '{}'                                   ], # Set instrument as a JSON malformed string
+['instrument', Activity::class, '[
+                             "http://joe.example.org",
+                             {
+                              "type": "Person",
+                              "name": "Sally"
+                             }
+                            ]'                                         ], # Set instrument as multiple instruments, JSON encoded, missing id for one instrument
+['instrument', Activity::class, '[
+                             "http://joe.example.org",
+                             {
+                              "type": "Person",
+                              "id": "http://",
+                              "name": "Sally"
+                             }
+                            ]'                                         ], # Set instrument as multiple instruments, JSON encoded, invalid id
+['instrument', Activity::class, '[
+                             "http://",
+                             {
+                              "type": "Person",
+                              "id": "http://joe.example.org",
+                              "name": "Sally"
+                             }
+                            ]'                                         ], # Set instrument as multiple instruments, JSON encoded, invalid indirect link
+
 ['last', Activity::class, '{
                             "type": "Link",
                             "name": "last Page",
@@ -1098,10 +1138,10 @@ class AttributeFormatValidationTest extends TestCase
                               }
                              ]'                                        ], # Set tag with a missing reference
 
-['target', Activity::class, 'https:/example.com/bob'                    ], # Set target as malformed URL
-['target', Activity::class, 'bob'                                       ], # Set target as not allowed string
-['target', Activity::class, 42                                          ], # Set target as not allowed type
-['target', Activity::class, '{}'                                        ], # Set target as a JSON malformed string
+['target', Activity::class, 'https:/example.com/bob'                   ], # Set target as malformed URL
+['target', Activity::class, 'bob'                                      ], # Set target as not allowed string
+['target', Activity::class, 42                                         ], # Set target as not allowed type
+['target', Activity::class, '{}'                                       ], # Set target as a JSON malformed string
 ['target', Activity::class, '[
                              "http://joe.example.org",
                              {
@@ -1125,7 +1165,6 @@ class AttributeFormatValidationTest extends TestCase
                               "name": "Sally"
                              }
                             ]'                                         ], # Set target as multiple targets, JSON encoded, invalid indirect link
-
 
 ['to', Offer::class, '[
                         "http://sally.example.org",
