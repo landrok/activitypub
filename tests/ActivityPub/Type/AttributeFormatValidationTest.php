@@ -70,6 +70,12 @@ class AttributeFormatValidationTest extends TestCase
         $link->href = 'https://example.com/my-href';
         $note = new Note();
         $note->name = "It's a note";
+        $place = new Place();
+        $place->name = "Over the Arabian Sea, east of Socotra Island Nature Sanctuary";
+        $place->longitude = 12.34;
+        $place->latitude = 56.78;
+        $place->altitude = 90;
+        $place->units = "m";
 
 		# TypeClass, property, value
 		return [
@@ -367,6 +373,12 @@ class AttributeFormatValidationTest extends TestCase
 
 ['latitude', Place::class, 42                                          ], # Set latitude as an integer
 ['latitude', Place::class, -42.6                                       ], # Set latitude as a float number
+
+['location', ObjectType::class, $place                                 ], # Set location with a place
+['location', ObjectType::class, $link                                  ], # Set location with a Link
+['location', ObjectType::class, "http://example.org/location"          ], # Set location with a URL
+
+
 ['longitude', Place::class, 92                                         ], # Set longitude as an integer
 ['longitude', Place::class, -92.6                                      ], # Set longitude as a float number
 
@@ -629,7 +641,7 @@ class AttributeFormatValidationTest extends TestCase
 ['accuracy', Place::class, -0.0000001                                  ], # Set accuracy with a negative float
 ['accuracy', Place::class, 'A0.0000001'                                ], # Set accuracy with a non numeric value
 ['accuracy', Place::class, 100.000001                                  ], # Set accuracy with a float value out of range
-['altitude', Place::class, 100                                         ], # Set altitude with an int value
+['altitude', Place::class, '100'                                       ], # Set altitude with a fake int value
 ['altitude', Place::class, '100.5'                                     ], # Set altitude with a text value
 ['altitude', Place::class, 'hello'                                     ], # Set altitude with a text value
 ['altitude', Place::class, []                                          ], # Set altitude with an array
@@ -991,6 +1003,9 @@ class AttributeFormatValidationTest extends TestCase
 ['latitude', Place::class, -142                                        ], # Set latitude as an out of range value
 ['latitude', Place::class, 'Bad Type'                                  ], # Set latitude as a bad type
 ['latitude', ObjectType::class, 42                                     ], # Set latitude on a bad type
+
+['location', Link::class, "http://example.org/location"                ], # Set location on a bad type
+['location', ObjectType::class, "htp://example.org/location"           ], # Set location with a malformed URL
 
 ['longitude', Place::class, -182                                       ], # Set longitude as an out of range value
 ['longitude', Place::class, 'Bad Type'                                 ], # Set longitude as a bad type

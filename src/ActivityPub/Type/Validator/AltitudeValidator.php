@@ -28,7 +28,7 @@ class AltitudeValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-        if (is_float($value)) {
+        if (is_float($value) || is_int($value)) {
             return true;
         }
 

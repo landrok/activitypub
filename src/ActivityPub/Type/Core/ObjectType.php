@@ -220,7 +220,17 @@ class ObjectType extends AbstractObject
     protected $inReplyTo;
 
     /**
-     * @var string|null
+     * One or more physical or logical locations associated with the 
+     * object.
+     * 
+     * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-location
+     * 
+     * @var string
+     *    | null
+     *    | \ActivityPub\Type\Core\ObjectType
+     *    | \ActivityPub\Type\Core\Link
+     *    | \ActivityPub\Type\Core\ObjectType[]
+     *    | \ActivityPub\Type\Core\Link[]
      */
     protected $location;
 
