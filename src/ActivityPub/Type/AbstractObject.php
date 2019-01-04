@@ -29,7 +29,7 @@ abstract class AbstractObject
      * @param mixed  $value
      * @return $this
      */
-	public function set($name, $value)
+    public function set($name, $value)
     {
         // Is there any validators
         if (!Validator::validate($name, $value, $this)) {

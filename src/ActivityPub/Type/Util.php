@@ -455,6 +455,44 @@ abstract class Util
     }
 
     /**
+     * Get namespaced class for a given short type
+     * 
+     * @param  string $type
+     * @return string Related namespace
+     * @throw  \Exception if a namespace was not found.
+     */
+    public static function getClass($type)
+    {
+        $ns = __NAMESPACE__;
+
+        if ($type == 'Object') {
+            $type .= 'Type';
+        }
+
+        switch($type) {
+            case in_array($type, self::$coreTypes):
+                $ns .= '\Core';
+                break;
+            case in_array($type, self::$activityTypes):
+                $ns .= '\Extended\Activity';
+                break;
+            case in_array($type, self::$actorTypes):
+                $ns .= '\Extended\Actor';
+                break;
+            case in_array($type, self::$objectTypes):
+                $ns .= '\Extended\Object';
+                break;
+            default:
+                throw new Exception(
+                    "Undefined scope for type '$type'"
+                );
+                break;
+        }
+
+        return $ns . '\\' . $type;
+    }
+
+    /**
      * Validate a BCP 47 language value
      * 
      * @param  string $value
