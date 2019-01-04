@@ -76,6 +76,8 @@ abstract class AbstractActor extends ObjectType
     /**
      * A list of supplementary Collections which may be of interest. 
      * 
+     * @see https://www.w3.org/TR/activitypub/#streams-property
+     *
      * @var array
      */
     protected $streams = [];

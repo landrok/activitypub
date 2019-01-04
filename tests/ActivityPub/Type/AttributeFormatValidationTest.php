@@ -523,6 +523,8 @@ class AttributeFormatValidationTest extends TestCase
 ['startTime', ObjectType::class, '2016-05-10T00:00:00Z'                ], # Set startTime as a Datetime (UTC)
 ['startTime', ObjectType::class, '2015-01-31T06:00:00-08:00'           ], # Set startTime as a Datetime (TZ)
 
+['streams', Application::class, []                                     ], # Set streams as array (@todo should be better implemented, an array of Collection)
+
 ['subject', Relationship::class, 'http://example.org/collection?page=1'], # Set subject as a URL
 ['subject', Relationship::class, new ObjectType()                      ], # Set subject as a ObjectType
 ['subject', Relationship::class, $link                                 ], # Set subject as a Link
@@ -1191,6 +1193,9 @@ class AttributeFormatValidationTest extends TestCase
 ['startTime', ObjectType::class, '2016-05-10 00:00:00Z'                ], # Set startTime as a bad Datetime
 ['startTime', Link::class, '2016-05-10 00:00:00Z'                      ], # Set startTime on a bad type
 ['startTime', ObjectType::class, new ObjectType()                      ], # Set startTime as a bad type
+
+['streams', Application::class, 'collection'                           ], # Set streams as a bad type
+['streams', ObjectType::class, []                                      ], # Set streams on a bad type (Must be an Actor)
 
 ['subject', Relationship::class, 'htp://example.org/collection?page=1' ], # Set subject as a bad URL
 ['subject', Relationship::class, new \StdClass()                       ], # Set subject as a bad type
