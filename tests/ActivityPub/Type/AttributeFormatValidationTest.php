@@ -251,8 +251,12 @@ class AttributeFormatValidationTest extends TestCase
                                       "summary": "First Page",
                                       "href": "http://example.org/collection?page=0"
                                      }'                                ], # Set first as Link
+['followers', Person::class, 
+    "https://kenzoishii.example.com/followers.json"                    ], # Set followers as link
 ['followers', Person::class, new Collection()                          ], # Set followers as collection
 ['followers', Person::class, new OrderedCollection()                   ], # Set followers as OrderedCollection
+['following', Person::class, 
+    "https://kenzoishii.example.com/following.json"                    ], # Set following as link
 ['following', Person::class, new Collection()                          ], # Set following as collection
 ['following', Person::class, new OrderedCollection()                   ], # Set following as OrderedCollection
 
@@ -373,6 +377,11 @@ class AttributeFormatValidationTest extends TestCase
 
 ['latitude', Place::class, 42                                          ], # Set latitude as an integer
 ['latitude', Place::class, -42.6                                       ], # Set latitude as a float number
+
+['liked', Person::class, 
+    "https://kenzoishii.example.com/liked.json"                        ], # Set liked as link
+['liked', Person::class, new Collection()                              ], # Set liked as collection
+['liked', Person::class, new OrderedCollection()                       ], # Set liked as OrderedCollection
 
 ['location', ObjectType::class, $place                                 ], # Set location with a place
 ['location', ObjectType::class, $link                                  ], # Set location with a Link
@@ -856,11 +865,11 @@ class AttributeFormatValidationTest extends TestCase
 
 ['followers', Activity::class, new Collection()                        ], # Set followers on a bad container (must be an actor)
 ['followers', Person::class, new Activity()                            ], # Set followers as a bad type (must be a Collection or an OrderedCollection)
-['followers', Person::class, 'http:/example.org/followers'             ], # Set followers as a bad type (@todo should be changed, indirect reference should be supported)
+['followers', Person::class, 'http:/example.org/followers'             ], # Set followers as a malformed URL
 
 ['following', Activity::class, new Collection()                        ], # Set following on a bad container (must be an actor)
 ['following', Person::class, new Activity()                            ], # Set following as a bad type (must be a Collection or an OrderedCollection)
-['following', Person::class, 'http:/example.org/following'             ], # Set following as a bad type (@todo should be changed, indirect reference should be supported)
+['following', Person::class, 'http:/example.org/following'             ], # Set following as a malformed URL
 
 ['formerType', Tombstone::class, 'PoorString'                          ], # Set formerType as a string
 ['formerType', ObjectType::class, '{"type":"Person"}'                  ], # Set formerType on a bad Type
@@ -1003,6 +1012,10 @@ class AttributeFormatValidationTest extends TestCase
 ['latitude', Place::class, -142                                        ], # Set latitude as an out of range value
 ['latitude', Place::class, 'Bad Type'                                  ], # Set latitude as a bad type
 ['latitude', ObjectType::class, 42                                     ], # Set latitude on a bad type
+
+['liked', Activity::class, new Collection()                            ], # Set liked on a bad container (must be an actor)
+['liked', Person::class, new Activity()                                ], # Set liked as a bad type (must be a Collection or an OrderedCollection)
+['liked', Person::class, 'http:/example.org/liked'                     ], # Set liked as a malformed URL
 
 ['location', Link::class, "http://example.org/location"                ], # Set location on a bad type
 ['location', ObjectType::class, "htp://example.org/location"           ], # Set location with a malformed URL

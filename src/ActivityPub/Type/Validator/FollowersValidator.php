@@ -36,6 +36,10 @@ class FollowersValidator implements ValidatorInterface
         // Validate that container is an AbstractActor type
         Util::subclassOf($container, AbstractActor::class, true);
 
+        if (is_string($value)) {
+            return Util::validateUrl($value);
+        }
+
         // A collection
         return is_object($value)
             ? $this->validateObject($value)
