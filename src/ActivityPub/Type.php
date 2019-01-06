@@ -12,6 +12,7 @@
 namespace ActivityPub;
 
 use ActivityPub\Type\Util;
+use ActivityPub\Type\Validator;
 
 /**
  * \ActivityPub\Type is a Factory for ActivityStreams 2.0 types.
@@ -43,12 +44,26 @@ abstract class Type
     {
         $class = Util::getClass($type);
 
-        $instance = new $class();
-
-        foreach ($attributes as $name => $value) {
-            $instance->set($name, $value);
+        if (is_string($class)) {
+            $class = new $class();
         }
 
-        return $instance;
+        foreach ($attributes as $name => $value) {
+            $class->set($name, $value);
+        }
+
+        return $class;
+    }
+
+    /**
+     * Add a custom validator for an attribute.
+     * It checks that it implements Validator\Interface
+     * 
+     * @param string $name An attribute name to validate.
+     * @param string $class A validator class name
+     */
+    public static function addValidator($name, $class)
+    {
+        Validator::add($name, $class);
     }
 }

@@ -29,6 +29,7 @@ Table of contents
 - [Usage](#usage)
     - [Properties names](#properties-names)
     - [All properties and their values](#all-properties-and-their-values)
+    - [Set several properties](#set-several-properties)
     - [Get a property](#get-a-property)
     - [Set a property](#set-a-property)
     - [Check if property exists](#check-if-property-exists)
@@ -149,9 +150,9 @@ Whatever be your object or link, you can get all properties names with
 `getProperties()` method.
 
 ```php
-use ActivityPub\Type\Core\Link;
+use ActivityPub\Type;
 
-$link = new Link();
+$link = Type::create('Link');
 
 print_r(
     $link->getProperties()
@@ -185,9 +186,9 @@ In order to dump all properties and associated values, use `toArray()`
 method.
 
 ```php
-use ActivityPub\Type\Core\Link;
+use ActivityPub\Type;
 
-$link = new Link();
+$link = Type::create('Link');
 $link->setName('An example');
 $link->setHref('http://example.com');
 
@@ -222,9 +223,9 @@ ________________________________________________________________________
 There are 3 equivalent ways to get a value.
 
 ```php
-use ActivityPub\Type\Extended\Object\Note;
+use ActivityPub\Type;
 
-$note = new Note();
+$note = Type::create('Note');
 
 // Each method returns the same value
 echo $note->id;
@@ -239,7 +240,9 @@ ________________________________________________________________________
 There are 3 equivalent ways to set a value.
 
 ```php
-$note = new Note();
+use ActivityPub\Type;
+
+$note = Type::create('Note');
 
 $note->id = 'https://example.com/custom-notes/1';
 $note->set('id', 'https://example.com/custom-notes/1');
@@ -254,11 +257,29 @@ Exception is thrown.
 
 ________________________________________________________________________
 
+### Set several properties
+
+With __Type factory__, you can instanciate a type and set several 
+properties.
+
+```php
+use ActivityPub\Type;
+
+$note = Type::create('Note', [
+    'id'   => 'https://example.com/custom-notes/1',
+    'name' => 'An important note',
+]);
+
+```
+________________________________________________________________________
+
 
 ### Check if property exists
 
 ```php
-$note = new Note();
+use ActivityPub\Type;
+
+$note = Type::create('Note');
 
 echo $note->has('id'); // true
 echo $note->has('anotherProperty'); // false
@@ -277,6 +298,14 @@ use ActivityPub\Type\Extended\Object\Note;
 $note = new Note();
 ```
 
+Same way with Type factory:
+
+```php
+use ActivityPub\Type;
+
+$note = Type::create('Note');
+```
+
 ________________________________________________________________________
 
 
@@ -284,6 +313,7 @@ ________________________________________________________________________
 
 If you need some custom attributes, you can extend predefined types.
 
+- Create your custom type:
 ```php
 use ActivityPub\Type\Extended\Object\Note;
 
@@ -295,12 +325,29 @@ class MyNote extends Note
     // Custom property
     protected $myProperty;
 }
+```
 
+There 2 ways to instanciate a type:
+
+- A classic PHP call:
+
+```php
 $note = new MyNote();
 $note->id = 'https://example.com/custom-notes/1';
 $note->myProperty = 'Custom Value';
 
 echo $note->getMyProperty(); // Custom Value
+```
+
+- With the Type factory: 
+
+```php
+use ActivityPub\Type;
+
+$note = Type::create('MyNote', [
+    'id' => 'https://example.com/custom-notes/1',
+    'myProperty' => 'Custom Value'
+]);
 ```
 
 Extending types preserves benefits of getters, setters and 
@@ -346,4 +393,13 @@ $note->myProperty = 'Custom Value';
 
 ```
 
+An equivalent way is to use Type factory and `addValidator()` method:
+
+```php
+use ActivityPub\Type;
+
+// Attach this custom validator to a property
+Type::addValidator('myProperty', MyPropertyValidator::class);
+
+```
 ________________________________________________________________________

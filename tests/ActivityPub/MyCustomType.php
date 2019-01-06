@@ -1,15 +1,15 @@
 <?php
 
-namespace ActivityPubTest\Type;
+namespace ActivityPubTest;
 
 use ActivityPub\Type\Core\ObjectType;
 
 class MyCustomType extends ObjectType
 {
     /**
-     * @var null|string
-     * 
      * A custom property
+     * 
+     * @var null|string
      */
     protected $customProperty;
 }

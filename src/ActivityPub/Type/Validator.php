@@ -73,7 +73,7 @@ abstract class Validator
      * Add a new validator in the pool.
      * It checks that it implements Validator\Interface
      * 
-     * @param string $name
+     * @param string $name An attribute name to validate.
      * @param string $class A validator class name
      * @throws \Exception if validator class does not implement
      * \ActivityPub\Type\Helper\ValidatorInterface

@@ -482,6 +482,9 @@ abstract class Util
             case in_array($type, self::$objectTypes):
                 $ns .= '\Extended\Object';
                 break;
+            // Custom classes
+            case class_exists($type):
+                return new $type();
             default:
                 throw new Exception(
                     "Undefined scope for type '$type'"
