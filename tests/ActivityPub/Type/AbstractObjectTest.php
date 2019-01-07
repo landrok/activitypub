@@ -3,6 +3,7 @@
 namespace ActivityPubTest\Type;
 
 use ActivityPub\Type;
+use ActivityPubTest\MyCustomType;
 use PHPUnit\Framework\TestCase;
 
 class AbstractObjectTest extends TestCase
@@ -119,6 +120,22 @@ class AbstractObjectTest extends TestCase
         $this->assertEquals(
             $expected, 
             Type::create('Link', $expected)->toArray()
+        );
+    }
+
+    /**
+     * Try to set a property without any validator
+     */
+    public function testToSetFreeProperty()
+    {	
+        $expected = [
+            'type' => 'MyCustomType',
+            'customFreeProperty' => 'Free value',
+        ];
+
+        $this->assertEquals(
+            $expected, 
+            Type::create(MyCustomType::class, $expected)->toArray()
         );
     }
 

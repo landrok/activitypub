@@ -1056,6 +1056,7 @@ class AttributeFormatValidationTest extends TestCase
                         }'                                             ], # Set next as a malformed Link
 ['next', CollectionPage::class, 'htp://example.org/collection?page=2'  ], # Set next as a malformed URL
 ['next', CollectionPage::class, new Collection()                       ], # Set next as a bad type
+['next', CollectionPage::class, 42                                     ], # Set next as a bad type (int)
 
 ['object', ObjectType::class, 'http://example.org/object'              ], # Set object on a bad type
 ['object', Relationship::class, []                                     ], # Set object as a bad type
@@ -1112,6 +1113,7 @@ class AttributeFormatValidationTest extends TestCase
 
 ['origin', Collection::class, []                                       ], # Set origin on a bad type
 ['origin', Activity::class, "htp://example.org"                        ], # Set origin as a bad URL
+['origin', Activity::class, 42                                         ], # Set origin as a bad type (int)
 
 ['outbox', Activity::class, new OrderedCollection()                    ], # Set outbox on a bad type (Activity)
 ['outbox', Application::class, new CollectionPage()                    ], # Set outbox as a bad type (Must be an ordered Type)
@@ -1161,6 +1163,7 @@ class AttributeFormatValidationTest extends TestCase
 
 ['replies', ObjectType::class, 'htp://example.org/collection?page=1'   ], # Set replies as a bad URL
 ['replies', ObjectType::class, new ObjectType()                        ], # Set replies as a bad type
+['replies', ObjectType::class, 42                                      ], # Set replies as a bad type (int)
 ['replies', Link::class, new Link()                                    ], # Set replies on a bad type (Link)
 ['replies', CollectionPage::class, '{
                             "type": "Object",
@@ -1185,6 +1188,7 @@ class AttributeFormatValidationTest extends TestCase
 ['source', Note::class, [
                             "content"   => "I *really* like strawberries!",
                         ]                                              ], # Set source with an incomplete object
+['source', Note::class, 1                                              ], # Set source with a bad type (int)
 
 ['startIndex', ObjectType::class, 0                                    ], # Set startIndex on a bad type
 ['startIndex', OrderedCollectionPage::class, 42.5                      ], # Set startIndex as a bad type
@@ -1198,7 +1202,8 @@ class AttributeFormatValidationTest extends TestCase
 ['streams', ObjectType::class, []                                      ], # Set streams on a bad type (Must be an Actor)
 
 ['subject', Relationship::class, 'htp://example.org/collection?page=1' ], # Set subject as a bad URL
-['subject', Relationship::class, new \StdClass()                       ], # Set subject as a bad type
+['subject', Relationship::class, new \StdClass()                       ], # Set subject as a bad type (object)
+['subject', Relationship::class, 42                                    ], # Set subject as a bad type (int)
 ['subject', Person::class, new ObjectType()                            ], # Set subject on a bad type
 ['subject', Relationship::class, '{
                             "type": "Link",

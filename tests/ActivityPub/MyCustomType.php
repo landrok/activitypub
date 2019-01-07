@@ -12,4 +12,11 @@ class MyCustomType extends ObjectType
      * @var null|string
      */
     protected $customProperty;
+
+    /**
+     * A custom property without any validator
+     * 
+     * @var mixed
+     */
+    protected $customFreeProperty;
 }
