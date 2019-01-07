@@ -2,8 +2,7 @@
 
 namespace ActivityPubTest\Type;
 
-use ActivityPub\Type\Core\Link;
-use ActivityPub\Type\Core\ObjectType;
+use ActivityPub\Type;
 use PHPUnit\Framework\TestCase;
 
 class AbstractObjectTest extends TestCase
@@ -13,7 +12,7 @@ class AbstractObjectTest extends TestCase
      */
     public function testValidSetters()
     {
-        $type = new ObjectType();
+        $type = Type::create('ObjectType');
 
         $value = 'http://example1.com';
         $type->id = $value;
@@ -33,7 +32,7 @@ class AbstractObjectTest extends TestCase
      */
     public function testValidGetters()
     {
-        $type = new ObjectType();
+        $type = Type::create('ObjectType');
 
         $value = 'http://example1.com';
         $type->id = $value;
@@ -55,7 +54,7 @@ class AbstractObjectTest extends TestCase
      */
     public function testGetEmptyProperty()
     {
-        $object = new ObjectType();
+        $object = Type::create('ObjectType');
         $object->myCustomAttribute;
     }
 
@@ -66,7 +65,7 @@ class AbstractObjectTest extends TestCase
      */
     public function testSetWithNoArgument()
     {
-        $object = new ObjectType();
+        $object = Type::create('ObjectType');
         $object->setMyCustomAttribute();
     }
 
@@ -77,7 +76,7 @@ class AbstractObjectTest extends TestCase
      */
     public function testCallUndefinedMethod()
     {
-        $object = new ObjectType();
+        $object = Type::create('ObjectType');
         $object->illegalCall();
     }
 
@@ -86,8 +85,6 @@ class AbstractObjectTest extends TestCase
      */
     public function testGetProperties()
     {	
-        $object = new Link();
-
         $expected = [
             'type',
             'id',
@@ -104,36 +101,39 @@ class AbstractObjectTest extends TestCase
 
         $this->assertEquals(
             $expected, 
-            $object->getProperties()
+            Type::create('Link')->getProperties()
         );
     }
 
     /**
      * tests toArray() method
      */
-    public function testToArray()
+    public function testToArrayWithEmptyProperties()
     {	
-        $link = new Link();
-        $link->setName('An example');
-        $link->setHref('http://example.com');
-
         $expected = [
             'type' => 'Link',
-            'id' => null,
             'name' => 'An example',
-            'nameMap' =>null,
             'href' => 'http://example.com',
-            'hreflang' =>null,
-            'mediaType' =>null,
-            'rel' =>null,
-            'height' =>null,
-            'preview' =>null,
-            'width' =>null,
         ];
 
         $this->assertEquals(
             $expected, 
-            $link->toArray()
+            Type::create('Link', $expected)->toArray()
+        );
+    }
+
+    /**
+     * tests toArray() method
+     */
+    public function testToArrayWithSomePropertiesSet()
+    {	
+        $expected = [
+            'type' => 'Link',
+        ];
+
+        $this->assertEquals(
+            $expected, 
+            Type::create('Link')->toArray()
         );
     }
 }

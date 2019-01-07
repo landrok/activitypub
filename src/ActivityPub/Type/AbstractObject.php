@@ -95,13 +95,19 @@ abstract class AbstractObject
 
     /**
      * Get a list of all properties and their values 
-     * as an associative array
+     * as an associative array.
+     * Null values are not returned.
      * 
      * @return array
      */
     public function toArray()
     {
-        return get_object_vars($this);
+        return array_filter(
+            get_object_vars($this),
+            function($value) {
+                return !is_null($value);
+            }
+        );
     }
 
     /**
