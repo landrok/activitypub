@@ -403,3 +403,5 @@ Type::addValidator('myProperty', MyPropertyValidator::class);
 
 ```
 ________________________________________________________________________
+
+[More documentation](https://landrok.github.io/activitypub)

@@ -10,7 +10,7 @@ description: A PHP implementation of ActivityPub protocol based upon the Activit
 
 # Github repositories and download URLs
 github_repository_url: https://github.com/landrok/activitypub
-github_doc_repository_url: https://github.com/landrok/activitypub/docs
+github_doc_repository_url: https://github.com/landrok/activitypub/tree/master/docs
 github_author_url: https://github.com/landrok
 
 github_author_name: landrok
