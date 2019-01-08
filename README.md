@@ -203,16 +203,8 @@ Would output something like:
 Array
 (
     [type] => Link
-    [id] =>
     [name] => An example
-    [nameMap] =>
     [href] => http://example.com
-    [hreflang] =>
-    [mediaType] =>
-    [rel] =>
-    [height] =>
-    [preview] =>
-    [width] =>
 )
 ```
 
@@ -274,7 +266,7 @@ $note = Type::create('Note', [
 ________________________________________________________________________
 
 
-### Check if property exists
+### Check if a property exists
 
 ```php
 use ActivityPub\Type;
@@ -327,7 +319,7 @@ class MyNote extends Note
 }
 ```
 
-There 2 ways to instanciate a type:
+There are 2 ways to instanciate a type:
 
 - A classic PHP call:
 

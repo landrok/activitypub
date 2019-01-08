@@ -6,22 +6,8 @@
 </head>
 
 <body>
-  <div class="wrapper-container">
 
-    <header>
-      <div class="container">
-        <h1>
-          <a href="/">{{ site.name }}</a> 
-          <a href="https://travis-ci.org/landrok/activitypub" rel="nofollow"><img src="https://travis-ci.org/landrok/activitypub.svg?branch=master" alt="Build Status"></a>
-        </h1>
-        <p class="text-muted">{{ site.description }}</p>
-
-        <section id="downloads">
-          <a href="/activitypub" class="btn">Home</a>
-          <a href="{{ site.github_repository_url }}" class="btn btn-github"><span class="icon"></span>GitHub</a>
-        </section>
-      </div>
-    </header>
+  {% include navbar.html %}
 
     <div class="container" id="top">
 
@@ -33,10 +19,6 @@
 
   </div>
 
-<style>
-.language-shell{font-size: 0.8em}
-
-</style>
 </body>
 
 </html>
