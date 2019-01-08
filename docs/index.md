@@ -1,5 +1,6 @@
-ActivityPub
-===========
+---
+layout: default
+---
 
 [![Build Status](https://travis-ci.org/landrok/activitypub.svg?branch=master)](https://travis-ci.org/landrok/activitypub)
 [![Maintainability](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/maintainability)](https://codeclimate.com/github/landrok/activitypub/maintainability)
@@ -18,3 +19,8 @@ As the two layers are implemented, it aims to be an ActivityPub conformant Feder
 
 All normalized types are implemented too. If you need to create a new
 one, just extend existing types.
+
+------------------------------------------------------------------------
+
+{% capture doc_url %}{{ site.github_doc_repository_url }}/index.md{% endcapture %}
+{% include edit-doc-link.html %}

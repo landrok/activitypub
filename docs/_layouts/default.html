@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% if page.title %}{{ page.title }} – {{ site.name }}{% else %}{{ site.description }} – {{ site.name }}{% endif %}</title>
+  {% include meta.html %}
+</head>
+
+<body>
+  <div class="wrapper-container">
+
+    <header>
+      <div class="container">
+        <h1>
+          <a href="/">{{ site.name }}</a> 
+          <a href="https://travis-ci.org/landrok/activitypub" rel="nofollow"><img src="https://travis-ci.org/landrok/activitypub.svg?branch=master" alt="Build Status"></a>
+        </h1>
+        <h2>{{ site.description }}</h2>
+
+        <section id="downloads">
+          <a href="/" class="btn">Home</a>
+          <a href="{{ site.github_repository_url }}" class="btn btn-github"><span class="icon"></span>GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container" id="top">
+
+    {{ content }}
+
+    </div>
+
+    {% include footer.html %}
+
+  </div>
+
+<style>
+.language-shell{font-size: 0.8em}
+
+</style>
+</body>
+
+</html>
