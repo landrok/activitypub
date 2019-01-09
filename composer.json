@@ -1,7 +1,7 @@
 {
     "name": "landrok/activitypub",
     "type": "library",
-    "version": "0.1.0-dev",
+    "version": "0.1.0",
     "description": "A PHP implementation of ActivityPub protocol based upon the ActivityStreams 2.0 data format.",
     "keywords": ["ActivityPub", "ActivityStreams", "federation"],
     "homepage": "https://github.com/landrok/activitypub",
