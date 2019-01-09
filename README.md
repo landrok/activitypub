@@ -19,6 +19,9 @@ As the two layers are implemented, it aims to be an ActivityPub conformant Feder
 All normalized types are implemented too. If you need to create a new
 one, just extend existing types.
 
+[See the full documentation](https://landrok.github.io/activitypub) or
+an overview below.
+
 Table of contents
 =================
 
@@ -396,4 +399,4 @@ Type::addValidator('myProperty', MyPropertyValidator::class);
 ```
 ________________________________________________________________________
 
-[More documentation](https://landrok.github.io/activitypub)
+[See the full documentation](https://landrok.github.io/activitypub)

@@ -13,32 +13,30 @@ It provides two layers:
 - A __client to server protocol__, or "Social API"
     This protocol permits a client to act on behalf of a user.
 - A __server to server protocol__, or "Federation Protocol"
-    This protocol is used to distribute activities between actors on different servers, tying them into the same social graph. 
+    This protocol is used to distribute activities between actors on 
+    different servers, tying them into the same social graph. 
 
-As the two layers are implemented, it aims to be an ActivityPub conformant Federated Server
+As the two layers are implemented, it aims to be an ActivityPub 
+conformant Federated Server
 
-All normalized types are implemented too. If you need to create a new
-one, just extend existing types.
+All [normalized types]({{ site.doc_baseurl }}/activitystreams-types.html)
+are implemented too. If you need to create a new one, just extend 
+existing implementations.
 
 ________________________________________________________________________
 
-Table of contents
-=================
-
-- [Install](#install)
-- [Requirements](#requirements)
-- [ActivityStreams Core Types](#activitystreams-core-types)
-- [ActivityStreams Extended Types](#activitystreams-extended-types)
-- [Usage](#usage)
-    - [Properties names](#properties-names)
-    - [All properties and their values](#all-properties-and-their-values)
-    - [Set several properties](#set-several-properties)
-    - [Get a property](#get-a-property)
-    - [Set a property](#set-a-property)
-    - [Check if property exists](#check-if-property-exists)
-    - [Use native types](#use-native-types)
-    - [Use your own extended types](#use-your-own-extended-types)
-    - [Create your own property validator](#create-your-own-property-validator)
+- [Install]({{ site.doc_baseurl }}#install)
+- [Requirements]({{ site.doc_baseurl }}#requirements)
+- [Usage]({{ site.doc_baseurl }}#usage)
+    - [Properties names]({{ site.doc_baseurl }}#properties-names)
+    - [All properties and their values]({{ site.doc_baseurl }}#all-properties-and-their-values)
+    - [Set several properties]({{ site.doc_baseurl }}#set-several-properties)
+    - [Get a property]({{ site.doc_baseurl }}#get-a-property)
+    - [Set a property]({{ site.doc_baseurl }}#set-a-property)
+    - [Check if property exists]({{ site.doc_baseurl }}#check-if-property-exists)
+    - [Use native types]({{ site.doc_baseurl }}#use-native-types)
+    - [Use your own extended types]({{ site.doc_baseurl }}#use-your-own-extended-types)
+    - [Create your own property validator]({{ site.doc_baseurl }}#create-your-own-property-validator)
 
 ________________________________________________________________________
 
@@ -55,93 +53,6 @@ Install
 ```sh
 composer require landrok/activitypub
 ```
-
-________________________________________________________________________
-
-ActivityStreams Core Types
---------------------------
-
-All core types are provided:
-
-```php
-use ActivityPub\Type\Core\Activity;
-use ActivityPub\Type\Core\Collection;
-use ActivityPub\Type\Core\CollectionPage;
-use ActivityPub\Type\Core\IntransitiveActivity;
-use ActivityPub\Type\Core\Link;
-use ActivityPub\Type\Core\ObjectType;
-use ActivityPub\Type\Core\OrderedCollection;
-use ActivityPub\Type\Core\OrderedCollectionPage;
-```
-
-________________________________________________________________________
-
-ActivityStreams Extended Types
-------------------------------
-
-All extended types are provided:
-
-### Actor types
-
-```php
-use ActivityPub\Type\Extended\Actor\Application;
-use ActivityPub\Type\Extended\Actor\Group;
-use ActivityPub\Type\Extended\Actor\Organization;
-use ActivityPub\Type\Extended\Actor\Person;
-use ActivityPub\Type\Extended\Actor\Service;
-```
-
-### Activity types
-
-```php
-use ActivityPub\Type\Extended\Activity\Accept;
-use ActivityPub\Type\Extended\Activity\Add;
-use ActivityPub\Type\Extended\Activity\Announce;
-use ActivityPub\Type\Extended\Activity\Arrive;
-use ActivityPub\Type\Extended\Activity\Block;
-use ActivityPub\Type\Extended\Activity\Create;
-use ActivityPub\Type\Extended\Activity\Delete;
-use ActivityPub\Type\Extended\Activity\Dislike;
-use ActivityPub\Type\Extended\Activity\Flag;
-use ActivityPub\Type\Extended\Activity\Follow;
-use ActivityPub\Type\Extended\Activity\Ignore;
-use ActivityPub\Type\Extended\Activity\Invite;
-use ActivityPub\Type\Extended\Activity\Join;
-use ActivityPub\Type\Extended\Activity\Leave;
-use ActivityPub\Type\Extended\Activity\Like;
-use ActivityPub\Type\Extended\Activity\Listen;
-use ActivityPub\Type\Extended\Activity\Move;
-use ActivityPub\Type\Extended\Activity\Offer;
-use ActivityPub\Type\Extended\Activity\Question;
-use ActivityPub\Type\Extended\Activity\Read;
-use ActivityPub\Type\Extended\Activity\Reject;
-use ActivityPub\Type\Extended\Activity\Remove;
-use ActivityPub\Type\Extended\Activity\TentativeAccept;
-use ActivityPub\Type\Extended\Activity\TentativeReject;
-use ActivityPub\Type\Extended\Activity\Travel;
-use ActivityPub\Type\Extended\Activity\Undo;
-use ActivityPub\Type\Extended\Activity\Update;
-use ActivityPub\Type\Extended\Activity\View;
-```
-
-### Object types
-
-```php
-use ActivityPub\Type\Extended\Object\Article;
-use ActivityPub\Type\Extended\Object\Audio;
-use ActivityPub\Type\Extended\Object\Document;
-use ActivityPub\Type\Extended\Object\Event;
-use ActivityPub\Type\Extended\Object\Image;
-use ActivityPub\Type\Extended\Object\Mention;
-use ActivityPub\Type\Extended\Object\Note;
-use ActivityPub\Type\Extended\Object\Page;
-use ActivityPub\Type\Extended\Object\Place;
-use ActivityPub\Type\Extended\Object\Profile;
-use ActivityPub\Type\Extended\Object\Relationship;
-use ActivityPub\Type\Extended\Object\Tombstone;
-use ActivityPub\Type\Extended\Object\Video;
-```
-
 ________________________________________________________________________
 
 Usage
@@ -157,9 +68,7 @@ use ActivityPub\Type;
 
 $link = Type::create('Link');
 
-print_r(
-    $link->getProperties()
-);
+print_r( $link->getProperties() );
 ```
 
 Would output something like:
@@ -399,7 +308,10 @@ Type::addValidator('myProperty', MyPropertyValidator::class);
 ```
 ________________________________________________________________________
 
-------------------------------------------------------------------------
+Now that we know how to use types, let's see what types are implemented
+and how to use them thanks to 
+[the implement ActivityStreams Types manual]({{ site.doc_baseurl }}/activitystreams-types.html)
 
-{% capture doc_url %}{{ site.github_doc_repository_url }}/index.md{% endcapture %}
+
+{% capture doc_url %}{{ site.doc_repository_url }}/index.md{% endcapture %}
 {% include edit-doc-link.html %}

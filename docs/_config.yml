@@ -9,9 +9,9 @@ name: ActivityPub Documentation
 description: A PHP implementation of ActivityPub protocol based upon the ActivityStreams 2.0 data format.
 
 # Github repositories and download URLs
-github_repository_url: https://github.com/landrok/activitypub
-github_doc_repository_url: https://github.com/landrok/activitypub/tree/master/docs
-github_author_url: https://github.com/landrok
-
+repository_url    : https://github.com/landrok/activitypub
+doc_repository_url: https://github.com/landrok/activitypub/tree/master/docs
+github_author_url : https://github.com/landrok
+doc_baseurl       : https://landrok.github.io/activitypub
 github_author_name: landrok
 
