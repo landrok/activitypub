@@ -15,6 +15,7 @@ Types.
 
 In this manual, we'll see how they are implemented in ActivityPub in 
 PHP and how to use them.
+
 ________________________________________________________________________
 
 
@@ -215,6 +216,17 @@ $tombstone    = Type::create('Tombstone');
 $video        = Type::create('Video');
 
 ```
+
+________________________________________________________________________
+
+Custom Types
+------------
+
+If you would like to create custom types, you may extend existing types.
+
+An example is given in 
+[this part of the manual]({{ site.doc_baseurl }}#use-your-own-extended-types).
+
 ________________________________________________________________________
 
 

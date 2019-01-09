@@ -3,7 +3,6 @@ layout: default
 ---
 
 [![Build Status](https://travis-ci.org/landrok/activitypub.svg?branch=master)](https://travis-ci.org/landrok/activitypub)
-[![Maintainability](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/maintainability)](https://codeclimate.com/github/landrok/activitypub/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/test_coverage)](https://codeclimate.com/github/landrok/activitypub/test_coverage)
 
 ActivityPub is an implementation of ActivityPub layers in PHP.
@@ -231,7 +230,7 @@ class MyNote extends Note
 }
 ```
 
-There 2 ways to instanciate a type:
+There are 2 ways to instanciate a type:
 
 - A classic PHP call:
 
@@ -310,7 +309,7 @@ ________________________________________________________________________
 
 Now that we know how to use types, let's see what types are implemented
 and how to use them thanks to 
-[the implement ActivityStreams Types manual]({{ site.doc_baseurl }}/activitystreams-types.html)
+[the ActivityStreams Types manual]({{ site.doc_baseurl }}/activitystreams-types.html).
 
 
 {% capture doc_url %}{{ site.doc_repository_url }}/index.md{% endcapture %}
