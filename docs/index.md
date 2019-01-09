@@ -193,7 +193,7 @@ ________________________________________________________________________
 
 ### Use native types
 
-All core and extended types are used with a classic instanciation.
+All core and extended types can be used with a classic instanciation.
 
 ```php
 use ActivityPub\Type\Extended\Object\Note;
@@ -201,7 +201,7 @@ use ActivityPub\Type\Extended\Object\Note;
 $note = new Note();
 ```
 
-Same way with Type factory:
+Same way with the Type factory:
 
 ```php
 use ActivityPub\Type;
@@ -216,7 +216,8 @@ ________________________________________________________________________
 
 If you need some custom attributes, you can extend predefined types.
 
-- Create your custom type:
+- Define your custom type:
+
 ```php
 use ActivityPub\Type\Extended\Object\Note;
 
