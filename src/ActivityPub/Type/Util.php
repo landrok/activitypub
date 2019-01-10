@@ -11,6 +11,7 @@
 
 namespace ActivityPub\Type;
 
+use ActivityPub\Type;
 use DateInterval;
 use DateTime;
 use Exception;
@@ -75,6 +76,24 @@ abstract class Util
     protected static $units = [
         'cm', 'feet', 'inches', 'km', 'm', 'miles'
     ];
+
+    /**
+     * Tranform an array into an ActivityStreams type
+     * 
+     * @param  array $value
+     * @return mixed An ActivityStreams type or given array if type key 
+     * is not defined.
+     */
+    public static function arrayToType(array $item)
+    {
+        // May be an array representing an AS object
+        // It must have a type key
+        if (isset($item['type'])) {
+            return Type::create($item['type'], $item);
+        }
+
+        return $item;
+    }
 
     /**
      * Validate an URL

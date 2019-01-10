@@ -62,14 +62,20 @@ abstract class ValidatorTools implements ValidatorInterface
     {
         Util::subclassOf($container, ObjectType::class, true);
 
-        // Can be a JSON string
+        // Not supported: Can be a JSON string
+        // Must be a value like an URL, a text
         if (is_string($value)) {
-            $value = Util::decodeJson($value);
+            return $callback($value);
+            // $value = Util::decodeJson($value);
         }
 
-        // A collection
         if (is_array($value)) {
-            return $this->validateObjectCollection($value, $callback);
+            // A collection
+            if (is_int(key($value))) {
+                return $this->validateObjectCollection($value, $callback);
+            }
+            
+            $value = Util::arrayToType($value);
         }
 
         if (!is_object($value)) {
@@ -133,17 +139,23 @@ abstract class ValidatorTools implements ValidatorInterface
                 return Util::validateUrl($item);
             }
 
-            Util::hasProperties($item, ['type'], true);
-
-            // Validate Link type
-            if ($item->type == 'Link') {
-                return Util::validateLink($item);
+            if (is_array($item)) {
+                $item = Util::arrayToType($item);
             }
 
-            // Validate Object type
-            Util::hasProperties($item, ['name'], true);
+            if (is_object($item)) {
+                Util::hasProperties($item, ['type'], true);
 
-            return is_string($item->name);
+                // Validate Link type
+                if ($item->type == 'Link') {
+                    return Util::validateLink($item);
+                }
+
+                // Validate Object type
+                Util::hasProperties($item, ['name'], true);
+
+                return is_string($item->name);
+            }
         };
     }
 
@@ -157,6 +169,10 @@ abstract class ValidatorTools implements ValidatorInterface
     protected function getLinkOrUrlObjectValidator()
     {
         return function ($item) {
+            if (is_array($item)) {
+                $item = Util::arrayToType($item);
+            }
+
             if (is_object($item) 
                 && Util::isLinkOrUrlObject($item)) {
                 return true;

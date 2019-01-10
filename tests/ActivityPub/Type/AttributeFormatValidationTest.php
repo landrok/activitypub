@@ -106,87 +106,96 @@ class AttributeFormatValidationTest extends TestCase
                                 "name": "Option B"
                               }
                             ]'                                         ], # Set anyOf choices 
-['attachment', Note::class, '[
-                               {
-                                 "type": "Image",
-                                 "content": "This is what he looks like.",
-                                 "url": "http://example.org/cat.jpeg"
-                              }
-                            ]'                                         ], # Set attachment with an ObjectType
-['attachment', Note::class, '[
-                              {
-                                "type": "Link",
-                                "href": "http://example.org/cat.jpeg"
-                              }
-                            ]'                                         ], # Set attachment with an Link
-['attachment', Note::class, '["http://example.org/cat.jpeg"]'          ], # Set attachment with an indirect reference
-['attachment', ObjectType::class, '[
-                                     {
-                                       "type": "Image",
-                                       "content": "This is what he looks like.",
-                                       "url": "http://example.org/cat.jpeg"
-                                     }
-                                   ]'                                  ], # Set attachment	
-['attributedTo', Image::class, '[
-                                  {
-                                    "type": "Person",
-                                    "name": "Sally"
-                                  }
-                                ]'                              	   ], # Set attributedTo with an array of persons
-['attributedTo', Image::class, '{ "type": "Person",
-                                  "name": "Sally" }'                   ], # Set attributedTo with a single actor
-['attributedTo', Image::class, '{
-                                  "type": "Link",
-                                  "href": "http://joe.example.org"}'   ], # Set attributedTo with a Link
-['attributedTo', Image::class, '[
+['attachment', Note::class, [
+                               [
+                                 "type"    => "Image",
+                                 "content" => "This is what he looks like.",
+                                 "url"     => "http://example.org/cat.jpeg"
+                               ]
+                            ]                                          ], # Set attachment with an ObjectType
+['attachment', Note::class, [
+                              [
+                                "type" => "Link",
+                                "href" => "http://example.org/cat.jpeg"
+                              ]
+                            ]                                          ], # Set attachment with an Link
+['attachment', Note::class, ["http://example.org/cat.jpeg"]            ], # Set attachment with an indirect reference
+['attachment', ObjectType::class, [
+                                     [
+                                       "type"    => "Image",
+                                       "content" => "This is what he looks like.",
+                                       "url"     => "http://example.org/cat.jpeg"
+                                     ]
+                                  ]                                    ], # Set attachment	
+['attributedTo', Image::class, [
+                                  [
+                                    "type" => "Person",
+                                    "name" => "Sally"
+                                  ]
+                                ]                                	   ], # Set attributedTo with an array of persons
+['attributedTo', Image::class, [
+                                  "type" => "Person",
+                                  "name" => "Sally"
+                               ]                                       ], # Set attributedTo with a single actor
+['attributedTo', Image::class, [
+                                  "type" => "Link",
+                                  "href" => "http://joe.example.org"
+                               ]                                       ], # Set attributedTo with a Link
+['attributedTo', Image::class, [
                                   "http://sally.example.org",
-                                  {
-                                    "type": "Person",
-                                    "name": "Sally"
-                                  }
-                                ]'                                     ], # Set attributedTo with an array of mixed URL and persons
-['audience', Note::class, '[
-                             {
-                               "type": "Person",
-                               "name": "Sally"
-                             }
-                           ]'                                          ], # Set audience with an array of persons
-['audience', Note::class, '{
-                             "type": "Person",
-                             "name": "Sally"
-                           }'                                          ], # Set audience with a single actor
-['audience', Note::class, '{
-                             "type": "Link",
-                             "href": "http://joe.example.org"
-                           }'                                          ], # Set audience with a Link
-['audience', Note::class, '[
+                                  [
+                                    "type" => "Person",
+                                    "name" => "Sally"
+                                  ]
+                               ]                                       ], # Set attributedTo with an array of mixed URL and persons
+['attributedTo', Note::class, 'https://social.example/alyssa/'         ], # Set attributedTo as an URL
+
+
+['audience', Note::class, [
+                             [
+                               "type" => "Person",
+                               "name" => "Sally"
+                             ]
+                          ]                                            ], # Set audience with an array of persons
+['audience', Note::class, [
+                             "type" => "Person",
+                             "name" => "Sally"
+                          ]                                            ], # Set audience with a single actor
+['audience', Note::class, [
+                             "type" => "Link",
+                             "href" => "http://joe.example.org"
+                          ]                                            ], # Set audience with a Link
+['audience', Note::class, [
                              "http://sally.example.org",
-                             {
-                               "type": "Person",
-                               "name": "Sally"
-                             }
-                           ]'                                          ], # Set attributedTo with an array of mixed URL and persons
-['bcc', Offer::class, '["http://sally.example.org",
-                        {
-                          "type": "Person",
-                          "name": "Bob",
-                          "url": "http://bob.example.org"
-                        }
-                       ]'                                              ], # Set bcc with an array of mixed URL and persons
-['bto', Offer::class, '["http://joe.example.org",
-                        {
-                          "type": "Person",
-                          "name": "Bob",
-                          "url": "http://bob.example.org"
-                        }
-                       ]'                                              ], # Set bto with an array of mixed URL and persons
-['cc', Offer::class, '["http://sally.example.org",
-                       {
-                         "type": "Person",
-                         "name": "Bob",
-                         "url": "http://bob.example.org"
-                       }
-                      ]'                                               ], # Set cc with an array of mixed URL and persons
+                             [
+                               "type" => "Person",
+                               "name" => "Sally"
+                             ]
+                           ]                                           ], # Set attributedTo with an array of mixed URL and persons
+['bcc', Offer::class, [
+                        "http://sally.example.org",
+                        [
+                          "type" => "Person",
+                          "name" => "Bob",
+                          "url"  => "http://bob.example.org"
+                        ]
+                       ]                                               ], # Set bcc with an array of mixed URL and persons
+['bto', Offer::class, [
+                        "http://joe.example.org",
+                        [
+                          "type" => "Person",
+                          "name" => "Bob",
+                          "url"  => "http://bob.example.org"
+                        ]
+                       ]                                               ], # Set bto with an array of mixed URL and persons
+['cc', Offer::class, [
+                       "http://sally.example.org",
+                       [
+                         "type" => "Person",
+                         "name" => "Bob",
+                         "url"  => "http://bob.example.org"
+                       ]
+                      ]                                                ], # Set cc with an array of mixed URL and persons
 ['closed', Question::class, '2016-05-10T00:00:00Z'                     ], # Set closed as a Datetime
 ['closed', Question::class, true                                       ], # Set closed as a boolean
 ['closed', Question::class, 'http://bob.example.org'                   ], # Set closed as a URL
@@ -541,25 +550,25 @@ class AttributeFormatValidationTest extends TestCase
                                      "zh-Hans": "一段<em>简单的</em>笔记"
                                     }'                                 ], # Set summaryMap as a map
 
-['tag', Note::class, '[
-                               {
-                                 "type": "Image",
-                                 "url": "http://example.org/tag"
-                              }
-                            ]'                                         ], # Set tag with an ObjectType
-['tag', Note::class, '[
-                              {
-                                "type": "Link",
-                                "href": "http://example.org/tag"
-                              }
-                            ]'                                         ], # Set tag with an Link
-['tag', Note::class, '["http://example.org/tag"]'                      ], # Set tag with an indirect reference
-['tag', ObjectType::class, '[
-                                     {
-                                       "type": "Object",
-                                       "url": "http://example.org/tag"
-                                     }
-                                   ]'                                  ], # Set tag
+['tag', Note::class, [
+                              [
+                                 "type" => "Image",
+                                 "url"  => "http://example.org/tag"
+                              ]
+                     ]                                                 ], # Set tag with an ObjectType
+['tag', Note::class, [
+                              [
+                                "type" => "Link",
+                                "href" => "http://example.org/tag"
+                              ]
+                     ]                                                 ], # Set tag with an Link
+['tag', Note::class, ["http://example.org/tag"]                        ], # Set tag with an indirect reference
+['tag', ObjectType::class, [
+                                     [
+                                       "type" => "Object",
+                                       "url"  => "http://example.org/tag"
+                                     ]
+                           ]                                           ], # Set tag
 
 ['target', Activity::class, 'https://example.com/bob'                  ], # Set target as URL
 ['target', Activity::class, '{ "type": "Person",
@@ -574,13 +583,14 @@ class AttributeFormatValidationTest extends TestCase
                               }
                             ]'                                         ], # Set target as multiple targets, JSON encoded
 
-['to', Offer::class, '["http://joe.example.org",
-                        {
-                          "type": "Person",
-                          "name": "Bob",
-                          "url": "http://bob.example.org"
-                        }
-                       ]'                                              ], # Set to with an array of mixed URL and persons
+['to', Offer::class, [
+                       "http://joe.example.org",
+                       [
+                          "type" => "Person",
+                          "name" => "Bob",
+                          "url"  => "http://bob.example.org"
+                       ]
+                     ]                                                 ], # Set to with an array of mixed URL and persons
 
 ['totalItems', Collection::class, 0                                    ], # Set totalItems as 0
 ['totalItems', Collection::class, 42                                   ], # Set totalItems as 42
