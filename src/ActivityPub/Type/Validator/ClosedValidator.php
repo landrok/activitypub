@@ -48,9 +48,10 @@ class ClosedValidator implements ValidatorInterface
             if (Util::validateUrl($value)) {
                 return true;
             }
-            
-            // Can be a JSON string 
-            $value = Util::decodeJson($value);
+        }
+
+        if (is_array($value)) {
+            $value = Util::arrayToType($value);
         }
 
         // An Object or a Link

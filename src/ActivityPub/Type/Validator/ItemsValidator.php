@@ -38,15 +38,13 @@ class ItemsValidator extends ValidatorTools
             true
         );
 
-        // Link type
-        if (is_object($value) 
-            && Util::subclassOf($value, Link::class)) {
-            return true;
+        if (is_array($value)) {
+            $value = Util::arrayToType($value);
         }
 
-        // Can be a JSON string
-        if (is_string($value)) {
-            $value = Util::decodeJson($value);
+        // Link type
+        if (is_object($value)) { 
+            return Util::subclassOf($value, Link::class, true);
         }
 
         // A Collection

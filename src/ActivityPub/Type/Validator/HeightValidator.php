@@ -12,6 +12,7 @@
 namespace ActivityPub\Type\Validator;
 
 use ActivityPub\Type\Core\Link;
+use ActivityPub\Type\Extended\Object\Image;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
@@ -31,7 +32,7 @@ class HeightValidator implements ValidatorInterface
     public function validate($value, $container)
     {
         // Validate that container is a Link
-        Util::subclassOf($container, Link::class, true);
+        Util::subclassOf($container, [Link::class, Image::class], true);
 
         // Must be a non negative integer
         return Util::validateNonNegativeInteger($value);

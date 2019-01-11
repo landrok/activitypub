@@ -35,7 +35,7 @@ abstract class ValidatorTools implements ValidatorInterface
     protected function validateMap($type, $map, $container)
     {
         // A map
-        if (!is_object($map)) {
+        if (!is_array($map)) {
             return false;
         }
 
@@ -190,6 +190,14 @@ abstract class ValidatorTools implements ValidatorInterface
     protected function getQuestionAnswerValidator()
     {
         return function ($item) {
+            if (is_array($item)) {
+                $item = Util::arrayToType($item);
+            }
+
+            if (!is_object($item)) {
+                return false;
+            }
+
             Util::hasProperties($item, ['type', 'name'], true);
             return $item->type == 'Note'
                 && is_scalar($item->name);
@@ -204,6 +212,18 @@ abstract class ValidatorTools implements ValidatorInterface
     protected function getCollectionItemsValidator()
     {
         return function ($item) {
+            if (is_string($item)) {
+                return Util::validateUrl($item);
+            }
+            
+            if (is_array($item)) {
+                $item = Util::arrayToType($item);
+            }
+            
+            if (!is_object($item)) {
+                return false;
+            }
+            
             return Util::hasProperties($item, ['type'], true);
         };
     }

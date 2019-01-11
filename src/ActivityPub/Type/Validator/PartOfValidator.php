@@ -40,8 +40,11 @@ class PartOfValidator implements ValidatorInterface
 
         // URL
         if (is_string($value)) {
-            return Util::validateUrl($value)
-                || Util::validateLink($value);
+            return Util::validateUrl($value);
+        }
+
+        if (is_array($value)) {
+            $value = Util::arrayToType($value);
         }
 
         // Link or Collection

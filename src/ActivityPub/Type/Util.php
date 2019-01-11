@@ -262,10 +262,6 @@ abstract class Util
      */
     public static function validateLink($item)
     {
-        if (is_string($item)) {
-            $item = self::decodeJson($item);
-        }
-
         if (is_array($item)) {
             $item = (object)$item;
         }

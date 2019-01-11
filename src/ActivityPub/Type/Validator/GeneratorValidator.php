@@ -37,6 +37,10 @@ class GeneratorValidator implements ValidatorInterface
             return true;
         }
 
+        if (is_array($value)) {
+            $value = Util::arrayToType($value);
+        }
+
         // MUST be a valid Actor type
         return Util::isActorType($value) || Util::validateLink($value);
     }    

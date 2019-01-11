@@ -2,6 +2,7 @@
 
 namespace ActivityPubTest\Type;
 
+use ActivityPub\Type;
 use ActivityPub\Type\Core\Activity;
 use ActivityPub\Type\Core\Collection;
 use ActivityPub\Type\Core\CollectionPage;
@@ -84,28 +85,31 @@ class AttributeFormatValidationTest extends TestCase
 ['accuracy', Place::class, '0'                                         ], # Set accuracy (numeric int) 
 ['accuracy', Place::class, '0.5'                                       ], # Set accuracy (numeric float) 
 ['actor', Activity::class, 'https://example.com/bob'                   ], # Set actor as URL
-['actor', Activity::class, '{ "type": "Person",
-                              "id": "http://sally.example.org",
-                              "summary": "Sally"
-                            }'                                         ], # Set actor as an Actor type, JSON encoded
-['actor', Activity::class, '[ "http://joe.example.org",
-                              {
-                                "type": "Person",
-                                "id": "http://sally.example.org",
-                                "name": "Sally"
-                              }
-                            ]'                                         ], # Set actor as multiple actors, JSON encoded
+['actor', Activity::class,  [
+                              "type"   => "Person",
+                              "id"     => "http://sally.example.org",
+                              "summary"=> "Sally"
+                            ]                                          ], # Set actor as an Actor type
+['actor', Activity::class, [
+                              "http://joe.example.org",
+                              [
+                                "type" => "Person",
+                                "id"   => "http://sally.example.org",
+                                "name" => "Sally"
+                              ]
+                            ]                                          ], # Set actor as multiple actors, JSON encoded
+['actor', Activity::class, Type::create('Person', ["name" => "Sally"]) ], # Set actor as an Actor type
 ['altitude', Place::class, 0.5                                         ], # Set altitude (float)
-['anyOf', Question::class, '[
-                              {
-                                "type": "Note",
-                                "name": "Option A"
-                              },
-                              {
-                                "type": "Note",
-                                "name": "Option B"
-                              }
-                            ]'                                         ], # Set anyOf choices 
+['anyOf', Question::class, [
+                              [
+                                "type" => "Note",
+                                "name" => "Option A"
+                              ],
+                              [
+                                "type" => "Note",
+                                "name" => "Option B"
+                              ]
+                            ]                                          ], # Set anyOf choices 
 ['attachment', Note::class, [
                                [
                                  "type"    => "Image",
@@ -199,38 +203,38 @@ class AttributeFormatValidationTest extends TestCase
 ['closed', Question::class, '2016-05-10T00:00:00Z'                     ], # Set closed as a Datetime
 ['closed', Question::class, true                                       ], # Set closed as a boolean
 ['closed', Question::class, 'http://bob.example.org'                   ], # Set closed as a URL
-['closed', Question::class, '{
-                               "type": "Object",
-                               "name": "Bob",
-                               "url": "http://bob.example.org"
-                             }'                                        ], # Set closed as an object
-['closed', Question::class, '{
-                               "type": "Link",
-                               "href": "http://bob.example.org"
-                             }'                                        ], # Set closed as Link
+['closed', Question::class, [
+                               "type" => "Object",
+                               "name" => "Bob",
+                               "url" => "http://bob.example.org"
+                             ]                                        ], # Set closed as an object
+['closed', Question::class, [
+                               "type" => "Link",
+                               "href" => "http://bob.example.org"
+                             ]                                         ], # Set closed as Link
 ['content', Note::class, 'http://bob.example.org'                      ], # Set a content string
-['contentMap', Note::class, '{
-                               "en": "A <em>simple</em> note",
-                               "es": "Una nota <em>sencilla</em>",
-                               "zh-Hans": "一段<em>简单的</em>笔记"
-                             }'                                        ], # Set a content map
+['contentMap', Note::class, [
+                               "en"      => "A <em>simple</em> note",
+                               "es"      => "Una nota <em>sencilla</em>",
+                               "zh-Hans" => "一段<em>简单的</em>笔记"
+                            ]                                          ], # Set a content map
 ['context', ObjectType::class, 'http://bob.example.org'                ], # Set context as a URL
-['context', ObjectType::class, '{
-                                 "type": "Object",
-                                 "name": "Bob",
-                                 "url": "http://bob.example.org"
-                                }'                                     ], # Set context as an object
-['context', ObjectType::class, '{
-                                 "type": "Link",
-                                 "href": "http://bob.example.org"
-                                }'                                     ], # Set context as Link
+['context', ObjectType::class, [
+                                 "type" => "Object",
+                                 "name" => "Bob",
+                                 "url" => "http://bob.example.org"
+                                ]                                      ], # Set context as an object
+['context', ObjectType::class, [
+                                 "type" => "Link",
+                                 "href" => "http://bob.example.org"
+                                ]                                      ], # Set context as Link
 
 ['current', Collection::class, 'http://example.org/collection'         ], # Set current as a URL
-['current', OrderedCollection::class, '{
-                                        "type": "Link",
-                                        "summary": "Most Recent Items",
-                                        "href": "http://example.org/collection"
-                                       }'                              ], # Set current as Link
+['current', OrderedCollection::class, [
+                                        "type" => "Link",
+                                        "summary" => "Most Recent Items",
+                                        "href" => "http://example.org/collection"
+                                       ]                               ], # Set current as Link
 ['current', Collection::class, new CollectionPage()                    ], # Set current as a CollectionPage
 
 ['deleted', Tombstone::class, '2016-05-10T00:00:00Z'                   ], # Set deleted as a Datetime
@@ -245,21 +249,21 @@ class AttributeFormatValidationTest extends TestCase
 ['endTime', ObjectType::class, '2015-01-31T06:00:00-08:00'             ], # Set endTime as a Datetime (TZ)
 
 ['endpoints', Person::class, 'http://sally.example.org/endpoints.json' ], # Set endpoints as a string
-['endpoints', Person::class, '{
-                               "proxyUrl": "http://example.org/proxy.json",
-                               "oauthAuthorizationEndpoint": "http://example.org/oauth.json",
-                               "oauthTokenEndpoint": "http://example.org/oauth/token.json",
-                               "provideClientKey": "http://example.org/provide-client-key.json",
-                               "signClientKey": "http://example.org/sign-client-key.json",
-                               "sharedInbox": "http://example.org/shared-inbox.json"
-                              }'                                       ], # Set endpoints as a mapping
+['endpoints', Person::class, [
+                               "proxyUrl" => "http://example.org/proxy.json",
+                               "oauthAuthorizationEndpoint" => "http://example.org/oauth.json",
+                               "oauthTokenEndpoint" => "http://example.org/oauth/token.json",
+                               "provideClientKey" => "http://example.org/provide-client-key.json",
+                               "signClientKey" => "http://example.org/sign-client-key.json",
+                               "sharedInbox" => "http://example.org/shared-inbox.json"
+                              ]                                        ], # Set endpoints as a mapping
 
 ['first', Collection::class, 'http://example.org/collection?page=0'    ], # Set first as a URL
-['first', OrderedCollection::class, '{
-                                      "type": "Link",
-                                      "summary": "First Page",
-                                      "href": "http://example.org/collection?page=0"
-                                     }'                                ], # Set first as Link
+['first', OrderedCollection::class, [
+                                      "type" => "Link",
+                                      "summary" => "First Page",
+                                      "href" => "http://example.org/collection?page=0"
+                                     ]                                 ], # Set first as Link
 ['followers', Person::class, 
     "https://kenzoishii.example.com/followers.json"                    ], # Set followers as link
 ['followers', Person::class, new Collection()                          ], # Set followers as collection
@@ -270,16 +274,17 @@ class AttributeFormatValidationTest extends TestCase
 ['following', Person::class, new OrderedCollection()                   ], # Set following as OrderedCollection
 
 ['formerType', Tombstone::class, new Note()                            ], # Set formerType as an Note
-['formerType', Tombstone::class, '{"type":"Video"}'                    ], # Set formerType as an Video string
+['formerType', Tombstone::class, ["type" => "Video"]                   ], # Set formerType as an Video array
+['formerType', Tombstone::class, Type::create('Video')                 ], # Set formerType as an Video type
 
 
 ['generator', ObjectType::class, new Person()                          ], # Set generator as a Person
-['generator', Note::class, '{"type":"Application"}'                    ], # Set generator as an Application string
+['generator', Note::class, ["type" => "Application"]                   ], # Set generator as an Application string
 ['generator', Note::class, 'http://example.org/generator'              ], # Set generator as URL
-['generator', Note::class, '{
-                             "type": "Link",
-                             "href": "http://example.org/generator"
-                            }'                                         ], # Set generator as Link
+['generator', Note::class, [
+                             "type" => "Link",
+                             "href" => "http://example.org/generator"
+                           ]                                           ], # Set generator as Link
 ['height', Link::class, 42                                             ], # Set height
 
 ['href', Link::class, "http://example.org/generator"                   ], # Set href
@@ -290,98 +295,100 @@ class AttributeFormatValidationTest extends TestCase
 ['hreflang', Link::class, "mn-Cyrl-MN"                                 ], # Set hreflang case
 ['hreflang', Link::class, "mN-cYrL-Mn"                                 ], # Set hreflang icase
 
-['icon', Note::class, '{
-                        "type": "Image",
-                        "name": "Note icon",
-                        "url": "http://example.org/note.png",
-                        "width": 16,
-                        "height": 16
-                       }'                                              ], # Set icon as  an Image
-['icon', Note::class, '[
-                        {
-                         "type": "Image",
-                         "summary": "Note (16x16)",
-                         "url": "http://example.org/note1.png",
-                         "width": 16,
-                         "height": 16
-                        },
-                        {
-                         "type": "Image",
-                         "summary": "Note (32x32)",
-                         "url": "http://example.org/note2.png",
-                         "width": 32,
-                         "height": 32
-                        }
-                       ]'                                              ], # Set icon as an array of Image's
-['icon', Note::class, '{
-                        "type": "Link",
-                        "href": "http://example.org/icon"
-                       }'                                              ], # Set icon as Link
+['icon', Note::class, [
+                        "type"   => "Image",
+                        "name"   => "Note icon",
+                        "url"    => "http://example.org/note.png",
+                        "width"  => 16,
+                        "height" => 16
+                      ]                                                ], # Set icon as  an Image
+['icon', Note::class, [
+                        [
+                         "type"    => "Image",
+                         "summary" => "Note (16x16)",
+                         "url"     => "http://example.org/note1.png",
+                         "width"   => 16,
+                         "height"  => 16
+                        ],
+                        [
+                         "type"    => "Image",
+                         "summary" => "Note (32x32)",
+                         "url"     => "http://example.org/note2.png",
+                         "width"   => 32,
+                         "height"  => 32
+                        ]
+                      ]                                                ], # Set icon as an array of Image's
+['icon', Note::class, [
+                        "type" => "Link",
+                        "href" => "http://example.org/icon"
+                      ]                                                ], # Set icon as Link
 
-['image', Note::class, '{
-                         "type": "Image",
-                         "name": "A Cat",
-                         "url": "http://example.org/cat.png"
-                        }'                                             ], # Set image as  an Image
-['image', Note::class, '[
-                         {
-                          "type": "Image",
-                          "name": "Cat 1",
-                          "url": "http://example.org/cat1.png"
-                         },
-                         {
-                          "type": "Image",
-                          "name": "Cat 2",
-                          "url": "http://example.org/cat2.png"
-                         }
-                        ]'                                             ], # Set image as an array of Image's
-['image', Note::class, '{
-                         "type": "Link",
-                         "href": "http://example.org/image"
-                        }'                                             ], # Set image as Link
+['image', Note::class, [
+                         "type" => "Image",
+                         "name" => "A Cat",
+                         "url"  => "http://example.org/cat.png"
+                       ]                                               ], # Set image as  an Image
+['image', Note::class, [
+                         [
+                          "type" => "Image",
+                          "name" => "Cat 1",
+                          "url"  => "http://example.org/cat1.png"
+                         ],
+                         [
+                          "type" => "Image",
+                          "name" => "Cat 2",
+                          "url"  => "http://example.org/cat2.png"
+                         ]
+                        ]                                              ], # Set image as an array of Image's
+['image', Note::class, [
+                         "type" => "Link",
+                         "href" => "http://example.org/image"
+                       ]                                               ], # Set image as Link
 
 ['inbox', Person::class, new OrderedCollection()                       ], # Set inbox as an OrderedCollection
 ['inbox', Application::class, new OrderedCollectionPage()              ], # Set inbox as an OrderedCollectionPage
 
 ['inReplyTo', ObjectType::class, "http://example.org/collection"       ], # Set inReplyTo as URL
-['inReplyTo', ObjectType::class, '{
-                         "type": "Link",
-                         "href": "http://example.org/image"
-                        }'                                             ], # Set inReplyTo as Link
+['inReplyTo', ObjectType::class, [
+                         "type" => "Link",
+                         "href" => "http://example.org/image"
+                        ]                                              ], # Set inReplyTo as Link
 ['inReplyTo', ObjectType::class, new ObjectType()                      ], # Set inReplyTo as ObjectType
 
 ['instrument', Activity::class, 'https://example.com/bob'              ], # Set instrument as URL
-['instrument', Activity::class, '{ "type": "Person",
-                              "id": "http://sally.example.org",
-                              "summary": "Sally"
-                            }'                                         ], # Set instrument as an instrument type, JSON encoded
-['instrument', Activity::class, '[ "http://joe.example.org",
-                              {
-                                "type": "Person",
-                                "id": "http://sally.example.org",
-                                "name": "Sally"
-                              }
-                            ]'                                         ], # Set instrument as multiple instruments, JSON encoded
+['instrument', Activity::class, [
+                                  "type"    => "Person",
+                                  "id"      => "http://sally.example.org",
+                                  "summary" => "Sally"
+                                ]                                      ], # Set instrument as an instrument type, JSON encoded
+['instrument', Activity::class, [
+                                  "http://joe.example.org",
+                                  [
+                                    "type" => "Person",
+                                    "id"   => "http://sally.example.org",
+                                    "name" => "Sally"
+                                  ]
+                            ]                                          ], # Set instrument as multiple instruments, JSON encoded
 
 ['items', Collection::class, $link                                     ], # Set items as a link
-['items', Collection::class, '[
-                                {
-                                    "type": "Note",
-                                    "name": "Reminder for Going-Away Party"
-                                },
-                                {
-                                    "type": "Note",
-                                    "name": "Meeting 2016-11-17"
-                                }
-                            ]'                                         ], # Set items as a list, JSON encoded
+['items', Collection::class, [
+                                [
+                                    "type" =>  "Note",
+                                    "name" =>  "Reminder for Going-Away Party"
+                                ],
+                                [
+                                    "type" =>  "Note",
+                                    "name" =>  "Meeting 2016-11-17"
+                                ]
+                            ]                                          ], # Set items as a list, JSON encoded
 ['items', Collection::class, [$note, $note]                            ], # Set items as a list, Array encoded
 
 ['last', Collection::class, 'http://example.org/collection?page=1'     ], # Set last as a URL
-['last', OrderedCollection::class, '{
-                                        "type": "Link",
-                                        "summary": "Last page",
-                                        "href": "http://example.org/collection?page=1"
-                                    }'                                 ], # Set last as Link
+['last', OrderedCollection::class, [
+                                        "type" => "Link",
+                                        "summary" => "Last page",
+                                        "href" => "http://example.org/collection?page=1"
+                                    ]                                  ], # Set last as Link
 ['last', Collection::class, new CollectionPage()                       ], # Set last as a CollectionPage
 
 ['latitude', Place::class, 42                                          ], # Set latitude as an integer
@@ -409,85 +416,93 @@ class AttributeFormatValidationTest extends TestCase
 
 ['name', ObjectType::class, "Bob"                                      ], # Set name with a simple string
 ['name', ObjectType::class, "Bob 123 !:.,\\/"                          ], # Set name with words, digits and special characters
-['name', ObjectType::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"               ], # Set name with words, digits and special characters
-['name', Link::class, "Bob ;§&~|={}[]*-+/%$^@#\"'"                     ], # Set name with words, digits and special characters on a Link
+['name', ObjectType::class, "Bob ;§&~|=[][]*-+/%$^@#\"'"               ], # Set name with words, digits and special characters
+['name', Link::class, "Bob ;§&~|=[][]*-+/%$^@#\"'"                     ], # Set name with words, digits and special characters on a Link
 
-['nameMap', Link::class, '{
-        "en": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
-        "es": "Una nota sencilla",
-        "zh-Hans": "一段简单的笔记"
-    }'                                                                 ], # Set nameMap with words, digits and special characters on a Link
+['nameMap', Link::class, [
+        "en"      => "Bob ;§&~|=[][]*-+/%$^@#\"\'",
+        "es"      => "Una nota sencilla",
+        "zh-Hans" => "一段简单的笔记"
+    ]                                                                  ], # Set nameMap with words, digits and special characters on a Link
 
-['next', CollectionPage::class, '{
-                            "type": "Link",
-                            "name": "Next Page",
-                            "href": "http://example.org/collection?page=2"
-                        }'                                             ], # Set next as a Link
+['next', CollectionPage::class, [
+                            "type" => "Link",
+                            "name" => "Next Page",
+                            "href" => "http://example.org/collection?page=2"
+                        ]                                              ], # Set next as a Link
 ['next', CollectionPage::class, 'http://example.org/collection?page=2' ], # Set next as a URL
 ['next', CollectionPage::class, new CollectionPage()                   ], # Set next as a CollectionPage
 
 ['object', Activity::class, "http://example.org/object"                ], # Set object as URL
-['object', Relationship::class, '{
-                         "type": "Link",
-                         "href": "http://example.org/image"
-                        }'                                             ], # Set object as Link
+['object', Relationship::class, [
+                         "type" => "Link",
+                         "href" => "http://example.org/image"
+                        ]                                              ], # Set object as Link
 ['object', Activity::class, new ObjectType()                           ], # Set object as ObjectType
+['object', Activity::class, [
+                                "http://example.org/posts/1",
+                                [
+                                    "type"    => "Note",
+                                    "name"    => "A simple note",
+                                    "content" => "A simple note"
+                                ]
+                            ]                                          ], # Set object as a collection of object
 
-['oneOf', Question::class, '[
-                              {
-                                "type": "Note",
-                                "name": "Option A"
-                              },
-                              {
-                                "type": "Note",
-                                "name": "Option B"
-                              }
-                            ]'                                         ], # Set oneOf choices 
+['oneOf', Question::class, [
+                              [
+                                "type" => "Note",
+                                "name" => "Option A"
+                              ],
+                              [
+                                "type" => "Note",
+                                "name" => "Option B"
+                              ]
+                            ]                                          ], # Set oneOf choices 
 
 ['orderedItems', OrderedCollection::class, $link                       ], # Set orderedItems as a link
-['orderedItems', OrderedCollection::class, '[
-                                {
-                                    "type": "Note",
-                                    "name": "Reminder for Going-Away Party"
-                                },
-                                {
-                                    "type": "Note",
-                                    "name": "Meeting 2016-11-17"
-                                }
-                            ]'                                         ], # Set orderedItems as a list, JSON encoded
+['orderedItems', OrderedCollection::class, [
+                                [
+                                    "type" => "Note",
+                                    "name" => "Reminder for Going-Away Party"
+                                ],
+                                [
+                                    "type" => "Note",
+                                    "name" => "Meeting 2016-11-17"
+                                ]
+                            ]                                          ], # Set orderedItems as a list, JSON encoded
 ['orderedItems', OrderedCollection::class, [$note, $note]              ], # Set orderedItems as a list, Array encoded
 
 ['origin', Activity::class, "http://example.org/origin"                ], # Set origin as URL
-['origin', Like::class, '{
-                         "type": "Link",
-                         "href": "http://example.org/image"
-                        }'                                             ], # Set origin as Link
+['origin', Like::class, [
+                         "type" => "Link",
+                         "href" => "http://example.org/image"
+                        ]                                              ], # Set origin as Link
 ['origin', Create::class, new ObjectType()                             ], # Set origin as ObjectType
 
 ['outbox', Person::class, new OrderedCollection()                      ], # Set outbox as an OrderedCollection
 ['outbox', Application::class, new OrderedCollectionPage()             ], # Set outbox as an OrderedCollectionPage
 
 ['partOf', CollectionPage::class, "http://example.org/collection"      ], # Set partOf as URL
-['partOf', CollectionPage::class, '{
-                         "type": "Link",
-                         "href": "http://example.org/image"
-                        }'                                             ], # Set partOf as Link
+['partOf', CollectionPage::class, [
+                         "type" => "Link",
+                         "href" => "http://example.org/image"
+                        ]                                              ], # Set partOf as Link
 ['partOf', CollectionPage::class, new Collection()                     ], # Set partOf as Collection
 
 ['preview', Link::class, "http://example.org/collection"               ], # Set preview as URL
-['preview', ObjectType::class, '{
-                         "type": "Link",
-                         "href": "http://example.org/image"
-                        }'                                             ], # Set preview as Link
+['preview', ObjectType::class, [
+                         "type" => "Link",
+                         "href" => "http://example.org/image"
+                        ]                                              ], # Set preview as Link
 ['preview', ObjectType::class, new ObjectType()                        ], # Set preview as ObjectType
 
 ['preferredUsername', Person::class, "My Name"                         ], # Set preferredUsername as a string
 
-['prev', CollectionPage::class, '{
-                            "type": "Link",
-                            "name": "Prev Page",
-                            "href": "http://example.org/collection?page=1"
-                        }'                                             ], # Set prev as a Link
+['prev', CollectionPage::class, [
+                            "type" => "Link",
+                            "name" => "Prev Page",
+                            "href" => "http://example.org/collection?page=1"
+                        ]                                              ], # Set prev as a Link
 ['prev', CollectionPage::class, 'http://example.org/collection?page=1' ], # Set prev as a URL
 ['prev', CollectionPage::class, new CollectionPage()                   ], # Set prev as a CollectionPage
 
@@ -504,23 +519,23 @@ class AttributeFormatValidationTest extends TestCase
 ['replies', ObjectType::class, 'http://example.org/collection?page=1'  ], # Set replies as a URL
 ['replies', ObjectType::class, new Collection()                        ], # Set replies as a Collection
 ['replies', ObjectType::class, $link                                   ], # Set replies as a Link
-['replies', CollectionPage::class, '{
-                            "type": "Link",
-                            "name": "Collection of replies",
-                            "href": "http://example.org/replies"
-                        }'                                             ], # Set replies as a Link
+['replies', CollectionPage::class, [
+                            "type" => "Link",
+                            "name" => "Collection of replies",
+                            "href" => "http://example.org/replies"
+                        ]                                              ], # Set replies as a Link
 
 ['result', Activity::class, "http://example.org/result"                ], # Set result as URL
-['result', Like::class, '{
-                         "type": "Link",
-                         "href": "http://example.org/image"
-                        }'                                             ], # Set result as Link
+['result', Like::class, [
+                         "type" => "Link",
+                         "href" => "http://example.org/image"
+                        ]                                              ], # Set result as Link
 ['result', Create::class, new ObjectType()                             ], # Set result as ObjectType
 
-['source', ObjectType::class, '{
-                                "content": "I *really* like strawberries!",
-                                "mediaType": "text/markdown"
-                            }'                                         ], # Set source as a string object
+['source', ObjectType::class, [
+                                "content" => "I *really* like strawberries!",
+                                "mediaType" => "text/markdown"
+                            ]                                          ], # Set source as a string object
 ['source', Note::class, [
                             "content"   => "I *really* like strawberries!",
                             "mediaType" => "text/markdown"
@@ -537,18 +552,18 @@ class AttributeFormatValidationTest extends TestCase
 ['subject', Relationship::class, 'http://example.org/collection?page=1'], # Set subject as a URL
 ['subject', Relationship::class, new ObjectType()                      ], # Set subject as a ObjectType
 ['subject', Relationship::class, $link                                 ], # Set subject as a Link
-['subject', Relationship::class, '{
-                            "type": "Link",
-                            "name": "Collection of subject",
-                            "href": "http://example.org/subject"
-                        }'                                             ], # Set subject as a Link
+['subject', Relationship::class, [
+                            "type" => "Link",
+                            "name" => "Collection of subject",
+                            "href" => "http://example.org/subject"
+                         ]                                             ], # Set subject as a Link
 
 ['summary', Application::class, 'A simple <em>note</em>'               ], # Set summary as a string
-['summaryMap', Application::class, '{
-                                     "en": "A simple <em>note</em>",
-                                     "es": "Una <em>nota</em> sencilla",
-                                     "zh-Hans": "一段<em>简单的</em>笔记"
-                                    }'                                 ], # Set summaryMap as a map
+['summaryMap', Application::class, [
+                                     "en"      => "A simple <em>note</em>",
+                                     "es"      => "Una <em>nota</em> sencilla",
+                                     "zh-Hans" => "一段<em>简单的</em>笔记"
+                                   ]                                   ], # Set summaryMap as a map
 
 ['tag', Note::class, [
                               [
@@ -571,17 +586,19 @@ class AttributeFormatValidationTest extends TestCase
                            ]                                           ], # Set tag
 
 ['target', Activity::class, 'https://example.com/bob'                  ], # Set target as URL
-['target', Activity::class, '{ "type": "Person",
-                              "id": "http://sally.example.org",
-                              "summary": "Sally"
-                            }'                                         ], # Set target as an target type, JSON encoded
-['target', Activity::class, '[ "http://joe.example.org",
-                              {
-                                "type": "Person",
-                                "id": "http://sally.example.org",
-                                "name": "Sally"
-                              }
-                            ]'                                         ], # Set target as multiple targets, JSON encoded
+['target', Activity::class, [
+                              "type" => "Person",
+                              "id"   => "http://sally.example.org",
+                              "summary" => "Sally"
+                            ]                                          ], # Set target as an target type, JSON encoded
+['target', Activity::class, [
+                              "http://joe.example.org",
+                              [
+                                "type" => "Person",
+                                "id"   => "http://sally.example.org",
+                                "name" => "Sally"
+                              ]
+                            ]                                          ], # Set target as multiple targets, JSON encoded
 
 ['to', Offer::class, [
                        "http://joe.example.org",
@@ -603,10 +620,10 @@ class AttributeFormatValidationTest extends TestCase
 ['updated', ObjectType::class, '2016-05-10T00:00:00Z'                  ], # Set updated as a Datetime (UTC)
 ['updated', ObjectType::class, '2015-01-31T06:00:00-08:00'             ], # Set updated as a Datetime (TZ)
 
-['url', Note::class, '{
-                         "type": "Link",
-                         "href": "http://example.org/url"
-                      }'                                               ], # Set url as Link
+['url', Note::class, [
+                         "type" => "Link",
+                         "href" => "http://example.org/url"
+                     ]                                                 ], # Set url as Link
 ['url', Note::class, [[
                          "type"=> "Link",
                          "href"=> "http://example.org/url"
@@ -634,30 +651,23 @@ class AttributeFormatValidationTest extends TestCase
 ['actor', Activity::class, 'https:/example.com/bob'                    ], # Set actor as malformed URL
 ['actor', Activity::class, 'bob'                                       ], # Set actor as not allowed string
 ['actor', Activity::class, 42                                          ], # Set actor as not allowed type
-['actor', Activity::class, '{}'                                        ], # Set actor as a JSON malformed string
-['actor', Activity::class, '[
+['actor', Activity::class, []                                          ], # Set actor as a JSON malformed string
+['actor', Activity::class, [
                              "http://joe.example.org",
-                             {
-                              "type": "Person",
-                              "name": "Sally"
-                             }
-                            ]'                                         ], # Set actor as multiple actors, JSON encoded, missing id for one actor
-['actor', Activity::class, '[
-                             "http://joe.example.org",
-                             {
-                              "type": "Person",
-                              "id": "http://",
-                              "name": "Sally"
-                             }
-                            ]'                                         ], # Set actor as multiple actors, JSON encoded, invalid id
-['actor', Activity::class, '[
+                             [
+                              "type" => "Person",
+                              "id" => "http://",
+                              "name" => "Sally"
+                             ]
+                            ]                                          ], # Set actor as multiple actors, JSON encoded, invalid id
+['actor', Activity::class, [
                              "http://",
-                             {
-                              "type": "Person",
-                              "id": "http://joe.example.org",
-                              "name": "Sally"
-                             }
-                            ]'                                         ], # Set actor as multiple actors, JSON encoded, invalid indirect link
+                             [
+                              "type" => "Person",
+                              "id" => "http://joe.example.org",
+                              "name" => "Sally"
+                             ]
+                            ]                                          ], # Set actor as multiple actors, JSON encoded, invalid indirect link
 ['accuracy', Place::class, -10                                         ], # Set accuracy with a negative int
 ['accuracy', Place::class, -0.0000001                                  ], # Set accuracy with a negative float
 ['accuracy', Place::class, 'A0.0000001'                                ], # Set accuracy with a non numeric value
@@ -668,172 +678,172 @@ class AttributeFormatValidationTest extends TestCase
 ['altitude', Place::class, []                                          ], # Set altitude with an array
 ['anyOf', Place::class, []                                             ], # Set anyOf for an inappropriate type
 ['anyOf', Question::class, []                                          ], # Set anyOf with an array
-['anyOf', Question::class, '[
-                             {
-                              "type": "Note",
-                             },
-                             {
-                              "type": "Note",
-                              "name": "Option B"
-                             }
-                            ]'                                         ], # Set anyOf with malformed choices 
-['anyOf', Question::class, '[
-                             {
-                              "type": "Note",
-                              "name": "Option A"
-                             },
-                             {
-                              "name": "Option B"
-                             }
-                            ]'                                         ], # Set anyOf with malformed choices 
-['anyOf', Question::class, '{
-                             "type": "Note",
-                             "name": "Option A"
-                            }'                                         ], # Set anyOf with malformed choices 
-['anyOf', Question::class, '[
-                             {
-                              "type": "Note",
-                              "name": "Option A"
-                             },
-                             {
-                              "type": "Note",
-                              "name": ["Option B"]
-                             }
-                            ]'                                         ], # Set anyOf with malformed choices	
-['attachment', Note::class, '[
-                              {
-                               "type": "Image",
-                               "content": "This is what he looks like.",
-                              }
-                             ]'                                        ], # Set attachment with a missing reference
-['attachment', Note::class, '[
-                              {
-                               "type": "Link",
-                               "content": "This is what he looks like.",
-                              }
-                             ]'                                        ], # Set attachment with a missing reference
-['attributedTo', Image::class, '[
-                                 {
-                                  "type": "Person"
-                                 }
-                                ]'                                     ], # Set attributedTo with a missing attribute (Array)
-['attributedTo', Image::class, '{
-                                 "name": "Sally"
-                                }'                                     ], # Set attributedTo with a single malformed type
-['attributedTo', Image::class, '{
-                                 "type": "Link",
-                                }'                                     ], # Set attributedTo with a malformed Link
-['attributedTo', Image::class, '[
+['anyOf', Question::class, [
+                             [
+                              "type" => "Note",
+                             ],
+                             [
+                              "type" => "Note",
+                              "name" => "Option B"
+                             ]
+                            ]                                          ], # Set anyOf with malformed choices 
+['anyOf', Question::class, [
+                             [
+                              "type" => "Note",
+                              "name" => "Option A"
+                             ],
+                             [
+                              "name" => "Option B"
+                             ]
+                            ]                                          ], # Set anyOf with malformed choices 
+['anyOf', Question::class, [
+                             "type" => "Note",
+                             "name" => "Option A"
+                            ]                                          ], # Set anyOf with malformed choices 
+['anyOf', Question::class, [
+                             [
+                              "type" => "Note",
+                              "name" => "Option A"
+                             ],
+                             [
+                              "type" => "Note",
+                              "name" => ["Option B"]
+                             ]
+                            ]                                          ], # Set anyOf with malformed choices	
+['attachment', Note::class, [
+                              [
+                               "type" => "Image",
+                               "content" => "This is what he looks like.",
+                              ]
+                             ]                                         ], # Set attachment with a missing reference
+['attachment', Note::class, [
+                              [
+                               "type" => "Link",
+                               "content" => "This is what he looks like.",
+                              ]
+                             ]                                         ], # Set attachment with a missing reference
+['attributedTo', Image::class, [
+                                 [
+                                  "type" => "Person"
+                                 ]
+                                ]                                      ], # Set attributedTo with a missing attribute (Array)
+['attributedTo', Image::class, [
+                                 "name" => "Sally"
+                                ]                                      ], # Set attributedTo with a single malformed type
+['attributedTo', Image::class, [
+                                 "type" => "Link",
+                                ]                                      ], # Set attributedTo with a malformed Link
+['attributedTo', Image::class, [
                                  "http://sally.example.org",
-                                 {
-                                  "type": "Person",
-                                 }
-                                ]'                                     ], # Set attributedTo with an array of mixed URL and persons (malformed)
-['audience', Image::class, '[
-                             {
-                              "type": "Person"
-                             }
-                            ]'                                         ], # Set audience with a missing attribute (Array)
-['audience', Image::class, '{
-                             "name": "Sally"
-                            }'                                         ], # Set audience with a single malformed type
-['audience', Image::class, '{
-                             "type": "Link"
-                            }'                                         ], # Set audience with a malformed Link
-['audience', Image::class, '[
+                                 [
+                                  "type" => "Person",
+                                 ]
+                                ]                                      ], # Set attributedTo with an array of mixed URL and persons (malformed)
+['audience', Image::class, [
+                             [
+                              "type" => "Person"
+                             ]
+                            ]                                          ], # Set audience with a missing attribute (Array)
+['audience', Image::class, [
+                             "name" => "Sally"
+                            ]                                          ], # Set audience with a single malformed type
+['audience', Image::class, [
+                             "type" => "Link"
+                            ]                                          ], # Set audience with a malformed Link
+['audience', Image::class, [
                              "http://sally.example.org",
-                             {
-                              "type": "Person",
-                             }
-                            ]'                                         ], # Set audience with an array of mixed URL and persons (malformed)
+                             [
+                              "type" => "Person",
+                             ]
+                            ]                                          ], # Set audience with an array of mixed URL and persons (malformed)
 ['audience', Image::class, 42                                          ], # Set audience with an integer
-['audience', Link::class, '["http://sally.example.org"]'               ], # Set audience with on a bad container (Link)
-['bcc', Offer::class, '[
+['audience', Link::class, ["http://sally.example.org"]                 ], # Set audience with on a bad container (Link)
+['bcc', Offer::class, [
                         "http://sally.example.org",
-                        {
-                         "type": "Person",
-                         "name": "Sally"
-                        }
-                       ]'                                              ], # Set bcc with an array of mixed URL and persons (missing url property)
-['bcc', Offer::class, '[
+                        [
+                         "type" => "Person",
+                         "name" => "Sally"
+                        ]
+                       ]                                               ], # Set bcc with an array of mixed URL and persons (missing url property)
+['bcc', Offer::class, [
                         "http://sally.example.org",
-                        {
-                         "type": "Person",
-                         "name": "Sally",
-                         "url": "Not an URL"
-                        }
-                       ]'                                              ], # Set bcc with an array of mixed URL and persons (URL property is not valid)
-['bcc', Offer::class, '["Not a valid URL"]'                            ], # Set bcc with malformed URL
+                        [
+                         "type" => "Person",
+                         "name" => "Sally",
+                         "url" => "Not an URL"
+                        ]
+                       ]                                               ], # Set bcc with an array of mixed URL and persons (URL property is not valid)
+['bcc', Offer::class, ["Not a valid URL"]                              ], # Set bcc with malformed URL
 
-['bto', Offer::class, '[
+['bto', Offer::class, [
                         "http://sally.example.org",
-                        {
-                         "type": "Person",
-                         "name": "Sally"
-                        }
-                       ]'                                              ], # Set bto with an array of mixed URL and persons (missing url property)
-['bto', Offer::class, '[
+                        [
+                         "type" => "Person",
+                         "name" => "Sally"
+                        ]
+                       ]                                               ], # Set bto with an array of mixed URL and persons (missing url property)
+['bto', Offer::class, [
                         "http://sally.example.org",
-                        {
-                         "type": "Person",
-                         "name": "Sally",
-                         "url": "Not an URL"
-                        }
-                       ]'                                              ], # Set bto with an array of mixed URL and persons (URL property is not valid)
-['bto', Offer::class, '["Not a valid URL"]'                            ], # Set bto with malformed URL
+                        [
+                         "type" => "Person",
+                         "name" => "Sally",
+                         "url" => "Not an URL"
+                        ]
+                       ]                                               ], # Set bto with an array of mixed URL and persons (URL property is not valid)
+['bto', Offer::class, ["Not a valid URL"]                              ], # Set bto with malformed URL
 
-['cc', Offer::class, '[
+['cc', Offer::class, [
                        "http://sally.example.org",
-                       {
-                        "type": "Person",
-                        "name": "Sally"
-                       }
-                      ]'                                               ], # Set cc with an array of mixed URL and persons (missing url property)
-['cc', Offer::class, '[
+                       [
+                        "type" => "Person",
+                        "name" => "Sally"
+                       ]
+                      ]                                                ], # Set cc with an array of mixed URL and persons (missing url property)
+['cc', Offer::class, [
                        "http://sally.example.org",
-                       {
-                        "type": "Person",
-                        "name": "Sally",
-                        "url": "Not an URL"
-                       }
-                      ]'                                               ], # Set cc with an array of mixed URL and persons (URL property is not valid)
-['cc', Offer::class, '["Not a valid URL"]'                             ], # Set cc with malformed URL
+                       [
+                        "type" => "Person",
+                        "name" => "Sally",
+                        "url" => "Not an URL"
+                       ]
+                      ]                                                ], # Set cc with an array of mixed URL and persons (URL property is not valid)
+['cc', Offer::class, ["Not a valid URL"]                               ], # Set cc with malformed URL
 
 ['closed', Question::class, '2016-05-10 00:00:00Z'                     ], # Set closed as a Datetime (malformed)
 ['closed', Question::class, '2016-05-32T00:00:00Z'                     ], # Set closed as a Datetime (malformed)
 ['closed', Question::class, 42                                         ], # Set closed as a integer
 ['closed', Question::class, 'ob.example.org'                           ], # Set closed as a URL (malformed)
-['closed', Question::class, '{
-                              "type": "BadType",
-                              "name": "Bob"
-                             }'                                        ], # Set closed as a bad type
-['closed', Question::class, '{"type": "Link"}'                         ], # Set closed as a malformed Link
+['closed', Question::class, [
+                              "type" => "BadType",
+                              "name" => "Bob"
+                            ]                                          ], # Set closed as a bad type
+['closed', Question::class, ["type" => "Link"]                         ], # Set closed as a malformed Link
 ['closed', ObjectType::class, '2016-05-10T00:00:00Z'                   ], # Set closed as a Datetime but on not allowed type
 
 ['content', Note::class, []                                            ], # Set a content as array
 
-['contentMap', Note::class, '{
-                              "en": "A <em>simple</em> note",
-                              "es": "Una nota <em>sencilla</em>",
-                              1: "一段<em>简单的</em>笔记"
-                             }'                                        ], # Set a content map (bad key)
+['contentMap', Note::class, [
+                              "en" => "A <em>simple</em> note",
+                              "es" => "Una nota <em>sencilla</em>",
+                              1 => "一段<em>简单的</em>笔记"
+                             ]                                         ], # Set a content map (bad key)
 
-['contentMap', Note::class, ' { "A <em>simple</em> note"}'             ], # Set a content map (bad key)
+['contentMap', Note::class, [ "A <em>simple</em> note"]                ], # Set a content map (bad key)
 ['contentMap', Note::class, 'A <em>simple</em> note'                   ], # Set a content map (bad format, string)
 ['contentMap', Note::class, 42                                         ], # Set a content map (bad format, integer)
 
 ['context', ObjectType::class, '1'                                     ], # Set a number as context
 ['context', ObjectType::class, []                                      ], # Set an array as context
-['context', ObjectType::class, '{
-                                 "type": "Link"
-                                }'                                     ], # Set context as a malformed Link
+['context', ObjectType::class, [
+                                 "type" => "Link"
+                                ]                                      ], # Set context as a malformed Link
 
 ['current', ObjectType::class, 'http://example.org/collection'         ], # Set current as a URL for a class which is not a subclass of Collection
 ['current', Collection::class, 'http:/example.org/collection'          ], # Set current as a malformed URL
-['current', OrderedCollection::class, '{
-                                        "type": "Link",
-                                        "summary": "Most Recent Items"
-                                       }'                              ], # Set current as Link (malformed)
+['current', OrderedCollection::class, [
+                                        "type" => "Link",
+                                        "summary" => "Most Recent Items"
+                                      ]                                ], # Set current as Link (malformed)
 ['current', Collection::class, 42                                      ], # Set current as a bad type value
 
 ['deleted', Tombstone::class, '2016-05-10 00:00:00Z'                   ], # Set deleted as a bad Datetime
@@ -856,22 +866,22 @@ class AttributeFormatValidationTest extends TestCase
 ['endpoints', Person::class, 'htt://sally.example.org/endpoints.json'  ], # Set endpoints as a bad url
 ['endpoints', Person::class, 42                                        ], # Set endpoints with a bad type value
 ['endpoints', Activity::class,'http://sally.example.org/endpoints.json'], # Set endpoints on a bad type
-['endpoints', Person::class, '{
-                               "proxyUrl": "http://example.org/proxy.json",
-                               "oauthAuthorizationEndpoint": "http://example.org/oauth.json",
-                               "oauthTokenEndpoint": "http://example.org/oauth/token.json",
-                               "provideClientKey": "http://example.org/provide-client-key.json",
-                               "signClientKey": "htp://example.org/sign-client-key.json",
-                               "sharedInbox": "http://example.org/shared-inbox.json"
-                              }'                                       ], # Set endpoints as a mapping with a malformed URL
-['endpoints', Person::class, '{"http://example.org/proxy.json"}'       ], # Set endpoints as a mapping with a malformed key
+['endpoints', Person::class, [
+                               "proxyUrl" => "http://example.org/proxy.json",
+                               "oauthAuthorizationEndpoint" => "http://example.org/oauth.json",
+                               "oauthTokenEndpoint" => "http://example.org/oauth/token.json",
+                               "provideClientKey" => "http://example.org/provide-client-key.json",
+                               "signClientKey" => "htp://example.org/sign-client-key.json",
+                               "sharedInbox" => "http://example.org/shared-inbox.json"
+                              ]                                        ], # Set endpoints as a mapping with a malformed URL
+['endpoints', Person::class, [["http://example.org/proxy.json"]]       ], # Set endpoints as a mapping with a malformed key
 
 ['first', ObjectType::class, 'http://example.org/collection?page=0'    ], # Set first as a URL for a class which is not a subclass of Collection
 ['first', Collection::class, 'http:/example.org/collection?page=0'     ], # Set first as a malformed URL
-['first', OrderedCollection::class, '{
-                                      "type": "Link",
-                                      "summary": "First page"
-                                     }'                                ], # Set first as Link (malformed)
+['first', OrderedCollection::class, [
+                                      "type" => "Link",
+                                      "summary" => "First page"
+                                     ]                                 ], # Set first as Link (malformed)
 
 ['first', Collection::class, 42                                        ], # Set first as a bad type value
 
@@ -884,18 +894,18 @@ class AttributeFormatValidationTest extends TestCase
 ['following', Person::class, 'http:/example.org/following'             ], # Set following as a malformed URL
 
 ['formerType', Tombstone::class, 'PoorString'                          ], # Set formerType as a string
-['formerType', ObjectType::class, '{"type":"Person"}'                  ], # Set formerType on a bad Type
+['formerType', ObjectType::class, ["type" => "Person"]                 ], # Set formerType on a bad Type
 ['formerType', Tombstone::class, 42                                    ], # Set formerType as an integer
 
-['generator', Note::class, '{"type":"Activity"}'                       ], # Set generator as an activity
+['generator', Note::class, ["type" => "Activity"]                      ], # Set generator as an activity
 ['generator', ObjectType::class, '2016-05-10T00:00:00Z'                ], # Set generator as a Datetime on a bad Type
 ['generator', Tombstone::class, 42                                     ], # Set generator as an integer
 ['generator', Link::class, 'http://example.org/generator'              ], # Set generator on a bad type
 ['generator', ObjectType::class, 'htp://example.org/generator'         ], # Set generator with a bad URL
-['generator', Note::class, '{
-                             "type": "Link",
-                             "href": "htp://example.org/generator"
-                            }'                                         ], # Set generator as a malformed Link
+['generator', Note::class, [
+                             "type" => "Link",
+                             "href" => "htp://example.org/generator"
+                           ]                                           ], # Set generator as a malformed Link
 
 ['height', ObjectType::class, 42                                       ], # Set height on a bad type
 ['height', Link::class, 42.5                                           ], # Set height with a bad type
@@ -910,53 +920,53 @@ class AttributeFormatValidationTest extends TestCase
 ['hreflang', Activity::class, "en-GB"                                  ], # Set hreflang on a bad type
 
 
-['icon', Note::class, '{
-                        "type": "Imag",
-                        "name": "Note icon",
-                        "url": "http://example.org/note.png",
-                        "width": 16,
-                        "height": 16
-                       }'                                              ], # Set icon as a bad type
-['icon', Note::class, '[
-                        {
-                         "type": "Imag",
-                         "summary": "Note (16x16)",
-                         "url": "http://example.org/note1.png",
-                         "width": 16,
-                         "height": 16
-                        },
-                        {
-                         "type": "Image",
-                         "summary": "Note (32x32)",
-                         "url": "http://example.org/note2.png",
-                         "width": 32,
-                         "height": 32
-                        }
-                       ]'                                              ], # Set icon as an array of Image's
-['icon', Note::class, '{
-                        "type": "Link"
-                       }'                                              ], # Set icon as Link
+['icon', Note::class, [
+                        "type" => "Imag",
+                        "name" => "Note icon",
+                        "url" => "http://example.org/note.png",
+                        "width"=> 16,
+                        "height"=> 16
+                      ]                                                ], # Set icon as a bad type
+['icon', Note::class, [
+                        [
+                         "type" => "Imag",
+                         "summary" => "Note (16x16)",
+                         "url" => "http://example.org/note1.png",
+                         "width"=> 16,
+                         "height"=> 16
+                        ],
+                        [
+                         "type" => "Image",
+                         "summary" => "Note (32x32)",
+                         "url" => "http://example.org/note2.png",
+                         "width"=> 32,
+                         "height"=> 32
+                        ]
+                       ]                                               ], # Set icon as an array of Image's
+['icon', Note::class, [
+                        "type" => "Link"
+                       ]                                               ], # Set icon as Link
 
-['image', Note::class, '{
-                         "type": "Imag",
-                         "name": "Note image",
-                         "url": "http://example.org/note.png"
-                        }'                                             ], # Set image as a bad type
-['image', Note::class, '[
-                         {
-                          "type": "Imag",
-                          "summary": "Note image",
-                          "url": "http://example.org/note1.png"
-                         },
-                         {
-                          "type": "Image",
-                          "summary": "A cat",
-                          "url": "http://example.org/note2.png"
-                         }
-                        ]'                                             ], # Set image as an array of Image's (bad type)
-['image', Note::class, '{
-                         "type": "Link"
-                        }'                                             ], # Set image as Link (malformed)
+['image', Note::class, [
+                         "type" => "Imag",
+                         "name" => "Note image",
+                         "url" => "http://example.org/note.png"
+                        ]                                              ], # Set image as a bad type
+['image', Note::class, [
+                         [
+                          "type" => "Imag",
+                          "summary" => "Note image",
+                          "url" => "http://example.org/note1.png"
+                         ],
+                         [
+                          "type" => "Image",
+                          "summary" => "A cat",
+                          "url" => "http://example.org/note2.png"
+                         ]
+                        ]                                              ], # Set image as an array of Image's (bad type)
+['image', Note::class, [
+                         "type" => "Link"
+                       ]                                               ], # Set image as Link (malformed)
 
 ['inbox', Activity::class, new OrderedCollection()                     ], # Set inbox on a bad type (Activity)
 ['inbox', Application::class, new CollectionPage()                     ], # Set inbox as a bad type (Must be an ordered Type)
@@ -969,55 +979,48 @@ class AttributeFormatValidationTest extends TestCase
 ['instrument', Activity::class, 'https:/example.com/bob'               ], # Set instrument as malformed URL
 ['instrument', Activity::class, 'bob'                                  ], # Set instrument as not allowed string
 ['instrument', Activity::class, 42                                     ], # Set instrument as not allowed type
-['instrument', Activity::class, '{}'                                   ], # Set instrument as a JSON malformed string
-['instrument', Activity::class, '[
+['instrument', Activity::class, []                                     ], # Set instrument as a JSON malformed string
+['instrument', Activity::class, [
                              "http://joe.example.org",
-                             {
-                              "type": "Person",
-                              "name": "Sally"
-                             }
-                            ]'                                         ], # Set instrument as multiple instruments, JSON encoded, missing id for one instrument
-['instrument', Activity::class, '[
-                             "http://joe.example.org",
-                             {
-                              "type": "Person",
-                              "id": "http://",
-                              "name": "Sally"
-                             }
-                            ]'                                         ], # Set instrument as multiple instruments, JSON encoded, invalid id
-['instrument', Activity::class, '[
+                             [
+                              "type" => "Person",
+                              "id" => "http://",
+                              "name" => "Sally"
+                             ]
+                            ]                                          ], # Set instrument as multiple instruments, JSON encoded, invalid id
+['instrument', Activity::class, [
                              "http://",
-                             {
-                              "type": "Person",
-                              "id": "http://joe.example.org",
-                              "name": "Sally"
-                             }
-                            ]'                                         ], # Set instrument as multiple instruments, JSON encoded, invalid indirect link
+                             [
+                              "type" => "Person",
+                              "id" => "http://joe.example.org",
+                              "name" => "Sally"
+                             ]
+                            ]                                          ], # Set instrument as multiple instruments, JSON encoded, invalid indirect link
 
-['items', Activity::class, '{
-                             "type": "Link",
-                             "href": "http://example.org/items"
-                            }'                                         ], # Set items on a bad type
-['items', Collection::class, '{
-                             "type": "Note",
-                             "name": "It\'s a note"
-                            }'                                         ], # Set items as a bad type (must be a list)
-['items', Collection::class, '[]'                                      ], # Set items as an empty list (JSON)
+['items', Activity::class, [
+                             "type" => "Link",
+                             "href" => "http://example.org/items"
+                           ]                                           ], # Set items on a bad type
+['items', Collection::class, [
+                             "type" => "Note",
+                             "name" => "It\'s a note"
+                             ]                                         ], # Set items as a bad type (must be a list)
+['items', Collection::class, []                                        ], # Set items as an empty list (JSON)
 ['items', Collection::class, []                                        ], # Set items as an empty list (Array)
-['items', Collection::class, '[{
-                             "name": "It\'s a note"
-                            }]'                                        ], # Set items as a malformed list (Item has no type)
+['items', Collection::class, [[
+                             "name" => "It\'s a note"
+                            ]]                                         ], # Set items as a malformed list (Item has no type)
 
-['last', Activity::class, '{
-                            "type": "Link",
-                            "name": "last Page",
-                            "href": "htp://example.org/collection?page=2"
-                        }'                                             ], # Set last on a bad type
-['last', CollectionPage::class, '{
-                            "type": "Link",
-                            "name": "last Page",
-                            "href": "htp://example.org/collection?page=2"
-                        }'                                             ], # Set last as a malformed Link
+['last', Activity::class, [
+                            "type" => "Link",
+                            "name" => "last Page",
+                            "href" => "htp://example.org/collection?page=2"
+                        ]                                              ], # Set last on a bad type
+['last', CollectionPage::class, [
+                            "type" => "Link",
+                            "name" => "last Page",
+                            "href" => "htp://example.org/collection?page=2"
+                        ]                                              ], # Set last as a malformed Link
 ['last', CollectionPage::class, 'htp://example.org/collection?page=2'  ], # Set last as a malformed URL
 ['last', CollectionPage::class, new Collection()                       ], # Set last as a bad type
 
@@ -1043,27 +1046,27 @@ class AttributeFormatValidationTest extends TestCase
 ['name', Link::class, "Bob <span></span>"                              ], # Set name with illegal characters (HTML)
 ['name', ObjectType::class, "Bob <script></script>"                    ], # Set name with illegal characters (HTML)
 
-['nameMap', Link::class, '{
-        "en": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
-        "es": "Una nota sencilla",
-        "zh-Hans": "<script></script>"
-    }'                                                                 ], # Set nameMap with an illegal string (HTML)
+['nameMap', Link::class, [
+        "en" => "Bob ;§&~|=[][]*-+/%$^@#\"\'",
+        "es" => "Una nota sencilla",
+        "zh-Hans" => "<script></script>"
+    ]                                                                  ], # Set nameMap with an illegal string (HTML)
 
-['nameMap', Link::class, '{
-        "abcdefghijkl": "Bob ;§&~|={}[]*-+/%$^@#\"\'",
-        "es": "Una nota sencilla"
-    }'                                                                 ], # Set nameMap with an illegal key (Non valid BCP47)
+['nameMap', Link::class, [
+        "abcdefghijkl" => "Bob ;§&~|=[][]*-+/%$^@#\"\'",
+        "es" => "Una nota sencilla"
+    ]                                                                  ], # Set nameMap with an illegal key (Non valid BCP47)
 
-['next', Collection::class, '{
-                            "type": "Link",
-                            "name": "Next Page",
-                            "href": "http://example.org/collection?page=2"
-                        }'                                             ], # Set next on a bad type
-['next', CollectionPage::class, '{
-                            "type": "Link",
-                            "name": "Next Page",
-                            "href": "htp://example.org/collection?page=2"
-                        }'                                             ], # Set next as a malformed Link
+['next', Collection::class, [
+                            "type" => "Link",
+                            "name" => "Next Page",
+                            "href" => "http://example.org/collection?page=2"
+                        ]                                              ], # Set next on a bad type
+['next', CollectionPage::class, [
+                            "type" => "Link",
+                            "name" => "Next Page",
+                            "href" => "htp://example.org/collection?page=2"
+                        ]                                              ], # Set next as a malformed Link
 ['next', CollectionPage::class, 'htp://example.org/collection?page=2'  ], # Set next as a malformed URL
 ['next', CollectionPage::class, new Collection()                       ], # Set next as a bad type
 ['next', CollectionPage::class, 42                                     ], # Set next as a bad type (int)
@@ -1074,52 +1077,52 @@ class AttributeFormatValidationTest extends TestCase
 
 ['oneOf', Place::class, []                                             ], # Set oneOf for an inappropriate type
 ['oneOf', Question::class, []                                          ], # Set oneOf with an array
-['oneOf', Question::class, '[
-                             {
-                              "type": "Note",
-                             },
-                             {
-                              "type": "Note",
-                              "name": "Option B"
-                             }
-                            ]'                                         ], # Set oneOf with malformed choices 
-['oneOf', Question::class, '[
-                             {
-                              "type": "Note",
-                              "name": "Option A"
-                             },
-                             {
-                              "name": "Option B"
-                             }
-                            ]'                                         ], # Set oneOf with malformed choices 
-['oneOf', Question::class, '{
-                             "type": "Note",
-                             "name": "Option A"
-                            }'                                         ], # Set oneOf with malformed choices 
-['oneOf', Question::class, '[
-                             {
-                              "type": "Note",
-                              "name": "Option A"
-                             },
-                             {
-                              "type": "Note",
-                              "name": ["Option B"]
-                             }
-                            ]'                                         ], # Set oneOf with malformed choices
+['oneOf', Question::class, [
+                             [
+                              "type" => "Note",
+                             ],
+                             [
+                              "type" => "Note",
+                              "name" => "Option B"
+                             ]
+                            ]                                          ], # Set oneOf with malformed choices 
+['oneOf', Question::class, [
+                             [
+                              "type" => "Note",
+                              "name" => "Option A"
+                             ],
+                             [
+                              "name" => "Option B"
+                             ]
+                            ]                                          ], # Set oneOf with malformed choices 
+['oneOf', Question::class, [
+                             "type" => "Note",
+                             "name" => "Option A"
+                            ]                                          ], # Set oneOf with malformed choices 
+['oneOf', Question::class, [
+                             [
+                              "type" => "Note",
+                              "name" => "Option A"
+                             ],
+                             [
+                              "type" => "Note",
+                              "name" => ["Option B"]
+                             ]
+                            ]                                          ], # Set oneOf with malformed choices
 
-['orderedItems', Activity::class, '{
-                             "type": "Link",
-                             "href": "http://example.org/orderedItems"
-                            }'                                         ], # Set orderedItems on a bad type
-['orderedItems', OrderedCollection::class, '{
-                             "type": "Note",
-                             "name": "It\'s a note"
-                            }'                                         ], # Set orderedItems as a bad type (must be a list)
-['orderedItems', OrderedCollection::class, '[]'                        ], # Set orderedItems as an empty list (JSON)
+['orderedItems', Activity::class, [
+                             "type" => "Link",
+                             "href" => "http://example.org/orderedItems"
+                            ]                                          ], # Set orderedItems on a bad type
+['orderedItems', OrderedCollection::class, [
+                             "type" => "Note",
+                             "name" => "It's a note"
+                            ]                                          ], # Set orderedItems as a bad type (must be a list)
+['orderedItems', OrderedCollection::class, []                          ], # Set orderedItems as an empty list (JSON)
 ['orderedItems', OrderedCollection::class, []                          ], # Set orderedItems as an empty list (Array)
-['orderedItems', OrderedCollection::class, '[{
-                             "name": "It\'s a note"
-                            }]'                                        ], # Set orderedItems as a malformed list (Item has no type)
+['orderedItems', OrderedCollection::class, [[
+                             "name" => "It's a note"
+                            ]]                                         ], # Set orderedItems as a malformed list (Item has no type)
 
 ['origin', Collection::class, []                                       ], # Set origin on a bad type
 ['origin', Activity::class, "htp://example.org"                        ], # Set origin as a bad URL
@@ -1130,10 +1133,10 @@ class AttributeFormatValidationTest extends TestCase
 ['outbox', Application::class, 'string'                                ], # Set outbox as a bad type (Must be a valid object)
 
 ['partOf', CollectionPage::class, "htp://example.org/collection"       ], # Set partOf as a bad URL
-['partOf', CollectionPage::class, '{
-                         "type": "Lin",
-                         "href": "http://example.org/image"
-                        }'                                             ], # Set partOf as as bad Link
+['partOf', CollectionPage::class, [
+                         "type" => "Lin",
+                         "href" => "http://example.org/image"
+                        ]                                              ], # Set partOf as as bad Link
 ['partOf', Collection::class, new Collection()                         ], # Set partOf on a bad type
 ['partOf', CollectionPage::class, []                                   ], # Set partOf as a bad type
 
@@ -1143,16 +1146,16 @@ class AttributeFormatValidationTest extends TestCase
 ['preferredUsername', Activity::class, 'My name'                       ], # Set preferredUsername on a bad type (Activity)
 ['preferredUsername', Application::class, new OrderedCollection()      ], # Set preferredUsername as a bad type (OrderedCollection)
 
-['prev', Collection::class, '{
-                            "type": "Link",
-                            "name": "prev Page",
-                            "href": "http://example.org/collection?page=2"
-                        }'                                             ], # Set prev on a bad type
-['prev', CollectionPage::class, '{
-                            "type": "Link",
-                            "name": "prev Page",
-                            "href": "htp://example.org/collection?page=2"
-                        }'                                             ], # Set prev as a malformed Link
+['prev', Collection::class, [
+                            "type" => "Link",
+                            "name" => "prev Page",
+                            "href" => "http://example.org/collection?page=2"
+                        ]                                              ], # Set prev on a bad type
+['prev', CollectionPage::class, [
+                            "type" => "Link",
+                            "name" => "prev Page",
+                            "href" => "htp://example.org/collection?page=2"
+                        ]                                              ], # Set prev as a malformed Link
 ['prev', CollectionPage::class, 'htp://example.org/collection?page=2'  ], # Set prev as a malformed URL
 ['prev', CollectionPage::class, new Collection()                       ], # Set prev as a bad type
 
@@ -1175,26 +1178,22 @@ class AttributeFormatValidationTest extends TestCase
 ['replies', ObjectType::class, new ObjectType()                        ], # Set replies as a bad type
 ['replies', ObjectType::class, 42                                      ], # Set replies as a bad type (int)
 ['replies', Link::class, new Link()                                    ], # Set replies on a bad type (Link)
-['replies', CollectionPage::class, '{
-                            "type": "Object",
-                            "name": "Collection of replies",
-                            "href": "http://example.org/replies"
-                        }'                                             ], # Set prev as a text Object (bad format)
+['replies', CollectionPage::class, [
+                            "type" => "Object",
+                            "name" => "Collection of replies",
+                            "href" => "http://example.org/replies"
+                        ]                                              ], # Set prev as a text Object (bad format)
 
 ['result', Collection::class, []                                       ], # Set result on a bad type
 ['result', Activity::class, "htp://example.org"                        ], # Set result as a bad URL
 
-['source', Link::class, '{
-                                "content": "I *really* like strawberries!",
-                                "mediaType": "text/markdown"
-                            }'                                         ], # Set source on a bad type
-['source', ObjectType::class, '{
-                                "content": "I *really* like strawberries!",
-                                "mediaType": "text/markdown"
-                            '                                          ], # Set source with a malformed JSON
-['source', ObjectType::class, '{
-                                "mediaType": "text/markdown"
-                            }'                                         ], # Set source with an incomplete object
+['source', Link::class, [
+                                "content" => "I *really* like strawberries!",
+                                "mediaType" => "text/markdown"
+                        ]                                              ], # Set source on a bad type
+['source', ObjectType::class, [
+                                "mediaType" => "text/markdown"
+                              ]                                        ], # Set source with an incomplete object
 ['source', Note::class, [
                             "content"   => "I *really* like strawberries!",
                         ]                                              ], # Set source with an incomplete object
@@ -1215,77 +1214,70 @@ class AttributeFormatValidationTest extends TestCase
 ['subject', Relationship::class, new \StdClass()                       ], # Set subject as a bad type (object)
 ['subject', Relationship::class, 42                                    ], # Set subject as a bad type (int)
 ['subject', Person::class, new ObjectType()                            ], # Set subject on a bad type
-['subject', Relationship::class, '{
-                            "type": "Link",
-                            "name": "Collection of subject",
-                            "href": "htp://example.org/subject"
-                        }'                                             ], # Set subject as a malformed Link
+['subject', Relationship::class, [
+                            "type" => "Link",
+                            "name" => "Collection of subject",
+                            "href" => "htp://example.org/subject"
+                        ]                                              ], # Set subject as a malformed Link
 
 ['summary', Link::class, 'A simple <em>note</em>'                      ], # Set summary on a bad type
 ['summary', ObjectType::class, new Note()                              ], # Set summary as a bad type
-['summaryMap', Link::class, '{
-                              "en": "A simple <em>note</em>",
-                              "es": "Una <em>nota</em> sencilla",
-                              "zh-Hans": "一段<em>简单的</em>笔记"
-                             }'                                        ], # Set summaryMap on a bad type
+['summaryMap', Link::class, [
+                              "en" => "A simple <em>note</em>",
+                              "es" => "Una <em>nota</em> sencilla",
+                              "zh-Hans" => "一段<em>简单的</em>笔记"
+                             ]                                         ], # Set summaryMap on a bad type
 ['summaryMap', Note::class, 'A simple <em>note</em>'                   ], # Set summaryMap on a bad type
 
-['tag', Note::class, '[
-                              {
-                               "content": "This is what he looks like.",
-                              }
-                             ]'                                        ], # Set tag with a missing type
-['tag', Note::class, '[
-                              {
-                               "type": "Link",
-                               "content": "This is what he looks like.",
-                              }
-                             ]'                                        ], # Set tag with a missing reference
+['tag', Note::class, [
+                              [
+                               "content" => "This is what he looks like.",
+                              ]
+                             ]                                         ], # Set tag with a missing type
+['tag', Note::class, [
+                              [
+                               "type" => "Link",
+                               "content" => "This is what he looks like.",
+                              ]
+                             ]                                         ], # Set tag with a missing reference
 
 ['target', Activity::class, 'https:/example.com/bob'                   ], # Set target as malformed URL
 ['target', Activity::class, 'bob'                                      ], # Set target as not allowed string
 ['target', Activity::class, 42                                         ], # Set target as not allowed type
-['target', Activity::class, '{}'                                       ], # Set target as a JSON malformed string
-['target', Activity::class, '[
+['target', Activity::class, []                                         ], # Set target as a JSON malformed string
+['target', Activity::class, [
                              "http://joe.example.org",
-                             {
-                              "type": "Person",
-                              "name": "Sally"
-                             }
-                            ]'                                         ], # Set target as multiple targets, JSON encoded, missing id for one target
-['target', Activity::class, '[
-                             "http://joe.example.org",
-                             {
-                              "type": "Person",
-                              "id": "http://",
-                              "name": "Sally"
-                             }
-                            ]'                                         ], # Set target as multiple targets, JSON encoded, invalid id
-['target', Activity::class, '[
+                             [
+                              "type" => "Person",
+                              "id" => "http://",
+                              "name" => "Sally"
+                             ]
+                            ]                                          ], # Set target as multiple targets, JSON encoded, invalid id
+['target', Activity::class, [
                              "http://",
-                             {
-                              "type": "Person",
-                              "id": "http://joe.example.org",
-                              "name": "Sally"
-                             }
-                            ]'                                         ], # Set target as multiple targets, JSON encoded, invalid indirect link
+                             [
+                              "type" => "Person",
+                              "id" => "http://joe.example.org",
+                              "name" => "Sally"
+                             ]
+                            ]                                          ], # Set target as multiple targets, JSON encoded, invalid indirect link
 
-['to', Offer::class, '[
+['to', Offer::class, [
                         "http://sally.example.org",
-                        {
-                         "type": "Person",
-                         "name": "Sally"
-                        }
-                       ]'                                              ], # Set to with an array of mixed URL and persons (missing url property)
-['to', Offer::class, '[
+                        [
+                         "type" => "Person",
+                         "name" => "Sally"
+                        ]
+                       ]                                               ], # Set to with an array of mixed URL and persons (missing url property)
+['to', Offer::class, [
                         "http://sally.example.org",
-                        {
-                         "type": "Person",
-                         "name": "Sally",
-                         "url": "Not an URL"
-                        }
-                       ]'                                              ], # Set to with an array of mixed URL and persons (URL property is not valid)
-['to', Offer::class, '["Not a valid URL"]'                             ], # Set to with malformed URL
+                        [
+                         "type" => "Person",
+                         "name" => "Sally",
+                         "url" => "Not an URL"
+                        ]
+                       ]                                               ], # Set to with an array of mixed URL and persons (URL property is not valid)
+['to', Offer::class, ["Not a valid URL"]                               ], # Set to with malformed URL
 
 ['totalItems', ObjectType::class, 42                                   ], # Set totalItems on a bad type
 ['totalItems', Collection::class, 42.5                                 ], # Set totalItems with a bad type
@@ -1306,13 +1298,13 @@ class AttributeFormatValidationTest extends TestCase
 ['updated', ObjectType::class, new ObjectType()                        ], # Set updated as a bad type
 
 ['url', Link::class, 'http://example.org/4q-sales-forecast.pdf'        ], # Set url on a bad type
-['url', Note::class, '{
-                         "type": "Link"
-                      }'                                               ], # Set url as malformed Link
-['url', Note::class, '{
-                         "type": "Link",
+['url', Note::class, [
+                         "type" => "Link"
+                      ]                                                ], # Set url as malformed Link
+['url', Note::class, [
+                         "type" => "Link",
                          "href"=> "htp://example.org/url"
-                      }'                                               ], # Set url as malformed Link
+                      ]                                                ], # Set url as malformed Link
 ['url', Note::class, [[
                          "type"=> "Link",
                          "href"=> "http://example.org/url"

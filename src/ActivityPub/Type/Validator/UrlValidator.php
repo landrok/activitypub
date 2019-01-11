@@ -34,10 +34,9 @@ class UrlValidator implements ValidatorInterface
         Util::subclassOf($container, ObjectType::class, true);
 
         // Must be a valid URL
-        if (is_array($value)) {
+        if (is_array($value) && is_int(key($value))) {
             foreach ($value as $key => $item) {
-                if (!is_int($key)
-                    || !$this->validateUrlOrLink($item)) {
+                if (!$this->validateUrlOrLink($item)) {
                     return false;
                 }
             }

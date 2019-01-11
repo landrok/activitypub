@@ -38,11 +38,7 @@ class SourceValidator implements ValidatorInterface
         );
 
         if (is_array($value)) {
-            $value = json_encode($value);
-        }
-
-        if (is_string($value)) {
-            $value = Util::decodeJson($value);
+            $value = (object)$value;
         }
 
         if (is_object($value)) {

@@ -35,11 +35,6 @@ class AnyOfValidator extends ValidatorTools
         // Validate that container is a Question type
         Util::subclassOf($container, Question::class, true);
 
-        // Can be a JSON string
-        if (is_string($value)) {
-            $value = Util::decodeJson($value);
-        }
-
         // A collection
         if (!is_array($value)) {
             return false;

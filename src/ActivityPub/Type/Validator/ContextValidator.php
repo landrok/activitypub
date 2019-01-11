@@ -35,9 +35,8 @@ class ContextValidator implements ValidatorInterface
             return true;
         }
 
-        // Can be a JSON string
-        if (is_string($value)) {
-            $value = Util::decodeJson($value);
+        if (is_array($value)) {
+            $value = Util::arrayToType($value);
         }
 
         // Link or Object

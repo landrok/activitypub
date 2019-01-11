@@ -38,12 +38,8 @@ class EndpointsValidator implements ValidatorInterface
             return true;
         }
 
-        if (is_string($value)) {
-            $value = Util::decodeJson($value);
-        }
-
         // A map
-        return is_object($value)
+        return is_array($value)
             ? $this->validateObject($value)
             : false;
     }

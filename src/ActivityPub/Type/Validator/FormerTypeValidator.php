@@ -33,6 +33,10 @@ class FormerTypeValidator implements ValidatorInterface
         // Validate that container has an Tombstone type
         Util::subclassOf($container, Tombstone::class, true);
 
+        if (is_array($value)) {
+            $value = Util::arrayToType($value);
+        }
+
         // MUST be a valid Object type
         return Util::isObjectType($value);
     }    

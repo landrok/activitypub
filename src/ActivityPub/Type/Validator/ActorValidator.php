@@ -11,6 +11,9 @@
 
 namespace ActivityPub\Type\Validator;
 
+use ActivityPub\Type\Core\Collection;
+use ActivityPub\Type\Core\Link;
+use ActivityPub\Type\Extended\AbstractActor;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
 
@@ -34,9 +37,8 @@ class ActorValidator implements ValidatorInterface
             return true;
         }
         
-        // Can be a JSON string
-        if (is_string($value)) {
-            $value = Util::decodeJson($value);
+        if (is_array($value)) {
+            $value = Util::arrayToType($value);
         }
 
         // A collection
@@ -56,14 +58,25 @@ class ActorValidator implements ValidatorInterface
     /**
      * Validate an Actor object type
      * 
-     * @param object $value
+     * @param object|array $value
      * @return bool
      */
     protected function validateObject($item)
     {
-        Util::hasProperties($item, ['id'], true);
+        if (is_array($item)) {
+            $item = Util::arrayToType($item);
+        }
 
-        return Util::validateUrl($item->id);
+        Util::subclassOf(
+            $item, [
+                AbstractActor::class,
+                Link::class,
+                Collection::class
+            ],
+            true
+        );
+
+        return true;
     }
 
     /**
@@ -78,7 +91,9 @@ class ActorValidator implements ValidatorInterface
     protected function validateObjectCollection(array $collection)
     {
         foreach ($collection as $item) {
-            if (is_object($item) && $this->validateObject($item)) {
+            if (is_array($item) && $this->validateObject($item)) {
+                continue;
+            } elseif (is_object($item) && $this->validateObject($item)) {
                 continue;
             } elseif (is_string($item) && Util::validateUrl($item)) {
                 continue;
@@ -87,6 +102,6 @@ class ActorValidator implements ValidatorInterface
             return false;
         }
 
-        return true;
+        return count($collection) && true;
     }
 }

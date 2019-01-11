@@ -36,11 +36,25 @@ class IconValidator implements ValidatorInterface
         Util::subclassOf($container, ObjectType::class, true);
 
         if (is_string($item)) {
-            $item = Util::decodeJson($item);
+            return Util::validateUrl($item);
+        }
+
+        if (is_array($item)) {
+            $item = Util::arrayToType($item);
         }
 
         if (is_array($item)) {
             foreach ($item as $value) {
+
+                if (is_array($value)) {
+                    $value = Util::arrayToType($value);
+                }
+
+                if (is_string($value)) {
+                    return Util::validateUrl($value)
+                        ? true : false;
+                }
+
                 if (!$this->validateObject($value)) {
                     return false;
                 }

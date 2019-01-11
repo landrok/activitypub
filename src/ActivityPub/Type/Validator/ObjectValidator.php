@@ -40,14 +40,33 @@ class ObjectValidator implements ValidatorInterface
 
         // URL
         if (is_string($value)) {
-            return Util::validateUrl($value)
-                || Util::validateLink($value);
+            return Util::validateUrl($value);
+        }
+
+        if (is_array($value)) {
+            $value = Util::arrayToType($value);
         }
 
         // Link or Object
         if (is_object($value)) {
             return Util::validateLink($value)
                 || Util::isObjectType($value);
+        }
+        
+        // Collection
+        if (is_array($value)) {
+            foreach ($value as $item) {
+                if (is_string($item)) {
+                    return Util::validateUrl($item);
+                } elseif (is_array($item)) {
+                    $item = Util::arrayToType($item);
+                    Util::subclassOf($item, [ObjectType::class], true);
+                } else {
+                    return false;
+                }
+            }
+
+            return count($value) && true;
         }
     }
 }
