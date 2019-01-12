@@ -38,6 +38,11 @@ class ItemsValidator extends ValidatorTools
             true
         );
 
+        // URL type
+        if (is_string($value)) { 
+            return Util::validateUrl($value);
+        }
+
         if (is_array($value)) {
             $value = Util::arrayToType($value);
         }

@@ -31,7 +31,9 @@ abstract class AbstractObject
      */
     public function set($name, $value)
     {
-        $this->has($name, true);
+        if ($name !== '@context') {
+            $this->has($name, true);
+        }
 
         // Is there any validators
         if (!Validator::validate($name, $value, $this)) {

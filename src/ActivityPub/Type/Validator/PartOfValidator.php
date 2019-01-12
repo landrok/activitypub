@@ -32,11 +32,11 @@ class PartOfValidator implements ValidatorInterface
     public function validate($value, $container)
     {
         // Container is CollectionPage or OrderedCollectionPage type
-        if (!Util::subclassOf($container, CollectionPage::class)
-            && !Util::subclassOf($container, OrderedCollectionPage::class)
-        ) {
-            return false;
-        }
+        Util::subclassOf(
+            $container, [
+                CollectionPage::class, OrderedCollectionPage::class
+            ], true
+        );
 
         // URL
         if (is_string($value)) {

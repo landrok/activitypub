@@ -80,6 +80,7 @@ class AttributeFormatValidationTest extends TestCase
 
 		# TypeClass, property, value
 		return [
+['@context', Place::class, 'https://www.w3.org/ns/activitystreams'     ], # Set @context
 ['accuracy', Place::class, 100                                         ], # Set accuracy (int) 
 ['accuracy', Place::class, 0                                           ], # Set accuracy (int)
 ['accuracy', Place::class, '0'                                         ], # Set accuracy (numeric int) 
@@ -376,6 +377,7 @@ class AttributeFormatValidationTest extends TestCase
                             ]                                          ], # Set instrument as multiple instruments, JSON encoded
 
 ['items', Collection::class, $link                                     ], # Set items as a link
+['items', Collection::class, 'http://example.org/collection'           ], # Set items as a URL
 ['items', Collection::class, [
                                 [
                                     "type" =>  "Note",
@@ -1009,7 +1011,8 @@ class AttributeFormatValidationTest extends TestCase
                              ]
                             ]                                          ], # Set instrument as multiple instruments, JSON encoded, invalid indirect link
 
-['items', Activity::class, "A string collection"                       ], # Set items as a string
+['items', Collection::class, 42                                        ], # Set items as an integer (bad type)
+['items', Activity::class, "A string collection"                       ], # Set items as a string (bad type)
 ['items', Activity::class, [
                              "type" => "Link",
                              "href" => "http://example.org/items"
