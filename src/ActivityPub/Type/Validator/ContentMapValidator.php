@@ -29,11 +29,6 @@ class ContentMapValidator extends ValidatorTools
      */
     public function validate($value, $container)
     {
-        // Can be a JSON string
-        if (is_string($value)) {
-            $value = Util::decodeJson($value);
-        }
-
         return $this->validateMap('content', $value, $container);
     }
 }

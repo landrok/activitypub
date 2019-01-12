@@ -99,6 +99,11 @@ class AttributeFormatValidationTest extends TestCase
                               ]
                             ]                                          ], # Set actor as multiple actors, JSON encoded
 ['actor', Activity::class, Type::create('Person', ["name" => "Sally"]) ], # Set actor as an Actor type
+['actor', Activity::class, [
+                         Type::create('Person', ["name" => "Sally"]),
+                         Type::create('Person', ["name" => "Bob"])
+                       ]                                               ], # Set actor as an Actor type
+
 ['altitude', Place::class, 0.5                                         ], # Set altitude (float)
 ['anyOf', Question::class, [
                               [
@@ -322,6 +327,11 @@ class AttributeFormatValidationTest extends TestCase
                         "type" => "Link",
                         "href" => "http://example.org/icon"
                       ]                                                ], # Set icon as Link
+['icon', Note::class, "http://example.org/icon"                        ], # Set icon as a string URL
+['icon', Note::class, [
+                        "href" => "http://example.org/icon",
+                        "href" => "http://example.org/icon2"
+                      ]                                                ], # Set icon as an array of string URL
 
 ['image', Note::class, [
                          "type" => "Image",
@@ -678,6 +688,7 @@ class AttributeFormatValidationTest extends TestCase
 ['altitude', Place::class, []                                          ], # Set altitude with an array
 ['anyOf', Place::class, []                                             ], # Set anyOf for an inappropriate type
 ['anyOf', Question::class, []                                          ], # Set anyOf with an array
+['anyOf', Question::class, '.'                                         ], # Set anyOf with a string
 ['anyOf', Question::class, [
                              [
                               "type" => "Note",
@@ -946,6 +957,11 @@ class AttributeFormatValidationTest extends TestCase
 ['icon', Note::class, [
                         "type" => "Link"
                        ]                                               ], # Set icon as Link
+['icon', Note::class, "htp://example.org/icon"                         ], # Set icon as a malformed URL
+['icon', Note::class, [
+                        "href" => "http://example.org/icon",
+                        "href" => "htt://example.org/icon2"
+                      ]                                                ], # Set icon as an array of string URL (malformed last one)
 
 ['image', Note::class, [
                          "type" => "Imag",
@@ -997,6 +1013,7 @@ class AttributeFormatValidationTest extends TestCase
                              ]
                             ]                                          ], # Set instrument as multiple instruments, JSON encoded, invalid indirect link
 
+['items', Activity::class, "A string collection"                       ], # Set items as a string
 ['items', Activity::class, [
                              "type" => "Link",
                              "href" => "http://example.org/items"
@@ -1073,7 +1090,10 @@ class AttributeFormatValidationTest extends TestCase
 
 ['object', ObjectType::class, 'http://example.org/object'              ], # Set object on a bad type
 ['object', Relationship::class, []                                     ], # Set object as a bad type
+['object', Relationship::class, 42                                     ], # Set object as a bad type (int)
 ['object', Activity::class, "htp://example.org"                        ], # Set object as a bad URL
+['object', Relationship::class, [['key' => 'o']]                       ], # Set object as a bad list type
+
 
 ['oneOf', Place::class, []                                             ], # Set oneOf for an inappropriate type
 ['oneOf', Question::class, []                                          ], # Set oneOf with an array

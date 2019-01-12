@@ -457,10 +457,6 @@ abstract class Util
      */
     public static function isScope($item, array $pool)
     {
-        if (is_string($item)) {
-            $item = self::decodeJson($item);
-        }
-
         if (is_object($item)
             && isset($item->type)
             && is_string($item->type)

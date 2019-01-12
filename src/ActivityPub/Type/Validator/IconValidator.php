@@ -50,9 +50,8 @@ class IconValidator implements ValidatorInterface
                     $value = Util::arrayToType($value);
                 }
 
-                if (is_string($value)) {
-                    return Util::validateUrl($value)
-                        ? true : false;
+                if (is_string($value) && Util::validateUrl($value)) {
+                    continue;
                 }
 
                 if (!$this->validateObject($value)) {

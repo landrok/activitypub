@@ -38,11 +38,6 @@ class CurrentValidator implements ValidatorInterface
             return true;
         }
 
-        // Can be a JSON string
-        if (is_string($value)) {
-            $value = Util::decodeJson($value);
-        }
-
         // Link or CollectionPage
         return Util::validateLink($value)
             || Util::validateCollectionPage($value);

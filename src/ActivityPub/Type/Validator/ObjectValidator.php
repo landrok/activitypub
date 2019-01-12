@@ -12,6 +12,7 @@
 namespace ActivityPub\Type\Validator;
 
 use ActivityPub\Type\Core\Activity;
+use ActivityPub\Type\Core\ObjectType;
 use ActivityPub\Type\Extended\Object\Relationship;
 use ActivityPub\Type\Util;
 use ActivityPub\Type\ValidatorInterface;
@@ -56,14 +57,18 @@ class ObjectValidator implements ValidatorInterface
         // Collection
         if (is_array($value)) {
             foreach ($value as $item) {
-                if (is_string($item)) {
-                    return Util::validateUrl($item);
+                if (is_string($item) && Util::validateUrl($item)) {
+                    continue;
                 } elseif (is_array($item)) {
                     $item = Util::arrayToType($item);
-                    Util::subclassOf($item, [ObjectType::class], true);
-                } else {
-                    return false;
                 }
+              
+                if (is_object($item)
+                    && Util::subclassOf($item, [ObjectType::class], true)) {
+                    continue;
+                }
+                
+                return false;
             }
 
             return count($value) && true;
