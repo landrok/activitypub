@@ -56,6 +56,18 @@ abstract class Type
     }
 
     /**
+     * Add a custom type definition
+     * It overrides defined types
+     * 
+     * @param string $name A short name.
+     * @param string $class Fully qualified class name
+     */
+    public static function add($name, $class)
+    {
+        Util::addCustomType($name, $class);
+    }
+
+    /**
      * Add a custom validator for an attribute.
      * It checks that it implements Validator\Interface
      * 

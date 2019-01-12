@@ -31,6 +31,8 @@ abstract class AbstractObject
      */
     public function set($name, $value)
     {
+        $this->has($name, true);
+
         // Is there any validators
         if (!Validator::validate($name, $value, $this)) {
         	throw new Exception(
@@ -73,9 +75,10 @@ abstract class AbstractObject
         if ($strict) {
             throw new Exception(
                 sprintf(
-                    'Property "%s" is not defined for class "%s"',
+                    'Property "%s" is not defined. Type="%s", Class="%s"',
                     $name,
-                    self::class
+                    $this->type,
+                    get_class($this)
                 )
             );
         }
@@ -129,7 +132,6 @@ abstract class AbstractObject
      */
     public function __set($name, $value)
     {
-        $this->has($name);
         $this->set($name, $value);
     }
 

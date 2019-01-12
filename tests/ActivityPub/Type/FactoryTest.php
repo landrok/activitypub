@@ -146,4 +146,35 @@ class FactoryTest extends TestCase
             ['customProperty' => 'Bad value']
         );
 	}
+
+	/**
+	 * Scenario for a custom type
+     * 
+     * - Add a Type in the pool with 'Person' name
+     * - Instanciate and sets customType value 
+	 */
+	public function testCustomTypeSuccess()
+	{
+        Type::add('Person', MyCustomType::class);
+        $type = Type::create(
+            'Person', 
+            ['customProperty' => 'My value']
+        );
+        
+        // Assert type property
+		$this->assertEquals(
+            'My value',
+            $type->customProperty
+        );
+	}
+
+	/**
+	 * Scenario for a custom classes with a failing value
+	 * 
+	 * @expectedException \Exception
+	 */
+	public function testCustomTypeFailing()
+	{
+        Type::add('Person', 'MyUndefinedType');
+	}    
 }

@@ -34,7 +34,7 @@ class SummaryValidator implements ValidatorInterface
         Util::subclassOf($container, ObjectType::class, true);
 
         // Must be a string
-        if (is_string($value)) {
+        if (is_null($value) || is_string($value)) {
             return true;
         }
     }

@@ -69,6 +69,13 @@ abstract class Util
     ];
 
     /**
+     * A list of custom types
+     * 
+     * @var array
+     */
+    protected static $customTypes = [];
+
+    /**
      * Allowed units
      * 
      * @var string[]
@@ -93,6 +100,27 @@ abstract class Util
         }
 
         return $item;
+    }
+
+    /**
+     * Add a custom type definition in the pool.
+     * 
+     * @param string $name A short name.
+     * @param string $class Fully qualified class name.
+     * @throws \Exception if class does not exist
+     */
+    public static function addCustomType(string $name, string $class)
+    {
+        if (!class_exists($class)) {
+            throw new Exception(
+                sprintf(
+                    'Class "%s" is not defined',
+                    $class
+                )
+            );
+        }
+
+        self::$customTypes[$name] = $class;
     }
 
     /**
@@ -481,6 +509,12 @@ abstract class Util
         }
 
         switch($type) {
+            // Custom classes by facades
+            case isset(self::$customTypes[$type]):
+                return self::$customTypes[$type];
+            // Custom classes by class name
+            case class_exists($type):
+                return new $type();
             case in_array($type, self::$coreTypes):
                 $ns .= '\Core';
                 break;
@@ -493,9 +527,6 @@ abstract class Util
             case in_array($type, self::$objectTypes):
                 $ns .= '\Extended\Object';
                 break;
-            // Custom classes
-            case class_exists($type):
-                return new $type();
             default:
                 throw new Exception(
                     "Undefined scope for type '$type'"

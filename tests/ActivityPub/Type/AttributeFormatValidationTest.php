@@ -304,23 +304,17 @@ class AttributeFormatValidationTest extends TestCase
                         "type"   => "Image",
                         "name"   => "Note icon",
                         "url"    => "http://example.org/note.png",
-                        "width"  => 16,
-                        "height" => 16
                       ]                                                ], # Set icon as  an Image
 ['icon', Note::class, [
                         [
                          "type"    => "Image",
                          "summary" => "Note (16x16)",
                          "url"     => "http://example.org/note1.png",
-                         "width"   => 16,
-                         "height"  => 16
                         ],
                         [
                          "type"    => "Image",
                          "summary" => "Note (32x32)",
                          "url"     => "http://example.org/note2.png",
-                         "width"   => 32,
-                         "height"  => 32
                         ]
                       ]                                                ], # Set icon as an array of Image's
 ['icon', Note::class, [
@@ -355,6 +349,7 @@ class AttributeFormatValidationTest extends TestCase
                          "href" => "http://example.org/image"
                        ]                                               ], # Set image as Link
 
+['inbox', Person::class, "http://example.org/name/inbox"               ], # Set inbox as an URL
 ['inbox', Person::class, new OrderedCollection()                       ], # Set inbox as an OrderedCollection
 ['inbox', Application::class, new OrderedCollectionPage()              ], # Set inbox as an OrderedCollectionPage
 
@@ -984,6 +979,7 @@ class AttributeFormatValidationTest extends TestCase
                          "type" => "Link"
                        ]                                               ], # Set image as Link (malformed)
 
+['inbox', Person::class, "htp://example.org/name/inbox"                ], # Set inbox as an URL (malformed)
 ['inbox', Activity::class, new OrderedCollection()                     ], # Set inbox on a bad type (Activity)
 ['inbox', Application::class, new CollectionPage()                     ], # Set inbox as a bad type (Must be an ordered Type)
 ['inbox', Application::class, 'string'                                 ], # Set inbox as a bad type (Must be a valid object)

@@ -26,7 +26,7 @@ class InboxValidator implements ValidatorInterface
     /**
      * Validate a inbox attribute value
      * 
-     * @param object $value
+     * @param string|object $value
      * @param mixed  $container
      * @return bool
      * @todo Support indirect reference for followers attribute?
@@ -35,6 +35,10 @@ class InboxValidator implements ValidatorInterface
     {
         // Validate that container is an AbstractActor type
         Util::subclassOf($container, AbstractActor::class, true);
+
+        if (is_string($value)) {
+            return Util::validateUrl($value);
+        }
 
         // An OrderedCollection
         return is_object($value)
