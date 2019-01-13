@@ -9,13 +9,13 @@ use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase
 {
-	/**
-	 * Valid scenarios provider
-	 */
-	public function getShortTypes()
-	{
-		# Short type name
-		return [
+    /**
+     * Valid scenarios provider
+     */
+    public function getShortTypes()
+    {
+        # Short type name
+        return [
             ['Activity'],
             ['Collection'],
             ['CollectionPage'],
@@ -74,17 +74,17 @@ class FactoryTest extends TestCase
         ];
 	}
 
-	/**
-	 * Check that all core objects have a correct type property.
-	 * 
-	 * @dataProvider getShortTypes
-	 */
-	public function testShortTypesInstanciation($type)
-	{
+    /**
+     * Check that all core objects have a correct type property.
+     *
+     * @dataProvider getShortTypes
+     */
+    public function testShortTypesInstanciation($type)
+    {
         $class = Type::create($type, ['name' => strtolower($type)]);
-
+        
         // Assert affectation
-		$this->assertEquals(
+        $this->assertEquals(
             strtolower($type),
             $class->name
         );
@@ -95,86 +95,86 @@ class FactoryTest extends TestCase
         }
 
         // Assert type property
-		$this->assertEquals(
+        $this->assertEquals(
             $type,
             $class->type
         );
-	}
+    }
 
-	/**
-	 * Scenario for an undefined type
-	 * 
-	 * @expectedException \Exception
-	 */
-	public function testUndefinedType()
-	{
-		$class = Type::create('UndefinedType');
-	}
+    /**
+     * Scenario for an undefined type
+     * 
+     * @expectedException \Exception
+     */
+    public function testUndefinedType()
+    {
+        $class = Type::create('UndefinedType');
+    }
 
-	/**
-	 * Scenario for a custom validator
+    /**
+     * Scenario for a custom validator
      * 
      * - Add a validator in the pool for 'customProperty' attribute
      * - Create a type with this property and affect a correct value
-	 */
-	public function testCustomValidatorSuccess()
-	{
+     */
+    public function testCustomValidatorSuccess()
+    {
         Type::addValidator('customProperty', MyCustomValidator::class);
         $type = Type::create(
             MyCustomType::class, 
             ['customProperty' => 'My value']
         );
-        
+
         // Assert type property
-		$this->assertEquals(
+        $this->assertEquals(
             'My value',
             $type->customProperty
         );
-	}
+    }
 
-	/**
-	 * Scenario for a custom classes and custom validator with an 
+    /**
+     * Scenario for a custom classes and custom validator with an 
      * failing value
-	 * 
-	 * @expectedException \Exception
-	 */
-	public function testCustomValidatorFailing()
-	{
+     * 
+     * @expectedException \Exception
+     */
+    public function testCustomValidatorFailing()
+    {
         Type::addValidator('customProperty', MyCustomValidator::class);
         $type = Type::create(
             MyCustomType::class, 
             ['customProperty' => 'Bad value']
         );
-	}
+    }
 
-	/**
-	 * Scenario for a custom type
+    /**
+     * Scenario for a custom type
      * 
      * - Add a Type in the pool with 'Person' name
      * - Instanciate and sets customType value 
-	 */
-	public function testCustomTypeSuccess()
-	{
+     */
+    public function testCustomTypeSuccess()
+    {
         Type::add('Person', MyCustomType::class);
         $type = Type::create(
             'Person', 
             ['customProperty' => 'My value']
         );
-        
+
         // Assert type property
-		$this->assertEquals(
+        $this->assertEquals(
             'My value',
             $type->customProperty
         );
-	}
+    }
 
-	/**
-	 * Scenario for a custom classes with a failing value
-	 * 
-	 * @expectedException \Exception
-	 */
-	public function testCustomTypeFailing()
-	{
+    /**
+     * Scenario for a custom classes with a failing value
+     * 
+     * @expectedException \Exception
+     */
+    public function testCustomTypeFailing()
+    {
         Type::add('Person', 'MyUndefinedType');
-	}    
+    }    
 }
