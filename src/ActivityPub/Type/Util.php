@@ -23,59 +23,6 @@ use Exception;
 abstract class Util
 {
     /**
-     * A list of core types
-     * 
-     * @var array
-     */
-    protected static $coreTypes = [
-        'Activity', 'Collection', 'CollectionPage', 
-        'IntransitiveActivity', 'Link', 'ObjectType',
-        'OrderedCollection', 'OrderedCollectionPage',
-        'Object'
-    ];
-
-    /**
-     * A list of actor types
-     * 
-     * @var array
-     */
-    protected static $actorTypes = [
-        'Application', 'Group', 'Organization', 'Person', 'Service'
-    ];
-
-    /**
-     * A list of activity types
-     * 
-     * @var array
-     */
-    protected static $activityTypes = [
-        'Accept', 'Add', 'Announce', 'Arrive', 'Block', 
-        'Create', 'Delete', 'Dislike', 'Flag', 'Follow',
-        'Ignore', 'Invite', 'Join', 'Leave', 'Like', 'Listen',
-        'Move',  'Offer', 'Question', 'Read', 'Reject', 'Remove', 
-        'TentativeAccept', 'TentativeReject', 'Travel', 'Undo', 
-        'Update', 'View', 
-    ];
-
-    /**
-     * A list of object types
-     * 
-     * @var array
-     */
-    protected static $objectTypes = [
-        'Article', 'Audio', 'Document', 'Event', 'Image', 
-        'Mention', 'Note', 'Page', 'Place', 'Profile', 
-        'Relationship', 'Tombstone', 'Video',
-    ];
-
-    /**
-     * A list of custom types
-     * 
-     * @var array
-     */
-    protected static $customTypes = [];
-
-    /**
      * Allowed units
      * 
      * @var string[]
@@ -100,27 +47,6 @@ abstract class Util
         }
 
         return $item;
-    }
-
-    /**
-     * Add a custom type definition in the pool.
-     * 
-     * @param string $name A short name.
-     * @param string $class Fully qualified class name.
-     * @throws \Exception if class does not exist
-     */
-    public static function addCustomType(string $name, string $class)
-    {
-        if (!class_exists($class)) {
-            throw new Exception(
-                sprintf(
-                    'Class "%s" is not defined',
-                    $class
-                )
-            );
-        }
-
-        self::$customTypes[$name] = $class;
     }
 
     /**
@@ -427,31 +353,26 @@ abstract class Util
     /**
      * Checks that it's an object type
      * 
-     * @param  string $item
+     * @param  object $item
      * @return bool
      */
     public static function isObjectType($item)
     {
-        return self::isScope(
+        return TypeResolver::isScope(
             $item, 
-            array_merge(
-                self::$coreTypes,
-                self::$activityTypes,
-                self::$actorTypes,
-                self::$objectTypes
-            )
+            'all'
         );
     }
 
     /**
      * Checks that it's an actor type
      * 
-     * @param  string $item
+     * @param  object $item
      * @return bool
      */
     public static function isActorType($item)
     {
-        return self::isScope($item, self::$actorTypes);
+        return TypeResolver::isScope($item, 'actor');
     }
 
     /**
@@ -482,7 +403,7 @@ abstract class Util
      * @param object $item
      * @param array $scope An expected pool type
      * @return bool
-     */
+     *
     public static function isScope($item, array $pool)
     {
         if (is_object($item)
@@ -492,51 +413,7 @@ abstract class Util
             return in_array($item->type, $pool);
         }
     }
-
-    /**
-     * Get namespaced class for a given short type
-     * 
-     * @param  string $type
-     * @return string Related namespace
-     * @throw  \Exception if a namespace was not found.
-     */
-    public static function getClass($type)
-    {
-        $ns = __NAMESPACE__;
-
-        if ($type == 'Object') {
-            $type .= 'Type';
-        }
-
-        switch($type) {
-            // Custom classes by facades
-            case isset(self::$customTypes[$type]):
-                return self::$customTypes[$type];
-            // Custom classes by class name
-            case class_exists($type):
-                return new $type();
-            case in_array($type, self::$coreTypes):
-                $ns .= '\Core';
-                break;
-            case in_array($type, self::$activityTypes):
-                $ns .= '\Extended\Activity';
-                break;
-            case in_array($type, self::$actorTypes):
-                $ns .= '\Extended\Actor';
-                break;
-            case in_array($type, self::$objectTypes):
-                $ns .= '\Extended\Object';
-                break;
-            default:
-                throw new Exception(
-                    "Undefined scope for type '$type'"
-                );
-                break;
-        }
-
-        return $ns . '\\' . $type;
-    }
-
+*/
     /**
      * Validate a BCP 47 language value
      * 

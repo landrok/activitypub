@@ -11,7 +11,7 @@
 
 namespace ActivityPub;
 
-use ActivityPub\Type\Util;
+use ActivityPub\Type\TypeResolver;
 use ActivityPub\Type\Validator;
 
 /**
@@ -42,7 +42,7 @@ abstract class Type
      */
     public static function create(string $type, array $attributes = [])
     {
-        $class = Util::getClass($type);
+        $class = TypeResolver::getClass($type);
 
         if (is_string($class)) {
             $class = new $class();
@@ -64,7 +64,7 @@ abstract class Type
      */
     public static function add($name, $class)
     {
-        Util::addCustomType($name, $class);
+        TypeResolver::addCustomType($name, $class);
     }
 
     /**

@@ -153,4 +153,28 @@ class AbstractObjectTest extends TestCase
             Type::create('Link')->toArray()
         );
     }
+
+    /**
+     * Tests has() method throws an Exception with $strict=true
+     * 
+     * @expectedException \Exception
+     */
+    public function testHasStrictCheck()
+    {
+        $object = Type::create('ObjectType');
+        $object->has('UndefinedProperty', true);
+    }
+
+    /**
+     * Tests has() method returns false with $strict=false
+     */
+    public function testHasCheck()
+    {
+        $object = Type::create('ObjectType');
+        
+        $this->assertEquals(
+            false,
+            $object->has('UndefinedProperty')
+        );
+    }
 }
