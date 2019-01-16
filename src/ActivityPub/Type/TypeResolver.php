@@ -75,8 +75,8 @@ abstract class TypeResolver
     /**
      * Add a custom type definition in the pool.
      * 
-     * @param string $name A short name.
-     * @param string $class Fully qualified class name.
+     * @param  string $name A short name.
+     * @param  string $class Fully qualified class name.
      * @throws \Exception if class does not exist
      */
     public static function addCustomType(string $name, string $class)
@@ -140,11 +140,11 @@ abstract class TypeResolver
     /**
      * Validate an object pool type with type attribute
      * 
-     * @param object $item
-     * @param string $poolname An expected pool name
+     * @param  object $item
+     * @param  string $poolname An expected pool name
      * @return bool
      */
-    public static function isScope($item, string $poolname)
+    public static function isScope($item, string $poolname = 'all')
     {
         if (!is_object($item)
             || !isset($item->type)

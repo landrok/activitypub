@@ -358,10 +358,7 @@ abstract class Util
      */
     public static function isObjectType($item)
     {
-        return TypeResolver::isScope(
-            $item, 
-            'all'
-        );
+        return TypeResolver::isScope($item);
     }
 
     /**
@@ -397,23 +394,6 @@ abstract class Util
         }
     }
 
-    /**
-     * Validate an object pool type with type attribute
-     * 
-     * @param object $item
-     * @param array $scope An expected pool type
-     * @return bool
-     *
-    public static function isScope($item, array $pool)
-    {
-        if (is_object($item)
-            && isset($item->type)
-            && is_string($item->type)
-        ) {
-            return in_array($item->type, $pool);
-        }
-    }
-*/
     /**
      * Validate a BCP 47 language value
      * 
