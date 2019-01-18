@@ -133,6 +133,49 @@ class FactoryTest extends TestCase
     }
 
     /**
+     * Scenario for instanciating a Type with a single array parameter 
+     */
+    public function testShortCallSuccess()
+    {
+        $type = Type::create([
+            'type' => 'Note',
+            'id' => 'http://example.org/missing-type'
+        ]);
+
+        // Assert type property
+        $this->assertEquals(
+            'Note',
+            $type->type
+        );
+    }
+
+    /**
+     * Scenario for instanciating a Type with a single array parameter 
+     * for a failing value (missing type property)
+     * 
+     * @expectedException \Exception
+     */
+    public function testShortCallFailing()
+    {
+        $type = Type::create(
+            ['id' => 'http://example.org/missing-type']
+        );
+    }
+
+    /**
+     * Scenario for instanciating a Type with a single parameter that
+     * is not an array.
+     * 
+     * @expectedException \Exception
+     */
+    public function testShortCallFailingIntGiven()
+    {
+        $type = Type::create(
+            42
+        );
+    }
+
+    /**
      * Scenario for a custom classes and custom validator with an 
      * failing value
      * 
@@ -176,5 +219,5 @@ class FactoryTest extends TestCase
     public function testCustomTypeFailing()
     {
         Type::add('Person', 'MyUndefinedType');
-    }    
+    }
 }

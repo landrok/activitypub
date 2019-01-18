@@ -24,9 +24,13 @@ existing implementations.
 
 ________________________________________________________________________
 
+Basics
+------
+
 - [Install]({{ site.doc_baseurl }}#install)
 - [Requirements]({{ site.doc_baseurl }}#requirements)
 - [Usage]({{ site.doc_baseurl }}#usage)
+    - [Type factory]({{ site.doc_baseurl }}#type-factory)
     - [Properties names]({{ site.doc_baseurl }}#properties-names)
     - [All properties and their values]({{ site.doc_baseurl }}#all-properties-and-their-values)
     - [Set several properties]({{ site.doc_baseurl }}#set-several-properties)
@@ -56,6 +60,47 @@ ________________________________________________________________________
 
 Usage
 -----
+
+### Type factory
+
+You can instanciate ActivityStreams types using their short name.
+
+```php
+use ActivityPub\Type;
+
+$link = Type::create('Link');
+$note = Type::create('Note');
+
+```
+
+Instanciating a type and setting properties is possible with the second 
+parameter.
+
+```php
+use ActivityPub\Type;
+
+$note = Type::create('Note', [
+    'content' => 'A content for my note'
+]);
+
+```
+
+Starting from an array with a 'type' key, it's even possible to directly
+instanciate your type.
+
+```php
+use ActivityPub\Type;
+
+$array = [
+    'type'    => 'Note',
+    'content' => 'A content for my note'
+];
+
+$note = Type::create($array);
+
+```
+________________________________________________________________________
+
 
 ### Properties names
 

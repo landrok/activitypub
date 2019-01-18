@@ -13,6 +13,7 @@ namespace ActivityPub;
 
 use ActivityPub\Type\TypeResolver;
 use ActivityPub\Type\Validator;
+use Exception;
 
 /**
  * \ActivityPub\Type is a Factory for ActivityStreams 2.0 types.
@@ -36,13 +37,27 @@ abstract class Type
      * @see https://www.w3.org/TR/activitystreams-vocabulary/#actor-types
      * @see https://www.w3.org/TR/activitystreams-vocabulary/#object-types
      * 
-     * @param  string $type
-     * @param  array  $attributes
-     * @return mixed  \object
+     * @param  string|array $type
+     * @param  array        $attributes
+     * @return mixed        \object
      */
-    public static function create(string $type, array $attributes = [])
+    public static function create($type, array $attributes = [])
     {
-        $class = TypeResolver::getClass($type);
+        if (!is_string($type) && !is_array($type)) {
+            throw new Exception(
+                "Type parameter must be a string or an array"
+            );
+        }
+
+        if (is_array($type) && !isset($type['type'])) {
+            throw new Exception(
+                "Type parameter must have a 'type' property"
+            );                
+        }
+
+        $class = is_array($type)
+            ? TypeResolver::getClass($type['type'])
+            : TypeResolver::getClass($type);
 
         if (is_string($class)) {
             $class = new $class();
