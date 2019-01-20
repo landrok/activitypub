@@ -27,20 +27,20 @@ ________________________________________________________________________
 Basics
 ------
 
-- [Install]({{ site.doc_baseurl }}#install)
-- [Requirements]({{ site.doc_baseurl }}#requirements)
-- [Usage]({{ site.doc_baseurl }}#usage)
-    - [Type factory]({{ site.doc_baseurl }}#type-factory)
-    - [Properties names]({{ site.doc_baseurl }}#properties-names)
-    - [All properties and their values]({{ site.doc_baseurl }}#all-properties-and-their-values)
-    - [Set several properties]({{ site.doc_baseurl }}#set-several-properties)
-    - [Get a property]({{ site.doc_baseurl }}#get-a-property)
-    - [Set a property]({{ site.doc_baseurl }}#set-a-property)
-    - [Check if property exists]({{ site.doc_baseurl }}#check-if-property-exists)
-    - [Create a copy]({{ site.doc_baseurl }}#create-a-copy)
-    - [Use native types]({{ site.doc_baseurl }}#use-native-types)
-    - [Use your own extended types]({{ site.doc_baseurl }}#use-your-own-extended-types)
-    - [Create your own property validator]({{ site.doc_baseurl }}#create-your-own-property-validator)
+- [Install]({{ site.doc_baseurl }}/#install)
+- [Requirements]({{ site.doc_baseurl }}/#requirements)
+- [Usage]({{ site.doc_baseurl }}/#usage)
+    - [Type factory]({{ site.doc_baseurl }}/#type-factory)
+    - [Properties names]({{ site.doc_baseurl }}/#properties-names)
+    - [All properties and their values]({{ site.doc_baseurl }}/#all-properties-and-their-values)
+    - [Set several properties]({{ site.doc_baseurl }}/#set-several-properties)
+    - [Get a property]({{ site.doc_baseurl }}/#get-a-property)
+    - [Set a property]({{ site.doc_baseurl }}/#set-a-property)
+    - [Check if property exists]({{ site.doc_baseurl }}/#check-if-property-exists)
+    - [Create a copy]({{ site.doc_baseurl }}/#create-a-copy)
+    - [Use native types]({{ site.doc_baseurl }}/#use-native-types)
+    - [Use your own extended types]({{ site.doc_baseurl }}/#use-your-own-extended-types)
+    - [Create your own property validator]({{ site.doc_baseurl }}/#create-your-own-property-validator)
 
 ________________________________________________________________________
 
