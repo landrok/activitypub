@@ -147,6 +147,12 @@ class FactoryTest extends TestCase
             'Note',
             $type->type
         );
+        
+        // Assert another property
+        $this->assertEquals(
+            'http://example.org/missing-type',
+            $type->id
+        );
     }
 
     /**

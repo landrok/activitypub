@@ -49,10 +49,14 @@ abstract class Type
             );
         }
 
-        if (is_array($type) && !isset($type['type'])) {
-            throw new Exception(
-                "Type parameter must have a 'type' property"
-            );                
+        if (is_array($type)) {
+            if (!isset($type['type'])) {
+                throw new Exception(
+                    "Type parameter must have a 'type' property"
+                );
+            } else {
+                $attributes = $type;
+            }
         }
 
         $class = is_array($type)
