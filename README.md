@@ -37,6 +37,7 @@ Table of contents
     - [Get a property](#get-a-property)
     - [Set a property](#set-a-property)
     - [Check if property exists](#check-if-property-exists)
+    - [Create a copy](#create-a-copy)
     - [Use native types](#use-native-types)
     - [Use your own extended types](#use-your-own-extended-types)
     - [Create your own property validator](#create-your-own-property-validator)
@@ -309,6 +310,26 @@ $note = Type::create('Note', [
 ```
 ________________________________________________________________________
 
+### Create a copy
+
+Sometimes you may use a copy in order not to affect values of the
+original type.
+
+
+```php
+use ActivityPub\Type;
+
+$note = Type::create('Note', ['name' => 'Original name']);
+
+$copy = $note->copy()->setName('Copy name');
+
+echo $copy->name; // Copy name
+echo $note->name; // Original name
+```
+
+You can copy and chain methods to affect only values of the copied type.
+
+________________________________________________________________________
 
 ### Check if a property exists
 

@@ -11,6 +11,7 @@
 
 namespace ActivityPub\Type;
 
+use ActivityPub\Type;
 use Exception;
 
 /**
@@ -112,6 +113,19 @@ abstract class AbstractObject
             function($value) {
                 return !is_null($value);
             }
+        );
+    }
+
+    /**
+     * Get a copy of current object and return a new instance
+     * 
+     * @return self A new instance of this object
+     */
+    public function copy()
+    {
+        return Type::create(
+            get_class($this),
+            $this->toArray()
         );
     }
 

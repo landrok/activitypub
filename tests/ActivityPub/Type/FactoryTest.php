@@ -226,4 +226,71 @@ class FactoryTest extends TestCase
     {
         Type::add('Person', 'MyUndefinedType');
     }
+
+    /**
+     * Test a copy of an AS object
+     */
+    public function testCopy()
+    {
+        $original = Type::create([
+            'type' => 'Note',
+            'id' => 'http://example.org/original-id'
+        ]);
+
+        $copy = $original->copy();
+        
+        // Assert type are equals
+        $this->assertEquals(
+            $original->type,
+            $copy->type
+        );
+
+        // Assert all properties are equals
+        $this->assertEquals(
+            $original->toArray(),
+            $copy->toArray()
+        );
+        
+        // Change a value
+        $copy->id = 'http://example.org/copy-id';
+
+        // Change is ok for the copy
+        $this->assertEquals(
+            'http://example.org/copy-id',
+            $copy->id
+        );        
+
+        // Assert original is not affected
+        $this->assertEquals(
+            'http://example.org/original-id',
+            $original->id
+        );  
+    }
+
+    /**
+     * Test copy chaining
+     */
+    public function testCopyChaining()
+    {
+        $original = Type::create([
+            'type' => 'Note',
+            'id' => 'http://example.org/original-id'
+        ]);
+
+        $copy = $original->copy()->setId(
+            'http://example.org/copy-id'
+        );
+
+        // Change is ok for the copy
+        $this->assertEquals(
+            'http://example.org/copy-id',
+            $copy->id
+        );        
+
+        // Assert original is not affected
+        $this->assertEquals(
+            'http://example.org/original-id',
+            $original->id
+        );  
+    }
 }

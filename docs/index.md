@@ -37,6 +37,7 @@ Basics
     - [Get a property]({{ site.doc_baseurl }}#get-a-property)
     - [Set a property]({{ site.doc_baseurl }}#set-a-property)
     - [Check if property exists]({{ site.doc_baseurl }}#check-if-property-exists)
+    - [Create a copy]({{ site.doc_baseurl }}#create-a-copy)
     - [Use native types]({{ site.doc_baseurl }}#use-native-types)
     - [Use your own extended types]({{ site.doc_baseurl }}#use-your-own-extended-types)
     - [Create your own property validator]({{ site.doc_baseurl }}#create-your-own-property-validator)
@@ -233,6 +234,27 @@ echo $note->has('id'); // true
 echo $note->has('anotherProperty'); // false
 
 ```
+________________________________________________________________________
+
+
+### Create a copy
+
+Sometimes you may use a copy in order not to affect values of the
+original type.
+
+
+```php
+use ActivityPub\Type;
+
+$note = Type::create('Note', ['name' => 'Original name']);
+
+$copy = $note->copy()->setName('Copy name');
+
+echo $copy->name; // Copy name
+echo $note->name; // Original name
+```
+
+You can copy and chain methods to affect only values of the copied type.
 
 ________________________________________________________________________
 
