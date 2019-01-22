@@ -45,7 +45,8 @@ abstract class Type
     {
         if (!is_string($type) && !is_array($type)) {
             throw new Exception(
-                "Type parameter must be a string or an array"
+                "Type parameter must be a string or an array. Given="
+                . gettype($type)
             );
         }
 

@@ -136,13 +136,13 @@ abstract class Util
     /**
      * Decode a JSON string
      * 
-     * @param string $value
+     * @param  string $value
      * @return array|object
      * @throws \Exception if JSON decoding process has failed
      */
-    public static function decodeJson($value)
+    public static function decodeJson(string $value)
     {
-        $json = json_decode($value);
+        $json = json_decode($value, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception(
