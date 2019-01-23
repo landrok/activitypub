@@ -110,9 +110,27 @@ class UtilTest extends TestCase
      */
     public function testValidateCollectionPageInvalidObject()
     {
+        Util::validateCollectionPage(new ObjectType());
+	}
+
+    /**
+     * Pass a malformed JSON string
+     * 
+     * @expectedException \Exception
+     */
+    public function testDecodeJsonFailing()
+    {
+        Util::decodeJson('hello');
+	}
+
+    /**
+     * Pass JSON string and get an array
+     */
+    public function testDecodeJson()
+    {
         $this->assertEquals(
-            false, 
-            Util::validateCollectionPage(new ObjectType())
+            ['name' => 'hello'], 
+            Util::decodeJson('{"name":"hello"}')
         );
 	}
 }
