@@ -82,3 +82,29 @@
 .highlight .ss {
   color: #90a959;
 }
+
+/**********************************************************************
+ * Custom highlights
+ **********************************************************************/
+.hljs{
+  border: 1px solid #ddd;
+  background: #fafafa;
+  border-radius: 4px;
+}
+.hljs-keyword{
+  color: #aa759f;
+ 
+}
+.hljs .nx, .hljs .o, .hljs .p, .hljs .na{
+    color: #aa759f;
+    font-weight: bold;
+}
+
+/**********************************************************************
+ * navbar
+ **********************************************************************/
+.navbar-activitypub{
+  background-color:#fff;
+  -webkit-box-shadow:0 2px 4px rgba(0,0,0,.04);
+  box-shadow:0 2px 4px rgba(0,0,0,.04)
+}
