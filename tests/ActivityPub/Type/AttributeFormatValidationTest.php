@@ -116,6 +116,7 @@ class AttributeFormatValidationTest extends TestCase
                                 "name" => "Option B"
                               ]
                             ]                                          ], # Set anyOf choices 
+['attachment', Note::class, []                                         ], # Set attachment with an empty array
 ['attachment', Note::class, [
                                [
                                  "type"    => "Image",
