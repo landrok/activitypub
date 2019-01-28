@@ -35,7 +35,7 @@ class WebFingerFactory
      * @return \ActivityPub\Server\Http\WebFinger
      * @throws \Exception if handle is malformed.
      */
-    public function get(string $handle, string $scheme = 'https')
+    public static function get(string $handle, string $scheme = 'https')
     {
         if (!preg_match(
                 '/(?P<user>[\w\-]+)@(?P<host>[\w\.\-]+)(?P<port>:[\d]+)?$/',

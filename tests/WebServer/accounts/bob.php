@@ -8,7 +8,7 @@
 $validAccount = 'bob@' . $_SERVER['HTTP_HOST'];
 $preferredUsername = substr($validAccount, 0, strpos($validAccount, '@'));
 
-header('Content-Type: tactac');
+header('Content-Type: application/jrd+json');
 echo json_encode([
         'id'   => 'http://' . $_SERVER['HTTP_HOST'] . '/accounts/' . $preferredUsername,
         'type' => 'Person',

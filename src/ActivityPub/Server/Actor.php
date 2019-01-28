@@ -61,7 +61,7 @@ class Actor
         } elseif (Util::validateUrl($handle)) {
             $this->url = $handle;
         }
-        
+
         if (is_null($this->url)) {
             throw new Exception(
                 "Invalid Actor handle: " . print_r($handle, true)
