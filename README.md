@@ -11,7 +11,7 @@ It provides two layers:
 
 - A __client to server protocol__, or "Social API"
     This protocol permits a client to act on behalf of a user.
-- A __server to server protocol__, or "Federation Protocol"
+- A [__server to server protocol__](#server), or "Federation Protocol"
     This protocol is used to distribute activities between actors on different servers, tying them into the same social graph. 
 
 As the two layers are implemented, it aims to be an ActivityPub conformant Federated Server
@@ -43,12 +43,12 @@ Table of contents
     - [Create your own property validator](#create-your-own-property-validator)
 - [Server](#server)
     - [WebFinger](#webfinger)
-    - [WebFinger::toArray()](#webfinger-toarray)
-    - [WebFinger::getSubject()](#webfinger-getsubject)
-    - [WebFinger::getProfileId()](#webfinger-getprofileid)
-    - [WebFinger::getHandle()](#webfinger-gethandle)
-    - [WebFinger::getAliases()](#webfinger-getaliases)
-    - [WebFinger::getLinks()](#webfinger-getlinks)
+    - [WebFinger::toArray()](#webfingertoarray)
+    - [WebFinger::getSubject()](#webfingergetsubject)
+    - [WebFinger::getProfileId()](#webfingergetprofileid)
+    - [WebFinger::getHandle()](#webfingergethandle)
+    - [WebFinger::getAliases()](#webfingergetaliases)
+    - [WebFinger::getLinks()](#webfingergetlinks)
 
 ________________________________________________________________________
 

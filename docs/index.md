@@ -11,12 +11,12 @@ It provides two layers:
 
 - A __client to server protocol__, or "Social API"
     This protocol permits a client to act on behalf of a user.
-- A __server to server protocol__, or "Federation Protocol"
+- A [__server to server protocol__]({{ site.doc_baseurl }}/#server), or "Federation Protocol"
     This protocol is used to distribute activities between actors on 
     different servers, tying them into the same social graph. 
 
 As the two layers are implemented, it aims to be an ActivityPub 
-conformant Federated Server
+conformant Federated Server.
 
 All [normalized types]({{ site.doc_baseurl }}/activitystreams-types.html)
 are implemented too. If you need to create a new one, just extend 
@@ -43,12 +43,12 @@ Basics
     - [Create your own property validator]({{ site.doc_baseurl }}/#create-your-own-property-validator)
 - [Server](#server)
     - [WebFinger]({{ site.doc_baseurl }}/#webfinger)
-    - [WebFinger::toArray()]({{ site.doc_baseurl }}/#webfinger-toarray)
-    - [WebFinger::getSubject()]({{ site.doc_baseurl }}/#webfinger-getsubject)
-    - [WebFinger::getProfileId()]({{ site.doc_baseurl }}/#webfinger-getprofileid)
-    - [WebFinger::getHandle()]({{ site.doc_baseurl }}/#webfinger-gethandle)
-    - [WebFinger::getAliases()]({{ site.doc_baseurl }}/#webfinger-getaliases)
-    - [WebFinger::getLinks()]({{ site.doc_baseurl }}/#webfinger-getlinks)
+    - [WebFinger::toArray()]({{ site.doc_baseurl }}/#webfingertoarray)
+    - [WebFinger::getSubject()]({{ site.doc_baseurl }}/#webfingergetsubject)
+    - [WebFinger::getProfileId()]({{ site.doc_baseurl }}/#webfingergetprofileid)
+    - [WebFinger::getHandle()]({{ site.doc_baseurl }}/#webfingergethandle)
+    - [WebFinger::getAliases()]({{ site.doc_baseurl }}/#webfingergetaliases)
+    - [WebFinger::getLinks()]({{ site.doc_baseurl }}/#webfingergetlinks)
 
 ________________________________________________________________________
 
