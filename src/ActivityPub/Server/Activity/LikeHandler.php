@@ -25,6 +25,8 @@ class LikeHandler extends AbstractHandler
 
     /**
      * Constructor
+     * 
+     * @param \ActivityPub\Type\Core\AbstractActivity $activity
      */
     public function __construct(AbstractActivity $activity)
     {

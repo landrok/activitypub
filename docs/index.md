@@ -29,7 +29,7 @@ Basics
 
 - [Install]({{ site.doc_baseurl }}/#install)
 - [Requirements]({{ site.doc_baseurl }}/#requirements)
-- [Usage]({{ site.doc_baseurl }}/#usage)
+- [Types]({{ site.doc_baseurl }}/#types)
     - [Type factory]({{ site.doc_baseurl }}/#type-factory)
     - [Properties names]({{ site.doc_baseurl }}/#properties-names)
     - [All properties and their values]({{ site.doc_baseurl }}/#all-properties-and-their-values)
@@ -41,6 +41,14 @@ Basics
     - [Use native types]({{ site.doc_baseurl }}/#use-native-types)
     - [Use your own extended types]({{ site.doc_baseurl }}/#use-your-own-extended-types)
     - [Create your own property validator]({{ site.doc_baseurl }}/#create-your-own-property-validator)
+- [Server](#server)
+    - [WebFinger]({{ site.doc_baseurl }}/#webfinger)
+    - [WebFinger::toArray()]({{ site.doc_baseurl }}/#webfinger-toarray)
+    - [WebFinger::getSubject()]({{ site.doc_baseurl }}/#webfinger-getsubject)
+    - [WebFinger::getProfileId()]({{ site.doc_baseurl }}/#webfinger-getprofileid)
+    - [WebFinger::getHandle()]({{ site.doc_baseurl }}/#webfinger-gethandle)
+    - [WebFinger::getAliases()]({{ site.doc_baseurl }}/#webfinger-getaliases)
+    - [WebFinger::getLinks()]({{ site.doc_baseurl }}/#webfinger-getlinks)
 
 ________________________________________________________________________
 
@@ -59,7 +67,7 @@ composer require landrok/activitypub
 ```
 ________________________________________________________________________
 
-Usage
+Types
 -----
 
 ### Type factory
@@ -378,6 +386,187 @@ ________________________________________________________________________
 Now that we know how to use types, let's see what types are implemented
 and how to use them thanks to 
 [the ActivityStreams Types manual]({{ site.doc_baseurl }}/activitystreams-types.html).
+
+________________________________________________________________________
+
+
+Server
+------
+
+### WebFinger
+
+WebFinger is a protocol that allows for discovery of information about
+people.
+
+Given a handle, ActivityPub instances can discover profiles using this
+protocol.
+
+```php
+use ActivityPub\Server;
+
+$server = new Server();
+
+$handle = 'bob@example.org';
+
+// Get a WebFinger instance
+$webfinger = $server->actor($handle)->webfinger();
+```
+
+In this implementation, we can use an Object Identifier (URI) instead of
+WebFinger handle.
+
+
+```php
+use ActivityPub\Server;
+
+$server = new Server();
+
+$handle = 'https://example.org/users/bob';
+
+// Get a WebFinger instance
+$webfinger = $server->actor($handle)->webfinger();
+```
+________________________________________________________________________
+
+### WebFinger::toArray()
+
+Get all WebFinger data as an array.
+
+```php
+use ActivityPub\Server;
+
+$server = new Server();
+
+$handle = 'bob@example.org';
+
+// Get a WebFinger instance
+$webfinger = $server->actor($handle)->webfinger();
+
+// Dumps all properties
+print_r($webfinger->toArray());
+
+// A one line call
+print_r(
+    $server->actor($handle)->webfinger()->toArray()
+);
+```
+
+Would output something like:
+
+```
+Array
+(
+    [subject] => acct:bob@example.org
+    [aliases] => Array
+        (
+            [0] => http//example.org/users/bob
+        )
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [rel] => self
+                    [type] => application/activity+json
+                    [href] => http://example.org/users/bob
+                )
+        )
+)
+
+```
+________________________________________________________________________
+
+### WebFinger::getSubject()
+
+Get WebFinger resource.
+
+```php
+
+echo $webfinger->getSubject();
+
+// Would return 'acct:bob@example.org'
+
+```
+________________________________________________________________________
+
+### WebFinger::getProfileId()
+
+Get ActivityPub object identifier (URI).
+
+```php
+
+echo $webfinger->getProfileId();
+
+// Would return 'http://example.org/users/bob'
+
+```
+________________________________________________________________________
+
+### WebFinger::getHandle()
+
+Get profile handle.
+
+```php
+
+echo $webfinger->getHandle();
+
+// Would return 'bob@example.org'
+
+```
+________________________________________________________________________
+
+### WebFinger::getAliases()
+
+Get all aliases entries for this profile.
+
+```php
+
+print_r(
+    $webfinger->getAliases()
+);
+
+```
+
+Would output something like:
+
+```
+Array
+(
+    [0] => http//example.org/users/bob
+)
+
+```
+
+________________________________________________________________________
+
+### WebFinger::getLinks()
+
+Get all links entries for this profile.
+
+```php
+
+print_r(
+    $webfinger->getLinks()
+);
+
+```
+
+Would output something like:
+
+```
+Array
+(
+    [0] => Array
+        (
+            [rel] => self
+            [type] => application/activity+json
+            [href] => http://example.org/users/bob
+        )
+)
+
+```
+
+________________________________________________________________________
+
 
 
 {% capture doc_url %}{{ site.doc_repository_url }}/index.md{% endcapture %}

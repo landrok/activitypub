@@ -5,6 +5,7 @@ namespace ActivityPubTest\Server;
 use ActivityPub\Server;
 use ActivityPub\Type;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class OutboxPostTest extends TestCase
@@ -38,28 +39,24 @@ class OutboxPostTest extends TestCase
          "https://www.w3.org/ns/activitystreams#Public"]
 }'                                                                     ], # JSON formatted Note that should be wrapped into activity
 
-[[
-  "@context" => "https://www.w3.org/ns/activitystreams",
-  "type" => "Note",
-  "content" => "This is a note",
-  "published" => "2015-02-10T15:04:55Z",
-  "to" => ["https://example.org/~john/"],
-  "cc" => ["https://example.com/~erik/followers",
+
+
+['{
+  "@context": "https://www.w3.org/ns/activitystreams",
+  "type": "Note",
+  "content": "This is a note",
+  "published": "2015-02-10T15:04:55Z",
+  "to": ["https://example.org/~john/"],
+  "cc": ["https://example.com/~erik/followers",
          "https://www.w3.org/ns/activitystreams#Public"]
-]                                                                      ], # Array formatted Note that should be wrapped into activity
+}',
+'application/ld+json; profile="https://www.w3.org/ns/activitystreams"' ], # Accept headers should be accepted
 
-[Type::create([
-  "@context" => "https://www.w3.org/ns/activitystreams",
-  "type" => "Note",
-  "content" => "This is a note",
-  "published" => "2015-02-10T15:04:55Z",
-  "to" => ["https://example.org/~john/"],
-  "cc" => ["https://example.com/~erik/followers",
-         "https://www.w3.org/ns/activitystreams#Public"]
-])                                                                     ], # Type formatted Note that should be wrapped into activity
-
-
-
+// ---------------------------------------------------------------------
+// Error scenarios
+// ---------------------------------------------------------------------
+['bad JSON', 'application/activity+json', 400                          ], # Bad JSON payload should return 400 Bad request
+['bad JSON', 'text/html,application/xhtml+xml,application/xml', 400    ], # Accept header MUST be valid
         ];
 	}
 
@@ -68,22 +65,36 @@ class OutboxPostTest extends TestCase
      *
      * @dataProvider getOutboxPostActivities
      */
-    public function testOutboxPostActivities($payload)
+    public function testOutboxPostActivities($payload, $accept = 'application/activity+json', $code = 201)
     {
         $server = new Server([
+            'instance'  => [
+                'debug' => true,
+            ],
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
             ]
         ]);
 
-        $response = $server->outbox('bob')->post($payload);
+        $request = Request::create(
+            'http://as.localhost:8000',
+            'POST',
+            [], // parameters
+            [], // cookies
+            [], // files
+            $_SERVER,
+            $payload
+        );
+        $request->headers->set('accept', $accept);
+
+        $response = $server->outbox('bob@as.localhost:8000')->post($request);
 
         // Assert response type
         $this->assertInstanceOf(Response::class, $response);
 
         // Assert HTTP status code
         $this->assertEquals(
-            201,
+            $code,
             $response->getStatusCode()
         );
     }

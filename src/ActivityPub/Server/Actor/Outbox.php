@@ -13,12 +13,14 @@ namespace ActivityPub\Server\Actor;
 
 use ActivityPub\Server;
 use ActivityPub\Server\Activity\HandlerInterface;
-use ActivityPub\Server\Response;
+use ActivityPub\Server\Actor;
+use ActivityPub\Server\Helper;
 use ActivityPub\Type;
-use ActivityPub\Type\AbstractObject;
 use ActivityPub\Type\Core\AbstractActivity;
 use ActivityPub\Type\Util;
 use Exception;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * A server-side outbox
@@ -31,33 +33,63 @@ class Outbox extends AbstractBox
      * @param  string $name An actor's name
      * @param  \ActivityPub\Server $server
      */
-    public function __construct(string $name, Server $server)
+    public function __construct(Actor $actor, Server $server)
     {
-        $server->logger()->info($name . ':' . __METHOD__);
-        parent::__construct($name, $server);
+        $server->logger()->info(
+            $actor->getType()->preferredUsername . ':' . __METHOD__
+        );
+        parent::__construct($actor, $server);
     }
 
     /**
      * Post a message to the world
      * 
-     * @param array|object|string $activity
+     * @param  \Symfony\Component\HttpFoundation\Request $request
      * @return \ActivityPub\Server\Activity\ActivityHandler
      */
-    public function post($activity)
+    public function post(Request $request)
     {
-        // JSON payload
-        if (is_string($activity)) {
-            $activity = Util::decodeJson($activity);
-        }
+        try {
+            // Check accept header
+            if (!Helper::validateAcceptHeader(
+                    $request->headers->get('accept')
+                )
+            ) {
+                throw new Exception(
+                    "HTTP Accept header error. Given: '$accept'"
+                );
+            }
 
-        // Normalize
-        if (!($activity instanceof AbstractObject)) {
-            $activity = Type::create($activity);
+            // Check current actor can post
+            
+            
+            // Get content
+            $payload = Util::decodeJson(
+                $request->getContent()
+            );
+
+            // Cast as an ActivityStreams type
+            $activity = Type::create($payload);
+
+        } catch (Exception $exception) {
+            $this->getServer()->logger()->error(
+                $this->actor->getType()->preferredUsername. ':' . __METHOD__, [
+                    $exception->getMessage()
+                ]
+            );
+
+            return new Response('', 400);
         }
+        
+        
+        
+       //print_r($payload); die;
+
+
 
         // Log
         $this->getServer()->logger()->debug(
-            $this->name . ':' . __METHOD__ . '(starting)', 
+            $this->actor->getType()->preferredUsername. ':' . __METHOD__ . '(starting)', 
             $activity->toArray()
         );
 
@@ -101,15 +133,11 @@ class Outbox extends AbstractBox
 
         // Log
         $this->getServer()->logger()->debug(
-            $this->name . ':' . __METHOD__ . '(posted)', 
+            $this->actor->getType()->preferredUsername. ':' . __METHOD__ . '(posted)', 
             $activity->toArray()
         );
 
         // Return a standard HTTP Response
         return $handler->handle()->getResponse();
-        return new Response([
-            'code'      => 201,
-            'location'  => $activity->id
-        ]);
     }
 }

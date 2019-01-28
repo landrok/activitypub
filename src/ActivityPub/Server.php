@@ -11,12 +11,10 @@
 
 namespace ActivityPub;
 
-use ActivityPub\Server\Federation\Actor;
-use ActivityPub\Server\WebFinger;
-
-use ActivityPub\Server\Configuration;
+use ActivityPub\Server\Actor;
 use ActivityPub\Server\Actor\Inbox;
 use ActivityPub\Server\Actor\Outbox;
+use ActivityPub\Server\Configuration;
 use Exception;
 
 /**
@@ -25,12 +23,17 @@ use Exception;
 class Server
 {
     /**
-     * @var \ActivityPub\Server\Federation\Actor[]
+     * @var \ActivityPub\Server\Actor[]
+     */
+    protected $actors = [];
+
+    /**
+     * @var \ActivityPub\Server\Actor\Inbox[]
      */
     protected $inboxes = [];
 
     /**
-     * @var \ActivityPub\Server\Federation\Actor[]
+     * @var \ActivityPub\Server\Actor\Outbox[]
      */
     protected $outboxes = [];
 
@@ -77,40 +80,42 @@ class Server
     }
 
     /**
-     * Getting an inbox instance
-     * It can be a local or a distant inbox.
+     * Getting an outbox instance
+     * It may be a local or a distant outbox.
      * 
-     * @param  string $name An actor name
-     * @return \ActivityPub\Server\Actor\Inbox
+     * @param  string $handle
+     * @return \ActivityPub\Server\Actor\Outbox
      */
-    public function inbox(string $name)
+    public function outbox(string $handle)
     {
-        if (isset($this->inboxes[$name])) {
-            return $this->inboxes[$name];
+        $this->logger()->info($handle . ':' . __METHOD__);
+
+        if (isset($this->outboxes[$handle])) {
+            return $this->outboxes[$handle];
         }
 
-        $this->inboxes[$name] = new Inbox($name);
+        // Build actor
+        $actor = $this->actor($handle);
 
-        return $this->inboxes[$name];
+        $this->outboxes[$handle] = new Outbox($actor, $this);
+
+        return $this->outboxes[$handle];
     }
 
     /**
-     * Getting an outbox instance
-     * It can be a local or a distant outbox.
+     * Build an server-oriented actor object
      * 
-     * @param  string $username
-     * @return \ActivityPub\Server\Actor\Outbox
+     * @param  string $handle
+     * @return \ActivityPub\Server\Actor
      */
-    public function outbox(string $name)
+    public function actor(string $handle)
     {
-        $this->logger()->info($name . ':' . __METHOD__);
-
-        if (isset($this->outboxes[$name])) {
-            return $this->outboxes[$name];
+        if (isset($this->actors[$handle])) {
+            return $this->actors[$handle];
         }
 
-        $this->outboxes[$name] = new Outbox($name, $this);
+        $this->actors[$handle] = new Actor($handle, $this);
 
-        return $this->outboxes[$name];
+        return $this->actors[$handle];
     }
 }

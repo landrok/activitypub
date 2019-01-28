@@ -29,7 +29,7 @@ Table of contents
 - [Requirements](#requirements)
 - [ActivityStreams Core Types](#activitystreams-core-types)
 - [ActivityStreams Extended Types](#activitystreams-extended-types)
-- [Usage](#usage)
+- [Types](#types)
     - [Type factory](#type-factory)
     - [Properties names](#properties-names)
     - [All properties and their values](#all-properties-and-their-values)
@@ -41,6 +41,14 @@ Table of contents
     - [Use native types](#use-native-types)
     - [Use your own extended types](#use-your-own-extended-types)
     - [Create your own property validator](#create-your-own-property-validator)
+- [Server](#server)
+    - [WebFinger](#webfinger)
+    - [WebFinger::toArray()](#webfinger-toarray)
+    - [WebFinger::getSubject()](#webfinger-getsubject)
+    - [WebFinger::getProfileId()](#webfinger-getprofileid)
+    - [WebFinger::getHandle()](#webfinger-gethandle)
+    - [WebFinger::getAliases()](#webfinger-getaliases)
+    - [WebFinger::getLinks()](#webfinger-getlinks)
 
 ________________________________________________________________________
 
@@ -146,7 +154,7 @@ use ActivityPub\Type\Extended\Object\Video;
 
 ________________________________________________________________________
 
-Usage
+Types
 -----
 
 ### Type factory
@@ -460,5 +468,184 @@ Type::addValidator('myProperty', MyPropertyValidator::class);
 
 ```
 ________________________________________________________________________
+
+
+Server
+------
+
+### WebFinger
+
+WebFinger is a protocol that allows for discovery of information about
+people.
+
+Given a handle, ActivityPub instances can discover profiles using this
+protocol.
+
+```php
+use ActivityPub\Server;
+
+$server = new Server();
+
+$handle = 'bob@example.org';
+
+// Get a WebFinger instance
+$webfinger = $server->actor($handle)->webfinger();
+```
+
+In this implementation, we can use an Object Identifier (URI) instead of
+WebFinger handle.
+
+
+```php
+use ActivityPub\Server;
+
+$server = new Server();
+
+$handle = 'https://example.org/users/bob';
+
+// Get a WebFinger instance
+$webfinger = $server->actor($handle)->webfinger();
+```
+________________________________________________________________________
+
+### WebFinger::toArray()
+
+Get all WebFinger data as an array.
+
+```php
+use ActivityPub\Server;
+
+$server = new Server();
+
+$handle = 'bob@example.org';
+
+// Get a WebFinger instance
+$webfinger = $server->actor($handle)->webfinger();
+
+// Dumps all properties
+print_r($webfinger->toArray());
+
+// A one line call
+print_r(
+    $server->actor($handle)->webfinger()->toArray()
+);
+```
+
+Would output something like:
+
+```
+Array
+(
+    [subject] => acct:bob@example.org
+    [aliases] => Array
+        (
+            [0] => http//example.org/users/bob
+        )
+    [links] => Array
+        (
+            [0] => Array
+                (
+                    [rel] => self
+                    [type] => application/activity+json
+                    [href] => http://example.org/users/bob
+                )
+        )
+)
+
+```
+________________________________________________________________________
+
+### WebFinger::getSubject()
+
+Get WebFinger resource.
+
+```php
+
+echo $webfinger->getSubject();
+
+// Would return 'acct:bob@example.org'
+
+```
+________________________________________________________________________
+
+### WebFinger::getProfileId()
+
+Get ActivityPub object identifier (URI).
+
+```php
+
+echo $webfinger->getProfileId();
+
+// Would return 'http://example.org/users/bob'
+
+```
+________________________________________________________________________
+
+### WebFinger::getHandle()
+
+Get profile handle.
+
+```php
+
+echo $webfinger->getHandle();
+
+// Would return 'bob@example.org'
+
+```
+________________________________________________________________________
+
+### WebFinger::getAliases()
+
+Get all aliases entries for this profile.
+
+```php
+
+print_r(
+    $webfinger->getAliases()
+);
+
+```
+
+Would output something like:
+
+```
+Array
+(
+    [0] => http//example.org/users/bob
+)
+
+```
+
+________________________________________________________________________
+
+### WebFinger::getLinks()
+
+Get all links entries for this profile.
+
+```php
+
+print_r(
+    $webfinger->getLinks()
+);
+
+```
+
+Would output something like:
+
+```
+Array
+(
+    [0] => Array
+        (
+            [rel] => self
+            [type] => application/activity+json
+            [href] => http://example.org/users/bob
+        )
+)
+
+```
+
+________________________________________________________________________
+
 
 [See the full documentation](https://landrok.github.io/activitypub)

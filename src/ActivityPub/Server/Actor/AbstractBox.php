@@ -12,6 +12,7 @@
 namespace ActivityPub\Server\Actor;
 
 use ActivityPub\Server;
+use ActivityPub\Server\Actor;
 use ActivityPub\Type;
 use ActivityPub\Type\AbstractObject;
 use Exception;
@@ -27,20 +28,20 @@ abstract class AbstractBox
     private $server;
 
     /**
-     * @var string An actor name
+     * @var \ActivityPub\Server\Actor
      */
-    protected $name;
+    protected $actor;
 
     /**
      * Box constructor
      * 
-     * @param  string $name An actor's name
+     * @param  \ActivityPub\Server\Actor $actor
      * @param  \ActivityPub\Server $server
      */
-    public function __construct(string $name, Server $server)
+    public function __construct(Actor $actor, Server $server)
     {
         $this->setServer($server);
-        $this->name = $name;
+        $this->actor = $actor;
     }
 
     /**
@@ -117,7 +118,7 @@ abstract class AbstractBox
             . $this->config('instance.hostname')
             . preg_replace(
                 ['/<handle>/', '/<id>/'],
-                [$this->name, 'new-id'],
+                [$this->actor->getType()->preferredUsername, 'new-id'],
                 $this->config('instance.notePath')
         );
 
@@ -128,7 +129,7 @@ abstract class AbstractBox
             . $this->config('instance.hostname')
             . preg_replace(
                 ['/<handle>/', '/<id>/'],
-                [$this->name, 'new-id'],
+                [$this->actor->getType()->preferredUsername, 'new-id'],
                 $this->config('instance.activityPath')
         );
 
@@ -151,7 +152,7 @@ abstract class AbstractBox
             . $this->config('instance.hostname')
             . preg_replace(
                 ['/<handle>/'],
-                [$this->name],
+                [$this->actor->getType()->preferredUsername],
                 $this->config('instance.actorPath')
             );
     }

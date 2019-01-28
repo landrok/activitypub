@@ -54,12 +54,12 @@ class LoggerConfiguration extends AbstractConfiguration
     {
         if (!class_exists($this->driver)) {
             throw new Exception(
-                "Logger driver does not exist. Given='$this->driver'"
+                "Logger driver does not exist. Given='{$this->driver}'"
             );
         }
 
         $logger = new $this->driver($this->channel);
-        
+
         if (method_exists($logger, 'pushHandler')) {
             $logger->pushHandler(
                 new StreamHandler(

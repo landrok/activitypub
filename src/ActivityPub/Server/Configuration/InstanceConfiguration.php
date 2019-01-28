@@ -22,6 +22,11 @@ class InstanceConfiguration extends AbstractConfiguration
     protected $hostname = 'localhost';
 
     /**
+     * @var bool Debug flag
+     */
+    protected $debug = false;
+
+    /**
      * @var string local HTTP scheme
      */
     protected $scheme = 'https';
