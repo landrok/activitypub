@@ -77,7 +77,7 @@ class OutboxPostTest extends TestCase
         ]);
 
         $request = Request::create(
-            'http://as.localhost:8000',
+            'http://ap.localhost:8000',
             'POST',
             [], // parameters
             [], // cookies
