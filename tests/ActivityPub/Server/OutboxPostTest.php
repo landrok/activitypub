@@ -87,7 +87,7 @@ class OutboxPostTest extends TestCase
         );
         $request->headers->set('accept', $accept);
 
-        $response = $server->outbox('bob@as.localhost:8000')->post($request);
+        $response = $server->outbox('bob@ap.localhost:8000')->post($request);
 
         // Assert response type
         $this->assertInstanceOf(Response::class, $response);
