@@ -3,6 +3,7 @@
 namespace ActivityPubTest\Server;
 
 use ActivityPub\Server;
+use ActivityPub\Server\Http\WebFinger;
 use PHPUnit\Framework\TestCase;
 
 class WebFingerTest extends TestCase
@@ -68,6 +69,9 @@ class WebFingerTest extends TestCase
 ['bob-links-arrays@localhost:8000', 'toArray', $sample              ], # Bad response from server (links is an array of arrays)
 ['bob-links-missing-rel@localhost:8000', 'toArray', $sample         ], # Bad response from server (links key must contain a rel key)
 ['bob-404-profile@localhost:8000', 'toArray', $sample               ], # Bad response from server (404 Not found)
+
+['http://localhost:8000/accounts/empty-profile', 'toArray', $sample ], # Bad response from server (ActivityPub profile is empty)
+['http://localhost:8000/accounts/missing-property', 'toArray', $sample ], # Bad response from server (Missing preferredUsername)
         ];
 	}
 
@@ -114,5 +118,129 @@ class WebFingerTest extends TestCase
         ]);
 
         $webfinger = $server->actor($handle)->webfinger();
+    }
+
+    /**
+     * Scenarios which throw an Exception
+     */
+    public function getFailingInstanceScenarios()
+    {
+        # data
+        return [
+[[
+    'aliases' => ['http//localhost:8000/accounts/bob'],
+    'links' => [
+            [
+                'rel' => 'self',
+                'type' => 'application/activity+json',
+                'href' => 'http://localhost:8000/accounts/bob',
+            ]
+        ]
+    ]                                                                  ], # Missing key: subject
+[[
+    'subject' => 'acct:bob@localhost:8000',
+    'links' => [
+        [
+            'rel' => 'self',
+            'type' => 'application/activity+json',
+            'href' => 'http://localhost:8000/accounts/bob',
+        ]
+    ]
+]                                                                      ], # Missing key: aliases
+[[
+    'subject' => 'acct:bob@localhost:8000',
+    'aliases' => [
+        'http//localhost:8000/accounts/bob'
+    ],
+]                                                                      ], # Missing key: links
+[[
+    'subject' => ['acct:bob@localhost:8000'],
+    'aliases' => [
+        'http//localhost:8000/accounts/bob'
+    ],
+    'links' => [
+        [
+            'rel' => 'self',
+            'type' => 'application/activity+json',
+            'href' => 'http://localhost:8000/accounts/bob',
+        ]
+    ]
+]                                                                      ], # Malformed subject
+[[
+    'subject' => 'acct:bob@localhost:8000',
+    'aliases' => [
+        ['http//localhost:8000/accounts/bob']
+    ],
+    'links' => [
+        [
+            'rel' => 'self',
+            'type' => 'application/activity+json',
+            'href' => 'http://localhost:8000/accounts/bob',
+        ]
+    ]
+]                                                                      ], # Malformed aliases
+[[
+    'subject' => 'acct:bob@localhost:8000',
+    'aliases' => [
+        'http//localhost:8000/accounts/bob'
+    ],
+    'links' => [
+         'http://localhost:8000/accounts/bob',
+    ]
+]                                                                      ], # Malformed links: subelement is not an array
+[[
+    'subject' => 'acct:bob@localhost:8000',
+    'aliases' => [
+        'http//localhost:8000/accounts/bob'
+    ],
+    'links' => [
+        [
+            'type' => 'application/activity+json',
+            'href' => 'http://localhost:8000/accounts/bob',
+        ]
+    ]
+]                                                                      ], # Malformed links: subelement does not have a rel key
+
+        ];
+	}
+
+    /**
+     * Check that all tests are failing
+     *
+     * @dataProvider      getFailingInstanceScenarios
+     * @expectedException \Exception
+     */
+    public function testFailingInstanceScenarios($data)
+    {
+        $webfinger = new WebFinger($data);
+    }
+
+    /**
+     * Get profile id can return null if webfinger is used for an 
+     * implementation that does not support ActivityPub
+     */
+    public function testEmptyProfileId()
+    {
+        $data = [
+            'subject' => 'acct:bob@localhost:8000',
+            'aliases' => [
+                'http//localhost:8000/accounts/bob'
+            ],
+            'links' => [
+                [
+                    'rel' => 'self',
+                    'type' => 'application/ld+json',
+                    'href' => 'http://localhost:8000/accounts/bob',
+                ]
+            ]
+        ];
+
+        $webfinger = new WebFinger($data);
+
+        // Assert 
+        $this->assertEquals(
+            null,
+            $webfinger->getProfileId()
+        );
     }
 }

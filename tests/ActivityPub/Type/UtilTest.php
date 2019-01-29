@@ -133,4 +133,18 @@ class UtilTest extends TestCase
             Util::decodeJson('{"name":"hello"}')
         );
 	}
+
+    /**
+     * An object must have a property.
+     * In non strict mode, it must return false
+     */
+    public function testHasPropertiesFailingNonStrictMode()
+    {
+        $item = new \StdClass;
+
+        $this->assertEquals(
+            false, 
+            Util::hasProperties($item, ['type'])
+        );
+	}
 }

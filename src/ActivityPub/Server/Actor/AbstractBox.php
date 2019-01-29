@@ -23,7 +23,7 @@ use Exception;
 abstract class AbstractBox
 {
     /**
-     * @var null|\ActivityPub\Server
+     * @var \ActivityPub\Server
      */
     private $server;
 
@@ -61,10 +61,6 @@ abstract class AbstractBox
      */
     public function getServer()
     {
-        if (is_null($this->server)) {
-            throw new Exception('Server instance must be set');
-        }
-
         return $this->server;
     }
 

@@ -108,18 +108,12 @@ class WebFinger
             $tmp = [];
             $tmp['rel'] = $link['rel'];
             
-            if (isset($link['type'])) {
-                $tmp['type'] = $link['type'];
+            foreach (['type', 'href', 'template'] as $key) {
+                if (isset($link[$key]) && is_string($link[$key])) {
+                    $tmp[$key] = $link[$key];
+                }
             }
 
-            if (isset($link['href'])) {
-                $tmp['href'] = $link['href'];
-            }
-
-            if (isset($link['template'])) {
-                $tmp['template'] = $link['template'];
-            }
-            
             $this->links[] = $tmp;
         }
     }
