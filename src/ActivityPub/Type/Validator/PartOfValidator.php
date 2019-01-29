@@ -25,8 +25,8 @@ class PartOfValidator implements ValidatorInterface
     /**
      * Validate a partOf value
      * 
-     * @param  object $value
-     * @param  mixed  $container
+     * @param  string|array|object $value
+     * @param  object              $container
      * @return bool
      */
     public function validate($value, $container)

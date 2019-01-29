@@ -30,7 +30,7 @@ class Outbox extends AbstractBox
     /**
      * Outbox constructor
      * 
-     * @param  string $name An actor's name
+     * @param  \ActivityPub\Server\Actor $actor An actor
      * @param  \ActivityPub\Server $server
      */
     public function __construct(Actor $actor, Server $server)
@@ -45,7 +45,7 @@ class Outbox extends AbstractBox
      * Post a message to the world
      * 
      * @param  \Symfony\Component\HttpFoundation\Request $request
-     * @return \ActivityPub\Server\Activity\ActivityHandler
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function post(Request $request)
     {
@@ -56,7 +56,10 @@ class Outbox extends AbstractBox
                 )
             ) {
                 throw new Exception(
-                    "HTTP Accept header error. Given: '$accept'"
+                    sprintf(
+                        "HTTP Accept header error. Given: '%s'",
+                        $request->headers->get('accept')
+                    )
                 );
             }
 
@@ -65,7 +68,7 @@ class Outbox extends AbstractBox
             
             // Get content
             $payload = Util::decodeJson(
-                $request->getContent()
+                (string)$request->getContent()
             );
 
             // Cast as an ActivityStreams type

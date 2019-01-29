@@ -28,7 +28,7 @@ abstract class ValidatorTools implements ValidatorInterface
      * Validate a map attribute value.
      * 
      * @param  string $type An attribute name
-     * @param  object $map
+     * @param  mixed  $map
      * @param  object $container A valid container
      * @return bool
      */
@@ -55,7 +55,7 @@ abstract class ValidatorTools implements ValidatorInterface
      * 
      * @param  mixed $value
      * @param  mixed $container An object
-     * @param  \callable A dedicated validator
+     * @param  callable $callback A dedicated validator
      * @return bool
      */
     public function validateListOrObject($value, $container, callable $callback)
@@ -88,7 +88,7 @@ abstract class ValidatorTools implements ValidatorInterface
      * Validate a list of Collection
      * 
      * @param  array $collection
-     * @param  \callable A dedicated validator
+     * @param  callable $callback A dedicated validator
      * @return bool
      */
     protected function validateObjectCollection(array $collection, callable $callback)
@@ -129,7 +129,7 @@ abstract class ValidatorTools implements ValidatorInterface
      * 
      * It validate a Link or a named object
      * 
-     * @return \callable
+     * @return callable
      */
     protected function getLinkOrNamedObjectValidator()
     {
@@ -163,7 +163,7 @@ abstract class ValidatorTools implements ValidatorInterface
      *
      * Validate a reference with a Link or an Object with an URL
      *
-     * @return \callable
+     * @return callable
      */
     protected function getLinkOrUrlObjectValidator()
     {
@@ -184,7 +184,7 @@ abstract class ValidatorTools implements ValidatorInterface
     /**
      * Validate that a Question answer is a Note
      *
-     * @return \callable
+     * @return callable
      */
     protected function getQuestionAnswerValidator()
     {
@@ -206,7 +206,7 @@ abstract class ValidatorTools implements ValidatorInterface
     /**
      * Validate that a list of items is valid
      *
-     * @return \callable
+     * @return callable
      */
     protected function getCollectionItemsValidator()
     {

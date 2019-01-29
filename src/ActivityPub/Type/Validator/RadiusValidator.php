@@ -24,8 +24,8 @@ class RadiusValidator implements ValidatorInterface
     /**
      * Validate radius value
      * 
-     * @param string $value
-     * @param mixed  $container A Place
+     * @param mixed $value
+     * @param mixed $container A Place
      * @return bool
      */
     public function validate($value, $container)

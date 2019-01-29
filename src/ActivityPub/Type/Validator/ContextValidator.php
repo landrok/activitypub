@@ -24,8 +24,8 @@ class ContextValidator implements ValidatorInterface
     /**
      * Validate a context attribute value
      * 
-     * @param string  $value
-     * @param mixed   $container
+     * @param string|array  $value
+     * @param object        $container
      * @return bool
      */
     public function validate($value, $container)

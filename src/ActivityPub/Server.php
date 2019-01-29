@@ -38,7 +38,7 @@ class Server
     protected $outboxes = [];
 
     /**
-     * @var null|\Monolog\Logger
+     * @var null|\Psr\Log\LoggerInterface
      */
     protected $logger;
 
@@ -61,7 +61,7 @@ class Server
     /**
      * Get logger instance
      * 
-     * @return \Monolog\Logger
+     * @return null|\Psr\Log\LoggerInterface
      */
     public function logger()
     {
@@ -72,11 +72,37 @@ class Server
      * Get a configuration handler
      * 
      * @param  string $parameter
-     * @return \ActivityPub\Server\Configuration
+     * @return \ActivityPub\Server\Configuration\LoggerConfiguration
+     *       | \ActivityPub\Server\Configuration\InstanceConfiguration
+     *       | \ActivityPub\Server\Configuration\HttpConfiguration
+     *       | string
      */
     public function config(string $parameter)
     {
         return $this->configuration->getConfig($parameter);
+    }
+
+    /**
+     * Getting an inbox instance
+     * It can be a local or a distant inbox.
+     * 
+     * @param  string $handle An actor name
+     * @return \ActivityPub\Server\Actor\Inbox
+     */
+    public function inbox(string $handle)
+    {
+        $this->logger()->info($handle . ':' . __METHOD__);
+
+        if (isset($this->inboxes[$handle])) {
+            return $this->inboxes[$handle];
+        }
+
+        // Build actor
+        $actor = $this->actor($handle);
+
+        $this->inboxes[$handle] = new Inbox($actor, $this);
+
+        return $this->inboxes[$handle];
     }
 
     /**

@@ -23,7 +23,7 @@ use Exception;
 abstract class AbstractBox
 {
     /**
-     * @var \ActivityPub\Server
+     * @var null|\ActivityPub\Server
      */
     private $server;
 
@@ -47,7 +47,7 @@ abstract class AbstractBox
     /**
      * Server instance setter
      * 
-     * @param  \ActivityPub\Server
+     * @param \ActivityPub\Server $server
      */
     public function setServer(Server $server)
     {
@@ -85,7 +85,7 @@ abstract class AbstractBox
      * 
      * @see    https://www.w3.org/TR/activitypub/#object-without-create
      *
-     * @param  \ActivityPub\Type\Core\AbstractObject $object
+     * @param  \ActivityPub\Type\AbstractObject $object
      * @return \ActivityPub\Type\Core\AbstractActivity
      */
     protected function wrapObject(AbstractObject $object)

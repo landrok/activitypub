@@ -24,8 +24,8 @@ class SubjectValidator implements ValidatorInterface
     /**
      * Validate subject value
      * 
-     * @param  object $value
-     * @param  mixed  $container
+     * @param  string|array|object $value
+     * @param  object              $container
      * @return bool
      */
     public function validate($value, $container)

@@ -80,7 +80,7 @@ abstract class AbstractObject
                 sprintf(
                     'Property "%s" is not defined. Type="%s", Class="%s"',
                     $name,
-                    $this->type,
+                    $this->get('type'),
                     get_class($this)
                 )
             );

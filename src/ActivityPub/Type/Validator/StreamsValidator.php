@@ -24,8 +24,8 @@ class StreamsValidator implements ValidatorInterface
     /**
      * Validate streams value
      * 
-     * @param int    $value
-     * @param mixed  $container An object
+     * @param array  $value
+     * @param object $container An object
      * @return bool
      */
     public function validate($value, $container)

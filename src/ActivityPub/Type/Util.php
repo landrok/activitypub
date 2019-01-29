@@ -34,7 +34,7 @@ abstract class Util
     /**
      * Tranform an array into an ActivityStreams type
      * 
-     * @param  array $value
+     * @param  array $item
      * @return mixed An ActivityStreams type or given array if type key 
      * is not defined.
      */
@@ -52,7 +52,7 @@ abstract class Util
     /**
      * Validate an URL
      * 
-     * @param  string $value
+     * @param  mixed $value
      * @return bool
      */
     public static function validateUrl($value)
@@ -137,7 +137,7 @@ abstract class Util
      * Decode a JSON string
      * 
      * @param  string $value
-     * @return array|object
+     * @return array
      * @throws \Exception if JSON decoding process has failed
      */
     public static function decodeJson(string $value)
@@ -190,7 +190,7 @@ abstract class Util
     /**
      * Validate a reference with a Link or an Object with an URL
      * 
-     * @param object $value
+     * @param object $item
      * @return bool
      */
     public static function isLinkOrUrlObject($item)
@@ -211,7 +211,7 @@ abstract class Util
     /**
      * Validate a reference as Link
      * 
-     * @param object
+     * @param array|object $item
      * @return bool
      */
     public static function validateLink($item)
@@ -442,7 +442,7 @@ abstract class Util
     /**
      * Validate a Collection type
      * 
-     * @param object $collection
+     * @param object $item
      * @return bool
      */
     public static function validateCollection($item)
@@ -463,7 +463,7 @@ abstract class Util
     /**
      * Validate a CollectionPage type
      * 
-     * @param object $collection
+     * @param object $item
      * @return bool
      */
     public static function validateCollectionPage($item)

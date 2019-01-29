@@ -60,10 +60,10 @@ class Request
      * 
      * @param string $method
      */
-    protected function setMethod(string $param)
+    protected function setMethod(string $method)
     {
-        if (in_array($param, $this->allowedMethods)) {
-            $this->method = $param;
+        if (in_array($method, $this->allowedMethods)) {
+            $this->method = $method;
         }
     }
 
@@ -81,7 +81,7 @@ class Request
      * Execute a GET request
      * 
      * @param  string $url
-     * @return array A JSON decoded response
+     * @return string
      */
     public function get(string $url)
     {

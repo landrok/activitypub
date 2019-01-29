@@ -50,7 +50,7 @@ class UrlValidator implements ValidatorInterface
     /**
      * Validate that a value is a Link or an URL
      * 
-     * @param string|\ActivityPub\Type\Core\Link
+     * @param  string|\ActivityPub\Type\Core\Link $value
      * @return bool
      */
     protected function validateUrlOrLink($value)

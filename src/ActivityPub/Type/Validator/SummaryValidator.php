@@ -24,8 +24,8 @@ class SummaryValidator implements ValidatorInterface
     /**
      * Validate a summary attribute value
      * 
-     * @param string  $value
-     * @param mixed   $container
+     * @param null|string  $value
+     * @param mixed        $container
      * @return bool
      */
     public function validate($value, $container)

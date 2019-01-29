@@ -22,7 +22,7 @@ class WebFingerFactory
     const WEBFINGER_URL = '%s://%s%s/.well-known/webfinger?resource=acct:%s';
 
     /**
-     * @var [] An array of key => value. 
+     * @var array An array of key => value. 
      * Keys are handle, values are WebFinger instances.
      */
     protected static $webfingers = [];

@@ -24,7 +24,7 @@ class EndpointsValidator implements ValidatorInterface
     /**
      * Validate ENDPOINTS value
      * 
-     * @param string $value
+     * @param string|array $value
      * @param mixed  $container
      * @return bool
      */
@@ -47,10 +47,10 @@ class EndpointsValidator implements ValidatorInterface
     /**
      * Validate endpoints mapping
      * 
-     * @param  object $map
+     * @param  array $item
      * @return bool
      */
-    protected function validateObject($item)
+    protected function validateObject(array $item)
     {
         foreach ($item as $key => $value) {
 

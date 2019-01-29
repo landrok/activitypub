@@ -78,7 +78,11 @@ class Configuration
     /**
      * Get a configuration dedicated handler
      * 
-     * @return \ActivityPub\Server\Configuration\BaseConfiguration
+     * @return \ActivityPub\Server\Configuration\LoggerConfiguration
+     *       | \ActivityPub\Server\Configuration\InstanceConfiguration
+     *       | \ActivityPub\Server\Configuration\HttpConfiguration
+     *       | string
+     * @throws \Exception
      */
     public function getConfig(string $parameter)
     {

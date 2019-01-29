@@ -58,7 +58,7 @@ class ActorValidator implements ValidatorInterface
     /**
      * Validate an Actor object type
      * 
-     * @param object|array $value
+     * @param object|array $item
      * @return bool
      */
     protected function validateObject($item)

@@ -26,8 +26,8 @@ class FollowersValidator implements ValidatorInterface
     /**
      * Validate a FOLLOWERS attribute value
      * 
-     * @param object $value
-     * @param mixed  $container
+     * @param  string|object $value
+     * @param  object        $container
      * @return bool
      * @todo Support indirect reference for followers attribute?
      */

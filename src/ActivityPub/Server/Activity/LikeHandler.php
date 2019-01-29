@@ -45,7 +45,7 @@ class LikeHandler extends AbstractHandler
         $this->getResponse()->setStatusCode(201);
         $this->getResponse()->headers->set(
             'location',
-            $this->activity->id
+            $this->activity->get('id')
         );
 
         return $this;

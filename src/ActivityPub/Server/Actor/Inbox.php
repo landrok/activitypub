@@ -11,9 +11,25 @@
 
 namespace ActivityPub\Server\Actor;
 
+use ActivityPub\Server;
+use ActivityPub\Server\Actor;
+
 /**
  * A server-side inbox
  */ 
-class Inbox
+class Inbox extends AbstractBox
 {
+    /**
+     * Inbox constructor
+     * 
+     * @param  \ActivityPub\Server\Actor $actor An actor
+     * @param  \ActivityPub\Server $server
+     */
+    public function __construct(Actor $actor, Server $server)
+    {
+        $server->logger()->info(
+            $actor->getType()->preferredUsername . ':' . __METHOD__
+        );
+        parent::__construct($actor, $server);
+    }
 }

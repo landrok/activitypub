@@ -24,8 +24,8 @@ class SourceValidator implements ValidatorInterface
     /**
      * Validate source value
      * 
-     * @param  object $value
-     * @param  mixed  $container
+     * @param  array|object $value
+     * @param  object       $container
      * @return bool
      */
     public function validate($value, $container)

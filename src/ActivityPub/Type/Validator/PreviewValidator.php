@@ -25,7 +25,7 @@ class PreviewValidator implements ValidatorInterface
     /**
      * Validate a preview value
      * 
-     * @param  object $value
+     * @param  string|array|object $value
      * @param  mixed  $container
      * @return bool
      */

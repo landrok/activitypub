@@ -24,8 +24,8 @@ class ClosedValidator implements ValidatorInterface
     /**
      * Validate an CLOSED attribute value
      * 
-     * @param bool|string|object  $value
-     * @param mixed  $container A Question type
+     * @param bool|string|object|array  $value
+     * @param object $container A Question type
      * @return bool
      */
     public function validate($value, $container)

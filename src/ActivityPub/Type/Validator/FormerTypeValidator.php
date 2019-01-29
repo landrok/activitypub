@@ -24,8 +24,8 @@ class FormerTypeValidator implements ValidatorInterface
     /**
      * Validate a formerType attribute value
      * 
-     * @param string|object $value
-     * @param mixed  $container
+     * @param string|object|array $value
+     * @param object  $container
      * @return bool
      */
     public function validate($value, $container)

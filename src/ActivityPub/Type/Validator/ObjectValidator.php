@@ -26,8 +26,8 @@ class ObjectValidator implements ValidatorInterface
     /**
      * Validate an object value
      * 
-     * @param  object $value
-     * @param  mixed  $container
+     * @param  string|array|object $value
+     * @param  object              $container
      * @return bool
      */
     public function validate($value, $container)

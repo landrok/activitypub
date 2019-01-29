@@ -24,8 +24,8 @@ class GeneratorValidator implements ValidatorInterface
     /**
      * Validate a generator attribute value
      * 
-     * @param string|object $value
-     * @param mixed  $container
+     * @param string|object|array $value
+     * @param object              $container
      * @return bool
      */
     public function validate($value, $container)

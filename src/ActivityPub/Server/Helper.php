@@ -37,11 +37,17 @@ abstract class Helper
     /**
      * Validate HTTP Accept headers
      * 
-     * @param  string $accept
+     * @param  null|string|array $accept
      * @return bool
      */
-    public static function validateAcceptHeader(string $accept)
+    public static function validateAcceptHeader($accept)
     {
-        return in_array($accept, self::$acceptHeaders);
+        if (is_string($accept)) {
+            return in_array($accept, self::$acceptHeaders);
+        } elseif (is_array($accept)) {
+            return count(
+                array_intersect($accept, self::$acceptHeaders)
+            ) > 0;
+        }
     }
 }

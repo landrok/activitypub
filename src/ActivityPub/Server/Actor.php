@@ -29,12 +29,12 @@ class Actor
     protected $server;
 
     /**
-     * @var \ActivityPub\Type\Extended\AsbtractActor
+     * @var \ActivityPub\Type\Extended\AbstractActor
      */
-    protected $actor = [];
+    protected $actor;
 
     /**
-     * @var string Actor's URL
+     * @var null|string Actor's URL
      */
     protected $url;
 
@@ -125,10 +125,9 @@ class Actor
     }
 
     /**
-     * Get an alias by index
+     * Get ActivityStream Actor
      * 
-     * @param  int $index
-     * @return string Alias URL
+     * @return \ActivityPub\Type\Extended\AbstractActor
      */
     public function getType()
     {
