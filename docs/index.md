@@ -397,12 +397,13 @@ A server instance is an entry point of a federation.
 
 Its purpose is to receive, send and forward activities appropriately.
 
+A minimal approach is:
+
 ```php
 use ActivityPub\Server;
 
 $server = new Server();
 ```
-
 
 ### WebFinger
 
@@ -470,7 +471,7 @@ Array
     [subject] => acct:bob@example.org
     [aliases] => Array
         (
-            [0] => http//example.org/users/bob
+            [0] => http://example.org/users/bob
         )
     [links] => Array
         (
@@ -533,7 +534,7 @@ Would output something like:
 ```
 Array
 (
-    [0] => http//example.org/users/bob
+    [0] => http://example.org/users/bob
 )
 ```
 
