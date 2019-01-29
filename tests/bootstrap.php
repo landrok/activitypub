@@ -3,7 +3,7 @@
 
 require dirname(__DIR__, 1) . '/vendor/autoload.php';
 
-$host = 'ap.localhost';
+$host = 'localhost';
 $port = 8000;
 
 // Starts the built-in web server

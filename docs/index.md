@@ -393,6 +393,17 @@ ________________________________________________________________________
 Server
 ------
 
+A server instance is an entry point of a federation.
+
+Its purpose is to receive, send and forward activities appropriately.
+
+```php
+use ActivityPub\Server;
+
+$server = new Server();
+```
+
+
 ### WebFinger
 
 WebFinger is a protocol that allows for discovery of information about
@@ -413,7 +424,7 @@ $webfinger = $server->actor($handle)->webfinger();
 ```
 
 In this implementation, we can use an Object Identifier (URI) instead of
-WebFinger handle.
+a WebFinger handle.
 
 
 ```php
@@ -471,20 +482,17 @@ Array
                 )
         )
 )
-
 ```
 ________________________________________________________________________
 
 ### WebFinger::getSubject()
 
-Get WebFinger resource.
+Get a WebFinger resource.
 
 ```php
-
 echo $webfinger->getSubject();
 
-// Would return 'acct:bob@example.org'
-
+// Would output 'acct:bob@example.org'
 ```
 ________________________________________________________________________
 
@@ -493,24 +501,20 @@ ________________________________________________________________________
 Get ActivityPub object identifier (URI).
 
 ```php
-
 echo $webfinger->getProfileId();
 
-// Would return 'http://example.org/users/bob'
-
+// Would output 'http://example.org/users/bob'
 ```
 ________________________________________________________________________
 
 ### WebFinger::getHandle()
 
-Get profile handle.
+Get a profile handle.
 
 ```php
-
 echo $webfinger->getHandle();
 
-// Would return 'bob@example.org'
-
+// Would output 'bob@example.org'
 ```
 ________________________________________________________________________
 
@@ -519,11 +523,9 @@ ________________________________________________________________________
 Get all aliases entries for this profile.
 
 ```php
-
 print_r(
     $webfinger->getAliases()
 );
-
 ```
 
 Would output something like:
@@ -533,7 +535,6 @@ Array
 (
     [0] => http//example.org/users/bob
 )
-
 ```
 
 ________________________________________________________________________
