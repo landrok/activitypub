@@ -8,12 +8,14 @@ $port = 8000;
 
 // Starts the built-in web server
 $command = sprintf(
-    'php -S %s:%d  %s >/dev/null 2>&1 & echo $!',
+    'php -S %s:%d %s >. 2>&1 & echo $!',
     $host,
     $port,
-    dirname(__DIR__, 1) . '/tests/WebServer/router.php'
+    dirname(__DIR__) . '/tests/WebServer/router.php'
 );
- 
+
+
+sleep(5);
 // Execute the command and store the process ID
 $output = array(); 
 exec($command, $output);
