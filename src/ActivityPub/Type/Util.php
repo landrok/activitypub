@@ -78,7 +78,7 @@ abstract class Util
     {
         return is_string($value)
             && preg_match(
-                '#^magnet:\?xs=(https?)://[a-z0-9\-/\.]{32,128}$#i', 
+                '#^magnet:\?xs=(https?)://[\w\d\-\/\.\&\=\s\:\,\(\)]{32,1024}$#iu', 
                 urldecode($value)
             );
     }
@@ -252,7 +252,8 @@ abstract class Util
         // Validate Object type
         self::hasProperties($item, ['href'], true);
 
-        return self::validateUrl($item->href);
+        return self::validateUrl($item->href)
+            || self::validateMagnet($item->href);
     }
 
     /**

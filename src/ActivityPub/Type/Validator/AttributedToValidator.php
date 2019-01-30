@@ -31,7 +31,7 @@ class AttributedToValidator extends ValidatorTools
         return $this->validateListOrObject(
             $value,
             $container,
-            $this->getLinkOrNamedObjectValidator()
+            $this->getCollectionActorsValidator()
         );
     }
 }

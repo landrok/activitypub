@@ -12,6 +12,7 @@
 namespace ActivityPub\Type;
 
 use ActivityPub\Type\Core\ObjectType;
+use ActivityPub\Type\Extended\AbstractActor;
 use Exception;
 
 /**
@@ -224,6 +225,34 @@ abstract class ValidatorTools implements ValidatorInterface
             }
             
             return Util::hasProperties($item, ['type'], true);
+        };
+    }
+
+    /**
+     * Validate that a list of items are actors
+     *
+     * @return callable
+     */
+    protected function getCollectionActorsValidator()
+    {
+        return function ($item) {
+            if (is_string($item)) {
+                return Util::validateUrl($item);
+            }
+
+            if (is_array($item)) {
+                $item = Util::arrayToType($item);
+            }
+            
+            if (!is_object($item)) {
+                return false;
+            }
+            // id must be filled
+            if ($item instanceof AbstractActor) {
+                return isset($item->id);
+            }
+
+            return Util::validateLink($item);
         };
     }
 }

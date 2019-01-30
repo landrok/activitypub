@@ -182,7 +182,7 @@ class AttributeFormatValidationTest extends TestCase
                                "type" => "Person",
                                "name" => "Sally"
                              ]
-                           ]                                           ], # Set attributedTo with an array of mixed URL and persons
+                           ]                                           ], # Set audience with an array of mixed URL and persons
 ['bcc', Offer::class, [
                         "http://sally.example.org",
                         [
