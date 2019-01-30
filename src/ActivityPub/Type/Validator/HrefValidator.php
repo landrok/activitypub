@@ -33,7 +33,8 @@ class HrefValidator implements ValidatorInterface
         // Validate that container is a Link
         Util::subclassOf($container, Link::class, true);
 
-        // Must be a valid URL
-        return Util::validateUrl($value);
+        // Must be a valid URL or a valid magnet link
+        return Util::validateUrl($value)
+            || Util::validateMagnet($value);
     }
 }

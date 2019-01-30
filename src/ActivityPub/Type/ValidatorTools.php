@@ -211,6 +211,10 @@ abstract class ValidatorTools implements ValidatorInterface
     protected function getCollectionItemsValidator()
     {
         return function ($item) {
+            if (is_string($item)) {
+                return Util::validateUrl($item);
+            }
+
             if (is_array($item)) {
                 $item = Util::arrayToType($item);
             }

@@ -11,9 +11,30 @@
 
 namespace ActivityPub\Type\Validator;
 
+use ActivityPub\Type\ValidatorTools;
+
 /**
  * \ActivityPub\Type\Validator\TagValidator is a dedicated
  * validator for tag attribute.
  */
-class TagValidator extends AttachmentValidator
-{}
+class TagValidator extends ValidatorTools
+{
+    /**
+     * Validate a tag value
+     * 
+     * @param  array $value
+     * @param  mixed  $container An Object type
+     * @return bool
+     */
+    public function validate($value, $container)
+    {
+        if (!count($value)) {
+            return true;
+        }
+
+        return $this->validateObjectCollection(
+            $value,
+            $this->getCollectionItemsValidator()
+        );
+    }
+}

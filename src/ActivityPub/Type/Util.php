@@ -61,7 +61,25 @@ abstract class Util
             && filter_var($value, FILTER_VALIDATE_URL) !== false
             && in_array(
                 parse_url($value, PHP_URL_SCHEME),
-                ['http', 'https']
+                ['http', 'https', 'magnet']
+            );
+    }
+
+    /**
+     * Validate a magnet link
+     * 
+     * @todo Make a better validation as xs is not the only parameter
+     * @see  https://en.wikipedia.org/wiki/Magnet_URI_scheme
+     * 
+     * @param  mixed $value
+     * @return bool
+     */
+    public static function validateMagnet($value)
+    {
+        return is_string($value)
+            && preg_match(
+                '#^magnet:\?xs=(https?)://[a-z0-9\-/\.]{32,128}$#i', 
+                urldecode($value)
             );
     }
 
