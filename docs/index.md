@@ -570,6 +570,26 @@ Array
 ________________________________________________________________________
 
 
+More
+----
+
+- [Contribute on Github](https://github.com/landrok/activitypub)
+
+- To discuss new features, make feedback or simply to share ideas, you 
+  can contact me on Mastodon at
+  [https://cybre.space/@landrok](https://cybre.space/@landrok)
+  
+- [ActivityPub](https://www.w3.org/TR/activitypub/)
+
+- [ActivityStreams 2.0](https://www.w3.org/TR/activitystreams-core/)
+
+- [JSON-LD](https://www.w3.org/TR/json-ld/)
+
+- [WebFinger](https://tools.ietf.org/html/rfc7033)
+
+________________________________________________________________________
+
+
 
 {% capture doc_url %}{{ site.doc_repository_url }}/index.md{% endcapture %}
 {% include edit-doc-link.html %}
