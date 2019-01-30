@@ -11,7 +11,9 @@
 
 namespace ActivityPub\Server;
 
+use ActivityPub\Server\Http\Request as HttpRequest;
 use ActivityPub\Type;
+use ActivityPub\Type\Util;
 use DateInterval;
 use DateTime;
 use Exception;
@@ -31,7 +33,8 @@ abstract class Helper
      */
     protected static $acceptHeaders = [
         'application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
-        'application/activity+json'
+        'application/activity+json',
+        '*/*'
     ];
 
     /**
@@ -49,5 +52,18 @@ abstract class Helper
                 array_intersect($accept, self::$acceptHeaders)
             ) > 0;
         }
+    }
+
+    /**
+     * Fetch JSON content from an URL
+     * 
+     * @param  string $url
+     * @return array
+     */
+    public static function fetch($url)
+    {
+        return Util::decodeJson(
+           (new HttpRequest())->get($url)
+        );
     }
 }
