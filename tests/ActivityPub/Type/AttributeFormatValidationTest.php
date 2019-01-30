@@ -141,12 +141,14 @@ class AttributeFormatValidationTest extends TestCase
 ['attributedTo', Image::class, [
                                   [
                                     "type" => "Person",
-                                    "name" => "Sally"
+                                    "name" => "Sally",
+                                    "id"  => "http://example.org/@sally"
                                   ]
                                 ]                                	   ], # Set attributedTo with an array of persons
 ['attributedTo', Image::class, [
                                   "type" => "Person",
-                                  "name" => "Sally"
+                                  "name" => "Sally",
+                                  "id"  => "http://example.org/@sally"
                                ]                                       ], # Set attributedTo with a single actor
 ['attributedTo', Image::class, [
                                   "type" => "Link",
@@ -156,7 +158,8 @@ class AttributeFormatValidationTest extends TestCase
                                   "http://sally.example.org",
                                   [
                                     "type" => "Person",
-                                    "name" => "Sally"
+                                    "name" => "Sally",
+                                    "id"  => "http://example.org/@sally"
                                   ]
                                ]                                       ], # Set attributedTo with an array of mixed URL and persons
 ['attributedTo', Note::class, 'https://social.example/alyssa/'         ], # Set attributedTo as an URL

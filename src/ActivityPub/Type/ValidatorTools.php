@@ -249,7 +249,7 @@ abstract class ValidatorTools implements ValidatorInterface
             }
             // id must be filled
             if ($item instanceof AbstractActor) {
-                return isset($item->id);
+                return !is_null($item->id);
             }
 
             return Util::validateLink($item);
