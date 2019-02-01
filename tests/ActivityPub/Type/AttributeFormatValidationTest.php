@@ -194,6 +194,7 @@ class AttributeFormatValidationTest extends TestCase
                           "url"  => "http://bob.example.org"
                         ]
                        ]                                               ], # Set bcc with an array of mixed URL and persons
+['bcc', Offer::class, []                                               ], # Set bcc with an empty array
 ['bto', Offer::class, [
                         "http://joe.example.org",
                         [
@@ -202,6 +203,7 @@ class AttributeFormatValidationTest extends TestCase
                           "url"  => "http://bob.example.org"
                         ]
                        ]                                               ], # Set bto with an array of mixed URL and persons
+['bto', Offer::class, []                                                ], # Set bto with an empty array
 ['cc', Offer::class, [
                        "http://sally.example.org",
                        [
@@ -210,6 +212,7 @@ class AttributeFormatValidationTest extends TestCase
                          "url"  => "http://bob.example.org"
                        ]
                       ]                                                ], # Set cc with an array of mixed URL and persons
+['cc', Offer::class, []                                                ], # Set cc with an empty array
 ['closed', Question::class, '2016-05-10T00:00:00Z'                     ], # Set closed as a Datetime
 ['closed', Question::class, true                                       ], # Set closed as a boolean
 ['closed', Question::class, 'http://bob.example.org'                   ], # Set closed as a URL
@@ -619,6 +622,7 @@ class AttributeFormatValidationTest extends TestCase
                           "url"  => "http://bob.example.org"
                        ]
                      ]                                                 ], # Set to with an array of mixed URL and persons
+['to', Offer::class, []                                                ], # Set to with an empty array
 
 ['totalItems', Collection::class, 0                                    ], # Set totalItems as 0
 ['totalItems', Collection::class, 42                                   ], # Set totalItems as 42

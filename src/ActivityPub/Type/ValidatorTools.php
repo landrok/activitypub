@@ -70,6 +70,11 @@ abstract class ValidatorTools implements ValidatorInterface
         }
 
         if (is_array($value)) {
+            // Can be empty
+            if (!count($value)) {
+                return true;
+            }
+
             // A collection
             if (is_int(key($value))) {
                 return $this->validateObjectCollection($value, $callback);

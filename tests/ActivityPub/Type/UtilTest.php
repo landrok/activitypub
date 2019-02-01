@@ -147,4 +147,26 @@ class UtilTest extends TestCase
             Util::hasProperties($item, ['type'])
         );
 	}
+
+    /**
+     * Pass a malformed magnet string
+     */
+    public function testValidateMagnetFailing()
+    {
+        $this->assertEquals(
+            false, 
+            Util::validateMagnet("magnet:?xx=false")
+        );
+	}
+
+    /**
+     * Pass a valid magnet link
+     */
+    public function testValidateMagnet()
+    {
+        $this->assertEquals(
+            true, 
+            Util::validateMagnet("magnet:?xs=https%3A%2F%2Fexample.com%2Fstatic%2Ftorrents%2F3a1234-azerty.torrent&xt=urn:btih:e12f01fb316895&dn=A+dname%5D&tr=wss%3A%2F%2Fexample.com%3A443%2Ftracker%2Fsocket&tr=https%3A%2F%2Fexample.com%2Ftracker%2Fannounce&ws=https%3A%2F%2Fexample.com%2Fstatic%2Fwebseed%2F3af1234-azerty.mp4")
+        );
+	}
 }
