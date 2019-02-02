@@ -78,7 +78,7 @@ abstract class Util
     {
         return is_string($value)
             && preg_match(
-                '#^magnet:\?xs=(https?)://[\w\d\-\/\.\&\=\s\:\,\(\)\\\'\?\[\]]{32,1024}$#iu', 
+                '#^magnet:\?xs=(https?)://[\w\d\s\-\/\\\'\"\?’\.\&\=\:\,\(\)\[\]\|\+\*]{32,1024}$#iu', 
                 urldecode($value)
             );
     }

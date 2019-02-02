@@ -361,6 +361,7 @@ class AttributeFormatValidationTest extends TestCase
 ['inbox', Person::class, new OrderedCollection()                       ], # Set inbox as an OrderedCollection
 ['inbox', Application::class, new OrderedCollectionPage()              ], # Set inbox as an OrderedCollectionPage
 
+['inReplyTo', ObjectType::class, null                                  ], # Set inReplyTo as a NULL value
 ['inReplyTo', ObjectType::class, "http://example.org/collection"       ], # Set inReplyTo as URL
 ['inReplyTo', ObjectType::class, [
                          "type" => "Link",

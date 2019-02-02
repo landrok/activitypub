@@ -37,6 +37,11 @@ class InReplyToValidator implements ValidatorInterface
             true
         );
 
+        // null
+        if (is_null($value)) {
+            return true;
+        }
+
         // URL
         if (is_string($value)) {
             return Util::validateUrl($value);
