@@ -245,7 +245,7 @@ class AttributeFormatValidationTest extends TestCase
 ['current', Collection::class, 'http://example.org/collection'         ], # Set current as a URL
 ['current', OrderedCollection::class, [
                                         "type" => "Link",
-                                        "summary" => "Most Recent Items",
+                                        "name" => "Most Recent Items",
                                         "href" => "http://example.org/collection"
                                        ]                               ], # Set current as Link
 ['current', Collection::class, new CollectionPage()                    ], # Set current as a CollectionPage
@@ -274,7 +274,7 @@ class AttributeFormatValidationTest extends TestCase
 ['first', Collection::class, 'http://example.org/collection?page=0'    ], # Set first as a URL
 ['first', OrderedCollection::class, [
                                       "type" => "Link",
-                                      "summary" => "First Page",
+                                      "name" => "First Page",
                                       "href" => "http://example.org/collection?page=0"
                                      ]                                 ], # Set first as Link
 ['followers', Person::class, 
@@ -402,7 +402,7 @@ class AttributeFormatValidationTest extends TestCase
 ['last', Collection::class, 'http://example.org/collection?page=1'     ], # Set last as a URL
 ['last', OrderedCollection::class, [
                                         "type" => "Link",
-                                        "summary" => "Last page",
+                                        "name" => "Last page",
                                         "href" => "http://example.org/collection?page=1"
                                     ]                                  ], # Set last as Link
 ['last', Collection::class, new CollectionPage()                       ], # Set last as a CollectionPage
@@ -861,7 +861,7 @@ class AttributeFormatValidationTest extends TestCase
 ['current', Collection::class, 'http:/example.org/collection'          ], # Set current as a malformed URL
 ['current', OrderedCollection::class, [
                                         "type" => "Link",
-                                        "summary" => "Most Recent Items"
+                                        "name" => "Most Recent Items"
                                       ]                                ], # Set current as Link (malformed)
 ['current', Collection::class, 42                                      ], # Set current as a bad type value
 
@@ -1358,6 +1358,24 @@ class AttributeFormatValidationTest extends TestCase
 	{
 		$object = new $type();
 		$object->{$attr} = $value;
+        
+        // Cast $value
+        if (is_array($value)) {
+            if (isset($value['type'])) {
+                $value = Type::create($value);
+            } elseif (is_int(key($value))) {
+                $value = array_map(function($value) {
+                        return is_array($value) && isset($value['type'])
+                            ? Type::create($value)
+                            : $value;
+                    },
+                    $value
+                );
+            } else {
+                //$this->{$name} = $value;
+            }
+        }
+
 		$this->assertEquals($value, $object->{$attr});
 	}
 	

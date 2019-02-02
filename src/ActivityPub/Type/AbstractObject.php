@@ -44,7 +44,28 @@ abstract class AbstractObject
         	);
         }
 
-        $this->{$name} = $value;
+        if ($name == '@context') {
+            $this->{$name} = $value;
+        // Deep typing
+        } elseif (is_array($value)) {
+            if (isset($value['type'])) {
+                $this->{$name} = Type::create($value);
+            } elseif (is_int(key($value))) {
+                $this->{$name} = array_map(function($value) {
+                        return is_array($value) && isset($value['type'])
+                            ? Type::create($value)
+                            : $value;
+                    },
+                    $value
+                );
+            // Empty array, array that should not be casted as ActivityStreams types
+            } else {
+                $this->{$name} = $value;
+            }
+        // Scalars 
+        } else {
+            $this->{$name} = $value;
+        }
 
         return $this;
     }
@@ -108,12 +129,35 @@ abstract class AbstractObject
      */
     public function toArray()
     {
-        return array_filter(
+        $keys = array_keys( array_filter(
             get_object_vars($this),
             function($value) {
                 return !is_null($value);
             }
-        );
+        ));
+
+        $stack = [];
+        foreach ($keys as $key) {
+            if ($this->$key instanceof self) {
+                $stack[$key] = $this->$key->toArray();
+            } elseif (!is_array($this->$key)) {
+                $stack[$key] = $this->$key;
+            } elseif (is_array($this->$key)) {
+                if (is_int(key($this->$key))) {
+                    $stack[$key] = array_map(function($value) {
+                            return $value instanceof self
+                                ? $value->toArray()
+                                : $value;
+                        },
+                        $this->$key
+                    );
+                } else {
+                    $stack[$key] = $this->$key;
+                }
+            }
+        }
+
+        return $stack;
     }
 
     /**
