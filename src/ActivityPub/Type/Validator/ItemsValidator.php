@@ -44,6 +44,10 @@ class ItemsValidator extends ValidatorTools
         }
 
         if (is_array($value)) {
+            // Empty array
+            if (!count($value)) {
+                return true;
+            }
             $value = Util::arrayToType($value);
         }
 

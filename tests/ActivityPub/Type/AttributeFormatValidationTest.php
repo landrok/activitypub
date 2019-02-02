@@ -384,6 +384,7 @@ class AttributeFormatValidationTest extends TestCase
                                   ]
                             ]                                          ], # Set instrument as multiple instruments, JSON encoded
 
+['items', Collection::class, []                                        ], # Set items as an empty array
 ['items', Collection::class, $link                                     ], # Set items as a link
 ['items', Collection::class, 'http://example.org/collection'           ], # Set items as a URL
 ['items', Collection::class, [
@@ -474,6 +475,7 @@ class AttributeFormatValidationTest extends TestCase
                               ]
                             ]                                          ], # Set oneOf choices 
 
+['orderedItems', Collection::class, []                                 ], # Set orderedItems as an empty array
 ['orderedItems', OrderedCollection::class, $link                       ], # Set orderedItems as a link
 ['orderedItems', OrderedCollection::class, [
                                 [
@@ -1030,8 +1032,6 @@ class AttributeFormatValidationTest extends TestCase
                              "type" => "Note",
                              "name" => "It\'s a note"
                              ]                                         ], # Set items as a bad type (must be a list)
-['items', Collection::class, []                                        ], # Set items as an empty list (JSON)
-['items', Collection::class, []                                        ], # Set items as an empty list (Array)
 ['items', Collection::class, [[
                              "name" => "It\'s a note"
                             ]]                                         ], # Set items as a malformed list (Item has no type)
@@ -1146,8 +1146,6 @@ class AttributeFormatValidationTest extends TestCase
                              "type" => "Note",
                              "name" => "It's a note"
                             ]                                          ], # Set orderedItems as a bad type (must be a list)
-['orderedItems', OrderedCollection::class, []                          ], # Set orderedItems as an empty list (JSON)
-['orderedItems', OrderedCollection::class, []                          ], # Set orderedItems as an empty list (Array)
 ['orderedItems', OrderedCollection::class, [[
                              "name" => "It's a note"
                             ]]                                         ], # Set orderedItems as a malformed list (Item has no type)
