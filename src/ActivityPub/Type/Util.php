@@ -453,7 +453,7 @@ abstract class Util
     {
         return is_string($value)
             && preg_match(
-                '#^([\w]+)/(([\w\-\.\+]+[\w]+)|(\*))$#',
+                '#^(([\w]+[\w\-]+[\w+])/(([\w]+[\w\-\.\+]+[\w]+)|(\*));?)+$#',
                 $value
         );
     }
