@@ -225,7 +225,9 @@ class AttributeFormatValidationTest extends TestCase
                                "type" => "Link",
                                "href" => "http://bob.example.org"
                              ]                                         ], # Set closed as Link
-['content', Note::class, 'http://bob.example.org'                      ], # Set a content string
+['content', Note::class, 'http://bob.example.org'                      ], # Set content as string
+['content', Note::class, null                                          ], # Set content as null
+['content', Note::class, 'a <b>strong</b> content'                     ], # Set content as HTML string
 ['contentMap', Note::class, [
                                "en"      => "A <em>simple</em> note",
                                "es"      => "Una nota <em>sencilla</em>",

@@ -22,14 +22,14 @@ class ContentValidator implements ValidatorInterface
     /**
      * Validate a content attribute value
      * 
-     * @param string  $value
-     * @param mixed   $container
+     * @param string|null  $value
+     * @param mixed        $container
      * @return bool
      */
     public function validate($value, $container)
     {
-        // Must be a string
-        if (is_string($value)) {
+        // Must be a string or null
+        if (is_null($value) || is_string($value)) {
             return true;
         }
     }
