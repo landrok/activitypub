@@ -8,7 +8,7 @@ excerpt: How to fetch Peertube Outbox activities in PHP.
 Fetch Peertube Outbox activities
 ================================
 
-You may use a server instance without fully-configured.
+You may use a server instance not fully-configured.
 
 For instance, if you want to fetch some public activities, you don't 
 need to have a fully-configured server instance. Indeed, you don't need
@@ -66,7 +66,7 @@ ________________________________________________________________________
 Define Peertube's dialect
 -------------------------
 
-In fact, we will *partially* implement peertube's model.
+We will only *partially* implement peertube's model.
 
 After a step-by-step exceptions analysis, we've collected all attributes
 that are specific.
@@ -134,7 +134,7 @@ class HashTag extends ObjectType
 
 If you need to implement a specific dialect, just have a look at our 
 [ActivityStreams types]({{ site.doc_baseurl }}/activitystreams-types.html).
-Then, you may see which properties are already set:
+Then, you may see which properties are already defined:
 
 ```php
 use ActivityPub\Type;
@@ -207,7 +207,7 @@ Fetch Peertube Outbox activities
 
 Below, a complete script to work with Peertube's objects. It browses all
 outbox pages, collect all activities and display a list of activities
-and videos names.
+and their videos names.
 
 ```php
 use ActivityPub\Type;
@@ -317,9 +317,21 @@ foreach ($pages as $page) {
         );
     }
 }
+```
+
+________________________________________________________________________
+
+Read more
+---------
+
+
+- [Configuring a server instance]({{ site.doc_baseurl }}/activitypub-server-usage.html).
+
+- [How a server instance is working]({{ site.doc_baseurl }}/#server).
+
 
 ________________________________________________________________________
 
 
-{% capture doc_url %}{{ site.doc_repository_url }}/docs/example-fetch-peertube-outbox-activities.md{% endcapture %}
+{% capture doc_url %}{{ site.doc_repository_url }}/example-fetch-peertube-outbox-activities.md{% endcapture %}
 {% include edit-doc-link.html %}
