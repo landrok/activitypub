@@ -11,9 +11,8 @@ $preferredUsername = substr($validAccount, 0, strpos($validAccount, '@'));
 header('Content-Type: application/jrd+json');
 echo json_encode([
         'id'   => 'http://' . $_SERVER['HTTP_HOST'] . '/accounts/' . $preferredUsername,
-        'type' => 'Person',
-        'preferredUsername' => $preferredUsername,
-        'outbox' => 'http://' . $_SERVER['HTTP_HOST'] . '/accounts/' . $preferredUsername . '/outbox',
+        'type' => 'OrderedCollection',
+        'first' => 'http://' . $_SERVER['HTTP_HOST'] . '/accounts/' . $preferredUsername . '/outbox/first',
     ]
     , JSON_PRETTY_PRINT
 );

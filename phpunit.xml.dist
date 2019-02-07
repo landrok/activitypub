@@ -2,7 +2,7 @@
 <phpunit bootstrap="./tests/bootstrap.php" colors="true">
 <testsuites>
   <testsuite name="ActivityPub Test Suite">
-    <directory>./tests/ActivityPub</directory>
+    <directory>./tests/</directory>
   </testsuite>
 </testsuites>
 

@@ -15,6 +15,7 @@ use ActivityPub\Server;
 use ActivityPub\Server\Activity\HandlerInterface;
 use ActivityPub\Server\Actor;
 use ActivityPub\Server\Helper;
+use ActivityPub\Server\Http\Request as HttpRequest;
 use ActivityPub\Type;
 use ActivityPub\Type\Core\AbstractActivity;
 use ActivityPub\Type\Util;
@@ -36,9 +37,57 @@ class Outbox extends AbstractBox
     public function __construct(Actor $actor, Server $server)
     {
         $server->logger()->info(
-            $actor->getType()->preferredUsername . ':' . __METHOD__
+            $actor->get()->preferredUsername . ':' . __METHOD__
         );
         parent::__construct($actor, $server);
+    }
+
+    /**
+     * Get items from an outbox
+     * 
+     * @param  string $page
+     * @return array
+     */
+    public function getPage(string $url)
+    {
+        $this->server->logger()->info(
+            $this->actor->webfinger()->getHandle() . ':' . __METHOD__, 
+            [$url]
+        );
+
+        return Type::create(Helper::fetch($url));
+    }
+
+    /**
+     * Fetch an outbox
+     * 
+     * @return \ActivityPub\Type\Core\OrderedCollection
+     */
+    public function get()
+    {
+        if (!is_null($this->orderedCollection)) {
+            return $this->orderedCollection;
+        }
+
+        $this->server->logger()->info(
+            $this->actor->webfinger()->getHandle() . ':' . __METHOD__
+        );
+
+        $url = $this->actor->get('outbox');
+        
+        if (is_null($url)) {
+            $this->server->logger()->warning(
+                $this->actor->webfinger()->getHandle() 
+                . ': Outbox is not defined'
+            );
+            return;
+        }            
+        
+        $this->orderedCollection = Type::create(
+            Helper::fetch($url)
+        );
+        
+        return $this->orderedCollection;
     }
 
     /**
@@ -76,7 +125,7 @@ class Outbox extends AbstractBox
 
         } catch (Exception $exception) {
             $this->getServer()->logger()->error(
-                $this->actor->getType()->preferredUsername. ':' . __METHOD__, [
+                $this->actor->get()->preferredUsername. ':' . __METHOD__, [
                     $exception->getMessage()
                 ]
             );
@@ -84,15 +133,9 @@ class Outbox extends AbstractBox
             return new Response('', 400);
         }
         
-        
-        
-       //print_r($payload); die;
-
-
-
         // Log
         $this->getServer()->logger()->debug(
-            $this->actor->getType()->preferredUsername. ':' . __METHOD__ . '(starting)', 
+            $this->actor->get()->preferredUsername. ':' . __METHOD__ . '(starting)', 
             $activity->toArray()
         );
 
@@ -136,7 +179,7 @@ class Outbox extends AbstractBox
 
         // Log
         $this->getServer()->logger()->debug(
-            $this->actor->getType()->preferredUsername. ':' . __METHOD__ . '(posted)', 
+            $this->actor->get()->preferredUsername. ':' . __METHOD__ . '(posted)', 
             $activity->toArray()
         );
 

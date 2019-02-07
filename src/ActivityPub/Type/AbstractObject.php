@@ -41,6 +41,7 @@ abstract class AbstractObject
         	throw new Exception(
                 "Rejected value. Attribute={$name}, value="
                 . print_r($value, true)
+                . PHP_EOL
         	);
         }
 

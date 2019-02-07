@@ -24,8 +24,8 @@ class UrlValidator implements ValidatorInterface
     /**
      * Validate url value
      * 
-     * @param string|array $value
-     * @param mixed  $container A Link
+     * @param  string|array $value
+     * @param  mixed  $container A Link
      * @return bool
      */
     public function validate($value, $container)

@@ -77,8 +77,9 @@ abstract class Util
     public static function validateMagnet($value)
     {
         return is_string($value)
+            && strlen($value) < 262144
             && preg_match(
-                '#^magnet:\?xs=(https?)://[\w\d\s\-\/\\\'\"\?’\.\&\=\:\,\(\)\[\]\|\+\*]{32,1024}$#iu', 
+                '#^magnet:\?xs=(https?)://.*$#iu', 
                 urldecode($value)
             );
     }

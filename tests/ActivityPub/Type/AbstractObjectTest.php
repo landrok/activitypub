@@ -131,6 +131,7 @@ class AbstractObjectTest extends TestCase
         $expected = [
             'type' => 'MyCustomType',
             'customFreeProperty' => 'Free value',
+            'streams' => [],
         ];
 
         $this->assertEquals(

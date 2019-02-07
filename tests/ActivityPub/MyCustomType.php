@@ -2,9 +2,9 @@
 
 namespace ActivityPubTest;
 
-use ActivityPub\Type\Core\ObjectType;
+use ActivityPub\Type\Extended\Actor\Person;
 
-class MyCustomType extends ObjectType
+class MyCustomType extends Person
 {
     /**
      * A custom property

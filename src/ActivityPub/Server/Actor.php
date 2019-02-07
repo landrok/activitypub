@@ -127,11 +127,18 @@ class Actor
     /**
      * Get ActivityStream Actor
      * 
+     * @param  null|string $property
      * @return \ActivityPub\Type\Extended\AbstractActor
+     *       | string
+     *       | array
      */
-    public function getType()
+    public function get($property = null)
     {
-        return $this->actor;
+        if (is_null($property)) {
+            return $this->actor;
+        }
+
+        return $this->actor->get($property);
     }
 
     /**

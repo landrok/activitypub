@@ -23,14 +23,26 @@ use Exception;
 abstract class AbstractBox
 {
     /**
+     * Maximum items to returns while fetching data
+     */
+    const MAX_ITEMS = 100;
+
+    /**
      * @var \ActivityPub\Server
      */
-    private $server;
+    protected $server;
 
     /**
      * @var \ActivityPub\Server\Actor
      */
     protected $actor;
+
+    /**
+     * A box definition
+     *
+     * @var \ActivityPub\Type\Core\OrderedCollection
+     */
+    protected $orderedCollection;
 
     /**
      * Box constructor
@@ -114,7 +126,7 @@ abstract class AbstractBox
             . $this->config('instance.hostname')
             . preg_replace(
                 ['/<handle>/', '/<id>/'],
-                [$this->actor->getType()->preferredUsername, 'new-id'],
+                [$this->actor->get()->preferredUsername, 'new-id'],
                 $this->config('instance.notePath')
         );
 
@@ -125,7 +137,7 @@ abstract class AbstractBox
             . $this->config('instance.hostname')
             . preg_replace(
                 ['/<handle>/', '/<id>/'],
-                [$this->actor->getType()->preferredUsername, 'new-id'],
+                [$this->actor->get()->preferredUsername, 'new-id'],
                 $this->config('instance.activityPath')
         );
 
@@ -148,7 +160,7 @@ abstract class AbstractBox
             . $this->config('instance.hostname')
             . preg_replace(
                 ['/<handle>/'],
-                [$this->actor->getType()->preferredUsername],
+                [$this->actor->get()->preferredUsername],
                 $this->config('instance.actorPath')
             );
     }
