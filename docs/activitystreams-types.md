@@ -5,6 +5,9 @@ title: ActivityStreams 2.0 types in PHP
 excerpt: Usage of ActivityStreams 2.0 types in PHP.
 ---
 
+ActivityStreams types
+=====================
+
 ActivityStreams 2.0 defines a standardized collection of objects called
 Vocabulary.
 
@@ -24,6 +27,8 @@ ________________________________________________________________________
     - [Actor Types]({{ site.doc_baseurl }}/activitystreams-types.html#actor-types)
     - [Activity Types]({{ site.doc_baseurl }}/activitystreams-types.html#activity-types)
     - [Object Types]({{ site.doc_baseurl }}/activitystreams-types.html#object-types)
+- [Custom types]({{ site.doc_baseurl }}/activitystreams-types.html#custom-types)
+- [Real world examples]({{ site.doc_baseurl }}/activitystreams-types.html#real-world-examples)
 
 ________________________________________________________________________
 
@@ -226,6 +231,17 @@ If you would like to create custom types, you may extend existing types.
 
 An example is given in 
 [this part of the manual]({{ site.doc_baseurl }}#use-your-own-extended-types).
+
+________________________________________________________________________
+
+Real world examples
+-------------------
+
+These examples are illustrating how to easily use implemented types to 
+customize your models.
+
+- [Fetch Peertube Outbox activities]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities.html)
+
 
 ________________________________________________________________________
 

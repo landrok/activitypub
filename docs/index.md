@@ -49,6 +49,7 @@ Basics
     - [WebFinger::getHandle()]({{ site.doc_baseurl }}/#webfingergethandle)
     - [WebFinger::getAliases()]({{ site.doc_baseurl }}/#webfingergetaliases)
     - [WebFinger::getLinks()]({{ site.doc_baseurl }}/#webfingergetlinks)
+    - [Examples]({{ site.doc_baseurl }}/#server-examples)
 
 ________________________________________________________________________
 
@@ -405,6 +406,10 @@ use ActivityPub\Server;
 $server = new Server();
 ```
 
+It's sufficient to make [some public requests]](#server-examples).
+
+
+
 ### WebFinger
 
 WebFinger is a protocol that allows for discovery of information about
@@ -566,6 +571,14 @@ Array
 )
 
 ```
+
+________________________________________________________________________
+
+
+Server examples
+---------------
+
+- [Fetch Peertube Outbox activities]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities.html)
 
 ________________________________________________________________________
 
