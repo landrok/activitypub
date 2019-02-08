@@ -23,12 +23,16 @@ class NameValidator implements ValidatorInterface
     /**
      * Validate a name attribute value
      * 
-     * @param string  $value
+     * @param null|string  $value
      * @param mixed   $container
      * @return bool
      */
     public function validate($value, $container)
     {
+        if (is_null($value)) {
+            return true;
+        }
+
         return Util::validatePlainText($value);
     }
 }
