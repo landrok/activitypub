@@ -60,9 +60,18 @@ abstract class Type
             }
         }
 
-        $class = is_array($type)
-            ? TypeResolver::getClass($type['type'])
-            : TypeResolver::getClass($type);
+        try {
+            
+            $class = is_array($type)
+                ? TypeResolver::getClass($type['type'])
+                : TypeResolver::getClass($type);
+
+        } catch(Exception $e) {
+            $message = json_encode($attributes, JSON_PRETTY_PRINT);
+            throw new Exception(
+                $e->getMessage() . "\n$message"
+            );
+        }
 
         if (is_string($class)) {
             $class = new $class();
