@@ -38,7 +38,7 @@ class WebFingerFactory
     public static function get(string $handle, string $scheme = 'https')
     {
         if (!preg_match(
-                '/(?P<user>[\w\-]+)@(?P<host>[\w\.\-]+)(?P<port>:[\d]+)?$/',
+                '/^@?(?P<user>[\w\-]+)@(?P<host>[\w\.\-]+)(?P<port>:[\d]+)?$/',
                 $handle,
                 $matches
             )
@@ -47,6 +47,10 @@ class WebFingerFactory
                 "WebFinger handle is malformed '{$handle}'"
             );
         }
+
+        // Unformat Mastodon handle @user@host => user@host
+        $handle = strpos($handle, '@') === 0
+            ? substr($handle, 1) : $handle;
 
         // Build a WebFinger URL
         $url = sprintf(

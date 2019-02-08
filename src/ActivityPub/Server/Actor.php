@@ -80,7 +80,7 @@ class Actor
     private function isHandle(string $handle)
     {
         return (bool)preg_match(
-            '/(?P<user>[\w\-]+)@(?P<host>[\w\.\-]+)(?P<port>:[\d]+)?$/',
+            '/^@?(?P<user>[\w\-]+)@(?P<host>[\w\.\-]+)(?P<port>:[\d]+)?$/',
             $handle
         );
     }
