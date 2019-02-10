@@ -36,6 +36,11 @@ class Configuration
     protected $logger;
 
     /**
+     * @var null|\ActivityPub\Server\Configuration\CacheConfiguration
+     */
+    protected $cache;
+
+    /**
      * Dispatch configuration parameters
      * 
      * @param array $params
@@ -64,7 +69,7 @@ class Configuration
         }
         
         // Create default configuration for each component
-        foreach (['http', 'logger', 'instance'] as $config) {
+        foreach (['cache', 'logger', 'instance'] as $config) {
             if (is_null($this->$config)) {
                 $handler = sprintf(
                     self::CONFIG_NS_PATTERN, ucfirst($config)

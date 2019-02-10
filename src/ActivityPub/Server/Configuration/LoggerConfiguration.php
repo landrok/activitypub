@@ -48,7 +48,7 @@ class LoggerConfiguration extends AbstractConfiguration
     /**
      * Create logger instance
      * 
-     * @return \Psr\Log\NullLogger
+     * @return \Psr\Log\LoggerInterface
      */
     public function createLogger()
     {

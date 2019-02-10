@@ -11,6 +11,7 @@
 
 namespace ActivityPub\Server\Http;
 
+use ActivityPub\Server\CacheHelper;
 use Exception;
 use GuzzleHttp\Client;
 
@@ -85,6 +86,14 @@ class Request
      */
     public function get(string $url)
     {
-        return $this->client->get($url)->getBody()->getContents();
+        if (CacheHelper::has($url)) {
+            return CacheHelper::get($url);
+        }
+
+        $content = $this->client->get($url)->getBody()->getContents();
+
+        CacheHelper::set($url, $content);
+
+        return $content;
     }
 }

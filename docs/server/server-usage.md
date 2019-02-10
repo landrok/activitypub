@@ -38,6 +38,7 @@ use ActivityPub\Server;
 $server = new Server([
     'logger'   => [],
     'instance' => [],
+    'cache'    => [],
 ]);
 ```
 
@@ -141,6 +142,67 @@ $server = new Server([
 ```
 
 For security purpose, the default value is `false`.
+
+________________________________________________________________________
+
+
+### Cache parameters
+
+
+**type**
+
+The default type of cache is `filesystem`. Cache is actived by default.
+
+
+**enabled**
+
+You can disable caching objects with `enabled` parameter.
+
+```php
+use ActivityPub\Server;
+
+$server = new Server([
+    'cache'   => [
+        'enabled' => false
+    ],
+]);
+```
+
+**stream**
+
+By default, it stores cache files in the common working directory (See
+[PHP getcwd() manual](http://php.net/manual/en/function.getcwd.php)). 
+
+You can customize where cache files are stored with the `stream` 
+parameter.
+
+
+```php
+use ActivityPub\Server;
+
+$server = new Server([
+    'cache'   => [
+        'stream' => '/mycustom/directory'    
+    ],
+]);
+```
+
+**ttl**
+
+The Time To Live (TTL) of an item is the amount of time in seconds 
+between when that item is stored and it is considered stale.
+
+The default value is 3600.
+
+```php
+use ActivityPub\Server;
+
+$server = new Server([
+    'cache'   => [
+        'ttl' => 60 // Set to 60 seconds  
+    ],
+]);
+```
 
 ________________________________________________________________________
 

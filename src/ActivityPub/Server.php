@@ -14,6 +14,7 @@ namespace ActivityPub;
 use ActivityPub\Server\Actor;
 use ActivityPub\Server\Actor\Inbox;
 use ActivityPub\Server\Actor\Outbox;
+use ActivityPub\Server\CacheHelper;
 use ActivityPub\Server\Configuration;
 use Exception;
 
@@ -56,6 +57,9 @@ class Server
     {
         $this->configuration = new Configuration($config);
         $this->logger = $this->config('logger')->createLogger();
+        CacheHelper::setPool(
+            $this->config('cache')
+        );
     }
 
     /**
@@ -66,6 +70,16 @@ class Server
     public function logger()
     {
         return $this->logger;
+    }
+
+    /**
+     * Get cache instance
+     * 
+     * @return null|\Psr\Cache\CacheItemPoolInterface
+     */
+    public function cache()
+    {
+        return $this->cache;
     }
 
     /**
