@@ -83,15 +83,17 @@ abstract class CacheHelper
      */
     public static function has(string $key)
     {
-        return self::$pool->has(
-            self::key($key)
-        );
+        if (!is_null(self::$pool)) {
+            return self::$pool->has(
+                self::key($key)
+            );
+        }
     }
 
     /**
      * Normalize hash keys
      * 
-     * @param string $value
+     * @param  string $value
      * @return string
      */
     private static function key(string $value)

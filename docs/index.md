@@ -394,11 +394,11 @@ ________________________________________________________________________
 Server
 ------
 
-A server instance is an entry point of a federation.
+A server instance is the entry point to a federation.
 
 Its purpose is to receive, send and forward activities appropriately.
 
-A minimal approach is:
+A minimalistic approach is:
 
 ```php
 use ActivityPub\Server;
@@ -408,7 +408,7 @@ $server = new Server();
 
 It's sufficient to make [some public requests]](#server-examples).
 
-
+For more advanced server configurations, Have a look at [Server Manual]({{ site.doc_baseurl }}/activitypub-server-usage.html).
 
 ### WebFinger
 

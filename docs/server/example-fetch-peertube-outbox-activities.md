@@ -8,11 +8,12 @@ excerpt: How to fetch Peertube Outbox activities in PHP.
 Fetch Peertube Outbox activities
 ================================
 
-You may use a server instance without fully-configured.
+For some usages, ou may use an instance without having to configure 
+many items.
 
 For instance, if you want to fetch some public activities, you don't 
 need to have a fully-configured server instance. Indeed, you don't need
-any configuration.
+any configuration at all.
 
 
 Fetch an Outbox
