@@ -8,6 +8,8 @@ excerpt: How to use an ActivityPub server in PHP.
 ActivityPub Server - Usage
 ==========================
 
+*Server features are still a WIP.*
+
 Usage
 -----
 
@@ -70,9 +72,9 @@ instance), you may pass a custom logger driver. As it implements
 By default, the driver is [Monolog\Logger](https://github.com/Seldaek/monolog).
 
 
-** stream **
+**stream**
 
-The default output for logging message is 'php://stdout'.
+The default output for logging message is `php://stdout`.
 You can pass a filename where logs will be put.
 
 ```php
@@ -87,9 +89,9 @@ $server = new Server([
 ```
 
 
-** channel **
+**channel**
 
-The default channel is 'global'. in order to customize, you can pass a
+The default channel is `global`. in order to customize, you can pass a
 channel parameter.
 
 ```php

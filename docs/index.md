@@ -42,6 +42,7 @@ Basics
     - [Use your own extended types]({{ site.doc_baseurl }}/#use-your-own-extended-types)
     - [Create your own property validator]({{ site.doc_baseurl }}/#create-your-own-property-validator)
 - [Server](#server)
+    - WIP [Configuring a server instance]({{ site.doc_baseurl }}/activitypub-server-usage.html).
     - [WebFinger]({{ site.doc_baseurl }}/#webfinger)
     - [WebFinger::toArray()]({{ site.doc_baseurl }}/#webfingertoarray)
     - [WebFinger::getSubject()]({{ site.doc_baseurl }}/#webfingergetsubject)
@@ -406,9 +407,14 @@ use ActivityPub\Server;
 $server = new Server();
 ```
 
+<<<<<<< HEAD
 It's sufficient to make [some public requests]](#server-examples).
 
 For more advanced server configurations, Have a look at [Server Manual]({{ site.doc_baseurl }}/activitypub-server-usage.html).
+=======
+It's sufficient to make [some public requests](#server-examples).
+
+>>>>>>> cd51c8fbf433110508a5f70dfc32c2e93e5d7576
 
 ### WebFinger
 
