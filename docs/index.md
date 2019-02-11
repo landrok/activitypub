@@ -407,14 +407,9 @@ use ActivityPub\Server;
 $server = new Server();
 ```
 
-<<<<<<< HEAD
 It's sufficient to make [some public requests]](#server-examples).
 
 For more advanced server configurations, Have a look at [Server Manual]({{ site.doc_baseurl }}/activitypub-server-usage.html).
-=======
-It's sufficient to make [some public requests](#server-examples).
-
->>>>>>> cd51c8fbf433110508a5f70dfc32c2e93e5d7576
 
 ### WebFinger
 
