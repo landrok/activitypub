@@ -12,9 +12,8 @@
 namespace ActivityPub\Server;
 
 use ActivityPub\Server;
-use ActivityPub\Server\Http\Request;
+use ActivityPub\Server\Actor\ActorFactory;
 use ActivityPub\Server\Http\WebFingerFactory as WebFinger;
-use ActivityPub\Type;
 use ActivityPub\Type\Util;
 use Exception;
 
@@ -34,11 +33,6 @@ class Actor
     protected $actor;
 
     /**
-     * @var null|string Actor's URL
-     */
-    protected $url;
-
-    /**
      * Construct Actor instance based upon a WebFinger discovery if
      * an handle-like is provided. Otherwise, it checks an ActivityPub
      * profile id if it's an URL.
@@ -49,6 +43,7 @@ class Actor
     public function __construct(string $handle, Server $server)
     {
         $this->server = $server;
+        $url = null;
 
         // Is a valid handle?
         if ($this->isHandle($handle)) {
@@ -56,19 +51,19 @@ class Actor
             $scheme = $this->server->config('instance.debug')
                 ? 'http' : 'https';
             $webfinger = WebFinger::get($handle, $scheme);
-            $this->url = $webfinger->getProfileId();
+            $url = $webfinger->getProfileId();
         // Is an id?
         } elseif (Util::validateUrl($handle)) {
-            $this->url = $handle;
+            $url = $handle;
         }
 
-        if (is_null($this->url)) {
+        if (is_null($url)) {
             throw new Exception(
                 "Invalid Actor handle: " . print_r($handle, true)
             );
         }
 
-        $this->make();
+        $this->createActor($url);
     }
 
     /**
@@ -88,40 +83,12 @@ class Actor
     /**
      * Build a profile
      *
-     * @throw \Exception if there is a problem wihle fetching profile or 
-     *  if provided profile is malformed
+     * @param string $url A profile id
      */
-    private function make()
+    private function createActor(string $url)
     {
-        $content = json_decode(
-            (new Request())->get($this->url),
-            true
-        );
-
-        if (!is_array($content)
-            || !count($content)
-            || !isset($content['type'])
-        ) {
-            throw new Exception('Actor fetching failed');
-        }
-
-        $this->actor = Type::create($content['type'], $content);
-
-        // @todo check AbstractActor type
-
-        // An actor must have a set of properties to be a valid
-        // ActivityPub profile
-        foreach (['id', 'preferredUsername'] as $property) {
-            if ($this->actor->has($property)
-                && !is_null($this->actor->$property)
-            ) {
-                continue;
-            }
-
-            throw new Exception(
-                "Actor MUST have a '$property' property."
-            );
-        }
+        ActorFactory::setServer($this->server);
+        $this->actor = ActorFactory::create($url);
     }
 
     /**
