@@ -2,7 +2,7 @@
 
 /*
  * This script emulates a WebFinger response.
- * It returns expected responses from an ActivityPub peer.
+ * It returns expected responses from an ActivityPhp peer.
  */
 
 if (!isset($_SERVER['QUERY_STRING'])) {

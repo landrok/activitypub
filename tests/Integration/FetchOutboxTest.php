@@ -1,11 +1,11 @@
 <?php
 
-namespace ActivityPubTest\Server;
+namespace ActivityPhpTest\Server;
 
-use ActivityPub\Server;
-use ActivityPub\Server\Actor\AbstractBox;
-use ActivityPub\Type\Core\OrderedCollection;
-use ActivityPub\Type\Core\OrderedCollectionPage;
+use ActivityPhp\Server;
+use ActivityPhp\Server\Actor\AbstractBox;
+use ActivityPhp\Type\Core\OrderedCollection;
+use ActivityPhp\Type\Core\OrderedCollectionPage;
 use PHPUnit\Framework\TestCase;
 
 class FetchOutboxTest extends TestCase

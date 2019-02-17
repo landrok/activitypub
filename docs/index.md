@@ -77,7 +77,7 @@ Types
 You can instanciate ActivityStreams types using their short name.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $link = Type::create('Link');
 $note = Type::create('Note');
@@ -88,7 +88,7 @@ Instanciating a type and setting properties is possible with the second
 parameter.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note', [
     'content' => 'A content for my note'
@@ -100,7 +100,7 @@ Starting from an array with a 'type' key, it's even possible to directly
 instanciate your type.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $array = [
     'type'    => 'Note',
@@ -119,7 +119,7 @@ Whatever be your object or link, you can get all properties names with
 `getProperties()` method.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $link = Type::create('Link');
 
@@ -153,7 +153,7 @@ In order to dump all properties and associated values, use `toArray()`
 method.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $link = Type::create('Link');
 $link->setName('An example');
@@ -182,7 +182,7 @@ ________________________________________________________________________
 There are 3 equivalent ways to get a value.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note');
 
@@ -199,7 +199,7 @@ ________________________________________________________________________
 There are 3 equivalent ways to set a value.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note');
 
@@ -222,7 +222,7 @@ With __Type factory__, you can instanciate a type and set several
 properties.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note', [
     'id'   => 'https://example.com/custom-notes/1',
@@ -236,7 +236,7 @@ ________________________________________________________________________
 ### Check if property exists
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note');
 
@@ -254,7 +254,7 @@ original type.
 
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note', ['name' => 'Original name']);
 
@@ -273,7 +273,7 @@ ________________________________________________________________________
 All core and extended types can be used with a classic instanciation.
 
 ```php
-use ActivityPub\Type\Extended\Object\Note;
+use ActivityPhp\Type\Extended\Object\Note;
 
 $note = new Note();
 ```
@@ -281,7 +281,7 @@ $note = new Note();
 Same way with the Type factory:
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note');
 ```
@@ -296,7 +296,7 @@ If you need some custom attributes, you can extend predefined types.
 - Define your custom type:
 
 ```php
-use ActivityPub\Type\Extended\Object\Note;
+use ActivityPhp\Type\Extended\Object\Note;
 
 class MyNote extends Note
 {
@@ -323,7 +323,7 @@ echo $note->getMyProperty(); // Custom Value
 - With the Type factory: 
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('MyNote', [
     'id' => 'https://example.com/custom-notes/1',
@@ -350,8 +350,8 @@ You can easily cope with that implementing a custom validator using
 `Validator`.
 
 ```php
-use ActivityPub\Type\ValidatorInterface;
-use ActivityPub\Type\Validator;
+use ActivityPhp\Type\ValidatorInterface;
+use ActivityPhp\Type\Validator;
 
 // Create a custom validator that implements ValidatorInterface
 class MyPropertyValidator implements ValidatorInterface
@@ -377,7 +377,7 @@ $note->myProperty = 'Custom Value';
 An equivalent way is to use Type factory and `addValidator()` method:
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 // Attach this custom validator to a property
 Type::addValidator('myProperty', MyPropertyValidator::class);
@@ -402,7 +402,7 @@ Its purpose is to receive, send and forward activities appropriately.
 A minimalistic approach is:
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server();
 ```
@@ -420,7 +420,7 @@ Given a handle, ActivityPub instances can discover profiles using this
 protocol.
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server();
 
@@ -435,7 +435,7 @@ a WebFinger handle.
 
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server();
 
@@ -451,7 +451,7 @@ ________________________________________________________________________
 Get all WebFinger data as an array.
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server();
 

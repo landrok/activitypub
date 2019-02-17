@@ -14,7 +14,7 @@ Usage
 -----
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 // Create a server instance
 $server = new Server();
@@ -34,7 +34,7 @@ Server parameters
 A server instance can receive an array as first parameter.
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 // Create a server instance with parameters
 $server = new Server([
@@ -55,7 +55,7 @@ Sometimes, for testing purpose, it may be suitable to block log output.
 **driver**
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 // Create a server instance with no log output
 $server = new Server([
@@ -78,7 +78,7 @@ The default output for logging message is `php://stdout`.
 You can pass a filename where logs will be put.
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 // Put logs into a specific file
 $server = new Server([
@@ -95,7 +95,7 @@ The default channel is `global`. in order to customize, you can pass a
 channel parameter.
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 // Put logs with a specific channel
 $server = new Server([
@@ -119,7 +119,7 @@ The default hostname is `localhost`. If you want to be reachable from
 a network you may pass a custom hostname.
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server([
     'instance'   => [
@@ -134,7 +134,7 @@ For testing purpose, you may use HTTP scheme instead of HTTPS.
 The debug parameter is made for that.
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server([
     'instance'   => [
@@ -161,7 +161,7 @@ The default type of cache is `filesystem`. Cache is actived by default.
 You can disable caching objects with `enabled` parameter.
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server([
     'cache'   => [
@@ -180,7 +180,7 @@ parameter.
 
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server([
     'cache'   => [
@@ -197,7 +197,7 @@ between when that item is stored and it is considered stale.
 The default value is 3600.
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server([
     'cache'   => [

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This script emulates an ActivityPub response to a profile request.
+ * This script emulates an ActivityPhp response to a profile request.
  * It returns a malformed profile.
  */
 

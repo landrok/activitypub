@@ -1,8 +1,8 @@
 <?php
 
 /*
- * This script emulates an ActivityPub response to a profile request.
- * It returns expected responses from an ActivityPub peer.
+ * This script emulates an ActivityPhp response to a profile request.
+ * It returns expected responses from an ActivityPhp peer.
  */
 
 $validAccount = 'bob@' . $_SERVER['HTTP_HOST'];

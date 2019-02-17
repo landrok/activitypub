@@ -1,11 +1,11 @@
-ActivityPub
+ActivityPhp
 ===========
 
 [![Build Status](https://travis-ci.org/landrok/activitypub.svg?branch=master)](https://travis-ci.org/landrok/activitypub)
 [![Maintainability](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/maintainability)](https://codeclimate.com/github/landrok/activitypub/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/test_coverage)](https://codeclimate.com/github/landrok/activitypub/test_coverage)
 
-ActivityPub is an implementation of ActivityPub layers in PHP.
+ActivityPhp is an implementation of ActivityPub layers in PHP.
 
 It provides two layers:
 
@@ -74,14 +74,14 @@ ActivityStreams Core Types
 All core types are provided:
 
 ```php
-use ActivityPub\Type\Core\Activity;
-use ActivityPub\Type\Core\Collection;
-use ActivityPub\Type\Core\CollectionPage;
-use ActivityPub\Type\Core\IntransitiveActivity;
-use ActivityPub\Type\Core\Link;
-use ActivityPub\Type\Core\ObjectType;
-use ActivityPub\Type\Core\OrderedCollection;
-use ActivityPub\Type\Core\OrderedCollectionPage;
+use ActivityPhp\Type\Core\Activity;
+use ActivityPhp\Type\Core\Collection;
+use ActivityPhp\Type\Core\CollectionPage;
+use ActivityPhp\Type\Core\IntransitiveActivity;
+use ActivityPhp\Type\Core\Link;
+use ActivityPhp\Type\Core\ObjectType;
+use ActivityPhp\Type\Core\OrderedCollection;
+use ActivityPhp\Type\Core\OrderedCollectionPage;
 ```
 
 ________________________________________________________________________
@@ -94,62 +94,62 @@ All extended types are provided:
 ### Actor types
 
 ```php
-use ActivityPub\Type\Extended\Actor\Application;
-use ActivityPub\Type\Extended\Actor\Group;
-use ActivityPub\Type\Extended\Actor\Organization;
-use ActivityPub\Type\Extended\Actor\Person;
-use ActivityPub\Type\Extended\Actor\Service;
+use ActivityPhp\Type\Extended\Actor\Application;
+use ActivityPhp\Type\Extended\Actor\Group;
+use ActivityPhp\Type\Extended\Actor\Organization;
+use ActivityPhp\Type\Extended\Actor\Person;
+use ActivityPhp\Type\Extended\Actor\Service;
 ```
 
 ### Activity types
 
 ```php
-use ActivityPub\Type\Extended\Activity\Accept;
-use ActivityPub\Type\Extended\Activity\Add;
-use ActivityPub\Type\Extended\Activity\Announce;
-use ActivityPub\Type\Extended\Activity\Arrive;
-use ActivityPub\Type\Extended\Activity\Block;
-use ActivityPub\Type\Extended\Activity\Create;
-use ActivityPub\Type\Extended\Activity\Delete;
-use ActivityPub\Type\Extended\Activity\Dislike;
-use ActivityPub\Type\Extended\Activity\Flag;
-use ActivityPub\Type\Extended\Activity\Follow;
-use ActivityPub\Type\Extended\Activity\Ignore;
-use ActivityPub\Type\Extended\Activity\Invite;
-use ActivityPub\Type\Extended\Activity\Join;
-use ActivityPub\Type\Extended\Activity\Leave;
-use ActivityPub\Type\Extended\Activity\Like;
-use ActivityPub\Type\Extended\Activity\Listen;
-use ActivityPub\Type\Extended\Activity\Move;
-use ActivityPub\Type\Extended\Activity\Offer;
-use ActivityPub\Type\Extended\Activity\Question;
-use ActivityPub\Type\Extended\Activity\Read;
-use ActivityPub\Type\Extended\Activity\Reject;
-use ActivityPub\Type\Extended\Activity\Remove;
-use ActivityPub\Type\Extended\Activity\TentativeAccept;
-use ActivityPub\Type\Extended\Activity\TentativeReject;
-use ActivityPub\Type\Extended\Activity\Travel;
-use ActivityPub\Type\Extended\Activity\Undo;
-use ActivityPub\Type\Extended\Activity\Update;
-use ActivityPub\Type\Extended\Activity\View;
+use ActivityPhp\Type\Extended\Activity\Accept;
+use ActivityPhp\Type\Extended\Activity\Add;
+use ActivityPhp\Type\Extended\Activity\Announce;
+use ActivityPhp\Type\Extended\Activity\Arrive;
+use ActivityPhp\Type\Extended\Activity\Block;
+use ActivityPhp\Type\Extended\Activity\Create;
+use ActivityPhp\Type\Extended\Activity\Delete;
+use ActivityPhp\Type\Extended\Activity\Dislike;
+use ActivityPhp\Type\Extended\Activity\Flag;
+use ActivityPhp\Type\Extended\Activity\Follow;
+use ActivityPhp\Type\Extended\Activity\Ignore;
+use ActivityPhp\Type\Extended\Activity\Invite;
+use ActivityPhp\Type\Extended\Activity\Join;
+use ActivityPhp\Type\Extended\Activity\Leave;
+use ActivityPhp\Type\Extended\Activity\Like;
+use ActivityPhp\Type\Extended\Activity\Listen;
+use ActivityPhp\Type\Extended\Activity\Move;
+use ActivityPhp\Type\Extended\Activity\Offer;
+use ActivityPhp\Type\Extended\Activity\Question;
+use ActivityPhp\Type\Extended\Activity\Read;
+use ActivityPhp\Type\Extended\Activity\Reject;
+use ActivityPhp\Type\Extended\Activity\Remove;
+use ActivityPhp\Type\Extended\Activity\TentativeAccept;
+use ActivityPhp\Type\Extended\Activity\TentativeReject;
+use ActivityPhp\Type\Extended\Activity\Travel;
+use ActivityPhp\Type\Extended\Activity\Undo;
+use ActivityPhp\Type\Extended\Activity\Update;
+use ActivityPhp\Type\Extended\Activity\View;
 ```
 
 ### Object types
 
 ```php
-use ActivityPub\Type\Extended\Object\Article;
-use ActivityPub\Type\Extended\Object\Audio;
-use ActivityPub\Type\Extended\Object\Document;
-use ActivityPub\Type\Extended\Object\Event;
-use ActivityPub\Type\Extended\Object\Image;
-use ActivityPub\Type\Extended\Object\Mention;
-use ActivityPub\Type\Extended\Object\Note;
-use ActivityPub\Type\Extended\Object\Page;
-use ActivityPub\Type\Extended\Object\Place;
-use ActivityPub\Type\Extended\Object\Profile;
-use ActivityPub\Type\Extended\Object\Relationship;
-use ActivityPub\Type\Extended\Object\Tombstone;
-use ActivityPub\Type\Extended\Object\Video;
+use ActivityPhp\Type\Extended\Object\Article;
+use ActivityPhp\Type\Extended\Object\Audio;
+use ActivityPhp\Type\Extended\Object\Document;
+use ActivityPhp\Type\Extended\Object\Event;
+use ActivityPhp\Type\Extended\Object\Image;
+use ActivityPhp\Type\Extended\Object\Mention;
+use ActivityPhp\Type\Extended\Object\Note;
+use ActivityPhp\Type\Extended\Object\Page;
+use ActivityPhp\Type\Extended\Object\Place;
+use ActivityPhp\Type\Extended\Object\Profile;
+use ActivityPhp\Type\Extended\Object\Relationship;
+use ActivityPhp\Type\Extended\Object\Tombstone;
+use ActivityPhp\Type\Extended\Object\Video;
 ```
 
 ________________________________________________________________________
@@ -162,7 +162,7 @@ Types
 You can instanciate ActivityStreams types using their short name.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $link = Type::create('Link');
 $note = Type::create('Note');
@@ -173,7 +173,7 @@ Instanciating a type and setting properties is possible with the second
 parameter.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note', [
     'content' => 'A content for my note'
@@ -185,7 +185,7 @@ Starting from an array with a 'type' key, it's even possible to directly
 instanciate your type.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $array = [
     'type'    => 'Note',
@@ -203,7 +203,7 @@ Whatever be your object or link, you can get all properties names with
 `getProperties()` method.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $link = Type::create('Link');
 
@@ -239,7 +239,7 @@ In order to dump all properties and associated values, use `toArray()`
 method.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $link = Type::create('Link');
 $link->setName('An example');
@@ -268,7 +268,7 @@ ________________________________________________________________________
 There are 3 equivalent ways to get a value.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note');
 
@@ -285,7 +285,7 @@ ________________________________________________________________________
 There are 3 equivalent ways to set a value.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note');
 
@@ -308,7 +308,7 @@ With __Type factory__, you can instanciate a type and set several
 properties.
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note', [
     'id'   => 'https://example.com/custom-notes/1',
@@ -325,7 +325,7 @@ original type.
 
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note', ['name' => 'Original name']);
 
@@ -342,7 +342,7 @@ ________________________________________________________________________
 ### Check if a property exists
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note');
 
@@ -358,7 +358,7 @@ ________________________________________________________________________
 All core and extended types are used with a classic instanciation.
 
 ```php
-use ActivityPub\Type\Extended\Object\Note;
+use ActivityPhp\Type\Extended\Object\Note;
 
 $note = new Note();
 ```
@@ -366,7 +366,7 @@ $note = new Note();
 Same way with Type factory:
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('Note');
 ```
@@ -380,7 +380,7 @@ If you need some custom attributes, you can extend predefined types.
 
 - Create your custom type:
 ```php
-use ActivityPub\Type\Extended\Object\Note;
+use ActivityPhp\Type\Extended\Object\Note;
 
 class MyNote extends Note
 {
@@ -407,7 +407,7 @@ echo $note->getMyProperty(); // Custom Value
 - With the Type factory: 
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 $note = Type::create('MyNote', [
     'id' => 'https://example.com/custom-notes/1',
@@ -434,8 +434,8 @@ You can easily cope with that implementing a custom validator using
 `Validator`.
 
 ```php
-use ActivityPub\Type\ValidatorInterface;
-use ActivityPub\Type\Validator;
+use ActivityPhp\Type\ValidatorInterface;
+use ActivityPhp\Type\Validator;
 
 // Create a custom validator that implements ValidatorInterface
 class MyPropertyValidator implements ValidatorInterface
@@ -461,7 +461,7 @@ $note->myProperty = 'Custom Value';
 An equivalent way is to use Type factory and `addValidator()` method:
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 // Attach this custom validator to a property
 Type::addValidator('myProperty', MyPropertyValidator::class);
@@ -480,7 +480,7 @@ Its purpose is to receive, send and forward activities appropriately.
 A minimal approach is:
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server();
 ```
@@ -494,7 +494,7 @@ Given a handle, ActivityPub instances can discover profiles using this
 protocol.
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server();
 
@@ -509,7 +509,7 @@ a WebFinger handle.
 
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server();
 
@@ -525,7 +525,7 @@ ________________________________________________________________________
 Get all WebFinger data as an array.
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 $server = new Server();
 

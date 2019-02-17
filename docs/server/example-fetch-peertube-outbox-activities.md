@@ -20,7 +20,7 @@ Fetch an Outbox
 ---------------
 
 ```php
-use ActivityPub\Server;
+use ActivityPhp\Server;
 
 // Create a server instance
 $server = new Server();
@@ -52,7 +52,7 @@ ActivityPub-powered application like Peertube, you would have something
 like:
 
 ```sh
-Exception: Property "uuid" is not defined. Type="Video", Class="\ActivityPub\Type\Extended\Object\Video"
+Exception: Property "uuid" is not defined. Type="Video", Class="\ActivityPhp\Type\Extended\Object\Video"
 ```
 
 Indeed, Peertube (and others like Mastodon) extends the ActivityPub 
@@ -74,12 +74,12 @@ that are specific.
 
 
 ```php
-use ActivityPub\Type;
-use ActivityPub\Type\Core\ObjectType;
-use ActivityPub\Type\Core\Link as BaseLink;
-use ActivityPub\Type\Extended\Actor\Person as BasePerson;
-use ActivityPub\Type\Extended\Object\Image as BaseImage;
-use ActivityPub\Type\Extended\Object\Video as BaseVideo;
+use ActivityPhp\Type;
+use ActivityPhp\Type\Core\ObjectType;
+use ActivityPhp\Type\Core\Link as BaseLink;
+use ActivityPhp\Type\Extended\Actor\Person as BasePerson;
+use ActivityPhp\Type\Extended\Object\Image as BaseImage;
+use ActivityPhp\Type\Extended\Object\Video as BaseVideo;
 
 // User
 class Person extends BasePerson
@@ -138,7 +138,7 @@ If you need to implement a specific dialect, just have a look at our
 Then, you may see which properties are already defined:
 
 ```php
-use ActivityPub\Type;
+use ActivityPhp\Type;
 
 print_r(
     Type::create('Video')->getProperties()
@@ -211,17 +211,17 @@ outbox pages, collect all activities and display a list of activities
 and their videos names.
 
 ```php
-use ActivityPub\Type;
-use ActivityPub\Server;
+use ActivityPhp\Type;
+use ActivityPhp\Server;
 
 /* ------------------------------------------------------------------
  | We'll use the following definitions to fit PeerTube's dialect 
    ------------------------------------------------------------------ */
-use ActivityPub\Type\Core\ObjectType;
-use ActivityPub\Type\Core\Link as BaseLink;
-use ActivityPub\Type\Extended\Actor\Person as BasePerson;
-use ActivityPub\Type\Extended\Object\Image as BaseImage;
-use ActivityPub\Type\Extended\Object\Video as BaseVideo;
+use ActivityPhp\Type\Core\ObjectType;
+use ActivityPhp\Type\Core\Link as BaseLink;
+use ActivityPhp\Type\Extended\Actor\Person as BasePerson;
+use ActivityPhp\Type\Extended\Object\Image as BaseImage;
+use ActivityPhp\Type\Extended\Object\Video as BaseVideo;
 
 // User
 class Person extends BasePerson

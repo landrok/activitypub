@@ -2,7 +2,7 @@
 
 /*
  * This script is called by PHP built-in web server during tests only.
- * Dispatch request to expected responses from an ActivityPub peer.
+ * Dispatch request to expected responses from an ActivityPhp peer.
  */
  
 $request = [

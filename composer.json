@@ -18,12 +18,12 @@
     },
     "autoload": {
         "psr-4": {
-            "ActivityPub\\": "src/ActivityPub/"
+            "ActivityPhp\\": "src/ActivityPhp/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ActivityPubTest\\": "tests/ActivityPub/"
+            "ActivityPhpTest\\": "tests/ActivityPhp/"
         }
     },
     "archive": {
