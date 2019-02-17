@@ -5,7 +5,7 @@ layout: default
 [![Build Status](https://travis-ci.org/landrok/activitypub.svg?branch=master)](https://travis-ci.org/landrok/activitypub)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/test_coverage)](https://codeclimate.com/github/landrok/activitypub/test_coverage)
 
-ActivityPub is an implementation of ActivityPub layers in PHP.
+**ActivityPhp** is an implementation of ActivityPub layers in PHP.
 
 It provides two layers:
 

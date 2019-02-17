@@ -3,7 +3,7 @@ highlighter: rouge
 pygments: true
 
 # Site name (head)
-name: ActivityPub Documentation
+name: ActivityPhp Documentation
 
 # Site description (head)
 description: A PHP implementation of ActivityPub protocol based upon the ActivityStreams 2.0 data format.

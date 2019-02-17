@@ -16,8 +16,8 @@ This collection is divided into 2 parts: Core Types and Extended Types.
 Extended Types are divided into 3 parts: Actor, Activity and Object 
 Types.
 
-In this manual, we'll see how they are implemented in ActivityPub in 
-PHP and how to use them.
+In this manual, we'll see how they are implemented in ActivityPhp and 
+how to use them.
 
 ________________________________________________________________________
 
