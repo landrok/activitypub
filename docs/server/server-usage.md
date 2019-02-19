@@ -209,5 +209,5 @@ $server = new Server([
 ________________________________________________________________________
 
 
-{% capture doc_url %}{{ site.doc_repository_url }}/docs/server-usage.md{% endcapture %}
+{% capture doc_url %}{{ site.doc_repository_url }}/server/server-usage.md{% endcapture %}
 {% include edit-doc-link.html %}

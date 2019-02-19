@@ -334,5 +334,5 @@ Read more
 ________________________________________________________________________
 
 
-{% capture doc_url %}{{ site.doc_repository_url }}/example-fetch-peertube-outbox-activities.md{% endcapture %}
+{% capture doc_url %}{{ site.doc_repository_url }}/server/example-fetch-peertube-outbox-activities.md{% endcapture %}
 {% include edit-doc-link.html %}
