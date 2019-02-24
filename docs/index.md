@@ -407,7 +407,7 @@ use ActivityPhp\Server;
 $server = new Server();
 ```
 
-It's sufficient to make [some public requests]](#server-examples).
+It's sufficient to make [some public requests](#server-examples).
 
 For more advanced server configurations, Have a look at [Server Manual]({{ site.doc_baseurl }}/activitypub-server-usage.html).
 

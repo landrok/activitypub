@@ -31,7 +31,8 @@ accept some parameters.
 Server parameters
 -----------------
 
-A server instance can receive an array as first parameter.
+A server instance can receive an array of configurations as first 
+parameter.
 
 ```php
 use ActivityPhp\Server;
