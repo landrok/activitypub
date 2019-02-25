@@ -28,7 +28,7 @@ class AttachmentValidator extends ValidatorTools
      */
     public function validate($value, $container)
     {
-        if (!count($value)) {
+        if (is_array($value) && !count($value)) {
             return true;
         }
 
