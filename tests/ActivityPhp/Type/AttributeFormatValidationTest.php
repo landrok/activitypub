@@ -117,6 +117,8 @@ class AttributeFormatValidationTest extends TestCase
                               ]
                             ]                                          ], # Set anyOf choices 
 ['attachment', Note::class, []                                         ], # Set attachment with an empty array
+['attachment', Note::class, Type::create(['type'=> 'Object'])          ], # Set attachment with an Object type
+['attachment', Note::class, [ Type::create(['type'=> 'Object']) ]      ], # Set attachment with an array of Object types
 ['attachment', Note::class, [
                                [
                                  "type"    => "Image",
@@ -733,10 +735,9 @@ class AttributeFormatValidationTest extends TestCase
                             ]                                          ], # Set anyOf with malformed choices	
 ['attachment', Note::class, [
                               [
-                               "type" => "Image",
-                               "content" => "This is what he looks like.",
+                               new \StdClass
                               ]
-                             ]                                         ], # Set attachment with a missing reference
+                             ]                                         ], # Set attachment with a PHP basic object
 ['attachment', Note::class, [
                               [
                                "type" => "Link",

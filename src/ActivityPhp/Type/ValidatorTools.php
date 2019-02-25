@@ -187,6 +187,34 @@ abstract class ValidatorTools implements ValidatorInterface
         };
     }
 
+
+    /**
+     * A callback function for attachment validation
+     *
+     * Validate a reference with a Link, an Object with an URL 
+     * or an ObjectType
+     *
+     * @return callable
+     */
+    protected function getAttachmentValidator()
+    {
+        return function ($item) {
+            if (is_array($item)) {
+                $item = Util::arrayToType($item);
+            }
+
+            if (is_object($item)) {
+                if (Util::isLinkOrUrlObject($item)) {
+                    return true;
+                }
+                
+                return ($item instanceof ObjectType);
+            } elseif (Util::validateUrl($item)) {
+                return true;
+            }
+        };
+    }
+
     /**
      * Validate that a Question answer is a Note
      *

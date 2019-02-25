@@ -35,7 +35,7 @@ class AttachmentValidator extends ValidatorTools
         return $this->validateListOrObject(
             $value,
             $container,
-            $this->getLinkOrUrlObjectValidator()
+            $this->getAttachmentValidator()
         );
     }
 }
