@@ -29,6 +29,7 @@ class MediaTypeValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-        return Util::validateMediaType($value);
+        return is_null($value)
+            || Util::validateMediaType($value);
     }
 }

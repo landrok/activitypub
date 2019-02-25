@@ -427,6 +427,7 @@ class AttributeFormatValidationTest extends TestCase
 ['longitude', Place::class, 92                                         ], # Set longitude as an integer
 ['longitude', Place::class, -92.6                                      ], # Set longitude as a float number
 
+['mediaType', Link::class, null                                        ], # Set mediaType as null
 ['mediaType', Link::class, "application/pdf"                           ], # Set mediaType on a Link
 ['mediaType', ObjectType::class, "multipart/form-data"                 ], # Set mediaType on an ObjectType
 ['mediaType', ObjectType::class, "application/xhtml+xml"               ], # Set mediaType
