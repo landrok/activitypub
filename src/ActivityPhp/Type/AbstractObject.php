@@ -36,11 +36,16 @@ abstract class AbstractObject
             $this->has($name, true);
         }
 
-        // Is there any validators
+        // Validate given value
         if (!Validator::validate($name, $value, $this)) {
+            $message = "Rejected value. Type='%s', Property='%s', value='%s'";
         	throw new Exception(
-                "Rejected value. Attribute={$name}, value="
-                . print_r($value, true)
+                sprintf(
+                    $message,
+                    get_class($this),
+                    $name,
+                    print_r($value, true)
+                )
                 . PHP_EOL
         	);
         }
