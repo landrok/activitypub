@@ -67,16 +67,22 @@ class AttributeFormatValidationTest extends TestCase
 	 */
 	public function getValidAttributesScenarios()
 	{
-        $link = new Link();
-        $link->href = 'https://example.com/my-href';
-        $note = new Note();
-        $note->name = "It's a note";
-        $place = new Place();
-        $place->name = "Over the Arabian Sea, east of Socotra Island Nature Sanctuary";
-        $place->longitude = 12.34;
-        $place->latitude = 56.78;
-        $place->altitude = 90;
-        $place->units = "m";
+        $link = Type::create([
+            'type' => 'Link',
+            'href' => 'https://example.com/my-href'
+        ]);
+        $note = Type::create([
+            'type' => 'Note',
+            'name' => "It's a note"
+        ]);
+        $place = Type::create([
+            'type' => 'Place',
+            'name' => "Over the Arabian Sea, east of Socotra Island Nature Sanctuary",
+            'longitude' => 12.34,
+            'latitude' => 56.78,
+            'altitude' => 90,
+            'units' => "m"
+        ]);
 
 		# TypeClass, property, value
 		return [
@@ -437,6 +443,8 @@ class AttributeFormatValidationTest extends TestCase
 ['mediaType', ObjectType::class, "application/vnd.mspowerpoint"        ], # Set mediaType
 
 ['name', ObjectType::class, "Bob"                                      ], # Set name with a simple string
+['name', ObjectType::class, null                                       ], # Set name with a null value
+['name', ObjectType::class, ""                                         ], # Set name with an empty string
 ['name', ObjectType::class, "Bob 123 !:.,\\/"                          ], # Set name with words, digits and special characters
 ['name', ObjectType::class, "Bob ;§&~|=[][]*-+/%$^@#\"'"               ], # Set name with words, digits and special characters
 ['name', Link::class, "Bob ;§&~|=[][]*-+/%$^@#\"'"                     ], # Set name with words, digits and special characters on a Link

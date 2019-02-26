@@ -29,7 +29,7 @@ class NameValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-        if (is_null($value)) {
+        if (is_null($value) || $value == '') {
             return true;
         }
 
