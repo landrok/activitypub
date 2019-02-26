@@ -41,7 +41,8 @@ class ObjectValidator implements ValidatorInterface
 
         // URL
         if (is_string($value)) {
-            return Util::validateUrl($value);
+            return Util::validateUrl($value)
+                || Util::validateOstatusTag($value);
         }
 
         if (is_array($value)) {

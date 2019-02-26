@@ -81,6 +81,23 @@ abstract class Util
             && preg_match(
                 '#^magnet:\?xs=(https?)://.*$#iu', 
                 urldecode($value)
+        
+        );
+    }
+
+    /**
+     * Validate an OStatus tag string
+     * 
+     * @param  mixed $value
+     * @return bool
+     */
+    public static function validateOstatusTag($value)
+    {
+        return is_string($value)
+            && strlen($value) < 262144
+            && preg_match(
+                '#^tag:([\w\-\.]+),([\d]{4}-[\d]{2}-[\d]{2}):([\w])+Id=([\d]+):objectType=([\w]+)#iu', 
+                $value
             );
     }
 
