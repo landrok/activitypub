@@ -338,7 +338,8 @@ class AttributeFormatValidationTest extends TestCase
                         "href" => "http://example.org/icon",
                         "href" => "http://example.org/icon2"
                       ]                                                ], # Set icon as an array of string URL
-
+['id', Activity::class, 
+ 'tag:my.example.org,2019-02-19:objectId=881223083:objectType=Status'  ], # Set id as a OStatus tag
 ['image', Note::class, [
                          "type" => "Image",
                          "name" => "A Cat",
@@ -468,7 +469,8 @@ class AttributeFormatValidationTest extends TestCase
                                     "content" => "A simple note"
                                 ]
                             ]                                          ], # Set object as a collection of object
-
+['object', Activity::class, 
+ 'tag:my.example.org,2019-02-19:objectId=881223083:objectType=Status'  ], # Set object as OStatus tag
 ['oneOf', Question::class, [
                               [
                                 "type" => "Note",
@@ -974,7 +976,8 @@ class AttributeFormatValidationTest extends TestCase
                         "href" => "http://example.org/icon",
                         "href" => "htt://example.org/icon2"
                       ]                                                ], # Set icon as an array of string URL (malformed last one)
-
+['id', Activity::class, 
+ 'tag:my.example.org,2019-02-19:object=881223083:objectType=Status'    ], # Set id as a malformed OStatus tag
 ['image', Note::class, [
                          "type" => "Imag",
                          "name" => "Note image",
@@ -1105,7 +1108,8 @@ class AttributeFormatValidationTest extends TestCase
 ['object', Relationship::class, 42                                     ], # Set object as a bad type (int)
 ['object', Activity::class, "htp://example.org"                        ], # Set object as a bad URL
 ['object', Relationship::class, [['key' => 'o']]                       ], # Set object as a bad list type
-
+['object', Activity::class, 
+ 'tag:my.example.org,2019-02-19:object=881223083:objectType=Status'    ], # Set object as a malformed OStatus tag
 
 ['oneOf', Place::class, []                                             ], # Set oneOf for an inappropriate type
 ['oneOf', Question::class, []                                          ], # Set oneOf with an array

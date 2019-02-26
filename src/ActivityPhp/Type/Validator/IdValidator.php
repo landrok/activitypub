@@ -29,6 +29,7 @@ class IdValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-        return Util::validateUrl($value);
+        return Util::validateUrl($value)
+            || Util::validateOstatusTag($value);
     }
 }
