@@ -38,7 +38,7 @@ class WebFingerFactory
     public static function get(string $handle, string $scheme = 'https')
     {
         if (!preg_match(
-                '/^@?(?P<user>[\w\-]+)@(?P<host>[\w\.\-]+)(?P<port>:[\d]+)?$/',
+                '/^@?(?P<user>[\w\-\.]+)@(?P<host>[\w\.\-]+)(?P<port>:[\d]+)?$/',
                 $handle,
                 $matches
             )
