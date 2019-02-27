@@ -45,13 +45,15 @@ class Request
 
     /**
      * Set HTTP client
+     * 
+     * @param float|int $timeout
      */
-    public function __construct()
+    public function __construct($timeout = 10.0)
     {
         $this->client = new Client([
-            'timeout'  => 10.0,
+            'timeout' => $timeout,
             'headers' => [
-                'Accept'     => self::HTTP_HEADER_ACCEPT,
+                'Accept' => self::HTTP_HEADER_ACCEPT,
             ]
         ]);
     }

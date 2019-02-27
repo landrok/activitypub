@@ -22,6 +22,11 @@ class HttpConfiguration extends AbstractConfiguration
     protected $scheme = 'https';
 
     /**
+     * @var float|int HTTP timeout for request
+     */
+    protected $timeout = 10.0;
+
+    /**
      * Dispatch configuration parameters
      * 
      * @param array $params

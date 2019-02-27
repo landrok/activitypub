@@ -11,6 +11,7 @@
 
 namespace ActivityPhp\Server\Http;
 
+use ActivityPhp\Server;
 use ActivityPhp\Type\Util;
 use Exception;
 
@@ -20,6 +21,11 @@ use Exception;
 class WebFingerFactory
 {
     const WEBFINGER_URL = '%s://%s%s/.well-known/webfinger?resource=acct:%s';
+
+    /**
+     * @var null|\ActivityPhp\Server
+     */
+    protected static $server;
 
     /**
      * @var array An array of key => value. 
@@ -62,7 +68,9 @@ class WebFingerFactory
         );
 
         $content = Util::decodeJson(
-            (new Request())->get($url)
+            (new Request(
+                self::$server->config('http.timeout')
+            ))->get($url)
         );
 
         if (!is_array($content) || !count($content)) {
@@ -72,5 +80,15 @@ class WebFingerFactory
         self::$webfingers[$handle] = new WebFinger($content);
 
         return self::$webfingers[$handle];
+    }
+
+    /**
+     * Inject a server instance
+     * 
+     * @param  \ActivityPhp\Server $server
+     */
+    public static function setServer(Server $server)
+    {
+        self::$server = $server;
     }
 }

@@ -57,13 +57,14 @@ abstract class Helper
     /**
      * Fetch JSON content from an URL
      * 
-     * @param  string $url
+     * @param  string    $url
+     * @param  float|int $timeout
      * @return array
      */
-    public static function fetch($url)
+    public static function fetch($url, $timeout = 10.0)
     {
         return Util::decodeJson(
-           (new HttpRequest())->get($url)
+           (new HttpRequest($timeout))->get($url)
         );
     }
 }

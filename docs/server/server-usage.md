@@ -42,6 +42,7 @@ $server = new Server([
     'logger'   => [],
     'instance' => [],
     'cache'    => [],
+    'http'     => [],
 ]);
 ```
 
@@ -145,6 +146,27 @@ $server = new Server([
 ```
 
 For security purpose, the default value is `false`.
+
+________________________________________________________________________                
+
+
+### HTTP parameters
+
+
+**timeout**
+
+The default timeout for HTTP requests is `10s`..
+
+```php
+use ActivityPhp\Server;
+
+// Increase HTTP request timeout to 20 seconds 
+$server = new Server([
+    'http'   => [
+        'timeout' => '20'    
+    ],
+]);
+```
 
 ________________________________________________________________________
 

@@ -69,7 +69,7 @@ class Configuration
         }
         
         // Create default configuration for each component
-        foreach (['cache', 'logger', 'instance'] as $config) {
+        foreach (['cache', 'logger', 'instance', 'http'] as $config) {
             if (is_null($this->$config)) {
                 $handler = sprintf(
                     self::CONFIG_NS_PATTERN, ucfirst($config)

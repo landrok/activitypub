@@ -50,6 +50,7 @@ class Actor
             // testing only
             $scheme = $this->server->config('instance.debug')
                 ? 'http' : 'https';
+            WebFinger::setServer($this->server);
             $webfinger = WebFinger::get($handle, $scheme);
             $url = $webfinger->getProfileId();
         // Is an id?

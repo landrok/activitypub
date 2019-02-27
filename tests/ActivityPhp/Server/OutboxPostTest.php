@@ -73,6 +73,9 @@ class OutboxPostTest extends TestCase
             ],
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
+            ],
+            'http'    => [
+               'timeout' => 15
             ]
         ]);
 
