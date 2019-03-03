@@ -21,6 +21,9 @@ class FetchOutboxTest extends TestCase
             ],
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
+            ],
+            'cache' => [
+                'enabled' => false,
             ]
         ]);
 
