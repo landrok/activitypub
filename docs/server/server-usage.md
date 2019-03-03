@@ -130,6 +130,25 @@ $server = new Server([
 ]);
 ```
 
+**port**
+
+The default port is `443`. If you want to customize it, you may pass a
+port parameter.
+
+```php
+use ActivityPhp\Server;
+
+$server = new Server([
+    'instance'   => [
+        'port' => 8000   
+    ],
+]);
+```
+
+Note: this does not seem to be supported by all ActivityPub servers of
+the federation.
+
+
 **debug**
 
 For testing purpose, you may use HTTP scheme instead of HTTPS.
