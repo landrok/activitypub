@@ -19,7 +19,7 @@ class InstanceConfiguration extends AbstractConfiguration
     /**
      * @var string local HTTP hostname
      */
-    protected $hostname = 'localhost';
+    protected $host = 'localhost';
 
     /**
      * @var string[string local HTTP port

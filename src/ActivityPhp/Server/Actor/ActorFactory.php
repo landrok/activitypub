@@ -37,7 +37,7 @@ abstract class ActorFactory
     public static function create(string $url)
     {
         // Is it a local actor?
-        if (parse_url($url, PHP_URL_HOST) == self::$server->config('instance.hostname')
+        if (parse_url($url, PHP_URL_HOST) == self::$server->config('instance.host')
          && parse_url($url, PHP_URL_PORT) == self::$server->config('instance.port')
         ) {
             return self::createLocalActor($url);

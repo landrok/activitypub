@@ -123,7 +123,7 @@ abstract class AbstractBox
         // @todo A copy of this object should be created
         $copy->id = $this->config('instance.scheme')
             . '://'
-            . $this->config('instance.hostname')
+            . $this->config('instance.host')
             . preg_replace(
                 ['/<handle>/', '/<id>/'],
                 [$this->actor->get()->preferredUsername, 'new-id'],
@@ -134,7 +134,7 @@ abstract class AbstractBox
         // @todo An id must be generated for the activity
         $activity->id = $this->config('instance.scheme')
             . '://'
-            . $this->config('instance.hostname')
+            . $this->config('instance.host')
             . preg_replace(
                 ['/<handle>/', '/<id>/'],
                 [$this->actor->get()->preferredUsername, 'new-id'],
@@ -157,7 +157,7 @@ abstract class AbstractBox
     {
         return $this->config('instance.scheme')
             . '://'
-            . $this->config('instance.hostname')
+            . $this->config('instance.host')
             . preg_replace(
                 ['/<handle>/'],
                 [$this->actor->get()->preferredUsername],

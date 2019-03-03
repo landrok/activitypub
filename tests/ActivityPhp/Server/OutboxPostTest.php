@@ -76,6 +76,9 @@ class OutboxPostTest extends TestCase
             ],
             'http'    => [
                'timeout' => 15
+            ],
+            'cache' => [
+                'enabled' => false,
             ]
         ]);
 

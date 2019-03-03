@@ -115,7 +115,7 @@ ________________________________________________________________________
 ### Instance parameters
 
 
-**hostname**
+**host**
 
 The default hostname is `localhost`. If you want to be reachable from
 a network you may pass a custom hostname.
@@ -125,7 +125,7 @@ use ActivityPhp\Server;
 
 $server = new Server([
     'instance'   => [
-        'hostname' => 'activitypub.example.org'    
+        'host' => 'activitypub.example.org'    
     ],
 ]);
 ```

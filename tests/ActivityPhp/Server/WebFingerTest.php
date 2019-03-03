@@ -88,6 +88,9 @@ class WebFingerTest extends TestCase
             ],
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
+            ],
+            'cache' => [
+                'enabled' => false,
             ]
         ]);
 
@@ -114,6 +117,9 @@ class WebFingerTest extends TestCase
             ],
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
+            ],
+            'cache' => [
+                'enabled' => false,
             ]
         ]);
 
