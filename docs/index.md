@@ -42,7 +42,8 @@ Basics
     - [Use your own extended types]({{ site.doc_baseurl }}/#use-your-own-extended-types)
     - [Create your own property validator]({{ site.doc_baseurl }}/#create-your-own-property-validator)
 - [Server](#server)
-    - WIP [Configuring a server instance]({{ site.doc_baseurl }}/activitypub-server-usage.html).
+    - WIP [Server instance configuration]({{ site.doc_baseurl }}/activitypub-server-usage.html)
+    - [Verify HTTP signatures]({{ site.doc_baseurl }}/activitypub-server-verify-http-signatures.html)
     - [WebFinger]({{ site.doc_baseurl }}/#webfinger)
     - [WebFinger::toArray()]({{ site.doc_baseurl }}/#webfingertoarray)
     - [WebFinger::getSubject()]({{ site.doc_baseurl }}/#webfingergetsubject)

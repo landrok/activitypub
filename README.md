@@ -42,6 +42,8 @@ Table of contents
     - [Use your own extended types](#use-your-own-extended-types)
     - [Create your own property validator](#create-your-own-property-validator)
 - [Server](#server)
+    - [Server configuration](https://landrok.github.io/activitypub/activitypub-server-usage.html)
+    - [Verify HTTP signatures](https://landrok.github.io/activitypub/activitypub-server-verify-http-signatures.html)
     - [WebFinger](#webfinger)
     - [WebFinger::toArray()](#webfingertoarray)
     - [WebFinger::getSubject()](#webfingergetsubject)

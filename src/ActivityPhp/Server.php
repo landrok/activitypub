@@ -97,8 +97,8 @@ class Server
     }
 
     /**
-     * Getting an inbox instance
-     * It can be a local or a distant inbox.
+     * Get an inbox instance
+     * It's a local instance
      * 
      * @param  string $handle An actor name
      * @return \ActivityPhp\Server\Actor\Inbox
@@ -120,7 +120,7 @@ class Server
     }
 
     /**
-     * Getting an outbox instance
+     * Get an outbox instance
      * It may be a local or a distant outbox.
      * 
      * @param  string $handle
@@ -150,6 +150,8 @@ class Server
      */
     public function actor(string $handle)
     {
+        $this->logger()->info($handle . ':' . __METHOD__);
+
         if (isset($this->actors[$handle])) {
             return $this->actors[$handle];
         }

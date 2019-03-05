@@ -93,7 +93,7 @@ abstract class AbstractActor extends ObjectType
     protected $preferredUsername;
 
     /**
-     * A json object which maps additional typically server/domain-wide
+     * A JSON object which maps additional typically server/domain-wide
      * endpoints which may be useful either for this actor or someone 
      * referencing this actor. This mapping may be nested inside the 
      * actor document as the value or may be a link to a JSON-LD 
@@ -104,4 +104,22 @@ abstract class AbstractActor extends ObjectType
      * @var null|string|array
      */
     protected $endpoints;
+
+    /**
+     * It's not part of the ActivityPub protocol but it's a quite common
+     * practice to handle an actor public key with a publicKey array:
+     * [
+     *     'id' => 'https://my-example.com/actor#main-key'
+     *     'owner' => 'https://my-example.com/actor',
+     *     'publicKeyPem' => '-----BEGIN PUBLIC KEY-----
+     *                       MIIBI [...]
+     *                       DQIDAQAB
+     *                       -----END PUBLIC KEY-----'
+     * ]
+     * 
+     * @see https://www.w3.org/wiki/SocialCG/ActivityPub/Authentication_Authorization#Signing_requests_using_HTTP_Signatures
+     *  
+     * @var null|string|array
+     */
+    protected $publicKey;
 }

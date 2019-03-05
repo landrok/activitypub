@@ -33,7 +33,7 @@ class Actor
     protected $actor;
 
     /**
-     * Construct Actor instance based upon a WebFinger discovery if
+     * Construct an Actor instance based upon a WebFinger discovery if
      * an handle-like is provided. Otherwise, it checks an ActivityPhp
      * profile id if it's an URL.
      * 
@@ -107,6 +107,27 @@ class Actor
         }
 
         return $this->actor->get($property);
+    }
+
+    /**
+     * Get Actor's public key PEM
+     * 
+     * @return string|null
+     */
+    public function getPublicKeyPem()
+    {
+        if (!isset($this->actor->publicKey)
+            || !is_array($this->actor->publicKey)
+            || !isset($this->actor->publicKey['publicKeyPem'])
+        ) {
+            $this->server->logger()->info(
+                'Public key not found',
+                [$this->actor->toArray()]
+            );
+            return false;            
+        }
+
+        return $this->actor->publicKey['publicKeyPem'];
     }
 
     /**

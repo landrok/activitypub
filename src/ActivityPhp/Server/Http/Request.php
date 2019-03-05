@@ -91,8 +91,11 @@ class Request
         if (CacheHelper::has($url)) {
             return CacheHelper::get($url);
         }
-
-        $content = $this->client->get($url)->getBody()->getContents();
+        try {
+            $content = $this->client->get($url)->getBody()->getContents();
+        } catch (\GuzzleHttp\Exception\ClientException $exception) {
+            throw new Exception($exception->getMessage());
+        }
 
         CacheHelper::set($url, $content);
 
