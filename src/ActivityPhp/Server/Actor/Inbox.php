@@ -54,17 +54,10 @@ class Inbox extends AbstractBox
 
         try {
             // Check accept header
-            if (!Helper::validateAcceptHeader(
-                    $request->headers->get('accept')
-                )
-            ) {
-                throw new Exception(
-                    sprintf(
-                        "HTTP Accept header error. Given: '%s'",
-                        $request->headers->get('accept')
-                    )
-                );
-            }
+            Helper::validateAcceptHeader(
+                $request->headers->get('accept'),
+                true
+            );
 
             // Check current actor can post
             
