@@ -12,8 +12,6 @@
 namespace ActivityPhp\Server\Http;
 
 use ActivityPhp\Server;
-use ActivityPhp\Server\Helper;
-use ActivityPhp\Type;
 use ActivityPhp\Type\Util;
 use Symfony\Component\HttpFoundation\Request;
 use phpseclib\Crypt\RSA;
@@ -25,11 +23,11 @@ class HttpSignature
 {
     const SIGNATURE_PATTERN = '/^
         keyId="(?P<keyId>
-            (https?:\/\/[\w\-\.]+)
+            (https?:\/\/[\w\-\.]+[\w]+)
             (:[\d]+)?
             ([\w\-\.#\/@]+)
         )",
-        headers="\(request-target\) (?P<headers>[\w\s]+)",
+        (headers="\(request-target\) (?P<headers>[\w\s]+)",)?
         signature="(?P<signature>[\w+\/]+==)"
     /x';
 
@@ -92,7 +90,8 @@ class HttpSignature
             $request
         );
 
-        // Verify that string using the public key and the original signature.
+        // Verify that string using the public key and the original 
+        // signature.
         $rsa = new RSA(); 
         $rsa->setHash("sha256"); 
         $rsa->setSignatureMode(RSA::SIGNATURE_PSS); 
@@ -104,7 +103,7 @@ class HttpSignature
     /**
      * Split HTTP signature into its parts (keyId, headers and signature)
      * 
-     * @param string $signature
+     * @param s tring $signature
      * @return bool|array
      */
     private function splitSignature(string $signature)
@@ -118,13 +117,18 @@ class HttpSignature
             return false;
         }
 
+        // Headers are optional
+        if (!isset($matches['headers']) || $matches['headers'] == '') {
+            $matches['headers'] = 'date';
+        }
+
         return $matches;        
     }
 
     /**
      * Get plain text that has been originally signed
      * 
-     * @param  array  $headers HTTP header keys
+     * @param  array $headers HTTP header keys
      * @param  \Symfony\Component\HttpFoundation\Request $request 
      * @return string
      */

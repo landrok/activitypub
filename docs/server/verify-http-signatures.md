@@ -51,9 +51,10 @@ This method accepts one parameter. It must be a
 `Symfony\Component\HttpFoundation\Request` instance.
 
 This request MUST contain a Signature header that specifies [keyId,
-headers, signature].
+headers, signature]. *headers* key is optional.
 
-Read more on the [HTTP signature components](https://tools.ietf.org/html/draft-cavage-http-signatures-10#section-2.1).
+Read more about
+[HTTP signature components](https://tools.ietf.org/html/draft-cavage-http-signatures-10#section-2.1).
 
 The verification process follows the following steps:
 
@@ -67,7 +68,12 @@ ________________________________________________________________________
 ActivityPub conformance
 -----------------------
 
-As ActivityPub protocol does not specify an official mechanism for [signature verification](https://www.w3.org/TR/activitypub/#authorization) (algorithm, headers), this implementation tries to make use of [good practices recommended by the Social Community Group](https://www.w3.org/wiki/SocialCG/ActivityPub/Authentication_Authorization#Signing_requests_using_HTTP_Signatures) and to be compliant with empirical implementations (Mastodon, Peertube at least).
+As ActivityPub protocol does not specify an official mechanism for 
+[signature verification](https://www.w3.org/TR/activitypub/#authorization) 
+(algorithm, headers), this implementation tries to make use of 
+[good practices recommended by the Social Community Group](https://www.w3.org/wiki/SocialCG/ActivityPub/Authentication_Authorization#Signing_requests_using_HTTP_Signatures) 
+and to be compliant with empirical implementations (Mastodon, Peertube 
+at least).
 
 ________________________________________________________________________
 

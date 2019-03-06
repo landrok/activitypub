@@ -487,6 +487,8 @@ use ActivityPhp\Server;
 $server = new Server();
 ```
 
+For more configuration parameters, [See the full documentation](https://landrok.github.io/activitypub)
+
 ### WebFinger
 
 WebFinger is a protocol that allows for discovery of information about
