@@ -54,7 +54,7 @@ abstract class Dialect
     /**
      * Clear all dialects, definitions and loaded array
      */
-    public function clear()
+    public static function clear()
     {
         self::$dialects = [];
         self::$definitions = [];
