@@ -11,6 +11,8 @@
 
 namespace ActivityPhp;
 
+use ActivityPhp\Type\AbstractObject;
+use ActivityPhp\Type\Dialect;
 use ActivityPhp\Type\TypeResolver;
 use ActivityPhp\Type\Validator;
 use Exception;
@@ -39,7 +41,7 @@ abstract class Type
      * 
      * @param  string|array $type
      * @param  array        $attributes
-     * @return mixed        \object
+     * @return \ActivityPhp\Type\AbstractObject
      */
     public static function create($type, array $attributes = [])
     {
@@ -53,7 +55,7 @@ abstract class Type
         if (is_array($type)) {
             if (!isset($type['type'])) {
                 throw new Exception(
-                    "Type parameter must have a 'type' property"
+                    "Type parameter must have a 'type' key"
                 );
             } else {
                 $attributes = $type;
@@ -61,7 +63,7 @@ abstract class Type
         }
 
         try {
-            
+
             $class = is_array($type)
                 ? TypeResolver::getClass($type['type'])
                 : TypeResolver::getClass($type);
@@ -76,6 +78,8 @@ abstract class Type
         if (is_string($class)) {
             $class = new $class();
         }
+
+        self::extend($class);
 
         foreach ($attributes as $name => $value) {
             $class->set($name, $value);
@@ -106,5 +110,23 @@ abstract class Type
     public static function addValidator($name, $class)
     {
         Validator::add($name, $class);
+    }
+
+    /**
+     * ActivityPub real world applications not only implements the basic
+     * vocabulary.
+     * They extends basic protocol with custom properties.
+     * These extensions are called dialects.
+     * 
+     * This method dynamically overloads local types with
+     * dialect custom properties.
+     * 
+     * @param \ActivityPhp\Type\AbstractObject $type
+     */
+    private static function extend(AbstractObject $type)
+    {
+        // @todo should call Dialect stack to see if there are any 
+        // properties to overloads $type with
+        Dialect::extend($type);
     }
 }

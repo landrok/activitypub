@@ -22,6 +22,8 @@ use Exception;
  */ 
 abstract class AbstractObject
 {
+    private $_props = [];
+
     /**
      * Standard setter method
      * - Perform content validation if a validator exists
@@ -51,13 +53,32 @@ abstract class AbstractObject
         }
 
         if ($name == '@context') {
-            $this->{$name} = $value;
+            $this->_props[$name] = $value;
+        }
+        /*
+        if (property_exists($this, $name)) {
+            $this->{$name} = $this->transform($value);
+        } else {
+          */  $this->_props[$name] = $this->transform($value);
+        //}
+
+        return $this;
+    }
+
+    /**
+     * Affect a value to a property or an extended property
+     * 
+     * @param  mixed $value
+     * @return mixed
+     */
+    private function transform($value)
+    {
         // Deep typing
-        } elseif (is_array($value)) {
+        if (is_array($value)) {
             if (isset($value['type'])) {
-                $this->{$name} = Type::create($value);
+                return Type::create($value);
             } elseif (is_int(key($value))) {
-                $this->{$name} = array_map(function($value) {
+                return array_map(function($value) {
                         return is_array($value) && isset($value['type'])
                             ? Type::create($value)
                             : $value;
@@ -66,14 +87,12 @@ abstract class AbstractObject
                 );
             // Empty array, array that should not be casted as ActivityStreams types
             } else {
-                $this->{$name} = $value;
+                return $value;
             }
         // Scalars 
         } else {
-            $this->{$name} = $value;
-        }
-
-        return $this;
+            return $value;
+        }      
     }
 
     /**
@@ -85,8 +104,8 @@ abstract class AbstractObject
     public function get($name)
     {
         $this->has($name, true);
-
-        return $this->{$name};
+        return $this->_props[$name];
+//        return $this->{$name};
     }
 
     /**
@@ -99,9 +118,17 @@ abstract class AbstractObject
     public function has($name, $strict = false)
     {
         if (property_exists($this, $name)) {
+            if (!array_key_exists($name, $this->_props)) {
+                $this->_props[$name] = $this->$name;
+            }
+
             return true;
         }
-        
+
+        if (array_key_exists($name, $this->_props)) {
+            return true;
+        }
+
         if ($strict) {
             throw new Exception(
                 sprintf(
@@ -122,7 +149,10 @@ abstract class AbstractObject
     public function getProperties()
     {
         return array_keys(
-            get_object_vars($this)
+            array_diff_key(
+                get_object_vars($this),
+                ['_props' => '1']
+            )
         );
     }
 
@@ -137,12 +167,15 @@ abstract class AbstractObject
     {
         $keys = array_keys( array_filter(
             get_object_vars($this),
-            function($value) {
-                return !is_null($value);
-            }
+            function($value, $key) {
+                return !is_null($value) && $key != '_props';
+            },
+            ARRAY_FILTER_USE_BOTH
         ));
 
         $stack = [];
+
+        // native properties
         foreach ($keys as $key) {
             if ($this->$key instanceof self) {
                 $stack[$key] = $this->$key->toArray();
@@ -159,6 +192,31 @@ abstract class AbstractObject
                     );
                 } else {
                     $stack[$key] = $this->$key;
+                }
+            }
+        }
+        
+        // _props
+        foreach ($this->_props as $key => $value) {
+            if (is_null($value)) {
+                continue;
+            }
+
+            if ($value instanceof self) {
+                $stack[$key] = $value->toArray();
+            } elseif (!is_array($value)) {
+                $stack[$key] = $value;
+            } elseif (is_array($value)) {
+                if (is_int(key($value))) {
+                    $stack[$key] = array_map(function($value) {
+                            return $value instanceof self
+                                ? $value->toArray()
+                                : $value;
+                        },
+                        $value
+                    );
+                } else {
+                    $stack[$key] = $value;
                 }
             }
         }
@@ -180,6 +238,25 @@ abstract class AbstractObject
     }
 
     /**
+     * Extend current type properties
+     * 
+     * @param string $property
+     * @param mixed  $default
+     */
+    public function extend(string $property, mixed $default = null)
+    {
+        if ($this->has($property)) {
+            return;
+        }
+
+        if (!isset($this->_props[$property])
+            || !array_key_exists($property, $this->props)
+        ) {
+            $this->_props[$property] = $default;
+        }
+    }
+
+    /**
      * Magical isset method
      * 
      * @param string $name
@@ -187,7 +264,8 @@ abstract class AbstractObject
      */
     public function __isset($name)
     {
-        return property_exists($this, $name);
+        return property_exists($this, $name)
+            || array_key_exists($name, $this->props);
     }
 
     /**
