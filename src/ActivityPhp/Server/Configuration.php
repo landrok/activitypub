@@ -41,6 +41,11 @@ class Configuration
     protected $cache;
 
     /**
+     * @var null|\ActivityPhp\Server\Configuration\DialectsConfiguration
+     */
+    protected $dialects;
+
+    /**
      * Dispatch configuration parameters
      * 
      * @param array $params
@@ -69,7 +74,14 @@ class Configuration
         }
         
         // Create default configuration for each component
-        foreach (['cache', 'logger', 'instance', 'http'] as $config) {
+        foreach ([
+                    'cache',
+                    'logger',
+                    'instance',
+                    'http',
+                    'dialects'
+            ] as $config
+        ) {
             if (is_null($this->$config)) {
                 $handler = sprintf(
                     self::CONFIG_NS_PATTERN, ucfirst($config)

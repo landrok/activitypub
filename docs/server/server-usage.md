@@ -43,6 +43,7 @@ $server = new Server([
     'instance' => [],
     'cache'    => [],
     'http'     => [],
+    'dialects' => [],
 ]);
 ```
 
@@ -246,6 +247,70 @@ $server = new Server([
     ],
 ]);
 ```
+
+________________________________________________________________________
+
+
+### Dialects parameters
+
+Dialect parameter has a special role.
+
+It defines and load ActivityPub types and properties which are not 
+defined in the standard protocol.
+
+
+**type**
+
+This parameter is a 3-levels array containing:
+
+`DialectName => Types => Properties`
+
+**example**
+
+In this example, we define 2 dialects with 1 type for each.
+
+The first type extends ActivityPub `Person` type with an `uuid` property.
+The second type creates a new type `HashTag` with 2 properties, `uuid` 
+and `name`.
+
+```php
+use ActivityPhp\Server;
+
+$dialect1 = [
+    'Person' => ['uuid'],
+];
+
+$dialect2 = [
+    'HashTag' => ['uuid', 'name'],
+];
+
+$server = new Server([
+    'dialects'   => [
+        'dialect1' => $dialect1,
+        'dialect2' => $dialect2,
+    ],
+]);
+```
+
+After this loading, the new types and properties are usable.
+
+
+```php
+use ActivityPhp\Type;
+
+$hashtag = Type::create([
+    'type' => 'HashTag',
+    'uuid' => 42,
+    'name' => 'myTag'
+];
+
+$person  = Type::create([
+    'type' => 'Person',
+    'uuid' => 42
+];
+```
+
+[More informations about types]({{ site.doc_baseurl }}/activitypub-dialects-management.html)
 
 ________________________________________________________________________
 
