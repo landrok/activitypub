@@ -310,7 +310,7 @@ $person  = Type::create([
 ];
 ```
 
-[More informations about types]({{ site.doc_baseurl }}/activitypub-dialects-management.html)
+[More about dialects management]({{ site.doc_baseurl }}/activitypub-dialects-management.html)
 
 ________________________________________________________________________
 

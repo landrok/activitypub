@@ -41,6 +41,7 @@ Table of contents
     - [Use native types](#use-native-types)
     - [Use your own extended types](#use-your-own-extended-types)
     - [Create your own property validator](#create-your-own-property-validator)
+    - [Dialects management](https://landrok.github.io/activitypub/activitypub-dialects-management.html)
 - [Server](#server)
     - [Server configuration](https://landrok.github.io/activitypub/activitypub-server-usage.html)
     - [Verify HTTP signatures](https://landrok.github.io/activitypub/activitypub-server-verify-http-signatures.html)
