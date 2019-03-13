@@ -255,5 +255,52 @@ class DialectTest extends TestCase
         Dialect::clear();
         
         Dialect::load('mydialect');
-	}  
+	} 
+
+    /**
+     * Throw an Exception when trying to use a type that has been 
+     * unloaded
+     * 
+     * @expectedException \Exception
+     */
+    public function testUsingAnUnloadedType()
+    {
+        Dialect::clear();
+        
+        $dialect = [
+            // A new type
+            'MyDialectType' => [
+                'myDialectField'
+            ],
+        ];
+        
+        // Add and load
+        Dialect::add('mydialect', $dialect);
+        Dialect::unload('mydialect');
+        Type::create('MyDialectType');
+	} 
+
+    /**
+     * Create a new callable type with dialect
+     */
+    public function testCreateANewDialectType()
+    {
+        Dialect::clear();
+        
+        $dialect = [
+            // A new type
+            'MyDialectType' => [
+                'myDialectField'
+            ],
+        ];
+        
+        // Add and load
+        Dialect::add('mydialect', $dialect);
+        $type = Type::create('MyDialectType', ['myDialectField' => 1]);
+        
+        $this->assertEquals(
+            1, 
+            $type->myDialectField
+        );
+	} 
 }

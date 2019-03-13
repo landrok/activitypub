@@ -35,7 +35,7 @@ abstract class Dialect
      * [
      *  'Person' => [
      *      'propertyName' => [
-     *          'defaultValue' => '',
+     *          'defaultValue' => null,
      *          'validator'    => '',
      *          'dialects'     => ['mastodon', 'peertube'],
      *      ]
@@ -89,6 +89,17 @@ abstract class Dialect
                 array_push(self::$loaded, $dialect);
             }
         }
+        
+        // Load new types
+        foreach (self::$definitions as $type => $properties) {
+            foreach ($properties as $property => $definition) {
+                if (count(array_intersect($definition['dialects'], self::$loaded))) {
+                    if (!TypeResolver::exists($type)) {
+                        TypeResolver::addDialectType($type);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -105,6 +116,17 @@ abstract class Dialect
                     && $dialect != '*';
             }
         );
+
+        // Unload new types
+        foreach (self::$definitions as $type => $properties) {
+            foreach ($properties as $property => $definition) {
+                if (!count(array_intersect($definition['dialects'], self::$loaded))) {
+                    if (TypeResolver::exists($type)) {
+                        TypeResolver::removeDialectType($type);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -138,9 +160,14 @@ abstract class Dialect
                     );
                 }
                 self::putType($type, $properties, $name);
+                
+                // Define new types if needed
+                if ($load && !TypeResolver::exists($type)) {
+                    TypeResolver::addDialectType($type);
+                }
             }
         }
-        
+
         // load if needed
         if ($load && !in_array($name, self::$loaded)) {
             array_push(self::$loaded, $name);

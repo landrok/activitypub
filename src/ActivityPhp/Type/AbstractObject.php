@@ -22,14 +22,19 @@ use Exception;
  */ 
 abstract class AbstractObject
 {
+    /**
+     * Keep all properties values that have been set
+     * 
+     * @var array
+     */
     private $_props = [];
 
     /**
      * Standard setter method
      * - Perform content validation if a validator exists
      * 
-     * @param string $name
-     * @param mixed  $value
+     * @param  string $name
+     * @param  mixed  $value
      * @return $this
      */
     public function set($name, $value)
@@ -55,12 +60,8 @@ abstract class AbstractObject
         if ($name == '@context') {
             $this->_props[$name] = $value;
         }
-        /*
-        if (property_exists($this, $name)) {
-            $this->{$name} = $this->transform($value);
-        } else {
-          */  $this->_props[$name] = $this->transform($value);
-        //}
+
+        $this->_props[$name] = $this->transform($value);
 
         return $this;
     }
@@ -98,14 +99,13 @@ abstract class AbstractObject
     /**
      * Standard getter method
      * 
-     * @param string $name
+     * @param  string $name
      * @return mixed
      */
     public function get($name)
     {
         $this->has($name, true);
         return $this->_props[$name];
-//        return $this->{$name};
     }
 
     /**
@@ -148,10 +148,17 @@ abstract class AbstractObject
      */
     public function getProperties()
     {
-        return array_keys(
-            array_diff_key(
-                get_object_vars($this),
-                ['_props' => '1']
+        return array_values(
+            array_unique(
+                array_merge(
+                    array_keys($this->_props),
+                    array_keys(
+                        array_diff_key(
+                            get_object_vars($this),
+                            ['_props' => '1']
+                        )
+                    )
+                )
             )
         );
     }

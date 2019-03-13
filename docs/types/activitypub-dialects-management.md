@@ -56,6 +56,17 @@ $dialect = [
 ];
 ```
 
+When a type does not exist, it is transparently created.
+
+```php
+$dialect = [
+    // Add fields to a new type
+    'MyNewType' => [
+        'propertyOne', 'propertyTwo'
+    ],
+];
+```
+
 ________________________________________________________________________
 
 Add and load your dialect

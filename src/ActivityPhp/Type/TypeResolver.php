@@ -11,6 +11,7 @@
 
 namespace ActivityPhp\Type;
 
+use ActivityPhp\Type\Core\ObjectType;
 use Exception;
 
 /**
@@ -73,6 +74,13 @@ abstract class TypeResolver
     protected static $customTypes = [];
 
     /**
+     * A list of dialect types
+     * 
+     * @var array
+     */
+    protected static $dialectTypes = [];
+
+    /**
      * Add a custom type definition in the pool.
      * 
      * @param  string $name A short name.
@@ -109,6 +117,11 @@ abstract class TypeResolver
         }
 
         switch($type) {
+            // Custom dialect types
+            case in_array($type, self::$dialectTypes):
+                $class = new ObjectType();
+                $class->type = $type;
+                return $class;
             // Custom classes by facades
             case isset(self::$customTypes[$type]):
                 return self::$customTypes[$type];
@@ -155,19 +168,60 @@ abstract class TypeResolver
 
         switch (strtolower($poolname)) {
             case 'all':
-                return in_array(
-                    $item->type,
-                    array_merge(
-                        self::$coreTypes,
-                        self::$activityTypes,
-                        self::$actorTypes,
-                        self::$objectTypes
-                    )
-                );
+                return self::exists($item->type);
             case 'actor':
                 return in_array($item->type, self::$actorTypes);
         }
 
         return false;
+    }
+
+    /**
+     * Verify that a type exists
+     * 
+     * @param  string $name
+     * @return bool
+     */
+    public static function exists(string $name)
+    {
+        return in_array(
+            $name,
+            array_merge(
+                self::$coreTypes,
+                self::$activityTypes,
+                self::$actorTypes,
+                self::$objectTypes,
+                self::$dialectTypes
+            )
+        );        
+    }
+
+    /**
+     * Define a new dialect type
+     * 
+     * @param  string $name
+     */
+    public static function addDialectType(string $name)
+    {
+        if (!self::exists($name)) {
+            array_push(self::$dialectTypes, $name);
+        }
+    }
+
+    /**
+     * Remove a dialect type
+     * 
+     * @param  string $name
+     */
+    public static function removeDialectType(string $name)
+    {
+        if (self::exists($name)) {
+            foreach (self::$dialectTypes as $key => $value) {
+                if ($name == $value) {
+                    array_splice(self::$dialectTypes, $key, 1);
+                    return;
+                }
+            }
+        }
     }
 }
