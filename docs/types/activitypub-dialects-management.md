@@ -22,10 +22,10 @@ aspects, there is a dedicated example in server's part.
 ________________________________________________________________________
 
 
-- [Create a dialect]({{ site.doc_baseurl }}/activitypub-dialects-management.html#create-dialect)
+- [Create a dialect]({{ site.doc_baseurl }}/activitypub-dialects-management.html#create-your-dialect)
 - [Add and load your dialect]({{ site.doc_baseurl }}/activitypub-dialects-management.html#add-and-load-your-dialect)
 - [Only add your dialect]({{ site.doc_baseurl }}/activitypub-dialects-management.html#only-add-your-dialect)
-- [Load a particular dialect]({{ site.doc_baseurl }}/activitypub-dialects-management.html#load-particular-dialect)
+- [Load a particular dialect]({{ site.doc_baseurl }}/activitypub-dialects-management.html#load-a-particular-dialect)
 - [Unload dialects]({{ site.doc_baseurl }}/activitypub-dialects-management.html#unload-dialects)
 
 ________________________________________________________________________
