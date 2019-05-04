@@ -325,6 +325,7 @@ ________________________________________________________________________
 Read more
 ---------
 
+- [Fetching Peertube outbox activities using dialects]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities-using-dialects.html).
 
 - [Configuring a server instance]({{ site.doc_baseurl }}/activitypub-server-usage.html).
 

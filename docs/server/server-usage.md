@@ -312,6 +312,8 @@ $person  = Type::create([
 
 [More about dialects management]({{ site.doc_baseurl }}/activitypub-dialects-management.html)
 
+[An example of Peertube's dialect implementation]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities-using-dialects.html)
+
 ________________________________________________________________________
 
 

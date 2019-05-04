@@ -1,7 +1,7 @@
 ---
 layout: default
 permalink: activitypub-dialects-management.html
-title: Extends ActivityPub Vocabulary with a custom dialects
+title: Extending ActivityPub Vocabulary with custom dialects
 excerpt: How to implement a custom dialect on top of the ActivityPub Vocabulary in PHP.
 ---
 
