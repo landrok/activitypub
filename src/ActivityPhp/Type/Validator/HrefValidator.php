@@ -12,6 +12,7 @@
 namespace ActivityPhp\Type\Validator;
 
 use ActivityPhp\Type\Core\Link;
+use ActivityPhp\Type\Core\ObjectType;
 use ActivityPhp\Type\Util;
 use ActivityPhp\Type\ValidatorInterface;
 
@@ -30,8 +31,12 @@ class HrefValidator implements ValidatorInterface
      */
     public function validate($value, $container)
     {
-        // Validate that container is a Link
-        Util::subclassOf($container, Link::class, true);
+        // Validate that container is a Link or an Object
+        Util::subclassOf(
+            $container, 
+            [Link::class, ObjectType::class], 
+            true
+        );
 
         // Must be a valid URL or a valid magnet link
         return Util::validateUrl($value)
