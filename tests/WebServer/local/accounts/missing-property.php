@@ -6,6 +6,7 @@
  */
 
 header('Content-Type: application/jrd+json');
+$preferredUsername = 'bob';
 echo json_encode([
         'id'   => 'http://' . $_SERVER['HTTP_HOST'] . '/accounts/' . $preferredUsername,
     ]
