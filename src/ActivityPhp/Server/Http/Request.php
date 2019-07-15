@@ -20,7 +20,7 @@ use GuzzleHttp\Client;
  */ 
 class Request
 {
-    const HTTP_HEADER_ACCEPT = 'application/activity+json';
+    const HTTP_HEADER_ACCEPT = 'application/activity+json,application/ld+json,application/json';
 
     /**
      * @var string HTTP method
