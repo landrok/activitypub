@@ -119,9 +119,10 @@ class FactoryTest extends TestCase
      */
     public function testCustomValidatorSuccess()
     {
+        Type::add('MyCustomType', MyCustomType::class);
         Type::addValidator('customProperty', MyCustomValidator::class);
         $type = Type::create(
-            MyCustomType::class, 
+            'MyCustomType', 
             ['customProperty' => 'My value']
         );
 
@@ -191,7 +192,7 @@ class FactoryTest extends TestCase
     {
         Type::addValidator('customProperty', MyCustomValidator::class);
         $type = Type::create(
-            MyCustomType::class, 
+            'MyCustomType', 
             ['customProperty' => 'Bad value']
         );
     }

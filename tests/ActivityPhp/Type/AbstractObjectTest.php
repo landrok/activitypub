@@ -127,7 +127,9 @@ class AbstractObjectTest extends TestCase
      * Try to set a property without any validator
      */
     public function testToSetFreeProperty()
-    {	
+    {
+        Type::add('MyCustomType', MyCustomType::class);
+
         $expected = [
             'type' => 'MyCustomType',
             'customFreeProperty' => 'Free value',
@@ -136,7 +138,7 @@ class AbstractObjectTest extends TestCase
 
         $this->assertEquals(
             $expected, 
-            Type::create(MyCustomType::class, $expected)->toArray()
+            Type::create('MyCustomType', $expected)->toArray()
         );
     }
 

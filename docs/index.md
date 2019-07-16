@@ -295,11 +295,12 @@ ________________________________________________________________________
 
 If you need some custom attributes, you can extend predefined types.
 
-- Define your custom type:
+- Define your custom type and add it to the pool:
 
 ```php
 use ActivityPhp\Type\Extended\Object\Note;
 
+// Define
 class MyNote extends Note
 {
     // Override basic type
@@ -308,6 +309,10 @@ class MyNote extends Note
     // Custom property
     protected $myProperty;
 }
+
+// Add a custom class definition (<object name>, <classname>)
+Type::add('MyNote', MyNote::class);
+
 ```
 
 There are 2 ways to instanciate a type:
@@ -320,6 +325,7 @@ $note->id = 'https://example.com/custom-notes/1';
 $note->myProperty = 'Custom Value';
 
 echo $note->getMyProperty(); // Custom Value
+
 ```
 
 - With the Type factory: 
@@ -327,6 +333,7 @@ echo $note->getMyProperty(); // Custom Value
 ```php
 use ActivityPhp\Type;
 
+// Now the new object type is available
 $note = Type::create('MyNote', [
     'id' => 'https://example.com/custom-notes/1',
     'myProperty' => 'Custom Value'

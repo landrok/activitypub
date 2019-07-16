@@ -125,9 +125,6 @@ abstract class TypeResolver
             // Custom classes by facades
             case isset(self::$customTypes[$type]):
                 return self::$customTypes[$type];
-            // Custom classes by class name
-            case class_exists($type):
-                return new $type();
             case in_array($type, self::$coreTypes):
                 $ns .= '\Core';
                 break;

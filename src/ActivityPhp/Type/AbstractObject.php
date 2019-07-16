@@ -239,7 +239,7 @@ abstract class AbstractObject
     public function copy()
     {
         return Type::create(
-            get_class($this),
+            $this->type,
             $this->toArray()
         );
     }
