@@ -5,6 +5,7 @@ namespace ActivityPhpTest\Server;
 use ActivityPhp\Server;
 use ActivityPhp\Server\Http\HttpSignature;
 use ActivityPhp\Type;
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use phpseclib\Crypt\RSA;
@@ -349,11 +350,11 @@ class HttpSignatureTest extends TestCase
 
     /**
      * Check that it throws an Exception when actor does not exist
-     * 
-     * @expectedException \Exception
      */
     public function testWrongSignatureActorDoesNotExist()
     {
+        $this->expectException(Exception::class);
+
         $server = new Server([
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'

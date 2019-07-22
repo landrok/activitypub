@@ -4,6 +4,7 @@ namespace ActivityPhpTest\Type;
 
 use ActivityPhp\Type\Core\ObjectType;
 use ActivityPhp\Type\Util;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class UtilTest extends TestCase
@@ -36,11 +37,11 @@ class UtilTest extends TestCase
     /**
      * Pass an object which is not a subclass
      * with strict mode.
-     * 
-     * @expectedException \Exception
      */
     public function testIsStrictlyNotASubclass()
     {
+        $this->expectException(Exception::class);
+
         $obj = new \StdClass;
 
         $this->assertEquals(
@@ -105,21 +106,21 @@ class UtilTest extends TestCase
 
     /**
      * Pass an illegal type for validateCollectionPage
-     * 
-     * @expectedException \Exception
      */
     public function testValidateCollectionPageInvalidObject()
     {
+        $this->expectException(Exception::class);
+
         Util::validateCollectionPage(new ObjectType());
 	}
 
     /**
      * Pass a malformed JSON string
-     * 
-     * @expectedException \Exception
      */
     public function testDecodeJsonFailing()
     {
+        $this->expectException(Exception::class);
+
         Util::decodeJson('hello');
 	}
 

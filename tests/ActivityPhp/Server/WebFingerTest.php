@@ -4,6 +4,7 @@ namespace ActivityPhpTest\Server;
 
 use ActivityPhp\Server;
 use ActivityPhp\Server\Http\WebFinger;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class WebFingerTest extends TestCase
@@ -107,10 +108,11 @@ class WebFingerTest extends TestCase
      * Check that all tests are failing
      *
      * @dataProvider      getFailingScenarios
-     * @expectedException \Exception
      */
     public function testFailingScenarios($handle, $method, $expected)
     {
+        $this->expectException(Exception::class);
+
         $server = new Server([
             'instance'  => [
                 'debug' => true,
@@ -214,10 +216,11 @@ class WebFingerTest extends TestCase
      * Check that all tests are failing
      *
      * @dataProvider      getFailingInstanceScenarios
-     * @expectedException \Exception
      */
     public function testFailingInstanceScenarios($data)
     {
+        $this->expectException(Exception::class);
+
         $webfinger = new WebFinger($data);
     }
 

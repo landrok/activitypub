@@ -5,6 +5,7 @@ namespace ActivityPhpTest\Type;
 use ActivityPhp\Type;
 use ActivityPhpTest\MyCustomType;
 use ActivityPhpTest\MyCustomValidator;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase
@@ -76,7 +77,7 @@ class FactoryTest extends TestCase
 
     /**
      * Check that all core objects have a correct type property.
-     *
+     * 
      * @dataProvider getShortTypes
      */
     public function testShortTypesInstanciation($type)
@@ -103,11 +104,11 @@ class FactoryTest extends TestCase
 
     /**
      * Scenario for an undefined type
-     * 
-     * @expectedException \Exception
      */
     public function testUndefinedType()
     {
+        $this->expectException(Exception::class);
+
         $class = Type::create('UndefinedType');
     }
 
@@ -159,11 +160,11 @@ class FactoryTest extends TestCase
     /**
      * Scenario for instanciating a Type with a single array parameter 
      * for a failing value (missing type property)
-     * 
-     * @expectedException \Exception
      */
     public function testShortCallFailing()
     {
+        $this->expectException(Exception::class);
+
         $type = Type::create(
             ['id' => 'http://example.org/missing-type']
         );
@@ -172,11 +173,11 @@ class FactoryTest extends TestCase
     /**
      * Scenario for instanciating a Type with a single parameter that
      * is not an array.
-     * 
-     * @expectedException \Exception
      */
     public function testShortCallFailingIntGiven()
     {
+        $this->expectException(Exception::class);
+
         $type = Type::create(
             42
         );
@@ -185,11 +186,11 @@ class FactoryTest extends TestCase
     /**
      * Scenario for a custom classes and custom validator with an 
      * failing value
-     * 
-     * @expectedException \Exception
      */
     public function testCustomValidatorFailing()
     {
+        $this->expectException(Exception::class);
+
         Type::addValidator('customProperty', MyCustomValidator::class);
         $type = Type::create(
             'MyCustomType', 
@@ -220,11 +221,11 @@ class FactoryTest extends TestCase
 
     /**
      * Scenario for a custom classes with a failing value
-     * 
-     * @expectedException \Exception
      */
     public function testCustomTypeFailing()
     {
+        $this->expectException(Exception::class);
+
         Type::add('Person', 'MyUndefinedType');
     }
 

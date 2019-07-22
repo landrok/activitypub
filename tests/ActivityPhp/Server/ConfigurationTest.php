@@ -4,6 +4,7 @@ namespace ActivityPhpTest\Server;
 
 use ActivityPhp\Server;
 use ActivityPhp\Server\Configuration;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class ConfigurationTest extends TestCase
@@ -26,21 +27,22 @@ class ConfigurationTest extends TestCase
      * Check that all tests are failing
      *
      * @dataProvider      getFailingInstanceScenarios
-     * @expectedException \Exception
      */
     public function testFailingInstanceScenarios($data)
     {
+        $this->expectException(Exception::class);
+
         $config = new Configuration($data);
     }
 
     /**
      * Check a call of getConfig() with a non existing parameter
      * throws an Exception
-     *
-     * @expectedException \Exception
      */
     public function testFailingOnNonExistingParameter()
     {
+        $this->expectException(Exception::class);
+
         $config = new Configuration();
         
         $config->getConfig('https');

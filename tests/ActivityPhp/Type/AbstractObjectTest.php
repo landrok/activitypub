@@ -4,6 +4,7 @@ namespace ActivityPhpTest\Type;
 
 use ActivityPhp\Type;
 use ActivityPhpTest\MyCustomType;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class AbstractObjectTest extends TestCase
@@ -50,33 +51,33 @@ class AbstractObjectTest extends TestCase
 
     /**
      * Getting a non defined should throw an exception
-     * 
-     * @expectedException \Exception
      */
     public function testGetEmptyProperty()
     {
+        $this->expectException(Exception::class);
+
         $object = Type::create('ObjectType');
         $object->myCustomAttribute;
     }
 
     /**
      * Setting without argument should throw an exception
-     * 
-     * @expectedException \Exception
      */
     public function testSetWithNoArgument()
     {
+        $this->expectException(Exception::class);
+
         $object = Type::create('ObjectType');
         $object->setMyCustomAttribute();
     }
 
     /**
      * Call an undefined method
-     * 
-     * @expectedException \Exception
      */
     public function testCallUndefinedMethod()
     {
+        $this->expectException(Exception::class);
+
         $object = Type::create('ObjectType');
         $object->illegalCall();
     }
@@ -159,11 +160,11 @@ class AbstractObjectTest extends TestCase
 
     /**
      * Tests has() method throws an Exception with $strict=true
-     * 
-     * @expectedException \Exception
      */
     public function testHasStrictCheck()
     {
+        $this->expectException(Exception::class);
+
         $object = Type::create('ObjectType');
         $object->has('UndefinedProperty', true);
     }

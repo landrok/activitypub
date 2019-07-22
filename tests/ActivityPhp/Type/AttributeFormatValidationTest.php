@@ -58,6 +58,7 @@ use ActivityPhp\Type\Extended\Object\Relationship;
 use ActivityPhp\Type\Extended\Object\Tombstone;
 use ActivityPhp\Type\Extended\Object\Video;
 use ActivityPhp\Type\Validator;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class AttributeFormatValidationTest extends TestCase
@@ -1397,21 +1398,23 @@ class AttributeFormatValidationTest extends TestCase
 	
 	/**
 	 * @dataProvider      getExceptionScenarios
-	 * @expectedException \Exception
 	 */
 	public function testExceptionScenarios($attr, $type, $value)
 	{
+        $this->expectException(Exception::class);
+
 		$object = new $type();
 		$object->{$attr} = $value;
 	}
 
 	/**
-	 * Validator validate() method MUST receive an object as third parameter
-	 * 
-	 * @expectedException \Exception
+	 * Validator validate() method MUST receive an object as third 
+     * parameter
 	 */
 	public function testValidatorValidateContainer()
 	{	
+        $this->expectException(Exception::class);
+
 		Validator::validate('property', 'value', 'NotAnObject');
 	}
 
@@ -1419,11 +1422,11 @@ class AttributeFormatValidationTest extends TestCase
 	/**
 	 * Validator add method MUST receive an object that implements
 	 * \ActivityPhp\Type\ValidatorInterface interface
-	 * 
-	 * @expectedException \Exception
 	 */
 	public function testValidatorAddNotValidCustomValidator()
 	{
+        $this->expectException(Exception::class);
+
 		Validator::add('custom', new class {
 			public function validate($value) {
 				return true;

@@ -4,6 +4,7 @@ namespace ActivityPhpTest\Type;
 
 use ActivityPhp\Type;
 use ActivityPhp\Type\Dialect;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class DialectTest extends TestCase
@@ -153,11 +154,11 @@ class DialectTest extends TestCase
     /**
      * Should throw an Exception when using a dialect that has
      * been defined and loaded, then unloaded
-     * 
-     * @expectedException \Exception
      */
     public function testAddLoadUnloadDialect()
     {
+        $this->expectException(Exception::class);
+
         Dialect::clear();
         
         $dialect = [
@@ -178,11 +179,11 @@ class DialectTest extends TestCase
     /**
      * Should throw an Exception when using a dialect that has
      * been defined and loaded, then unloaded with *
-     * 
-     * @expectedException \Exception
      */
     public function testAddLoadUnloadAllDialects()
     {
+        $this->expectException(Exception::class);
+
         Dialect::clear();
         
         $dialect = [
@@ -202,11 +203,11 @@ class DialectTest extends TestCase
 
     /**
      * Should throw an Exception when a property has a wrong definition
-     * 
-     * @expectedException \Exception
      */
     public function testWrongPropertyDefinition()
     {
+        $this->expectException(Exception::class);
+
         Dialect::clear();
         
         $dialect = [
@@ -223,11 +224,11 @@ class DialectTest extends TestCase
     /**
      * Should throw an Exception when using a define dialect that has
      * not been loaded
-     * 
-     * @expectedException \Exception
      */
     public function testUsingNotLoadedDialect()
     {
+        $this->expectException(Exception::class);
+
         Dialect::clear();
         
         $dialect = [
@@ -247,11 +248,11 @@ class DialectTest extends TestCase
     /**
      * Should throw an Exception when trying to load an undefined
      * dialect
-     * 
-     * @expectedException \Exception
      */
     public function testLoadingUndefinedDialect()
     {
+        $this->expectException(Exception::class);
+
         Dialect::clear();
         
         Dialect::load('mydialect');
@@ -260,11 +261,11 @@ class DialectTest extends TestCase
     /**
      * Throw an Exception when trying to use a type that has been 
      * unloaded
-     * 
-     * @expectedException \Exception
      */
     public function testUsingAnUnloadedType()
     {
+        $this->expectException(Exception::class);
+
         Dialect::clear();
         
         $dialect = [
