@@ -17,7 +17,7 @@ new ones.
 This method is based on `ActivityPhp\Type\Dialect` tool.
 
 In this manual, we'll only see basics of its API. For more practical 
-aspects, there is a dedicated example in server's part.
+aspects, there is a [dedicated example in server's part]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities-using-dialects.html).
 
 ________________________________________________________________________
 
