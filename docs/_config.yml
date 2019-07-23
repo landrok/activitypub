@@ -2,6 +2,8 @@ markdown: kramdown
 highlighter: rouge
 pygments: true
 
+enableRobotsTXT: true
+
 # Site name (head)
 name: ActivityPhp Documentation
 
