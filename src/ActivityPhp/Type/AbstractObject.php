@@ -130,12 +130,18 @@ abstract class AbstractObject
         }
 
         if ($strict) {
+            // Defined properties
+            $allowed = Type::create($this->type)->getProperties();
+            sort($allowed);
+
             throw new Exception(
                 sprintf(
-                    'Property "%s" is not defined. Type="%s", Class="%s"',
+                    'Property "%s" is not defined. Type="%s", ' .
+                    'Class="%s"' . PHP_EOL . 'Allowed properties: %s',
                     $name,
                     $this->get('type'),
-                    get_class($this)
+                    get_class($this),
+                    implode(', ', $allowed)
                 )
             );
         }
