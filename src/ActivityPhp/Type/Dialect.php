@@ -130,13 +130,11 @@ abstract class Dialect
     }
 
     /**
-     * Add a dialect definition definition in the pool.
+     * Add a dialect definition in the pool.
      * 
      * @param  string $name       Dialect name.
      * @param  array  $definition Types definitions
      * @param  bool   $load
-     * 
-     * @todo Support new types (push into Type pools)
      */
     public static function add(string $name, array $definition, bool $load = true)
     {
