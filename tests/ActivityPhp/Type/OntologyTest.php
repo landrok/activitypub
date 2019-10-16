@@ -6,9 +6,9 @@ use ActivityPhp\Type;
 use ActivityPhp\Type\Ontology;
 use Exception;
 use PHPUnit\Framework\TestCase;
-use ActivityPhp\Type\OntologyBase ;
+use ActivityPhpTest\MyCustomOntology;
 
-abstract class MyOntology extends OntologyBase
+abstract class MyNotwellDefinedOntology
 {           
     /**
      * A definition of custom's ontology to overload Activity 
@@ -31,7 +31,7 @@ class OntologyTest extends TestCase
         Ontology::clear();
         
         // Add and load this dialect
-        Ontology::add('custom-ontology', MyOntology::class);
+        Ontology::add('custom-ontology', MyCustomOntology::class);
         
         // Set this dialect property for one type
         $type = Type::create('Person', ['myOntologyField' => 1]);
@@ -40,6 +40,8 @@ class OntologyTest extends TestCase
             1, 
             $type->myOntologyField
         );
+        
+        Ontology::clear();
 	}
 
     /**
@@ -71,4 +73,20 @@ class OntologyTest extends TestCase
         // Add and load this dialect
         Ontology::add('cus-ontology', $ontology);
 	}
+
+    /**
+     * Should throw an Exception when ontology cdoes not implement
+     * its interface
+     */
+    public function testNotWellDefinedOntology()
+    {
+        $this->expectException(Exception::class);
+
+        Ontology::clear();
+        
+        // Add and load this dialect
+        Ontology::add('cus-ontology', MyNotwellDefinedOntology::class);
+	}
 }
+
+
