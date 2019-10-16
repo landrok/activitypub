@@ -46,6 +46,11 @@ class Configuration
     protected $dialects;
 
     /**
+     * @var null|\ActivityPhp\Server\Configuration\OntologiesConfiguration
+     */
+    protected $ontologies;
+
+    /**
      * Dispatch configuration parameters
      * 
      * @param array $params
@@ -79,7 +84,8 @@ class Configuration
                     'logger',
                     'instance',
                     'http',
-                    'dialects'
+                    'dialects',
+                    'ontologies'
             ] as $config
         ) {
             if (is_null($this->$config)) {

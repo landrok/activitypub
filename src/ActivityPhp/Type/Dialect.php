@@ -148,7 +148,6 @@ abstract class Dialect
          | --------------------------------------------------------- */
         // Extend Types properties
         foreach ($definition as $types => $properties) {
-            // @todo Should throw an exception if properties is not an array
             $xpt = explode('|', $types);
             foreach ($xpt as $type) {
                 if (!is_array($properties)) {
@@ -260,5 +259,35 @@ abstract class Dialect
             
             // @todo Loads a validator for property 
         }
+    }
+
+    /**
+     * Get all loaded dialects (defined and loaded)
+     * 
+     * @return array
+     */
+    public static function getLoadedDialects()
+    {
+        return self::$loaded;
+    }
+
+    /**
+     * Get defined dialects (ready to load)
+     * 
+     * @return array
+     */
+    public static function getDialects()
+    {
+        return self::$dialects;
+    }
+
+    /**
+     * Get all defined ActivityPub Dialects definitions
+     * 
+     * @return array
+     */
+    public static function getDefinitions()
+    {
+        return self::$definitions;
     }
 }

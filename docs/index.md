@@ -590,6 +590,7 @@ Server examples
 
 - [Fetch Peertube Outbox activities]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities.html)
 - [A better way to fetch Peertube Outbox activities]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities-using-dialects.html)
+- [An even better way to fetch Peertube Outbox activities]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities-using-ontologies.html)
 
 ________________________________________________________________________
 

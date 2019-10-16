@@ -39,11 +39,12 @@ use ActivityPhp\Server;
 
 // Create a server instance with parameters
 $server = new Server([
-    'logger'   => [],
-    'instance' => [],
-    'cache'    => [],
-    'http'     => [],
-    'dialects' => [],
+    'logger'     => [],
+    'instance'   => [],
+    'cache'      => [],
+    'http'       => [],
+    'dialects'   => [],
+    'ontologies' => [],
 ]);
 ```
 
@@ -313,6 +314,85 @@ $person  = Type::create([
 [More about dialects management]({{ site.doc_baseurl }}/activitypub-dialects-management.html)
 
 [An example of Peertube's dialect implementation]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities-using-dialects.html)
+
+________________________________________________________________________
+
+________________________________________________________________________
+
+
+### Ontologies parameters
+
+Ontology parameter has a special role.
+
+It defines and load ActivityPub types and properties which are not 
+defined in the standard protocol but that are commonly used by Federated
+applications. It permits that your application will be compatible with
+other federations.
+
+**type**
+
+This parameter is a 1 or 2-levels array containing:
+
+`OntologyName`
+or `OntologyName` => `CustomOntologyClassName`
+
+**examples**
+
+In this example, we load Peertube's ontology.
+
+It's a packaged ontology.
+
+```php
+$server = new Server([
+    'ontologies'   => [
+        'peertube'
+    ],
+]);
+```
+
+After this loading, the new types and properties are usable.
+
+In this second example, we load all predefined (packaged) ontologies.
+
+```php
+$server = new Server([
+    'ontologies'   => [
+        '*'
+    ],
+]);
+```
+
+You can create and define your custom ones and load them.
+
+```php
+$server = new Server([
+    'ontologies'   => [
+        'my-ontology' => MyClass::class
+    ],
+]);
+```
+
+For more informations about creating your custom ontology, see the
+dedicated manual
+[ontologies management manual]({{ site.doc_baseurl }}/activitypub-ontologies-management.html)
+
+
+Obviously, you can load several ontology.
+
+```php
+$server = new Server([
+    'ontologies'   => [
+        'peertube',
+        'my-ontology' => MyClass::class
+    ],
+]);
+```
+
+This feature needs you. Contributions are very welcome.
+
+[More about ontologies management]({{ site.doc_baseurl }}/activitypub-ontologies-management.html)
+
+[An example of Peertube's ontology implementation]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities-using-dialects.html)
 
 ________________________________________________________________________
 
