@@ -334,7 +334,10 @@ other federations.
 This parameter is a 1 or 2-levels array containing:
 
 `OntologyName`
-or `OntologyName` => `CustomOntologyClassName`
+
+or 
+
+`OntologyName` => `CustomOntologyClassName`
 
 **examples**
 
@@ -377,7 +380,7 @@ dedicated manual
 [ontologies management manual]({{ site.doc_baseurl }}/activitypub-ontologies-management.html)
 
 
-Obviously, you can load several ontology.
+Obviously, you can load several ontologies.
 
 ```php
 $server = new Server([

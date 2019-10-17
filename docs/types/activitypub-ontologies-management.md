@@ -9,12 +9,12 @@ ActivityPub ontologies
 ====================
 
 In a previous example, we've seen how to extend ActivityPub types with
-[dialects]({{ site.doc_baseurl }}/activitypub-ontologies-management.html). 
+[dialects]({{ site.doc_baseurl }}/activitypub-dialects-management.html). 
 
 There is another method to dynamically extend defined types or to create
 new ones.
 
-This method is based on `ActivityPhp\Type\ontology` tool.
+This method is based on `ActivityPhp\Type\Ontology` tool.
 
 In this manual, we'll only see basics of its API. For more practical 
 aspects, there is a [dedicated example in server's part]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities-using-ontologies.html).
@@ -69,8 +69,8 @@ transparently created.
 
 ________________________________________________________________________
 
-Add and load your dialect
--------------------------
+Add and load your ontology
+--------------------------
 
 After defining it, you have to load it.
 
@@ -169,8 +169,8 @@ Contribute with your ontologies
 This feature is made to ease implementation of major ontologies 
 (Mastodon, Peertube, Pixelfed, etc...).
 
-If you succefully implemented a new one, feel free to contribute with a 
-[pull request]({{ site.repository_url }})!
+If you successfully implemented a new one, feel free to contribute with 
+a [pull request]({{ site.repository_url }})!
 
 
 
