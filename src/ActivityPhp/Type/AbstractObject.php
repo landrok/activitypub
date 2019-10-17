@@ -238,6 +238,20 @@ abstract class AbstractObject
     }
 
     /**
+     * Get a JSON 
+     * 
+     * @param  int     $options PHP JSON options
+     * @return string
+     */
+    public function toJson($options = null)
+    {
+        return json_encode(
+            $this->toArray(),
+            $options
+        );
+    }
+
+    /**
      * Get a copy of current object and return a new instance
      * 
      * @return self A new instance of this object

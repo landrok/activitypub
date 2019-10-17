@@ -33,6 +33,7 @@ Basics
     - [Type factory]({{ site.doc_baseurl }}/#type-factory)
     - [Properties names]({{ site.doc_baseurl }}/#properties-names)
     - [All properties and their values]({{ site.doc_baseurl }}/#all-properties-and-their-values)
+    - [JSON export]({{ site.doc_baseurl }}/#json-export)
     - [Set several properties]({{ site.doc_baseurl }}/#set-several-properties)
     - [Get a property]({{ site.doc_baseurl }}/#get-a-property)
     - [Set a property]({{ site.doc_baseurl }}/#set-a-property)
@@ -177,6 +178,51 @@ Array
 )
 ```
 
+________________________________________________________________________
+
+### JSON export
+
+In order to export a type as JSON, use `toJson()` method. 
+
+```php
+use ActivityPhp\Type;
+
+$link = Type::create('Link');
+$link->setName('An example');
+$link->setHref('http://example.com');
+
+echo $link->toJson();
+```
+
+Would output something like:
+
+```
+{"type":"Link","name":"An example","href":"http:\/\/example.com"}
+
+```
+
+It's possible to give PHP JSON options as parameter
+
+```php
+use ActivityPhp\Type;
+
+$link = Type::create('Link');
+$link->setName('An example');
+$link->setHref('http://example.com');
+
+echo $link->toJson(JSON_PRETTY_PRINT);
+```
+
+Would output something like:
+
+```
+{
+    "type": "Link",
+    "name": "An example",
+    "href": "http:\/\/example.com"
+}
+
+```
 ________________________________________________________________________
 
 ### Get a property

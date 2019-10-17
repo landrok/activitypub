@@ -158,6 +158,60 @@ class AbstractObjectTest extends TestCase
         );
     }
 
+
+    /**
+     * tests toJson() method
+     */
+    public function testToJson()
+    {	
+        $expected = [
+            'type' => 'Link',
+        ];
+
+        $this->assertEquals(
+            '{"type":"Link"}',
+            Type::create('Link')->toJson()
+        );
+    }
+
+    /**
+     * tests toJson() method
+     */
+    public function testToJsonWithSomeProperties()
+    {	
+        $expected = [
+            'type' => 'Link',
+            'name' => 'An example',
+            'href' => 'http://example.com',
+        ];
+
+        $this->assertEquals(
+            '{"type":"Link","name":"An example","href":"http:\/\/example.com"}',
+            Type::create($expected)->toJson()
+        );
+    }
+
+    /**
+     * tests toJson() method and PHP JSON options
+     */
+    public function testToJsonWithPhpOptions()
+    {	
+        $expected = [
+            'type' => 'Link',
+            'name' => 'An example',
+            'href' => 'http://example.com',
+        ];
+
+        $this->assertEquals(
+            '{
+    "type": "Link",
+    "name": "An example",
+    "href": "http:\/\/example.com"
+}',
+            Type::create($expected)->toJson(JSON_PRETTY_PRINT)
+        );
+    }
+
     /**
      * Tests has() method throws an Exception with $strict=true
      */
