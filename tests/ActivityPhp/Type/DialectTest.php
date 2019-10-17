@@ -10,6 +10,50 @@ use PHPUnit\Framework\TestCase;
 class DialectTest extends TestCase
 {
     /**
+     * Test basic getters
+     */
+    public function testBasicGetters()
+    {
+        Dialect::clear();
+
+        // test with empty stacks
+        $this->assertEquals([], Dialect::getLoadedDialects());
+        $this->assertEquals([], Dialect::getDialects());
+        $this->assertEquals([], Dialect::getDefinitions());
+
+        $dialect = [
+            // Add fields to one type
+            'Person' => [
+                'myDialectField'
+            ],
+        ];
+
+        // Simply add this dialect
+        Dialect::add('mydialect', $dialect, false);
+
+        // test with a little stack stacks
+        $this->assertEquals([], Dialect::getLoadedDialects());
+        $this->assertEquals(['mydialect'], Dialect::getDialects());
+        $this->assertEquals([
+            'Person' => [
+                'myDialectField' => [
+                    'defaultValue' => '', 
+                    'validator'    => '',
+                    'dialects'     => [
+                        'mydialect',
+                    ]
+                ]
+            ]
+        ], Dialect::getDefinitions());
+        
+        // Load this dialect
+        Dialect::load('mydialect');
+
+        $this->assertEquals(['mydialect'], Dialect::getLoadedDialects());
+        $this->assertEquals(['mydialect'], Dialect::getDialects());
+    }
+
+    /**
      * Extend one type with one property
      */
     public function testExtendOneTypeWithOneProperty()

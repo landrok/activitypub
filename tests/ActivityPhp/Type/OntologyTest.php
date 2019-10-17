@@ -88,5 +88,3 @@ class OntologyTest extends TestCase
         Ontology::add('cus-ontology', MyNotwellDefinedOntology::class);
 	}
 }
-
-
