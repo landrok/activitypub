@@ -12,7 +12,6 @@
 namespace ActivityPhp\Server\Http;
 
 use ActivityPhp\Server;
-use ActivityPhp\Type\Util;
 use Psr\Http\Message\ServerRequestInterface;
 use phpseclib\Crypt\RSA;
 
@@ -71,13 +70,11 @@ class HttpSignature
             return false;
         }
 
-        extract($parts);
-
         $this->server->logger()->debug('Signature', [$signature]);
 
         // Build a server-oriented actor
         // Fetch the public key linked from keyId
-        $actor = $this->server->actor($keyId);
+        $actor = $this->server->actor($parts['keyId']);
 
         $publicKeyPem = $actor->getPublicKeyPem();
 
@@ -86,7 +83,7 @@ class HttpSignature
         // Create a comparison string from the plaintext headers we got 
         // in the same order as was given in the signature header, 
         $data = $this->getPlainText(
-            explode(' ', trim($headers)), 
+            explode(' ', trim($parts['headers'])),
             $request
         );
 
