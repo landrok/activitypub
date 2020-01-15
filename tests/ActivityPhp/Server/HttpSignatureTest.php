@@ -4,10 +4,9 @@ namespace ActivityPhpTest\Server;
 
 use ActivityPhp\Server;
 use ActivityPhp\Server\Http\HttpSignature;
-use ActivityPhp\Type;
 use Exception;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Request;
 use phpseclib\Crypt\RSA;
 
 /*
@@ -22,6 +21,8 @@ class HttpSignatureTest extends TestCase
      */
     public function testValidSignature()
     {
+        $responseFactory = new Psr17Factory();
+
         $server = new Server([
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
@@ -29,7 +30,7 @@ class HttpSignatureTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $responseFactory);
 
         $payload = json_encode([]);
                 
@@ -57,38 +58,29 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = Request::create(
-            'http://localhost:8000' . $path,
-            'POST',
-            [], // parameters
-            [], // cookies
-            [], // files
-            $_SERVER,
-            $payload
-        );
-
-        $request->headers->set('accept', 'application/activity+json');
+        $request = $responseFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request->getBody()->write($payload);
 
         // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
-        $request->headers->set('Signature', 'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"');
-        $request->headers->set('host', $host);
-        $request->headers->set('date', $date);
+        $request = $request
+            ->withAddedHeader('Accept', 'application/activity+json')
+            ->withAddedHeader('Signature', 'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"')
+            ->withAddedHeader('Host', $host)
+            ->withAddedHeader('Date', $date);
 
         $httpSignature = new HttpSignature($server);
 
         // Assert verify method returns true
-        $this->assertEquals(
-            true,
-            $httpSignature->verify($request)
-        );
+        $this->assertTrue($httpSignature->verify($request));
     }
 
     /**
      * Check that a given request is correctly signed
-     * With a optionnal headers not specified (fallback on date)
+     * With a optional headers not specified (fallback on date)
      */
     public function testValidSignatureWithFallbackHeaders()
     {
+        $responseFactory = new Psr17Factory();
         $server = new Server([
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
@@ -96,7 +88,7 @@ class HttpSignatureTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $responseFactory);
 
         $payload = json_encode([]);
                 
@@ -124,30 +116,20 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = Request::create(
-            'http://localhost:8000' . $path,
-            'POST',
-            [], // parameters
-            [], // cookies
-            [], // files
-            $_SERVER,
-            $payload
-        );
-
-        $request->headers->set('accept', 'application/activity+json');
+        $request = $responseFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request->getBody()->write($payload);
 
         // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
-        $request->headers->set('Signature', 'keyId="http://localhost:8001/accounts/bob#main-key",signature="' . base64_encode($signature) . '"');
-        $request->headers->set('host', $host);
-        $request->headers->set('date', $date);
+        $request = $request
+            ->withAddedHeader('Accept', 'application/activity+json')
+            ->withAddedHeader('Signature', 'keyId="http://localhost:8001/accounts/bob#main-key",signature="' . base64_encode($signature) . '"')
+            ->withAddedHeader('Host', $host)
+            ->withAddedHeader('Date', $date);
 
         $httpSignature = new HttpSignature($server);
 
         // Assert verify method returns true
-        $this->assertEquals(
-            true,
-            $httpSignature->verify($request)
-        );
+        $this->assertTrue($httpSignature->verify($request));
     }
 
     /**
@@ -156,6 +138,7 @@ class HttpSignatureTest extends TestCase
      */
     public function testWrongSignatureMissingSignatureHeader()
     {
+        $responseFactory = new Psr17Factory();
         $server = new Server([
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
@@ -163,7 +146,7 @@ class HttpSignatureTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $responseFactory);
 
         $payload = json_encode([]);
                 
@@ -191,21 +174,14 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = Request::create(
-            'http://localhost:8000' . $path,
-            'POST',
-            [], // parameters
-            [], // cookies
-            [], // files
-            $_SERVER,
-            $payload
-        );
-
-        $request->headers->set('accept', 'application/activity+json');
+        $request = $responseFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request->getBody()->write($payload);
 
         // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
-        $request->headers->set('host', $host);
-        $request->headers->set('date', $date);
+        $request
+            ->withAddedHeader('Accept', 'application/activity+json')
+            ->withAddedHeader('Host', $host)
+            ->withAddedHeader('Date', $date);
 
         $httpSignature = new HttpSignature($server);
 
@@ -221,6 +197,7 @@ class HttpSignatureTest extends TestCase
      */
     public function testWrongSignatureMissingKeyId()
     {
+        $httpFactory = new Psr17Factory();
         $server = new Server([
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
@@ -228,7 +205,7 @@ class HttpSignatureTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
         $payload = json_encode([]);
                 
@@ -256,22 +233,19 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = Request::create(
-            'http://localhost:8000' . $path,
-            'POST',
-            [], // parameters
-            [], // cookies
-            [], // files
-            $_SERVER,
-            $payload
-        );
+        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request->getBody()->write($payload);
 
-        $request->headers->set('accept', 'application/activity+json');
+        $request = $request
+            ->withAddedHeader('Accept', 'application/activity+json')
+            ->withAddedHeader('Host', $host)
+            ->withAddedHeader('Date', $date);
 
         // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
-        $request->headers->set('Signature', 'headers="(request-target) host date",signature="' . base64_encode($signature) . '"');
-        $request->headers->set('host', $host);
-        $request->headers->set('date', $date);
+        $request = $request->withAddedHeader(
+            'Signature',
+            'headers="(request-target) host date",signature="' . base64_encode($signature) . '"'
+        );
 
         $httpSignature = new HttpSignature($server);
 
@@ -287,6 +261,7 @@ class HttpSignatureTest extends TestCase
      */
     public function testWrongSignatureMissingSignature()
     {
+        $httpFactory = new Psr17Factory();
         $server = new Server([
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
@@ -294,7 +269,7 @@ class HttpSignatureTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
         $payload = json_encode([]);
                 
@@ -322,22 +297,19 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = Request::create(
-            'http://localhost:8000' . $path,
-            'POST',
-            [], // parameters
-            [], // cookies
-            [], // files
-            $_SERVER,
-            $payload
-        );
+        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request->getBody()->write($payload);
 
-        $request->headers->set('accept', 'application/activity+json');
+        $request = $request
+            ->withAddedHeader('Accept', 'application/activity+json')
+            ->withAddedHeader('Host', $host)
+            ->withAddedHeader('Date', $date);
 
         // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
-        $request->headers->set('Signature', 'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date"');
-        $request->headers->set('host', $host);
-        $request->headers->set('date', $date);
+        $request = $request->withAddedHeader(
+            'Signature',
+            'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date"'
+        );
 
         $httpSignature = new HttpSignature($server);
 
@@ -355,6 +327,7 @@ class HttpSignatureTest extends TestCase
     {
         $this->expectException(Exception::class);
 
+        $httpFactory = new Psr17Factory();
         $server = new Server([
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
@@ -362,7 +335,7 @@ class HttpSignatureTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
         $payload = json_encode([]);
                 
@@ -390,22 +363,19 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = Request::create(
-            'http://localhost:8000' . $path,
-            'POST',
-            [], // parameters
-            [], // cookies
-            [], // files
-            $_SERVER,
-            $payload
-        );
+        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request->getBody()->write($payload);
 
-        $request->headers->set('accept', 'application/activity+json');
+        $request = $request
+            ->withAddedHeader('Accept', 'application/activity+json')
+            ->withAddedHeader('Host', $host)
+            ->withAddedHeader('Date', $date);
 
         // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
-        $request->headers->set('Signature', 'keyId="http://localhost:8001/accounts/bobb#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"');
-        $request->headers->set('host', $host);
-        $request->headers->set('date', $date);
+        $request = $request->withAddedHeader(
+            'Signature',
+            'keyId="http://localhost:8001/accounts/bobb#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"'
+        );
 
         $httpSignature = new HttpSignature($server);
         $httpSignature->verify($request);
@@ -416,6 +386,7 @@ class HttpSignatureTest extends TestCase
      */
     public function testWrongSignatureNotVerifiedSignature()
     {
+        $httpFactory = new Psr17Factory();
         $server = new Server([
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
@@ -423,7 +394,7 @@ class HttpSignatureTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
         $payload = json_encode([]);
                 
@@ -451,22 +422,19 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = Request::create(
-            'http://localhost:8000' . $path,
-            'POST',
-            [], // parameters
-            [], // cookies
-            [], // files
-            $_SERVER,
-            $payload
-        );
+        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request->getBody()->write($payload);
 
-        $request->headers->set('accept', 'application/activity+json');
+        $request = $request
+            ->withAddedHeader('Accept', 'application/activity+json')
+            ->withAddedHeader('Host', $host)
+            ->withAddedHeader('Date', date('Y-m-d'));
 
         // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
-        $request->headers->set('Signature', 'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"');
-        $request->headers->set('host', $host);
-        $request->headers->set('date', date('Y-m-d'));
+        $request->withAddedHeader(
+            'Signature',
+            'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"'
+        );
 
         $httpSignature = new HttpSignature($server);
 

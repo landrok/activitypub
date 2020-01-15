@@ -13,7 +13,7 @@ namespace ActivityPhp\Server\Http;
 
 use ActivityPhp\Server;
 use ActivityPhp\Type\Util;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface;
 use phpseclib\Crypt\RSA;
 
 /**
@@ -49,18 +49,18 @@ class HttpSignature
     /**
      * Verify an incoming message based upon its HTTP signature
      *
-     * @param  \Symfony\Component\HttpFoundation\Request $request
+     * @param ServerRequestInterface $request
      * @return bool True if signature has been verified. Otherwise false 
      */
-    public function verify(Request $request)
+    public function verify(ServerRequestInterface $request)
     {
         // Read the Signature header,
-        $signature = $request->headers->get('signature');
+        $signature = $request->getHeaderLine('signature');
 
         if (!$signature) {
             $this->server->logger()->info(
                 'Signature header not found',
-                [$request->headers->all()]
+                [$request->getHeaders()]
             );
             return false;
         }
@@ -103,7 +103,7 @@ class HttpSignature
     /**
      * Split HTTP signature into its parts (keyId, headers and signature)
      * 
-     * @param s tring $signature
+     * @param string $signature
      * @return bool|array
      */
     private function splitSignature(string $signature)
@@ -128,24 +128,24 @@ class HttpSignature
     /**
      * Get plain text that has been originally signed
      * 
-     * @param  array $headers HTTP header keys
-     * @param  \Symfony\Component\HttpFoundation\Request $request 
+     * @param array $headers HTTP header keys
+     * @param ServerRequestInterface $request
      * @return string
      */
-    private function getPlainText(array $headers, Request $request)
+    private function getPlainText(array $headers, ServerRequestInterface $request)
     {
         $strings = [];
         $strings[] = sprintf(
             '(request-target) %s %s%s',
             strtolower($request->getMethod()),
-            $request->getPathInfo(),
-            $request->getQueryString() 
-                ? '?' . $request->getQueryString() : ''
+            $request->getUri()->getPath(),
+            '' !== $request->getUri()->getQuery()
+                ? '?' . $request->getUri()->getQuery() : ''
         );
 
         foreach ($headers as $key) {
-            if ($request->headers->has($key)) {
-                $strings[] = "$key: " . $request->headers->get($key);
+            if ($request->hasHeader($key)) {
+                $strings[] = "$key: " . $request->getHeaderLine($key);
             }
         }
 

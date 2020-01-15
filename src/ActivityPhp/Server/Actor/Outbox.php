@@ -15,13 +15,12 @@ use ActivityPhp\Server;
 use ActivityPhp\Server\Activity\HandlerInterface;
 use ActivityPhp\Server\Actor;
 use ActivityPhp\Server\Helper;
-use ActivityPhp\Server\Http\Request as HttpRequest;
 use ActivityPhp\Type;
 use ActivityPhp\Type\Core\AbstractActivity;
 use ActivityPhp\Type\Util;
 use Exception;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * A server-side outbox
@@ -93,15 +92,15 @@ class Outbox extends AbstractBox
     /**
      * Post a message to the world
      * 
-     * @param  \Symfony\Component\HttpFoundation\Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
      */
-    public function post(Request $request)
+    public function post(ServerRequestInterface $request)
     {
         try {
             // Check accept header
             Helper::validateAcceptHeader(
-                $request->headers->get('accept'),
+                $request->getHeader('accept'),
                 true
             );
 
@@ -123,7 +122,7 @@ class Outbox extends AbstractBox
                 ]
             );
 
-            return new Response('', 400);
+            return $this->server->getResponseFactory()->createResponse(400);
         }
         
         // Log

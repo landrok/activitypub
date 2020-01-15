@@ -17,6 +17,8 @@ use ActivityPhp\Server\Actor\Outbox;
 use ActivityPhp\Server\CacheHelper;
 use ActivityPhp\Server\Configuration;
 use Exception;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 
 /**
  * \ActivityPhp\Server is the entry point for server processes.
@@ -49,14 +51,20 @@ class Server
     protected $configuration;
 
     /**
+     * @var ResponseFactoryInterface
+     */
+    private $responseFactory;
+
+    /**
      * Server constructor
      * 
      * @param array $config Server configuration
      */
-    public function __construct(array $config = [])
+    public function __construct(array $config = [], ResponseFactoryInterface $responseFactory)
     {
         $this->configuration = new Configuration($config);
         $this->logger = $this->config('logger')->createLogger();
+        $this->responseFactory = $responseFactory;
         CacheHelper::setPool(
             $this->config('cache')
         );
@@ -159,5 +167,10 @@ class Server
         $this->actors[$handle] = new Actor($handle, $this);
 
         return $this->actors[$handle];
+    }
+
+    public function getResponseFactory(): ResponseFactoryInterface
+    {
+        return $this->responseFactory;
     }
 }

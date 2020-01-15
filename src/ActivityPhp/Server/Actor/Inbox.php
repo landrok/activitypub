@@ -18,35 +18,45 @@ use ActivityPhp\Server\Http\HttpSignature;
 use ActivityPhp\Type;
 use ActivityPhp\Type\Util;
 use Exception;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * A server-side inbox
  */ 
 class Inbox extends AbstractBox
 {
+
+    /**
+     * @var ResponseFactoryInterface
+     */
+    private $responseFactory;
+
     /**
      * Inbox constructor
      * 
      * @param  \ActivityPhp\Server\Actor $actor An actor
      * @param  \ActivityPhp\Server $server
      */
-    public function __construct(Actor $actor, Server $server)
+    public function __construct(Actor $actor, Server $server, ResponseFactoryInterface $responseFactory)
     {
         $server->logger()->info(
             $actor->get('preferredUsername') . ':' . __METHOD__
         );
         parent::__construct($actor, $server);
+
+        $this->responseFactory = $responseFactory;
     }
 
     /**
      * Post a message to current actor
      * 
-     * @param  \Symfony\Component\HttpFoundation\Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param RequestInterface $request
+     * @return ResponseInterface
      */
-    public function post(Request $request)
+    public function post(RequestInterface $request)
     {
         $this->server->logger()->info(
             $this->actor->get('preferredUsername') . ':' . __METHOD__
@@ -77,14 +87,14 @@ class Inbox extends AbstractBox
                 ]
             );
 
-            return new Response('', 400);
+            return $this->responseFactory->createResponse(400);
         }
 
         $httpSignature = new HttpSignature($this->server);
         if ($httpSignature->verify($request)) {
-            return new Response('', 201);
+            return $this->responseFactory->createResponse(201);
         }
 
-        return new Response('', 403);
+        return $this->responseFactory->createResponse(403);
     }
 }

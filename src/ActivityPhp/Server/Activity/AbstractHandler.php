@@ -11,7 +11,8 @@
 
 namespace ActivityPhp\Server\Activity;
 
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Abstract class for all activity handlers
@@ -19,25 +20,25 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class AbstractHandler implements HandlerInterface
 {
     /**
-     * @var \Symfony\Component\HttpFoundation\Response
+     * @var ResponseFactoryInterface
      */
-    private $response;
+    private $responseFactory;
 
     /**
-     * Constructor
+     * @param ResponseFactoryInterface $responseFactory
      */
-    public function __construct()
+    public function __construct(ResponseFactoryInterface $responseFactory)
     {
-        $this->response = new Response();
+        $this->responseFactory = $responseFactory;
     }
 
     /**
      * Get HTTP response instance
      * 
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return ResponseInterface
      */
     public function getResponse()
     {
-        return $this->response;
+        return $this->responseFactory->createResponse();
     }
 }
