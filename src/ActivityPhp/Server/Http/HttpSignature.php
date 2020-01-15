@@ -17,16 +17,16 @@ use phpseclib\Crypt\RSA;
 
 /**
  * HTTP signatures tool
- */ 
+ */
 class HttpSignature
 {
     const SIGNATURE_PATTERN = '/^
         keyId="(?P<keyId>
-            (https?:\/\/[\w\-\.]+[\w]+)
-            (:[\d]+)?
-            ([\w\-\.#\/@]+)
+            (?:https?:\/\/[\w\-\.]+[\w]+)
+            (?::[\d]+)?
+            (?:[\w\-\.#\/@]+)
         )",
-        (headers="\(request-target\) (?P<headers>[\w\s]+)",)?
+        (?:headers="\(request-target\) (?P<headers>[\w\s]+)",)?
         signature="(?P<signature>[\w+\/]+==)"
     /x';
 
@@ -37,7 +37,7 @@ class HttpSignature
 
     /**
      * Inject a server instance
-     * 
+     *
      * @param \ActivityPhp\Server $server
      */
     public function __construct(Server $server)
@@ -49,7 +49,7 @@ class HttpSignature
      * Verify an incoming message based upon its HTTP signature
      *
      * @param ServerRequestInterface $request
-     * @return bool True if signature has been verified. Otherwise false 
+     * @return bool True if signature has been verified. Otherwise false
      */
     public function verify(ServerRequestInterface $request)
     {
@@ -70,36 +70,38 @@ class HttpSignature
             return false;
         }
 
+        extract($parts);
+
         $this->server->logger()->debug('Signature', [$signature]);
 
         // Build a server-oriented actor
         // Fetch the public key linked from keyId
-        $actor = $this->server->actor($parts['keyId']);
+        $actor = $this->server->actor($keyId);
 
         $publicKeyPem = $actor->getPublicKeyPem();
 
         $this->server->logger()->debug('publicKeyPem', [$publicKeyPem]);
 
-        // Create a comparison string from the plaintext headers we got 
-        // in the same order as was given in the signature header, 
+        // Create a comparison string from the plaintext headers we got
+        // in the same order as was given in the signature header,
         $data = $this->getPlainText(
-            explode(' ', trim($parts['headers'])),
+            explode(' ', trim($headers)),
             $request
         );
 
-        // Verify that string using the public key and the original 
+        // Verify that string using the public key and the original
         // signature.
-        $rsa = new RSA(); 
-        $rsa->setHash("sha256"); 
-        $rsa->setSignatureMode(RSA::SIGNATURE_PSS); 
+        $rsa = new RSA();
+        $rsa->setHash("sha256");
+        $rsa->setSignatureMode(RSA::SIGNATURE_PSS);
         $rsa->loadKey($publicKeyPem);
 
-        return $rsa->verify($data, base64_decode($signature, true)); 
+        return $rsa->verify($data, base64_decode($signature, true));
     }
 
     /**
      * Split HTTP signature into its parts (keyId, headers and signature)
-     * 
+     *
      * @param string $signature
      * @return bool|array
      */
@@ -119,14 +121,14 @@ class HttpSignature
             $matches['headers'] = 'date';
         }
 
-        return $matches;        
+        return $matches;
     }
 
     /**
      * Get plain text that has been originally signed
-     * 
-     * @param array $headers HTTP header keys
-     * @param ServerRequestInterface $request
+     *
+     * @param  array $headers HTTP header keys
+     * @param  ServerRequestInterface $request
      * @return string
      */
     private function getPlainText(array $headers, ServerRequestInterface $request)
@@ -136,7 +138,7 @@ class HttpSignature
             '(request-target) %s %s%s',
             strtolower($request->getMethod()),
             $request->getUri()->getPath(),
-            '' !== $request->getUri()->getQuery()
+            $request->getUri()->getQuery()
                 ? '?' . $request->getUri()->getQuery() : ''
         );
 
@@ -146,6 +148,6 @@ class HttpSignature
             }
         }
 
-        return implode("\n", $strings);   
+        return implode("\n", $strings);
     }
 }
