@@ -21,23 +21,22 @@ class HttpSignatureTest extends TestCase
      */
     public function testValidSignature()
     {
-        $responseFactory = new Psr17Factory();
-
+        $httpFactory = new Psr17Factory();
         $server = new Server([
             'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
+                'driver' => '\Psr\Log\NullLogger'
             ],
             'cache' => [
                 'enabled' => false,
             ]
-        ], $responseFactory);
+        ], $httpFactory);
 
         $payload = json_encode([]);
-                
+
         /* ------------------------------------------------------------------
          | Prepare signature
          | ------------------------------------------------------------------ */
-        $date = gmdate('D, d M Y H:i:s T', time()); 
+        $date = gmdate('D, d M Y H:i:s T', time());
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
@@ -45,33 +44,40 @@ class HttpSignatureTest extends TestCase
         $rsa->loadKey(
             file_get_contents(
                 dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-            )  
+            )
         ); // private key
-
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
 
-        $rsa->setHash("sha256"); 
-        $rsa->setSignatureMode(RSA::SIGNATURE_PSS); 
+        $rsa->setHash("sha256");
+        $rsa->setSignatureMode(RSA::SIGNATURE_PSS);
         $signature = $rsa->sign($plaintext);
 
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = $responseFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+
+        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
         $request->getBody()->write($payload);
+
+        $request = $request->withHeader('accept', 'application/activity+json');
 
         // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
         $request = $request
-            ->withAddedHeader('Accept', 'application/activity+json')
-            ->withAddedHeader('Signature', 'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"')
-            ->withAddedHeader('Host', $host)
-            ->withAddedHeader('Date', $date);
+            ->withHeader(
+                'Signature',
+                'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"'
+            )
+            ->withHeader('host', $host)
+            ->withHeader('date', $date);
 
         $httpSignature = new HttpSignature($server);
 
         // Assert verify method returns true
-        $this->assertTrue($httpSignature->verify($request));
+        $this->assertEquals(
+            true,
+            $httpSignature->verify($request)
+        );
     }
 
     /**
