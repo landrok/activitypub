@@ -65,18 +65,15 @@ class HttpSignature
         }
 
         // Split it into its parts (keyId, headers and signature)
-        $parts = $this->splitSignature($signature);
-        if (!$parts) {
+        if (false === $parts = $this->splitSignature($signature)) {
             return false;
         }
-
-        extract($parts);
 
         $this->server->logger()->debug('Signature', [$signature]);
 
         // Build a server-oriented actor
         // Fetch the public key linked from keyId
-        $actor = $this->server->actor($keyId);
+        $actor = $this->server->actor($parts['keyId']);
 
         $publicKeyPem = $actor->getPublicKeyPem();
 
@@ -85,7 +82,7 @@ class HttpSignature
         // Create a comparison string from the plaintext headers we got
         // in the same order as was given in the signature header,
         $data = $this->getPlainText(
-            explode(' ', trim($headers)),
+            explode(' ', trim($parts['headers'])),
             $request
         );
 
@@ -96,7 +93,7 @@ class HttpSignature
         $rsa->setSignatureMode(RSA::SIGNATURE_PSS);
         $rsa->loadKey($publicKeyPem);
 
-        return $rsa->verify($data, base64_decode($signature, true));
+        return $rsa->verify($data, base64_decode($parts['signature'], true));
     }
 
     /**
@@ -107,6 +104,8 @@ class HttpSignature
      */
     private function splitSignature(string $signature)
     {
+        $matches = [];
+
         if (!preg_match(self::SIGNATURE_PATTERN, $signature, $matches)) {
             $this->server->logger()->info(
                 'Signature pattern failed',
@@ -121,7 +120,11 @@ class HttpSignature
             $matches['headers'] = 'date';
         }
 
-        return $matches;
+        return [
+            'keyId' => $matches['keyId'],
+            'signature' => $matches['signature'],
+            'headers' => $matches['headers']
+        ];
     }
 
     /**
