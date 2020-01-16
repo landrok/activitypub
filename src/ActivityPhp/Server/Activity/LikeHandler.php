@@ -45,7 +45,6 @@ class LikeHandler extends AbstractHandler
      */
     public function handle(): ResponseInterface
     {
-        return $this->responseFactory->createResponse(201)
-            ->withHeader('Location', $this->activity->get('id'));
+        return $this->responseFactory->createResponse(201)->withHeader('Location', $this->activity->get('id'));
     }
 }

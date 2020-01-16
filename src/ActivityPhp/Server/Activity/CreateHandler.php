@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the ActivityPhp package.
- *
- * Copyright (c) landrok at github.com/landrok
- *
- * For the full copyright and license information, please see
- * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
- */
-
 namespace ActivityPhp\Server\Activity;
 
 use ActivityPhp\Type\Core\AbstractActivity;
@@ -41,11 +32,10 @@ class CreateHandler extends AbstractHandler
     /**
      * Handle activity
      * 
-     * @return $this
+     * @return ResponseInterface
      */
     public function handle(): ResponseInterface
     {
-        return $this->responseFactory->createResponse(201)
-            ->withHeader('location', $this->activity->get('id'));
+        return $this->responseFactory->createResponse(201)->withHeader('location', $this->activity->get('id'));
     }
 }

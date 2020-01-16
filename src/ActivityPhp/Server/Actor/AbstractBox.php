@@ -1,21 +1,11 @@
 <?php
 
-/*
- * This file is part of the ActivityPhp package.
- *
- * Copyright (c) landrok at github.com/landrok
- *
- * For the full copyright and license information, please see
- * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
- */
-
 namespace ActivityPhp\Server\Actor;
 
 use ActivityPhp\Server;
 use ActivityPhp\Server\Actor;
 use ActivityPhp\Type;
 use ActivityPhp\Type\AbstractObject;
-use Exception;
 
 /**
  * A base class for server-side box
@@ -28,52 +18,32 @@ abstract class AbstractBox
     const MAX_ITEMS = 100;
 
     /**
-     * @var \ActivityPhp\Server
+     * @var Server
      */
     protected $server;
 
     /**
-     * @var \ActivityPhp\Server\Actor
+     * @var Actor
      */
     protected $actor;
 
     /**
      * A box definition
      *
-     * @var \ActivityPhp\Type\Core\OrderedCollection
+     * @var Type\Core\OrderedCollection
      */
     protected $orderedCollection;
 
     /**
      * Box constructor
      * 
-     * @param  \ActivityPhp\Server\Actor $actor
-     * @param  \ActivityPhp\Server $server
+     * @param Actor $actor
+     * @param Server $server
      */
     public function __construct(Actor $actor, Server $server)
     {
-        $this->setServer($server);
-        $this->actor = $actor;
-    }
-
-    /**
-     * Server instance setter
-     * 
-     * @param \ActivityPhp\Server $server
-     */
-    public function setServer(Server $server)
-    {
         $this->server = $server;
-    }
-
-    /**
-     * Server instance getter
-     * 
-     * @return \ActivityPhp\Server
-     */
-    public function getServer()
-    {
-        return $this->server;
+        $this->actor = $actor;
     }
 
     /**
@@ -85,19 +55,21 @@ abstract class AbstractBox
      */
     public function config(string $param)
     {
-        return $this->getServer()->config($param);
+        return $this->server->config($param);
     }
 
     /**
      * Wrap an object into a Create activity
-     * 
+     *
      * @see    https://www.w3.org/TR/activitypub/#object-without-create
      *
-     * @param  \ActivityPhp\Type\AbstractObject $object
-     * @return \ActivityPhp\Type\Core\AbstractActivity
+     * @param AbstractObject $object
+     * @return Type\Core\AbstractActivity
+     * @throws \Exception
      */
     protected function wrapObject(AbstractObject $object)
     {
+        /** @var Type\Core\AbstractActivity $activity */
         $activity = Type::create('Create', [
             '@context'  => $object->get('@context'),
             'actor'     => $this->actorUrl(),
