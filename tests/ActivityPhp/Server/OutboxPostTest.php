@@ -21,6 +21,7 @@ class OutboxPostTest extends TestCase
                   "@context": ["https://www.w3.org/ns/activitystreams",
                                {"@language": "en"}],
                   "type": "Like",
+                  "id": "http://localhost:8000/~chris/like/ca1cb81a-f735-4674-b540-6756f9df5d8b",
                   "actor": "https://dustycloud.org/chris/",
                   "name": "Chris liked \'Minimal ActivityPhp update client\'",
                   "object": "https://rhiaro.co.uk/2016/05/minimal-activitypub",
@@ -34,6 +35,7 @@ class OutboxPostTest extends TestCase
                 '{
                   "@context": "https://www.w3.org/ns/activitystreams",
                   "type": "Note",
+                  "id": "http://localhost:8000/~chris/like/ca1cb81a-f735-4674-b540-6756f9df5d8b",
                   "content": "This is a note",
                   "published": "2015-02-10T15:04:55Z",
                   "to": ["https://example.org/~john/"],
@@ -45,6 +47,7 @@ class OutboxPostTest extends TestCase
                 '{
                   "@context": "https://www.w3.org/ns/activitystreams",
                   "type": "Note",
+                  "id": "http://localhost:8000/~chris/like/ca1cb81a-f735-4674-b540-6756f9df5d8b",
                   "content": "This is a note",
                   "published": "2015-02-10T15:04:55Z",
                   "to": ["https://example.org/~john/"],

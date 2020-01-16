@@ -48,10 +48,7 @@ abstract class Validator
 
         // Perform validation
         if (isset(self::$validators[$name])) {
-            return self::$validators[$name]->validate(
-                $value,
-                $container
-            );
+            return self::$validators[$name]->validate($value, $container);
         } 
 
         // Try to load a default validator

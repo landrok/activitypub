@@ -135,14 +135,14 @@ class Outbox extends AbstractBox
         $handler = sprintf('\ActivityPhp\Server\Activity\%sHandler', $activity->type);
 
         if (!class_exists($handler)) {
-            throw new Exception("No handler has been defined for this activity '{$activity->type}'");
+            throw new Exception(sprintf("No handler has been defined for this activity '%s'", $activity->type));
         }
 
         // Handle activity
         $handler = new $handler($activity, $this->server->getResponseFactory());
 
         if (!($handler instanceof HandlerInterface)) {
-            throw new Exception("An activity handler must implement " . HandlerInterface::class);
+            throw new Exception(sprintf("An activity handler must implement %s", HandlerInterface::class));
         }
 
         // Return a standard HTTP Response
