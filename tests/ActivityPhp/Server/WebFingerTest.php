@@ -5,6 +5,7 @@ namespace ActivityPhpTest\Server;
 use ActivityPhp\Server;
 use ActivityPhp\Server\Http\WebFinger;
 use Exception;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 
 class WebFingerTest extends TestCase
@@ -27,18 +28,18 @@ class WebFingerTest extends TestCase
                 ]
             ]
         ];
-    
+
         # handle / method / expected
         return [
-['bob@localhost:8000', 'toArray', $sample                           ], # toArray()
-['bob@localhost:8000', 'getProfileId', $sample['links'][0]['href']  ], # getProfileId()
-['bob@localhost:8000', 'getHandle', substr($sample['subject'], 5)   ], # getHandle()
-['bob@localhost:8000', 'getSubject', $sample['subject']             ], # getSubject()
-['bob@localhost:8000', 'getAliases', $sample['aliases']             ], # getAliases()
-['bob@localhost:8000', 'getLinks', $sample['links']                 ], # getLinks()
-['http://localhost:8000/accounts/bob', 'toArray', $sample           ], # toArray() with an ActivityPhp profile id
+            ['bob@localhost:8000', 'toArray', $sample], # toArray()
+            ['bob@localhost:8000', 'getProfileId', $sample['links'][0]['href']], # getProfileId()
+            ['bob@localhost:8000', 'getHandle', substr($sample['subject'], 5)], # getHandle()
+            ['bob@localhost:8000', 'getSubject', $sample['subject']], # getSubject()
+            ['bob@localhost:8000', 'getAliases', $sample['aliases']], # getAliases()
+            ['bob@localhost:8000', 'getLinks', $sample['links']], # getLinks()
+            ['http://localhost:8000/accounts/bob', 'toArray', $sample], # toArray() with an ActivityPhp profile id
         ];
-	}
+    }
 
     /**
      * Exception scenarios provider
@@ -60,21 +61,21 @@ class WebFingerTest extends TestCase
         ];
         #
         return [
-['bob@localhost:9000', 'toArray', $sample                           ], # Bad host with an Handle
-['bob', 'toArray', $sample                                             ], # Malformed handle
-['http://localhost:9000/accounts/bob', 'toArray', $sample           ], # Bad port with an AS id
-['http//localhost:8000/accounts/bob', 'toArray', $sample            ], # Bad scheme
-['bob-subject-array@localhost:8000', 'toArray', $sample             ], # Bad response from server (Subject is an array)
-['bob-malformed-aliases@localhost:8000', 'toArray', $sample         ], # Bad response from server (Aliases must be string[])
-['bob-missing-links@localhost:8000', 'toArray', $sample             ], # Bad response from server (links key is not defined)
-['bob-links-arrays@localhost:8000', 'toArray', $sample              ], # Bad response from server (links is an array of arrays)
-['bob-links-missing-rel@localhost:8000', 'toArray', $sample         ], # Bad response from server (links key must contain a rel key)
-['bob-404-profile@localhost:8000', 'toArray', $sample               ], # Bad response from server (404 Not found)
+            ['bob@localhost:9000', 'toArray', $sample], # Bad host with an Handle
+            ['bob', 'toArray', $sample], # Malformed handle
+            ['http://localhost:9000/accounts/bob', 'toArray', $sample], # Bad port with an AS id
+            ['http//localhost:8000/accounts/bob', 'toArray', $sample], # Bad scheme
+            ['bob-subject-array@localhost:8000', 'toArray', $sample], # Bad response from server (Subject is an array)
+            ['bob-malformed-aliases@localhost:8000', 'toArray', $sample], # Bad response from server (Aliases must be string[])
+            ['bob-missing-links@localhost:8000', 'toArray', $sample], # Bad response from server (links key is not defined)
+            ['bob-links-arrays@localhost:8000', 'toArray', $sample], # Bad response from server (links is an array of arrays)
+            ['bob-links-missing-rel@localhost:8000', 'toArray', $sample], # Bad response from server (links key must contain a rel key)
+            ['bob-404-profile@localhost:8000', 'toArray', $sample], # Bad response from server (404 Not found)
 
-['http://localhost:8000/accounts/empty-profile', 'toArray', $sample ], # Bad response from server (ActivityPhp profile is empty)
-['http://localhost:8000/accounts/missing-property', 'toArray', $sample ], # Bad response from server (Missing preferredUsername)
+            ['http://localhost:8000/accounts/empty-profile', 'toArray', $sample], # Bad response from server (ActivityPhp profile is empty)
+            ['http://localhost:8000/accounts/missing-property', 'toArray', $sample], # Bad response from server (Missing preferredUsername)
         ];
-	}
+    }
 
     /**
      * Check that all response are valid
@@ -83,17 +84,18 @@ class WebFingerTest extends TestCase
      */
     public function testSuccessScenarios($handle, $method, $expected)
     {
+        $httpFactory = new Psr17Factory();
         $server = new Server([
-            'instance'  => [
+            'instance' => [
                 'debug' => true,
             ],
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
+            'logger' => [
+                'driver' => '\Psr\Log\NullLogger'
             ],
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
         $webfinger = $server->actor($handle)->webfinger();
 
@@ -107,25 +109,29 @@ class WebFingerTest extends TestCase
     /**
      * Check that all tests are failing
      *
-     * @dataProvider      getFailingScenarios
+     * @dataProvider getFailingScenarios
+     * @param $handle
+     * @param $method
+     * @param $expected
      */
     public function testFailingScenarios($handle, $method, $expected)
     {
         $this->expectException(Exception::class);
 
+        $httpFactory = new Psr17Factory();
         $server = new Server([
-            'instance'  => [
+            'instance' => [
                 'debug' => true,
             ],
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
+            'logger' => [
+                'driver' => '\Psr\Log\NullLogger'
             ],
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
-        $webfinger = $server->actor($handle)->webfinger();
+        $server->actor($handle)->webfinger();
     }
 
     /**
@@ -135,97 +141,112 @@ class WebFingerTest extends TestCase
     {
         # data
         return [
-[[
-    'aliases' => ['http//localhost:8000/accounts/bob'],
-    'links' => [
             [
-                'rel' => 'self',
-                'type' => 'application/activity+json',
-                'href' => 'http://localhost:8000/accounts/bob',
-            ]
-        ]
-    ]                                                                  ], # Missing key: subject
-[[
-    'subject' => 'acct:bob@localhost:8000',
-    'links' => [
-        [
-            'rel' => 'self',
-            'type' => 'application/activity+json',
-            'href' => 'http://localhost:8000/accounts/bob',
-        ]
-    ]
-]                                                                      ], # Missing key: aliases
-[[
-    'subject' => 'acct:bob@localhost:8000',
-    'aliases' => [
-        'http//localhost:8000/accounts/bob'
-    ],
-]                                                                      ], # Missing key: links
-[[
-    'subject' => ['acct:bob@localhost:8000'],
-    'aliases' => [
-        'http//localhost:8000/accounts/bob'
-    ],
-    'links' => [
-        [
-            'rel' => 'self',
-            'type' => 'application/activity+json',
-            'href' => 'http://localhost:8000/accounts/bob',
-        ]
-    ]
-]                                                                      ], # Malformed subject
-[[
-    'subject' => 'acct:bob@localhost:8000',
-    'aliases' => [
-        ['http//localhost:8000/accounts/bob']
-    ],
-    'links' => [
-        [
-            'rel' => 'self',
-            'type' => 'application/activity+json',
-            'href' => 'http://localhost:8000/accounts/bob',
-        ]
-    ]
-]                                                                      ], # Malformed aliases
-[[
-    'subject' => 'acct:bob@localhost:8000',
-    'aliases' => [
-        'http//localhost:8000/accounts/bob'
-    ],
-    'links' => [
-         'http://localhost:8000/accounts/bob',
-    ]
-]                                                                      ], # Malformed links: subelement is not an array
-[[
-    'subject' => 'acct:bob@localhost:8000',
-    'aliases' => [
-        'http//localhost:8000/accounts/bob'
-    ],
-    'links' => [
-        [
-            'type' => 'application/activity+json',
-            'href' => 'http://localhost:8000/accounts/bob',
-        ]
-    ]
-]                                                                      ], # Malformed links: subelement does not have a rel key
-
+                [
+                    'aliases' => ['http//localhost:8000/accounts/bob'],
+                    'links' => [
+                        [
+                            'rel' => 'self',
+                            'type' => 'application/activity+json',
+                            'href' => 'http://localhost:8000/accounts/bob',
+                        ]
+                    ]
+                ]
+            ], # Missing key: subject
+            [
+                [
+                    'subject' => 'acct:bob@localhost:8000',
+                    'links' => [
+                        [
+                            'rel' => 'self',
+                            'type' => 'application/activity+json',
+                            'href' => 'http://localhost:8000/accounts/bob',
+                        ]
+                    ]
+                ]
+            ], # Missing key: aliases
+            [
+                [
+                    'subject' => 'acct:bob@localhost:8000',
+                    'aliases' => [
+                        'http//localhost:8000/accounts/bob'
+                    ],
+                ]
+            ], # Missing key: links
+            [
+                [
+                    'subject' => ['acct:bob@localhost:8000'],
+                    'aliases' => [
+                        'http//localhost:8000/accounts/bob'
+                    ],
+                    'links' => [
+                        [
+                            'rel' => 'self',
+                            'type' => 'application/activity+json',
+                            'href' => 'http://localhost:8000/accounts/bob',
+                        ]
+                    ]
+                ]
+            ], # Malformed subject
+            [
+                [
+                    'subject' => 'acct:bob@localhost:8000',
+                    'aliases' => [
+                        ['http//localhost:8000/accounts/bob']
+                    ],
+                    'links' => [
+                        [
+                            'rel' => 'self',
+                            'type' => 'application/activity+json',
+                            'href' => 'http://localhost:8000/accounts/bob',
+                        ]
+                    ]
+                ]
+            ], # Malformed aliases
+            [
+                [
+                    'subject' => 'acct:bob@localhost:8000',
+                    'aliases' => [
+                        'http//localhost:8000/accounts/bob'
+                    ],
+                    'links' => [
+                        'http://localhost:8000/accounts/bob',
+                    ]
+                ]
+            ], # Malformed links: subelement is not an array
+            [
+                [
+                    'subject' => 'acct:bob@localhost:8000',
+                    'aliases' => [
+                        'http//localhost:8000/accounts/bob'
+                    ],
+                    'links' => [
+                        [
+                            'type' => 'application/activity+json',
+                            'href' => 'http://localhost:8000/accounts/bob',
+                        ]
+                    ]
+                ]
+            ], # Malformed links: subelement does not have a rel key
         ];
-	}
+    }
 
     /**
      * Check that all tests are failing
      *
-     * @dataProvider      getFailingInstanceScenarios
+     * @dataProvider getFailingInstanceScenarios
+     * @param $data
+     * @throws Exception
      */
     public function testFailingInstanceScenarios($data)
     {
         $this->expectException(Exception::class);
 
-        $webfinger = new WebFinger($data);
+        new WebFinger($data);
     }
 
     /**
-     * Get profile id can return null if webfinger is used for an 
+     * Get profile id can return null if webfinger is used for an
      * implementation that does not support ActivityPhp
      */
     public function testEmptyProfileId()

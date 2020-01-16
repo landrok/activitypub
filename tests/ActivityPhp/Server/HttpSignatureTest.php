@@ -68,8 +68,8 @@ class HttpSignatureTest extends TestCase
                 'Signature',
                 'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"'
             )
-            ->withHeader('host', $host)
-            ->withHeader('date', $date);
+            ->withHeader('Host', $host)
+            ->withHeader('Date', $date);
 
         $httpSignature = new HttpSignature($server);
 

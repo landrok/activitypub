@@ -109,7 +109,7 @@ class Outbox extends AbstractBox
             
             // Get content
             $payload = Util::decodeJson(
-                (string)$request->getContent()
+                (string) $request->getBody()->getContents()
             );
 
             // Cast as an ActivityStreams type

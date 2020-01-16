@@ -3,6 +3,7 @@
 namespace ActivityPhpTest\Server;
 
 use ActivityPhp\Server;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 
 /*
@@ -15,6 +16,8 @@ class CacheTest extends TestCase
      */
     public function testActorCacheSet()
     {
+        $httpFactory = new Psr17Factory();
+
         $server = new Server([
             'instance' => [
                 'host'  => 'localhost',
@@ -28,15 +31,11 @@ class CacheTest extends TestCase
             'cache' => [
                 'enabled' => true,
             ]
-        ]);
+        ], $httpFactory);
 
-        $actor = $server->actor('bob@localhost:8000');
         $actor = $server->actor('bob@localhost:8000');
 
         // Assert no public key is set
-        $this->assertEquals(
-            false,
-            $actor->getPublicKeyPem()
-        );
+        $this->assertFalse($actor->getPublicKeyPem());
     }
 }

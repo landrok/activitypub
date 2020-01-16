@@ -4,6 +4,7 @@ namespace ActivityPhpTest\Server;
 
 use ActivityPhp\Server;
 use ActivityPhp\Type;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 use ActivityPhp\Type\Ontology;
 use Exception;
@@ -23,6 +24,8 @@ class ServerOntologyTest extends TestCase
             'peertube'
         ];
 
+        $httpFactory = new Psr17Factory();
+
         $server = new Server([
             'ontologies' => $ontologies,
             'logger'    => [
@@ -31,7 +34,7 @@ class ServerOntologyTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
         $person = Type::create('Person', ['playlists' => 'bob']);
 
@@ -52,6 +55,8 @@ class ServerOntologyTest extends TestCase
             'custom-ontology' => MyCustomOntology::class,
         ];
 
+        $httpFactory = new Psr17Factory();
+
         $server = new Server([
             'ontologies' => $ontologies,
             'logger'    => [
@@ -60,7 +65,7 @@ class ServerOntologyTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
         $person = Type::create('Person', ['myOntologyField' => 'bob']);
 
@@ -81,6 +86,8 @@ class ServerOntologyTest extends TestCase
             '*'
         ];
 
+        $httpFactory = new Psr17Factory();
+
         $server = new Server([
             'ontologies' => $ontologies,
             'logger'    => [
@@ -89,7 +96,7 @@ class ServerOntologyTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
         $person = Type::create('Person', ['playlists' => 'bob']);
 
@@ -112,6 +119,9 @@ class ServerOntologyTest extends TestCase
             'undefined'
         ];
 
+
+        $httpFactory = new Psr17Factory();
+
         $server = new Server([
             'ontologies' => $ontologies,
             'logger'    => [
@@ -120,6 +130,6 @@ class ServerOntologyTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
     }
 }

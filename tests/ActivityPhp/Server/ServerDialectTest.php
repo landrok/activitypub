@@ -4,6 +4,7 @@ namespace ActivityPhpTest\Server;
 
 use ActivityPhp\Server;
 use ActivityPhp\Type;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 
 /*
@@ -21,6 +22,8 @@ class ServerDialectTest extends TestCase
             'PropertyValue' => ['value']
         ];
 
+        $httpFactory = new Psr17Factory();
+
         $server = new Server([
             'dialects' => [
                 'mydialect' => $dialect
@@ -31,7 +34,7 @@ class ServerDialectTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
         $prop = Type::create('PropertyValue', ['value' => 1]);
         $person = Type::create('Person', ['featured' => 2]);

@@ -4,9 +4,9 @@ namespace ActivityPhpTest\Server;
 
 use ActivityPhp\Server;
 use ActivityPhp\Type;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Psr\Http\Message\ResponseInterface;
 use phpseclib\Crypt\RSA;
 
 /*
@@ -22,6 +22,8 @@ class InboxPostTest extends TestCase
      */
     public function testValidSignature()
     {
+        $httpFactory = new Psr17Factory();
+
         $server = new Server([
             'instance' => [
                 'host'  => 'localhost',
@@ -38,7 +40,7 @@ class InboxPostTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
         // Create a response to a message for example
         $object = json_decode(' {
@@ -82,33 +84,22 @@ class InboxPostTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = Request::create(
-            'http://localhost:8000' . $path,
-            'POST',
-            [], // parameters
-            [], // cookies
-            [], // files
-            $_SERVER,
-            $payload
-        );
+        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER)
+            ->withHeader('Accept', 'application/activity+json')
+            // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
+            ->withHeader('Signature', 'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"')
+            ->withHeader('Host', $host)
+            ->withHeader('Date', $date);
 
-        $request->headers->set('accept', 'application/activity+json');
-
-        // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
-        $request->headers->set('Signature', 'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"');
-        $request->headers->set('host', $host);
-        $request->headers->set('date', $date);
+        $request->getBody()->write($payload);
 
 
         $response = $server->inbox('bob@localhost:8000')->post($request);
 
         // Assert response type
-        $this->assertInstanceOf(Response::class, $response);
+        $this->assertInstanceOf(ResponseInterface::class, $response);
 
         // Assert HTTP status code
-        $this->assertEquals(
-            201,
-            $response->getStatusCode()
-        );
+        $this->assertEquals(201, $response->getStatusCode());
     }
 }

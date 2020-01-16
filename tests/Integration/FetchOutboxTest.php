@@ -6,6 +6,7 @@ use ActivityPhp\Server;
 use ActivityPhp\Server\Actor\AbstractBox;
 use ActivityPhp\Type\Core\OrderedCollection;
 use ActivityPhp\Type\Core\OrderedCollectionPage;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use PHPUnit\Framework\TestCase;
 
 class FetchOutboxTest extends TestCase
@@ -15,6 +16,8 @@ class FetchOutboxTest extends TestCase
      */
     public function testSuccessFetch()
     {
+        $httpFactory = new Psr17Factory();
+
         $server = new Server([
             'instance'  => [
                 'debug' => true,
@@ -25,7 +28,7 @@ class FetchOutboxTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ]);
+        ], $httpFactory);
 
         $handle = 'bob@localhost:8000';
 
@@ -60,31 +63,4 @@ class FetchOutboxTest extends TestCase
             )->orderedItems[0]->type
         );
     }
-/*
-    public function testEmptyProfileId()
-    {
-        $data = [
-            'subject' => 'acct:bob@localhost:8000',
-            'aliases' => [
-                'http//localhost:8000/accounts/bob'
-            ],
-            'links' => [
-                [
-                    'rel' => 'self',
-                    'type' => 'application/ld+json',
-                    'href' => 'http://localhost:8000/accounts/bob',
-                ]
-            ]
-        ];
-
-        $webfinger = new WebFinger($data);
-
-        // Assert 
-        $this->assertEquals(
-            null,
-            $webfinger->getProfileId()
-        );
-    }
-*/
-
 }
