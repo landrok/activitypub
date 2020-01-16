@@ -65,6 +65,10 @@ class OutboxPostTest extends TestCase
      * Check that all response are valid
      *
      * @dataProvider getOutboxPostActivities
+     * @param $payload
+     * @param string $accept
+     * @param int $code
+     * @throws \Exception
      */
     public function testOutboxPostActivities($payload, $accept = 'application/activity+json', $code = 201)
     {

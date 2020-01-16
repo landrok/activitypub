@@ -12,6 +12,8 @@
 namespace ActivityPhp\Server\Activity;
 
 use ActivityPhp\Type\Core\AbstractActivity;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * A Create activity handler
@@ -19,18 +21,19 @@ use ActivityPhp\Type\Core\AbstractActivity;
 class CreateHandler extends AbstractHandler
 {
     /**
-     * @var \ActivityPhp\Type\Core\AbstractActivity
+     * @var AbstractActivity
      */
     private $activity;
 
     /**
      * Constructor
-     * 
-     * @param \ActivityPhp\Type\Core\AbstractActivity $activity
+     *
+     * @param AbstractActivity $activity
+     * @param ResponseFactoryInterface $responseFactory
      */
-    public function __construct(AbstractActivity $activity)
+    public function __construct(AbstractActivity $activity, ResponseFactoryInterface $responseFactory)
     {
-        parent::__construct();
+        parent::__construct($responseFactory);
 
         $this->activity = $activity;   
     }
@@ -40,14 +43,9 @@ class CreateHandler extends AbstractHandler
      * 
      * @return $this
      */
-    public function handle()
+    public function handle(): ResponseInterface
     {
-        $this->getResponse()->setStatusCode(201);
-        $this->getResponse()->headers->set(
-            'location',
-            $this->activity->get('id')
-        );
-        
-        return $this;
+        return $this->responseFactory->createResponse(201)
+            ->withHeader('location', $this->activity->get('id'));
     }
 }

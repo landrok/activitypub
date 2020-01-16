@@ -56,7 +56,7 @@ class Inbox extends AbstractBox
             // Check current actor can post
 
             // Get content
-            $payload = Util::decodeJson($request->getBody()->getContents());
+            $payload = Util::decodeJson((string) $request->getBody());
 
             // Cast as an ActivityStreams type
             $activity = Type::create($payload);

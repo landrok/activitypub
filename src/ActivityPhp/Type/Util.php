@@ -181,9 +181,7 @@ abstract class Util
         $json = json_decode($value, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception(
-                'JSON decoding failed for string: ' . $value
-            );
+            throw new Exception('JSON decoding failed for string: ' . $value);
         }
 
         return $json;
@@ -199,11 +197,8 @@ abstract class Util
      * @return bool
      * @throws \Exception if a property is not set
      */
-    public static function hasProperties(
-        $item, 
-        array $properties,
-        $strict = false
-    ) {
+    public static function hasProperties($item, array $properties, $strict = false)
+    {
         foreach ($properties as $property) {
             if (!property_exists($item, $property)) {
                 if ($strict) {

@@ -22,7 +22,7 @@ abstract class AbstractHandler implements HandlerInterface
     /**
      * @var ResponseFactoryInterface
      */
-    private $responseFactory;
+    protected $responseFactory;
 
     /**
      * @param ResponseFactoryInterface $responseFactory
@@ -30,15 +30,5 @@ abstract class AbstractHandler implements HandlerInterface
     public function __construct(ResponseFactoryInterface $responseFactory)
     {
         $this->responseFactory = $responseFactory;
-    }
-
-    /**
-     * Get HTTP response instance
-     * 
-     * @return ResponseInterface
-     */
-    public function getResponse()
-    {
-        return $this->responseFactory->createResponse();
     }
 }

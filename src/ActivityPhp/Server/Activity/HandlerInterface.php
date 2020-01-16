@@ -11,6 +11,8 @@
 
 namespace ActivityPhp\Server\Activity;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Interface for all activity handlers
  */ 
@@ -19,10 +21,5 @@ interface HandlerInterface
     /**
      * @return self
      */
-    public function handle();
-
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function getResponse();
+    public function handle(): ResponseInterface;
 }

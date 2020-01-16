@@ -68,12 +68,7 @@ class InboxPostTest extends TestCase
         $path = '/my-path?q=ok';
 
         $rsa = new RSA();
-        $rsa->loadKey(
-            file_get_contents(
-                dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-            )  
-        ); // private key
-
+        $rsa->loadKey(file_get_contents(dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem')); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
 
@@ -87,12 +82,14 @@ class InboxPostTest extends TestCase
         $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER)
             ->withHeader('Accept', 'application/activity+json')
             // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
-            ->withHeader('Signature', 'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"')
+            ->withHeader(
+                'Signature',
+                'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="' . base64_encode($signature) . '"'
+            )
             ->withHeader('Host', $host)
             ->withHeader('Date', $date);
 
         $request->getBody()->write($payload);
-
 
         $response = $server->inbox('bob@localhost:8000')->post($request);
 

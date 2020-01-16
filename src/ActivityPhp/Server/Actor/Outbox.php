@@ -105,31 +105,18 @@ class Outbox extends AbstractBox
             );
 
             // Check current actor can post
-            
-            
+
             // Get content
-            $payload = Util::decodeJson(
-                (string) $request->getBody()->getContents()
-            );
+            $payload = Util::decodeJson((string) $request->getBody());
 
             // Cast as an ActivityStreams type
             $activity = Type::create($payload);
-
         } catch (Exception $exception) {
-            $this->getServer()->logger()->error(
-                $this->actor->get()->preferredUsername. ':' . __METHOD__, [
-                    $exception->getMessage()
-                ]
-            );
+            $response = $this->server->getResponseFactory()->createResponse(400);
+            $response->getBody()->write($exception->getMessage());
 
-            return $this->server->getResponseFactory()->createResponse(400);
+            return $response;
         }
-        
-        // Log
-        $this->getServer()->logger()->debug(
-            $this->actor->get()->preferredUsername. ':' . __METHOD__ . '(starting)', 
-            $activity->toArray()
-        );
 
         // If it's not an activity, wrap into a Create activity
         if (!Util::subclassOf($activity, AbstractActivity::class)) {
@@ -141,41 +128,24 @@ class Outbox extends AbstractBox
         //  Create, Update, Delete, Follow, 
         //  Add, Remove, Like, Block, Undo
         if (!isset($activity->object)) {
-            throw new Exception(
-                "A posted activity must have an 'object' property"
-            );
+            throw new Exception("A posted activity must have an 'object' property");
         }
 
         // Prepare an activity handler
-        $handler = sprintf(
-            '\ActivityPhp\Server\Activity\%sHandler',
-            $activity->type
-        );
+        $handler = sprintf('\ActivityPhp\Server\Activity\%sHandler', $activity->type);
 
         if (!class_exists($handler)) {
-            throw new Exception(
-                "No handler has been defined for this activity "
-                . "'{$activity->type}'"
-            );
+            throw new Exception("No handler has been defined for this activity '{$activity->type}'");
         }
 
         // Handle activity
-        $handler = new $handler($activity);
+        $handler = new $handler($activity, $this->server->getResponseFactory());
 
         if (!($handler instanceof HandlerInterface)) {
-            throw new Exception(
-                "An activity handler must implement "
-                . HandlerInterface::class
-            );
+            throw new Exception("An activity handler must implement " . HandlerInterface::class);
         }
 
-        // Log
-        $this->getServer()->logger()->debug(
-            $this->actor->get()->preferredUsername. ':' . __METHOD__ . '(posted)', 
-            $activity->toArray()
-        );
-
         // Return a standard HTTP Response
-        return $handler->handle()->getResponse();
+        return $handler->handle();
     }
 }
