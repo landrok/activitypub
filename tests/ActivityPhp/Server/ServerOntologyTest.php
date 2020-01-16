@@ -28,12 +28,6 @@ class ServerOntologyTest extends TestCase
         $client = new Server\Http\GuzzleActivityPubClient();
         $server = new Server($httpFactory, $client, [
             'ontologies' => $ontologies,
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
         ]);
 
         $person = Type::create('Person', ['playlists' => 'bob']);
@@ -59,12 +53,6 @@ class ServerOntologyTest extends TestCase
         $client = new Server\Http\GuzzleActivityPubClient();
         $server = new Server($httpFactory, $client, [
             'ontologies' => $ontologies,
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
         ]);
 
         $person = Type::create('Person', ['myOntologyField' => 'bob']);
@@ -90,12 +78,6 @@ class ServerOntologyTest extends TestCase
         $client = new Server\Http\GuzzleActivityPubClient();
         $server = new Server($httpFactory, $client, [
             'ontologies' => $ontologies,
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
         ]);
 
         $person = Type::create('Person', ['playlists' => 'bob']);
@@ -123,12 +105,6 @@ class ServerOntologyTest extends TestCase
         $client = new Server\Http\GuzzleActivityPubClient();
         $server = new Server($httpFactory, $client, [
             'ontologies' => $ontologies,
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
         ]);
     }
 }

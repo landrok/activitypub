@@ -31,16 +31,6 @@ class Configuration
     protected $instance;
 
     /**
-     * @var null|\ActivityPhp\Server\Configuration\LoggerConfiguration
-     */
-    protected $logger;
-
-    /**
-     * @var null|\ActivityPhp\Server\Configuration\CacheConfiguration
-     */
-    protected $cache;
-
-    /**
      * @var null|\ActivityPhp\Server\Configuration\DialectsConfiguration
      */
     protected $dialects;
@@ -80,8 +70,6 @@ class Configuration
         
         // Create default configuration for each component
         foreach ([
-                    'cache',
-                    'logger',
                     'instance',
                     'http',
                     'dialects',
@@ -101,8 +89,7 @@ class Configuration
     /**
      * Get a configuration dedicated handler
      * 
-     * @return \ActivityPhp\Server\Configuration\LoggerConfiguration
-     *       | \ActivityPhp\Server\Configuration\InstanceConfiguration
+     * @return \ActivityPhp\Server\Configuration\InstanceConfiguration
      *       | \ActivityPhp\Server\Configuration\HttpConfiguration
      *       | string
      * @throws \Exception

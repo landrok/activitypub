@@ -90,12 +90,6 @@ class WebFingerTest extends TestCase
             'instance' => [
                 'debug' => true,
             ],
-            'logger' => [
-                'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
         ]);
 
         $webfinger = $server->actor($handle)->webfinger();
@@ -125,12 +119,6 @@ class WebFingerTest extends TestCase
             'instance' => [
                 'debug' => true,
             ],
-            'logger' => [
-                'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
         ]);
 
         $server->actor($handle)->webfinger();

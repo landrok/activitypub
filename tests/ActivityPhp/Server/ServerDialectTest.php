@@ -28,12 +28,6 @@ class ServerDialectTest extends TestCase
             'dialects' => [
                 'mydialect' => $dialect
             ],
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
         ]);
 
         $prop = Type::create('PropertyValue', ['value' => 1]);

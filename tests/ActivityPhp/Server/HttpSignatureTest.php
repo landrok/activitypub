@@ -23,14 +23,7 @@ class HttpSignatureTest extends TestCase
     {
         $httpFactory = new Psr17Factory();
         $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
-            'logger'    => [
-                'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
-        ]);
+        $server = new Server($httpFactory, $client);
 
         $payload = json_encode([]);
 
@@ -89,14 +82,7 @@ class HttpSignatureTest extends TestCase
     {
         $httpFactory = new Psr17Factory();
         $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
-        ]);
+        $server = new Server($httpFactory, $client);
 
         $payload = json_encode([]);
                 
@@ -148,14 +134,7 @@ class HttpSignatureTest extends TestCase
     {
         $httpFactory = new Psr17Factory();
         $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
-        ]);
+        $server = new Server($httpFactory, $client);
 
         $payload = json_encode([]);
                 
@@ -208,14 +187,7 @@ class HttpSignatureTest extends TestCase
     {
         $httpFactory = new Psr17Factory();
         $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
-        ]);
+        $server = new Server($httpFactory, $client);
 
         $payload = json_encode([]);
                 
@@ -273,14 +245,7 @@ class HttpSignatureTest extends TestCase
     {
         $httpFactory = new Psr17Factory();
         $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
-        ]);
+        $server = new Server($httpFactory, $client);
 
         $payload = json_encode([]);
                 
@@ -340,14 +305,7 @@ class HttpSignatureTest extends TestCase
 
         $httpFactory = new Psr17Factory();
         $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
-        ]);
+        $server = new Server($httpFactory, $client);
 
         $payload = json_encode([]);
                 
@@ -400,14 +358,7 @@ class HttpSignatureTest extends TestCase
     {
         $httpFactory = new Psr17Factory();
         $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
-        ]);
+        $server = new Server($httpFactory, $client);
 
         $payload = json_encode([]);
                 

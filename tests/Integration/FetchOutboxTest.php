@@ -22,12 +22,6 @@ class FetchOutboxTest extends TestCase
             'instance'  => [
                 'debug' => true,
             ],
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
         ]);
 
         $handle = 'bob@localhost:8000';

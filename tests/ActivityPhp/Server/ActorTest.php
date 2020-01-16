@@ -25,12 +25,6 @@ class ActorTest extends TestCase
                 'debug' => true,
                 'actorPath' => '/accounts/<handle>',
             ],
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
-            'cache' => [
-                'enabled' => false,
-            ]
         ]);
 
         $actor = $server->actor('bob@localhost:8000');

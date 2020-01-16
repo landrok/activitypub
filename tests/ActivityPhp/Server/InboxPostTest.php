@@ -31,15 +31,9 @@ class InboxPostTest extends TestCase
                 'debug' => true,
                 'actorPath' => '/accounts/<handle>',
             ],
-            'logger'    => [
-               'driver' => '\Psr\Log\NullLogger'
-            ],
             'http'    => [
                'timeout' => 15
             ],
-            'cache' => [
-                'enabled' => false,
-            ]
         ]);
 
         // Create a response to a message for example

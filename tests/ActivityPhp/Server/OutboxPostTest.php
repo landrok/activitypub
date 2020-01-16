@@ -81,15 +81,9 @@ class OutboxPostTest extends TestCase
             'instance' => [
                 'debug' => true,
             ],
-            'logger' => [
-                'driver' => '\Psr\Log\NullLogger'
-            ],
             'http' => [
                 'timeout' => 15
             ],
-            'cache' => [
-                'enabled' => false,
-            ]
         ]);
 
         $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000', $_SERVER)
