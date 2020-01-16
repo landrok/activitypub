@@ -17,8 +17,8 @@ class ActorTest extends TestCase
     public function testActorWithNoPublicKeyPem()
     {
         $httpFactory = new Psr17Factory();
-
-        $server = new Server([
+        $client = new Server\Http\GuzzleActivityPubClient();
+        $server = new Server($httpFactory, $client, [
             'instance' => [
                 'host'  => 'localhost',
                 'port'  => 8000,
@@ -31,7 +31,7 @@ class ActorTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ], $httpFactory);
+        ]);
 
         $actor = $server->actor('bob@localhost:8000');
 

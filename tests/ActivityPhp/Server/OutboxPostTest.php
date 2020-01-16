@@ -76,8 +76,8 @@ class OutboxPostTest extends TestCase
     public function testOutboxPostActivities($payload, $accept = 'application/activity+json', $code = 201)
     {
         $httpFactory = new Psr17Factory();
-
-        $server = new Server([
+        $client = new Server\Http\GuzzleActivityPubClient();
+        $server = new Server($httpFactory, $client, [
             'instance' => [
                 'debug' => true,
             ],
@@ -90,7 +90,7 @@ class OutboxPostTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ], $httpFactory);
+        ]);
 
         $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000', $_SERVER)
             ->withHeader('accept', $accept);

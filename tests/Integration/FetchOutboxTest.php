@@ -17,8 +17,8 @@ class FetchOutboxTest extends TestCase
     public function testSuccessFetch()
     {
         $httpFactory = new Psr17Factory();
-
-        $server = new Server([
+        $client = new Server\Http\GuzzleActivityPubClient();
+        $server = new Server($httpFactory, $client, [
             'instance'  => [
                 'debug' => true,
             ],
@@ -28,7 +28,7 @@ class FetchOutboxTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ], $httpFactory);
+        ]);
 
         $handle = 'bob@localhost:8000';
 

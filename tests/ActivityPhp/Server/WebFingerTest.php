@@ -85,7 +85,8 @@ class WebFingerTest extends TestCase
     public function testSuccessScenarios($handle, $method, $expected)
     {
         $httpFactory = new Psr17Factory();
-        $server = new Server([
+        $client = new Server\Http\GuzzleActivityPubClient();
+        $server = new Server($httpFactory, $client, [
             'instance' => [
                 'debug' => true,
             ],
@@ -95,7 +96,7 @@ class WebFingerTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ], $httpFactory);
+        ]);
 
         $webfinger = $server->actor($handle)->webfinger();
 
@@ -119,7 +120,8 @@ class WebFingerTest extends TestCase
         $this->expectException(Exception::class);
 
         $httpFactory = new Psr17Factory();
-        $server = new Server([
+        $client = new Server\Http\GuzzleActivityPubClient();
+        $server = new Server($httpFactory, $client, [
             'instance' => [
                 'debug' => true,
             ],
@@ -129,7 +131,7 @@ class WebFingerTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ], $httpFactory);
+        ]);
 
         $server->actor($handle)->webfinger();
     }

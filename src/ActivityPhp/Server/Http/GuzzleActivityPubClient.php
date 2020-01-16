@@ -11,14 +11,13 @@
 
 namespace ActivityPhp\Server\Http;
 
-use ActivityPhp\Server\CacheHelper;
 use Exception;
 use GuzzleHttp\Client;
 
 /**
  * Request handler
  */ 
-class Request
+class GuzzleActivityPubClient implements ActivityPubClientInterface
 {
     const HTTP_HEADER_ACCEPT = 'application/activity+json,application/ld+json,application/json';
 
@@ -57,28 +56,6 @@ class Request
             ]
         ]);
     }
-
-    /**
-     * Set HTTP methods
-     * 
-     * @param string $method
-     */
-    protected function setMethod(string $method)
-    {
-        if (in_array($method, $this->allowedMethods)) {
-            $this->method = $method;
-        }
-    }
-
-    /**
-     * Get HTTP methods
-     * 
-     * @return string
-     */
-    protected function getMethod()
-    {
-        return $this->method;
-    }
     
     /**
      * Execute a GET request
@@ -86,18 +63,13 @@ class Request
      * @param  string $url
      * @return string
      */
-    public function get(string $url)
+    public function get(string $url): string
     {
-        if (CacheHelper::has($url)) {
-            return CacheHelper::get($url);
-        }
         try {
             $content = $this->client->get($url)->getBody()->getContents();
         } catch (\GuzzleHttp\Exception\ClientException $exception) {
             throw new Exception($exception->getMessage());
         }
-
-        CacheHelper::set($url, $content);
 
         return $content;
     }

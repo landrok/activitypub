@@ -25,8 +25,8 @@ class ServerOntologyTest extends TestCase
         ];
 
         $httpFactory = new Psr17Factory();
-
-        $server = new Server([
+        $client = new Server\Http\GuzzleActivityPubClient();
+        $server = new Server($httpFactory, $client, [
             'ontologies' => $ontologies,
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
@@ -34,7 +34,7 @@ class ServerOntologyTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ], $httpFactory);
+        ]);
 
         $person = Type::create('Person', ['playlists' => 'bob']);
 
@@ -56,8 +56,8 @@ class ServerOntologyTest extends TestCase
         ];
 
         $httpFactory = new Psr17Factory();
-
-        $server = new Server([
+        $client = new Server\Http\GuzzleActivityPubClient();
+        $server = new Server($httpFactory, $client, [
             'ontologies' => $ontologies,
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
@@ -65,7 +65,7 @@ class ServerOntologyTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ], $httpFactory);
+        ]);
 
         $person = Type::create('Person', ['myOntologyField' => 'bob']);
 
@@ -87,8 +87,8 @@ class ServerOntologyTest extends TestCase
         ];
 
         $httpFactory = new Psr17Factory();
-
-        $server = new Server([
+        $client = new Server\Http\GuzzleActivityPubClient();
+        $server = new Server($httpFactory, $client, [
             'ontologies' => $ontologies,
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
@@ -96,7 +96,7 @@ class ServerOntologyTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ], $httpFactory);
+        ]);
 
         $person = Type::create('Person', ['playlists' => 'bob']);
 
@@ -119,10 +119,9 @@ class ServerOntologyTest extends TestCase
             'undefined'
         ];
 
-
         $httpFactory = new Psr17Factory();
-
-        $server = new Server([
+        $client = new Server\Http\GuzzleActivityPubClient();
+        $server = new Server($httpFactory, $client, [
             'ontologies' => $ontologies,
             'logger'    => [
                'driver' => '\Psr\Log\NullLogger'
@@ -130,6 +129,6 @@ class ServerOntologyTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ], $httpFactory);
+        ]);
     }
 }

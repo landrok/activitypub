@@ -120,11 +120,7 @@ class Actor
             || !is_array($this->actor->publicKey)
             || !isset($this->actor->publicKey['publicKeyPem'])
         ) {
-            $this->server->logger()->info(
-                'Public key not found',
-                [$this->actor->toArray()]
-            );
-            return false;            
+            return null;
         }
 
         return $this->actor->publicKey['publicKeyPem'];

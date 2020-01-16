@@ -12,7 +12,7 @@
 namespace ActivityPhp\Server\Actor;
 
 use ActivityPhp\Server;
-use ActivityPhp\Server\Http\Request;
+use ActivityPhp\Server\Http\GuzzleActivityPubClient;
 use ActivityPhp\Type;
 use Exception;
 
@@ -45,7 +45,7 @@ abstract class ActorFactory
         
         
         $content = json_decode(
-            (new Request(
+            (new GuzzleActivityPubClient(
                 self::$server->config('http.timeout')
             ))->get($url),
             true

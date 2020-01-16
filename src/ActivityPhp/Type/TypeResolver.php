@@ -138,9 +138,7 @@ abstract class TypeResolver
                 $ns .= '\Extended\Object';
                 break;
             default:
-                throw new Exception(
-                    "Undefined scope for type '$type'"
-                );
+                throw new Exception("Undefined scope for type '$type'");
                 break;
         }
 

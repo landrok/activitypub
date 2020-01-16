@@ -23,8 +23,8 @@ class InboxPostTest extends TestCase
     public function testValidSignature()
     {
         $httpFactory = new Psr17Factory();
-
-        $server = new Server([
+        $client = new Server\Http\GuzzleActivityPubClient();
+        $server = new Server($httpFactory, $client, [
             'instance' => [
                 'host'  => 'localhost',
                 'port'  => 8000,
@@ -40,7 +40,7 @@ class InboxPostTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ], $httpFactory);
+        ]);
 
         // Create a response to a message for example
         $object = json_decode(' {

@@ -57,10 +57,6 @@ class HttpSignature
         $signature = $request->getHeaderLine('signature');
 
         if (!$signature) {
-            $this->server->logger()->info(
-                'Signature header not found',
-                [$request->getHeaders()]
-            );
             return false;
         }
 
@@ -69,15 +65,11 @@ class HttpSignature
             return false;
         }
 
-        $this->server->logger()->debug('Signature', [$signature]);
-
         // Build a server-oriented actor
         // Fetch the public key linked from keyId
         $actor = $this->server->actor($parts['keyId']);
 
         $publicKeyPem = $actor->getPublicKeyPem();
-
-        $this->server->logger()->debug('publicKeyPem', [$publicKeyPem]);
 
         // Create a comparison string from the plaintext headers we got
         // in the same order as was given in the signature header,
@@ -107,11 +99,6 @@ class HttpSignature
         $matches = [];
 
         if (!preg_match(self::SIGNATURE_PATTERN, $signature, $matches)) {
-            $this->server->logger()->info(
-                'Signature pattern failed',
-                [$signature]
-            );
-
             return false;
         }
 

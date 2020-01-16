@@ -23,8 +23,8 @@ class ServerDialectTest extends TestCase
         ];
 
         $httpFactory = new Psr17Factory();
-
-        $server = new Server([
+        $client = new Server\Http\GuzzleActivityPubClient();
+        $server = new Server($httpFactory, $client, [
             'dialects' => [
                 'mydialect' => $dialect
             ],
@@ -34,7 +34,7 @@ class ServerDialectTest extends TestCase
             'cache' => [
                 'enabled' => false,
             ]
-        ], $httpFactory);
+        ]);
 
         $prop = Type::create('PropertyValue', ['value' => 1]);
         $person = Type::create('Person', ['featured' => 2]);

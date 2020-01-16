@@ -68,7 +68,7 @@ class WebFingerFactory
         );
 
         $content = Util::decodeJson(
-            (new Request(
+            (new GuzzleActivityPubClient(
                 self::$server->config('http.timeout')
             ))->get($url)
         );

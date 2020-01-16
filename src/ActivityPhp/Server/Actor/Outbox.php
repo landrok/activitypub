@@ -35,65 +35,52 @@ class Outbox extends AbstractBox
      */
     public function __construct(Actor $actor, Server $server)
     {
-        $server->logger()->info(
-            $actor->get()->preferredUsername . ':' . __METHOD__
-        );
         parent::__construct($actor, $server);
     }
 
     /**
      * Get items from an outbox
-     * 
-     * @param  string $page
-     * @return array
+     *
+     * @param string $url
+     * @return Type\AbstractObject
+     * @throws Exception
      */
     public function getPage(string $url)
     {
-        $this->server->logger()->info(
-            $this->actor->webfinger()->getHandle() . ':' . __METHOD__, 
-            [$url]
-        );
+        $response = $this->server->getClient()->get($url);
 
-        return Type::create(Helper::fetch($url));
+        return Type::create(Util::decodeJson($response));
     }
 
     /**
      * Fetch an outbox
-     * 
+     *
      * @return \ActivityPhp\Type\Core\OrderedCollection
+     * @throws Exception
      */
     public function get()
     {
         if (!is_null($this->orderedCollection)) {
             return $this->orderedCollection;
         }
-
-        $this->server->logger()->info(
-            $this->actor->webfinger()->getHandle() . ':' . __METHOD__
-        );
-
-        $url = $this->actor->get('outbox');
         
-        if (is_null($url)) {
-            $this->server->logger()->warning(
-                $this->actor->webfinger()->getHandle() 
-                . ': Outbox is not defined'
-            );
-            return;
-        }            
-        
-        $this->orderedCollection = Type::create(
-            Helper::fetch($url)
-        );
+        if (null === $url = $this->actor->get('outbox')) {
+            throw new Exception('No outbox url available for actor');
+        }
+
+        $response = $this->server->getClient()->get($url);
+
+        $this->orderedCollection = Type::create(Util::decodeJson($response));
         
         return $this->orderedCollection;
     }
 
     /**
      * Post a message to the world
-     * 
+     *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
+     * @throws Exception
      */
     public function post(ServerRequestInterface $request)
     {
@@ -141,7 +128,7 @@ class Outbox extends AbstractBox
         // Handle activity
         $handler = new $handler($activity, $this->server->getResponseFactory());
 
-        if (!($handler instanceof HandlerInterface)) {
+        if (!$handler instanceof HandlerInterface) {
             throw new Exception(sprintf("An activity handler must implement %s", HandlerInterface::class));
         }
 

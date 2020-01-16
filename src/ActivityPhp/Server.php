@@ -14,29 +14,24 @@ namespace ActivityPhp;
 use ActivityPhp\Server\Actor;
 use ActivityPhp\Server\Actor\Inbox;
 use ActivityPhp\Server\Actor\Outbox;
-use ActivityPhp\Server\CacheHelper;
 use ActivityPhp\Server\Configuration;
-use Exception;
-use Psr\Http\Message\RequestFactoryInterface;
+use ActivityPhp\Server\Http\ActivityPubClientInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 
-/**
- * \ActivityPhp\Server is the entry point for server processes.
- */ 
 class Server
 {
     /**
-     * @var \ActivityPhp\Server\Actor[]
+     * @var Actor[]
      */
     protected $actors = [];
 
     /**
-     * @var \ActivityPhp\Server\Actor\Inbox[]
+     * @var Inbox[]
      */
     protected $inboxes = [];
 
     /**
-     * @var \ActivityPhp\Server\Actor\Outbox[]
+     * @var Outbox[]
      */
     protected $outboxes = [];
 
@@ -56,48 +51,35 @@ class Server
     private $responseFactory;
 
     /**
+     * @var ActivityPubClientInterface
+     */
+    private $activityPubClient;
+
+    /**
      * Server constructor
-     * 
+     *
      * @param array $config Server configuration
+     * @param ResponseFactoryInterface $responseFactory
+     * @param ActivityPubClientInterface $activityPubClient
+     * @throws \Exception
      */
-    public function __construct(array $config = [], ResponseFactoryInterface $responseFactory)
-    {
+    public function __construct(
+        ResponseFactoryInterface $responseFactory,
+        ActivityPubClientInterface $activityPubClient,
+        array $config = []
+    ) {
         $this->configuration = new Configuration($config);
-        $this->logger = $this->config('logger')->createLogger();
+
         $this->responseFactory = $responseFactory;
-        CacheHelper::setPool(
-            $this->config('cache')
-        );
-    }
-
-    /**
-     * Get logger instance
-     * 
-     * @return null|\Psr\Log\LoggerInterface
-     */
-    public function logger()
-    {
-        return $this->logger;
-    }
-
-    /**
-     * Get cache instance
-     * 
-     * @return null|\Psr\Cache\CacheItemPoolInterface
-     */
-    public function cache()
-    {
-        return $this->cache;
+        $this->activityPubClient = $activityPubClient;
     }
 
     /**
      * Get a configuration handler
-     * 
-     * @param  string $parameter
-     * @return \ActivityPhp\Server\Configuration\LoggerConfiguration
-     *       | \ActivityPhp\Server\Configuration\InstanceConfiguration
-     *       | \ActivityPhp\Server\Configuration\HttpConfiguration
-     *       | string
+     *
+     * @param string $parameter
+     * @return Configuration\LoggerConfiguration|Configuration\InstanceConfiguration|Configuration\HttpConfiguration|string
+     * @throws \Exception
      */
     public function config(string $parameter)
     {
@@ -109,12 +91,10 @@ class Server
      * It's a local instance
      * 
      * @param  string $handle An actor name
-     * @return \ActivityPhp\Server\Actor\Inbox
+     * @return Inbox
      */
     public function inbox(string $handle)
     {
-        $this->logger()->info($handle . ':' . __METHOD__);
-
         if (isset($this->inboxes[$handle])) {
             return $this->inboxes[$handle];
         }
@@ -136,8 +116,6 @@ class Server
      */
     public function outbox(string $handle)
     {
-        $this->logger()->info($handle . ':' . __METHOD__);
-
         if (isset($this->outboxes[$handle])) {
             return $this->outboxes[$handle];
         }
@@ -152,14 +130,13 @@ class Server
 
     /**
      * Build an server-oriented actor object
-     * 
-     * @param  string $handle
+     *
+     * @param string $handle
      * @return \ActivityPhp\Server\Actor
+     * @throws \Exception
      */
     public function actor(string $handle)
     {
-        $this->logger()->info($handle . ':' . __METHOD__);
-
         if (isset($this->actors[$handle])) {
             return $this->actors[$handle];
         }
@@ -169,8 +146,19 @@ class Server
         return $this->actors[$handle];
     }
 
+    /**
+     * @return ResponseFactoryInterface
+     */
     public function getResponseFactory(): ResponseFactoryInterface
     {
         return $this->responseFactory;
+    }
+
+    /**
+     * @return ActivityPubClientInterface
+     */
+    public function getClient(): ActivityPubClientInterface
+    {
+        return $this->activityPubClient;
     }
 }
