@@ -27,7 +27,7 @@ abstract class ServerTestCase extends TestCase
 
     public function getServer(array $config = []): Server
     {
-        $activityPubClient = new Server\Http\GuzzleActivityPubClient();
+        $activityPubClient = new Server\Http\GuzzleActivityPubClient(0.5);
         $webfingerClient = new Server\Http\WebFingerClient($activityPubClient, false);
 
         return new Server($this->httpFactory, $activityPubClient, $webfingerClient, $config);

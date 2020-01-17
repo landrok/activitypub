@@ -66,7 +66,7 @@ class WebFingerClient
             isset($matches['port']) ? $matches['port'] : '',
             $handle
         );
-var_dump($url);
+
         $content = $this->client->get($url);
 
         if (!is_array($content) || !count($content)) {

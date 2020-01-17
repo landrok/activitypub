@@ -44,12 +44,7 @@ abstract class ActorFactory
         }
         
         
-        $content = json_decode(
-            (new GuzzleActivityPubClient(
-                self::$server->config('http.timeout')
-            ))->get($url),
-            true
-        );
+        $content = self::$server->getClient()->get($url);
 
         if (!is_array($content)
             || !count($content)
