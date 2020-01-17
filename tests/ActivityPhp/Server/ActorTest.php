@@ -9,16 +9,14 @@ use PHPUnit\Framework\TestCase;
 /*
  * These scenarios are around server side actor instance
  */
-class ActorTest extends TestCase
+final class ActorTest extends ServerTestCase
 {
     /**
      * Check that an actor has no public key
      */
     public function testActorWithNoPublicKeyPem()
     {
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
+        $server = $this->getServer([
             'instance' => [
                 'host'  => 'localhost',
                 'port'  => 8000,

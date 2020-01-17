@@ -2,7 +2,6 @@
 
 namespace ActivityPhpTest\Server;
 
-use ActivityPhp\Server;
 use ActivityPhp\Server\Configuration;
 use Exception;
 use PHPUnit\Framework\TestCase;

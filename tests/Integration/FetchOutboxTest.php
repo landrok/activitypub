@@ -2,23 +2,18 @@
 
 namespace ActivityPhpTest\Server;
 
-use ActivityPhp\Server;
 use ActivityPhp\Server\Actor\AbstractBox;
 use ActivityPhp\Type\Core\OrderedCollection;
 use ActivityPhp\Type\Core\OrderedCollectionPage;
-use Nyholm\Psr7\Factory\Psr17Factory;
-use PHPUnit\Framework\TestCase;
 
-class FetchOutboxTest extends TestCase
+class FetchOutboxTest extends ServerTestCase
 {
     /**
      * Check that all response are valid
      */
     public function testSuccessFetch()
     {
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
+        $server = $this->getServer([
             'instance'  => [
                 'debug' => true,
             ],

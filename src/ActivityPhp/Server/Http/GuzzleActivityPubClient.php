@@ -1,16 +1,8 @@
 <?php
 
-/*
- * This file is part of the ActivityPhp package.
- *
- * Copyright (c) landrok at github.com/landrok
- *
- * For the full copyright and license information, please see
- * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
- */
-
 namespace ActivityPhp\Server\Http;
 
+use ActivityPhp\Type\Util;
 use Exception;
 use GuzzleHttp\Client;
 
@@ -61,9 +53,9 @@ class GuzzleActivityPubClient implements ActivityPubClientInterface
      * Execute a GET request
      * 
      * @param  string $url
-     * @return string
+     * @return array
      */
-    public function get(string $url): string
+    public function get(string $url): array
     {
         try {
             $content = $this->client->get($url)->getBody()->getContents();
@@ -71,6 +63,6 @@ class GuzzleActivityPubClient implements ActivityPubClientInterface
             throw new Exception($exception->getMessage());
         }
 
-        return $content;
+        return Util::decodeJson($content);
     }
 }

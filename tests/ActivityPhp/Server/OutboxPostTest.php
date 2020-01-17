@@ -2,12 +2,9 @@
 
 namespace ActivityPhpTest\Server;
 
-use ActivityPhp\Server;
-use Nyholm\Psr7\Factory\Psr17Factory;
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
-class OutboxPostTest extends TestCase
+class OutboxPostTest extends ServerTestCase
 {
     /**
      * Valid scenarios provider
@@ -75,18 +72,13 @@ class OutboxPostTest extends TestCase
      */
     public function testOutboxPostActivities($payload, $accept = 'application/activity+json', $code = 201)
     {
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
-            'instance' => [
-                'debug' => true,
-            ],
+        $server = $this->getServer([
             'http' => [
                 'timeout' => 15
             ],
         ]);
 
-        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000', $_SERVER)
+        $request = $this->httpFactory->createServerRequest('POST', 'http://localhost:8000', $_SERVER)
             ->withHeader('accept', $accept);
 
         $request->getBody()->write($payload);

@@ -1,19 +1,9 @@
 <?php
 
-/*
- * This file is part of the ActivityPhp package.
- *
- * Copyright (c) landrok at github.com/landrok
- *
- * For the full copyright and license information, please see
- * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
- */
-
 namespace ActivityPhp\Server;
 
 use ActivityPhp\Server;
 use ActivityPhp\Server\Actor\ActorFactory;
-use ActivityPhp\Server\Http\WebFingerFactory as WebFinger;
 use ActivityPhp\Type\Util;
 use Exception;
 
@@ -28,6 +18,11 @@ class Actor
     protected $server;
 
     /**
+     * @var Server\Http\WebFingerClient
+     */
+    protected $webfingerClient;
+
+    /**
      * @var \ActivityPhp\Type\Extended\AbstractActor
      */
     protected $actor;
@@ -36,23 +31,22 @@ class Actor
      * Construct an Actor instance based upon a WebFinger discovery if
      * an handle-like is provided. Otherwise, it checks an ActivityPhp
      * profile id if it's an URL.
-     * 
-     * @param  string $handle  URL or a WebFinger handle
-     * @param  \ActivityPhp\Server $server
+     *
+     * @param string $handle URL or a WebFinger handle
+     * @param \ActivityPhp\Server $server
+     * @param Http\WebFingerClient $webFingerClient
+     * @throws Exception
      */
-    public function __construct(string $handle, Server $server)
+    public function __construct(string $handle, Server $server, Server\Http\WebFingerClient $webFingerClient)
     {
         $this->server = $server;
+        $this->webfingerClient = $webFingerClient;
         $url = null;
 
         // Is a valid handle?
         if ($this->isHandle($handle)) {
             // testing only
-            $scheme = $this->server->config('instance.debug')
-                ? 'http' : 'https';
-            WebFinger::setServer($this->server);
-            $webfinger = WebFinger::get($handle, $scheme);
-            $url = $webfinger->getProfileId();
+            $url = $webFingerClient->get($handle)->getProfileId();
         // Is an id?
         } elseif (Util::validateUrl($handle)) {
             $url = $handle;
@@ -133,10 +127,6 @@ class Actor
      */
     public function webfinger()
     {
-        // testing only
-        $scheme = $this->server->config('instance.debug')
-            ? 'http' : 'https';
-
         $port = !is_null(parse_url($this->actor->id, PHP_URL_PORT))
             ? ':' . parse_url($this->actor->id, PHP_URL_PORT)
             : '';
@@ -148,6 +138,6 @@ class Actor
             $port
         );
 
-        return WebFinger::get($handle, $scheme);
+        return $this->webfingerClient->get($handle);
     }
 }

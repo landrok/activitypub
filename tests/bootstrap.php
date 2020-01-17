@@ -18,13 +18,11 @@ if (substr(php_uname(), 0, 7) !== 'Windows') {
     // Starts web servers
     foreach ($webservers as $name => $config) {
 
-        extract($config);
-
         // Starts webserver
         $command = sprintf(
             'php -S %s:%d %s >/dev/null 2>&1 & echo $!',
-            $host,
-            $port,
+            $config['host'],
+            $config['port'],
             __DIR__ . "/WebServer/{$name}/router.php"
         );
 

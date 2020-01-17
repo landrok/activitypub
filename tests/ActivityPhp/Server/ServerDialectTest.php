@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /*
  * These scenarios are around dialects loading
  */
-class ServerDialectTest extends TestCase
+class ServerDialectTest extends ServerTestCase
 {
     /**
      * Check that a dialect can be define from server configuration
@@ -22,9 +22,7 @@ class ServerDialectTest extends TestCase
             'PropertyValue' => ['value']
         ];
 
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
+        $server = $this->getServer([
             'dialects' => [
                 'mydialect' => $dialect
             ],

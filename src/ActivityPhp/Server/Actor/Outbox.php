@@ -49,7 +49,7 @@ class Outbox extends AbstractBox
     {
         $response = $this->server->getClient()->get($url);
 
-        return Type::create(Util::decodeJson($response));
+        return Type::create($response);
     }
 
     /**
@@ -70,7 +70,7 @@ class Outbox extends AbstractBox
 
         $response = $this->server->getClient()->get($url);
 
-        $this->orderedCollection = Type::create(Util::decodeJson($response));
+        $this->orderedCollection = Type::create($response);
         
         return $this->orderedCollection;
     }

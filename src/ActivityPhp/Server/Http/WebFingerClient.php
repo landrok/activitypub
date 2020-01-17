@@ -1,37 +1,37 @@
 <?php
 
-/*
- * This file is part of the ActivityPhp package.
- *
- * Copyright (c) landrok at github.com/landrok
- *
- * For the full copyright and license information, please see
- * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
- */
-
 namespace ActivityPhp\Server\Http;
 
-use ActivityPhp\Server;
-use ActivityPhp\Type\Util;
 use Exception;
 
 /**
  * A simple WebFinger discoverer tool
  */ 
-class WebFingerFactory
+class WebFingerClient
 {
     const WEBFINGER_URL = '%s://%s%s/.well-known/webfinger?resource=acct:%s';
 
     /**
-     * @var null|\ActivityPhp\Server
+     * @var ActivityPubClientInterface
      */
-    protected static $server;
+    protected $client;
 
     /**
      * @var array An array of key => value. 
      * Keys are handle, values are WebFinger instances.
      */
-    protected static $webfingers = [];
+    protected $webfingers = [];
+
+    /**
+     * @var bool
+     */
+    protected $secure;
+
+    public function __construct(ActivityPubClientInterface $client, bool $secure = true)
+    {
+        $this->client = $client;
+        $this->secure = $secure;
+    }
 
     /**
      * Get a profile via WebFinger protocol
@@ -41,7 +41,7 @@ class WebFingerFactory
      * @return \ActivityPhp\Server\Http\WebFinger
      * @throws \Exception if handle is malformed.
      */
-    public static function get(string $handle, string $scheme = 'https')
+    public function get(string $handle)
     {
         if (!preg_match(
                 '/^@?(?P<user>[\w\-\.]+)@(?P<host>[\w\.\-]+)(?P<port>:[\d]+)?$/',
@@ -61,34 +61,20 @@ class WebFingerFactory
         // Build a WebFinger URL
         $url = sprintf(
             self::WEBFINGER_URL,
-            $scheme,
+            $this->secure ? 'https' : 'http',
             $matches['host'],
             isset($matches['port']) ? $matches['port'] : '',
             $handle
         );
-
-        $content = Util::decodeJson(
-            (new GuzzleActivityPubClient(
-                self::$server->config('http.timeout')
-            ))->get($url)
-        );
+var_dump($url);
+        $content = $this->client->get($url);
 
         if (!is_array($content) || !count($content)) {
             throw new Exception('WebFinger fetching has failed');
         }
 
-        self::$webfingers[$handle] = new WebFinger($content);
+        $this->webfingers[$handle] = new WebFinger($content);
 
-        return self::$webfingers[$handle];
-    }
-
-    /**
-     * Inject a server instance
-     * 
-     * @param  \ActivityPhp\Server $server
-     */
-    public static function setServer(Server $server)
-    {
-        self::$server = $server;
+        return $this->webfingers[$handle];
     }
 }

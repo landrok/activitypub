@@ -2,10 +2,7 @@
 
 namespace ActivityPhpTest\Server;
 
-use ActivityPhp\Server;
 use ActivityPhp\Type;
-use Nyholm\Psr7\Factory\Psr17Factory;
-use PHPUnit\Framework\TestCase;
 use ActivityPhp\Type\Ontology;
 use Exception;
 use ActivityPhpTest\MyCustomOntology;
@@ -13,7 +10,7 @@ use ActivityPhpTest\MyCustomOntology;
 /*
  * These scenarios are around ontologies loading
  */
-class ServerOntologyTest extends TestCase
+class ServerOntologyTest extends ServerTestCase
 {
     /**
      * Check that an ontology can be define from server configuration
@@ -24,9 +21,7 @@ class ServerOntologyTest extends TestCase
             'peertube'
         ];
 
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
+        $server = $this->getServer([
             'ontologies' => $ontologies,
         ]);
 
@@ -49,9 +44,7 @@ class ServerOntologyTest extends TestCase
             'custom-ontology' => MyCustomOntology::class,
         ];
 
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
+        $server = $this->getServer([
             'ontologies' => $ontologies,
         ]);
 
@@ -74,9 +67,7 @@ class ServerOntologyTest extends TestCase
             '*'
         ];
 
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
+        $server = $this->getServer([
             'ontologies' => $ontologies,
         ]);
 
@@ -101,9 +92,7 @@ class ServerOntologyTest extends TestCase
             'undefined'
         ];
 
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
+        $server = $this->getServer([
             'ontologies' => $ontologies,
         ]);
     }

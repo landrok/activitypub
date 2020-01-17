@@ -2,10 +2,7 @@
 
 namespace ActivityPhpTest\Server;
 
-use ActivityPhp\Server;
 use ActivityPhp\Type;
-use Nyholm\Psr7\Factory\Psr17Factory;
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use phpseclib\Crypt\RSA;
 
@@ -15,16 +12,14 @@ use phpseclib\Crypt\RSA;
  * Requests are sent from localhost:8001 (distant)
  *                   to   localhost:8000 (local)
  */
-class InboxPostTest extends TestCase
+class InboxPostTest extends ServerTestCase
 {
     /**
      * Check that a given request is correctly signed
      */
     public function testValidSignature()
     {
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
+        $server = $this->getServer([
             'instance' => [
                 'host'  => 'localhost',
                 'port'  => 8000,
@@ -73,7 +68,7 @@ class InboxPostTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER)
+        $request = $this->httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER)
             ->withHeader('Accept', 'application/activity+json')
             // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
             ->withHeader(

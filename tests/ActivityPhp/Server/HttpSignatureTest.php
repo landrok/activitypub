@@ -6,7 +6,6 @@ use ActivityPhp\Server;
 use ActivityPhp\Server\Http\HttpSignature;
 use Exception;
 use Nyholm\Psr7\Factory\Psr17Factory;
-use PHPUnit\Framework\TestCase;
 use phpseclib\Crypt\RSA;
 
 /*
@@ -14,16 +13,14 @@ use phpseclib\Crypt\RSA;
  * 
  * Requests are sent from localhost:8001 (distant)
  */
-class HttpSignatureTest extends TestCase
+class HttpSignatureTest extends ServerTestCase
 {
     /**
      * Check that a given request is correctly signed
      */
     public function testValidSignature()
     {
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client);
+        $server = $this->getServer();
 
         $payload = json_encode([]);
 
@@ -51,7 +48,7 @@ class HttpSignatureTest extends TestCase
          | Prepare request
          | ------------------------------------------------------------------ */
 
-        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request = $this->httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
         $request->getBody()->write($payload);
 
         $request = $request->withHeader('accept', 'application/activity+json');
@@ -80,9 +77,7 @@ class HttpSignatureTest extends TestCase
      */
     public function testValidSignatureWithFallbackHeaders()
     {
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client);
+       $server = $this->getServer();
 
         $payload = json_encode([]);
                 
@@ -110,7 +105,7 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request = $this->httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
         $request->getBody()->write($payload);
 
         // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
@@ -132,9 +127,7 @@ class HttpSignatureTest extends TestCase
      */
     public function testWrongSignatureMissingSignatureHeader()
     {
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client);
+        $server = $this->getServer();
 
         $payload = json_encode([]);
                 
@@ -162,7 +155,7 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request = $this->httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
         $request->getBody()->write($payload);
 
         // Signature: keyId="<URL>",headers="(request-target) host date",signature="<SIG>"
@@ -185,9 +178,7 @@ class HttpSignatureTest extends TestCase
      */
     public function testWrongSignatureMissingKeyId()
     {
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client);
+        $server = $this->getServer();
 
         $payload = json_encode([]);
                 
@@ -215,7 +206,7 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request = $this->httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
         $request->getBody()->write($payload);
 
         $request = $request
@@ -243,9 +234,7 @@ class HttpSignatureTest extends TestCase
      */
     public function testWrongSignatureMissingSignature()
     {
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client);
+        $server = $this->getServer();
 
         $payload = json_encode([]);
                 
@@ -273,7 +262,7 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request = $this->httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
         $request->getBody()->write($payload);
 
         $request = $request
@@ -303,9 +292,7 @@ class HttpSignatureTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client);
+        $server = $this->getServer();
 
         $payload = json_encode([]);
                 
@@ -333,7 +320,7 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request = $this->httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
         $request->getBody()->write($payload);
 
         $request = $request
@@ -356,9 +343,7 @@ class HttpSignatureTest extends TestCase
      */
     public function testWrongSignatureNotVerifiedSignature()
     {
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client);
+        $server = $this->getServer();
 
         $payload = json_encode([]);
                 
@@ -386,7 +371,7 @@ class HttpSignatureTest extends TestCase
         /* ------------------------------------------------------------------
          | Prepare request
          | ------------------------------------------------------------------ */
-        $request = $httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
+        $request = $this->httpFactory->createServerRequest('POST', 'http://localhost:8000' . $path, $_SERVER);
         $request->getBody()->write($payload);
 
         $request = $request

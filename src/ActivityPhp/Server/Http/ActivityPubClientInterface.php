@@ -6,5 +6,9 @@ namespace ActivityPhp\Server\Http;
 
 interface ActivityPubClientInterface
 {
-    public function get(string $url): string;
+    /**
+     * @param string $url
+     * @return array The decoded JSON content as an assoc array
+     */
+    public function get(string $url): array;
 }

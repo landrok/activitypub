@@ -2,13 +2,10 @@
 
 namespace ActivityPhpTest\Server;
 
-use ActivityPhp\Server;
 use ActivityPhp\Server\Http\WebFinger;
 use Exception;
-use Nyholm\Psr7\Factory\Psr17Factory;
-use PHPUnit\Framework\TestCase;
 
-class WebFingerTest extends TestCase
+class WebFingerTest extends ServerTestCase
 {
     /**
      * Valid scenarios provider
@@ -84,13 +81,7 @@ class WebFingerTest extends TestCase
      */
     public function testSuccessScenarios($handle, $method, $expected)
     {
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
-            'instance' => [
-                'debug' => true,
-            ],
-        ]);
+        $server = $this->getServer();
 
         $webfinger = $server->actor($handle)->webfinger();
 
@@ -113,13 +104,7 @@ class WebFingerTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $httpFactory = new Psr17Factory();
-        $client = new Server\Http\GuzzleActivityPubClient();
-        $server = new Server($httpFactory, $client, [
-            'instance' => [
-                'debug' => true,
-            ],
-        ]);
+        $server = $this->getServer();
 
         $server->actor($handle)->webfinger();
     }

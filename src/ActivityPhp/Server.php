@@ -16,6 +16,7 @@ use ActivityPhp\Server\Actor\Inbox;
 use ActivityPhp\Server\Actor\Outbox;
 use ActivityPhp\Server\Configuration;
 use ActivityPhp\Server\Http\ActivityPubClientInterface;
+use ActivityPhp\Server\Http\WebFingerClient;
 use Psr\Http\Message\ResponseFactoryInterface;
 
 class Server
@@ -56,29 +57,37 @@ class Server
     private $activityPubClient;
 
     /**
+     * @var WebFingerClient
+     */
+    private $webFingerClient;
+
+    /**
      * Server constructor
      *
-     * @param array $config Server configuration
      * @param ResponseFactoryInterface $responseFactory
      * @param ActivityPubClientInterface $activityPubClient
+     * @param WebFingerClient $webFingerClient
+     * @param array $config Server configuration
      * @throws \Exception
      */
     public function __construct(
         ResponseFactoryInterface $responseFactory,
         ActivityPubClientInterface $activityPubClient,
+        WebFingerClient $webFingerClient,
         array $config = []
     ) {
         $this->configuration = new Configuration($config);
 
         $this->responseFactory = $responseFactory;
         $this->activityPubClient = $activityPubClient;
+        $this->webFingerClient = $webFingerClient;
     }
 
     /**
      * Get a configuration handler
      *
      * @param string $parameter
-     * @return Configuration\LoggerConfiguration|Configuration\InstanceConfiguration|Configuration\HttpConfiguration|string
+     * @return Configuration\InstanceConfiguration|Configuration\HttpConfiguration|string
      * @throws \Exception
      */
     public function config(string $parameter)
@@ -141,7 +150,7 @@ class Server
             return $this->actors[$handle];
         }
 
-        $this->actors[$handle] = new Actor($handle, $this);
+        $this->actors[$handle] = new Actor($handle, $this, $this->webFingerClient);
 
         return $this->actors[$handle];
     }
