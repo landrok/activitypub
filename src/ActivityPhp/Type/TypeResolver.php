@@ -18,7 +18,7 @@ use Exception;
  * \ActivityPhp\Type\TypeResolver is an abstract class for
  * resolving class names called by their short names (AS types).
  */
-abstract class TypeResolver
+final class TypeResolver
 {
     /**
      * A list of core types
@@ -71,14 +71,7 @@ abstract class TypeResolver
      * 
      * @var array
      */
-    protected static $customTypes = [];
-
-    /**
-     * A list of dialect types
-     * 
-     * @var array
-     */
-    protected static $dialectTypes = [];
+    protected $customTypes = [];
 
     /**
      * Add a custom type definition in the pool.
@@ -87,18 +80,13 @@ abstract class TypeResolver
      * @param  string $class Fully qualified class name.
      * @throws \Exception if class does not exist
      */
-    public static function addCustomType(string $name, string $class)
+    public function addCustomType(string $name, string $class)
     {
         if (!class_exists($class)) {
-            throw new Exception(
-                sprintf(
-                    'Class "%s" is not defined',
-                    $class
-                )
-            );
+            throw new Exception(sprintf('Class "%s" is not defined', $class));
         }
 
-        self::$customTypes[$name] = $class;
+        $this->customTypes[$name] = $class;
     }
 
     /**
@@ -108,7 +96,7 @@ abstract class TypeResolver
      * @return string Related namespace
      * @throw  \Exception if a namespace was not found.
      */
-    public static function getClass($type)
+    public function getClass($type)
     {
         $ns = __NAMESPACE__;
 
@@ -117,14 +105,9 @@ abstract class TypeResolver
         }
 
         switch($type) {
-            // Custom dialect types
-            case in_array($type, self::$dialectTypes):
-                $class = new ObjectType();
-                $class->type = $type;
-                return $class;
             // Custom classes by facades
-            case isset(self::$customTypes[$type]):
-                return self::$customTypes[$type];
+            case isset($this->customTypes[$type]):
+                return $this->customTypes[$type];
             case in_array($type, self::$coreTypes):
                 $ns .= '\Core';
                 break;
@@ -152,7 +135,7 @@ abstract class TypeResolver
      * @param  string $poolname An expected pool name
      * @return bool
      */
-    public static function isScope($item, string $poolname = 'all')
+    public function isScope($item, string $poolname = 'all')
     {
         if (!is_object($item)
             || !isset($item->type)
@@ -163,7 +146,7 @@ abstract class TypeResolver
 
         switch (strtolower($poolname)) {
             case 'all':
-                return self::exists($item->type);
+                return $this->exists($item->type);
             case 'actor':
                 return in_array($item->type, self::$actorTypes);
         }
@@ -177,7 +160,7 @@ abstract class TypeResolver
      * @param  string $name
      * @return bool
      */
-    public static function exists(string $name)
+    public function exists(string $name)
     {
         return in_array(
             $name,
@@ -185,38 +168,8 @@ abstract class TypeResolver
                 self::$coreTypes,
                 self::$activityTypes,
                 self::$actorTypes,
-                self::$objectTypes,
-                self::$dialectTypes
+                self::$objectTypes
             )
         );        
-    }
-
-    /**
-     * Define a new dialect type
-     * 
-     * @param  string $name
-     */
-    public static function addDialectType(string $name)
-    {
-        if (!self::exists($name)) {
-            array_push(self::$dialectTypes, $name);
-        }
-    }
-
-    /**
-     * Remove a dialect type
-     * 
-     * @param  string $name
-     */
-    public static function removeDialectType(string $name)
-    {
-        if (self::exists($name)) {
-            foreach (self::$dialectTypes as $key => $value) {
-                if ($name == $value) {
-                    array_splice(self::$dialectTypes, $key, 1);
-                    return;
-                }
-            }
-        }
     }
 }

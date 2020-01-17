@@ -2,7 +2,10 @@
 
 namespace ActivityPhpTest\Server;
 
+use ActivityPhp\Server\Http\Denormalizer;
+use ActivityPhp\Server\Http\JsonEncoder;
 use ActivityPhp\Type;
+use ActivityPhp\TypeFactory;
 use Psr\Http\Message\ResponseInterface;
 use phpseclib\Crypt\RSA;
 
@@ -42,12 +45,12 @@ class InboxPostTest extends ServerTestCase
                 "to": "https://www.w3.org/ns/activitystreams#Public"
             }', true);
 
-        $payload = json_encode(
-            Type::create([
-                'type' => 'Create', 
-                'object' => $object
-            ])->toArray()
-        );
+        $encoder = new JsonEncoder();
+
+        $payload = $encoder->encode([
+            'type' => 'Create',
+            'object' => $object
+        ]);
                 
         /* ------------------------------------------------------------------
          | Prepare signature

@@ -2,8 +2,9 @@
 
 namespace ActivityPhpTest\Type;
 
-use ActivityPhp\Type;
 use ActivityPhp\Type\TypeResolver;
+use ActivityPhp\Type\Validator;
+use ActivityPhp\TypeFactory;
 use PHPUnit\Framework\TestCase;
 
 class TypeResolverTest extends TestCase
@@ -13,11 +14,16 @@ class TypeResolverTest extends TestCase
      */
     public function testIsScopeReturnFalse()
     {
-        $type = Type::create('Note');
+        /** @var Validator $validator */
+        $validator = $this->getMockBuilder(Validator::class)->disableOriginalConstructor()->getMock();
+
+        $typeResolver = new TypeResolver();
+        $typeFactory = new TypeFactory($typeResolver, $validator);
+        $type = $typeFactory->create('Note');
 
         $this->assertEquals(
-            false, 
-            TypeResolver::isScope($type, 'undefined scope')
+            false,
+            $typeResolver->isScope($type, 'undefined scope')
         );
 	}
 }

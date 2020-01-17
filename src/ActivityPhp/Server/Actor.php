@@ -28,6 +28,11 @@ class Actor
     protected $actor;
 
     /**
+     * @var ActorFactory
+     */
+    protected $actorFactory;
+
+    /**
      * Construct an Actor instance based upon a WebFinger discovery if
      * an handle-like is provided. Otherwise, it checks an ActivityPhp
      * profile id if it's an URL.
@@ -41,6 +46,7 @@ class Actor
     {
         $this->server = $server;
         $this->webfingerClient = $webFingerClient;
+        $this->actorFactory = new ActorFactory($server);
         $url = null;
 
         // Is a valid handle?
@@ -82,8 +88,7 @@ class Actor
      */
     private function createActor(string $url)
     {
-        ActorFactory::setServer($this->server);
-        $this->actor = ActorFactory::create($url);
+        $this->actor = $this->actorFactory->create($url);
     }
 
     /**

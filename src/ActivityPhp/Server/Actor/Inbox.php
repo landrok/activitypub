@@ -28,17 +28,6 @@ class Inbox extends AbstractBox
 {
 
     /**
-     * Inbox constructor
-     * 
-     * @param  \ActivityPhp\Server\Actor $actor An actor
-     * @param  \ActivityPhp\Server $server
-     */
-    public function __construct(Actor $actor, Server $server)
-    {
-        parent::__construct($actor, $server);
-    }
-
-    /**
      * Post a message to current actor
      * 
      * @param ServerRequestInterface $request
@@ -59,7 +48,7 @@ class Inbox extends AbstractBox
             $payload = Util::decodeJson((string) $request->getBody());
 
             // Cast as an ActivityStreams type
-            $activity = Type::create($payload);
+            $activity = $this->server->getTypeFactory()->create($payload);
 
         } catch (Exception $exception) {
             $response = $this->server->getResponseFactory()->createResponse(400);

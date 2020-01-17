@@ -44,12 +44,12 @@ class FetchOutboxTest extends ServerTestCase
             )
         );
 
+        $page = $outbox->getPage($outbox->get()->first);
+
         // First activity is a Note
         $this->assertEquals(
             'Create',
-            $outbox->getPage(
-                $outbox->get()->first
-            )->orderedItems[0]->type
+            $page->orderedItems[0]->type
         );
     }
 }

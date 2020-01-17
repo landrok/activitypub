@@ -49,7 +49,7 @@ class Outbox extends AbstractBox
     {
         $response = $this->server->getClient()->get($url);
 
-        return Type::create($response);
+        return $this->server->getDenormalizer()->denormalize($response);
     }
 
     /**
@@ -70,7 +70,7 @@ class Outbox extends AbstractBox
 
         $response = $this->server->getClient()->get($url);
 
-        $this->orderedCollection = Type::create($response);
+        $this->orderedCollection = $this->server->getTypeFactory()->create($response);
         
         return $this->orderedCollection;
     }
@@ -97,7 +97,7 @@ class Outbox extends AbstractBox
             $payload = Util::decodeJson((string) $request->getBody());
 
             // Cast as an ActivityStreams type
-            $activity = Type::create($payload);
+            $activity = $this->server->getTypeFactory()->create($payload);
         } catch (Exception $exception) {
             $response = $this->server->getResponseFactory()->createResponse(400);
             $response->getBody()->write($exception->getMessage());

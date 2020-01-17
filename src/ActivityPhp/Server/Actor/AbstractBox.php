@@ -70,7 +70,7 @@ abstract class AbstractBox
     protected function wrapObject(AbstractObject $object)
     {
         /** @var Type\Core\AbstractActivity $activity */
-        $activity = Type::create('Create', [
+        $activity = $this->server->getTypeFactory()->create('Create', [
             '@context'  => $object->get('@context'),
             'actor'     => $this->actorUrl(),
             'published' => isset($object->published)
@@ -114,7 +114,7 @@ abstract class AbstractBox
         );
 
         // Attach as an object property
-        $activity->object = $copy->toArray();
+        $activity->object = $copy/*->toArray()*/;
 
         return $activity;
     }

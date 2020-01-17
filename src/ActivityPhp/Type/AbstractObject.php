@@ -12,6 +12,8 @@
 namespace ActivityPhp\Type;
 
 use ActivityPhp\Type;
+use ActivityPhp\TypeFactory;
+use DeepCopy\DeepCopy;
 use Exception;
 
 /**
@@ -22,12 +24,15 @@ use Exception;
  */ 
 abstract class AbstractObject
 {
-    /**
-     * Keep all properties values that have been set
-     * 
-     * @var array
-     */
-    private $_props = [];
+
+    protected $_context;
+
+    private $copier;
+
+    public function __construct()
+    {
+        $this->copier = new DeepCopy();
+    }
 
     /**
      * Standard setter method
@@ -41,59 +46,13 @@ abstract class AbstractObject
     {
         if ($name !== '@context') {
             $this->has($name, true);
+        } else {
+            $this->_context = $value;
         }
 
-        // Validate given value
-        if (!Validator::validate($name, $value, $this)) {
-            $message = "Rejected value. Type='%s', Property='%s', value='%s'";
-        	throw new Exception(
-                sprintf(
-                    $message,
-                    get_class($this),
-                    $name,
-                    print_r($value, true)
-                )
-                . PHP_EOL
-        	);
-        }
-
-        if ($name == '@context') {
-            $this->_props[$name] = $value;
-        }
-
-        $this->_props[$name] = $this->transform($value);
+        $this->$name = $value;
 
         return $this;
-    }
-
-    /**
-     * Affect a value to a property or an extended property
-     * 
-     * @param  mixed $value
-     * @return mixed
-     */
-    private function transform($value)
-    {
-        // Deep typing
-        if (is_array($value)) {
-            if (isset($value['type'])) {
-                return Type::create($value);
-            } elseif (is_int(key($value))) {
-                return array_map(function($value) {
-                        return is_array($value) && isset($value['type'])
-                            ? Type::create($value)
-                            : $value;
-                    },
-                    $value
-                );
-            // Empty array, array that should not be casted as ActivityStreams types
-            } else {
-                return $value;
-            }
-        // Scalars 
-        } else {
-            return $value;
-        }      
     }
 
     /**
@@ -105,7 +64,33 @@ abstract class AbstractObject
     public function get($name)
     {
         $this->has($name, true);
-        return $this->_props[$name];
+        return $this->$name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContext()
+    {
+        return $this->_context;
+    }
+
+    public function getProperties(): array
+    {
+        $properties = array_flip(array_keys(get_object_vars($this)));
+        unset($properties['_context']);
+        unset($properties['copier']);
+
+        return array_keys($properties);
+    }
+
+    public function getPropertyValues(): array
+    {
+        $propertyValues = get_object_vars($this);
+
+        unset($propertyValues['copier']);
+
+        return $propertyValues;
     }
 
     /**
@@ -117,22 +102,14 @@ abstract class AbstractObject
      */
     public function has($name, $strict = false)
     {
-        if (property_exists($this, $name)) {
-            if (!array_key_exists($name, $this->_props)) {
-                $this->_props[$name] = $this->$name;
-            }
-
-            return true;
-        }
-
-        if (array_key_exists($name, $this->_props)) {
+        if ('@context' === $name || property_exists($this, $name)) {
             return true;
         }
 
         if ($strict) {
             // Defined properties
-            $allowed = Type::create($this->type)->getProperties();
-            sort($allowed);
+            //$allowed = $this->typeFactory->create($this->type)->getProperties();
+            //sort($allowed);
 
             throw new Exception(
                 sprintf(
@@ -141,114 +118,12 @@ abstract class AbstractObject
                     $name,
                     $this->get('type'),
                     get_class($this),
-                    implode(', ', $allowed)
+                    implode(', ', [])
                 )
             );
         }
-    }
 
-    /**
-     * Get a list of all properties names
-     * 
-     * @return array
-     */
-    public function getProperties()
-    {
-        return array_values(
-            array_unique(
-                array_merge(
-                    array_keys($this->_props),
-                    array_keys(
-                        array_diff_key(
-                            get_object_vars($this),
-                            ['_props' => '1']
-                        )
-                    )
-                )
-            )
-        );
-    }
-
-    /**
-     * Get a list of all properties and their values 
-     * as an associative array.
-     * Null values are not returned.
-     * 
-     * @return array
-     */
-    public function toArray()
-    {
-        $keys = array_keys( array_filter(
-            get_object_vars($this),
-            function($value, $key) {
-                return !is_null($value) && $key != '_props';
-            },
-            ARRAY_FILTER_USE_BOTH
-        ));
-
-        $stack = [];
-
-        // native properties
-        foreach ($keys as $key) {
-            if ($this->$key instanceof self) {
-                $stack[$key] = $this->$key->toArray();
-            } elseif (!is_array($this->$key)) {
-                $stack[$key] = $this->$key;
-            } elseif (is_array($this->$key)) {
-                if (is_int(key($this->$key))) {
-                    $stack[$key] = array_map(function($value) {
-                            return $value instanceof self
-                                ? $value->toArray()
-                                : $value;
-                        },
-                        $this->$key
-                    );
-                } else {
-                    $stack[$key] = $this->$key;
-                }
-            }
-        }
-        
-        // _props
-        foreach ($this->_props as $key => $value) {
-            if (is_null($value)) {
-                continue;
-            }
-
-            if ($value instanceof self) {
-                $stack[$key] = $value->toArray();
-            } elseif (!is_array($value)) {
-                $stack[$key] = $value;
-            } elseif (is_array($value)) {
-                if (is_int(key($value))) {
-                    $stack[$key] = array_map(function($value) {
-                            return $value instanceof self
-                                ? $value->toArray()
-                                : $value;
-                        },
-                        $value
-                    );
-                } else {
-                    $stack[$key] = $value;
-                }
-            }
-        }
-
-        return $stack;
-    }
-
-    /**
-     * Get a JSON 
-     * 
-     * @param  int     $options PHP JSON options
-     * @return string
-     */
-    public function toJson($options = null)
-    {
-        return json_encode(
-            $this->toArray(),
-            $options
-        );
+        return false;
     }
 
     /**
@@ -258,29 +133,7 @@ abstract class AbstractObject
      */
     public function copy()
     {
-        return Type::create(
-            $this->type,
-            $this->toArray()
-        );
-    }
-
-    /**
-     * Extend current type properties
-     * 
-     * @param string $property
-     * @param mixed  $default
-     */
-    public function extend(string $property, mixed $default = null)
-    {
-        if ($this->has($property)) {
-            return;
-        }
-
-        if (!isset($this->_props[$property])
-            || !array_key_exists($property, $this->props)
-        ) {
-            $this->_props[$property] = $default;
-        }
+        return $this->copier->copy($this);
     }
 
     /**
@@ -292,7 +145,7 @@ abstract class AbstractObject
     public function __isset($name)
     {
         return property_exists($this, $name)
-            || array_key_exists($name, $this->props);
+            || null !== $this->$name;
     }
 
     /**
@@ -315,43 +168,5 @@ abstract class AbstractObject
     public function __get($name)
     {
         return $this->get($name);
-    }
-
-    /**
-     * Overloading methods
-     * 
-     * @param  string $name
-     * @param  array  $arguments
-     * @return mixed
-     */
-    public function __call($name, $arguments)
-    {
-        // Getters
-        if (strpos($name, 'get') === 0) {
-            $attr = lcfirst(substr($name, 3));
-            return $this->get($attr);
-        }
-
-        // Setters
-        if (strpos($name, 'set') === 0) {
-            if (count($arguments) == 1) {
-                $attr = lcfirst(substr($name, 3));
-                return $this->set($attr, $arguments[0]);
-            } else {
-                throw new Exception(
-                    sprintf(
-                        'Expected exactly one argument for method "%s()"',
-                        $name
-                    )
-                );
-            }
-        }
-
-        throw new Exception(
-            sprintf(
-                'Method "%s" is not defined',
-                $name
-            )
-        );
     }
 }

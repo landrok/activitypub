@@ -2,6 +2,8 @@
 
 namespace ActivityPhpTest\Type;
 
+use ActivityPhp\Server\Http\Denormalizer;
+use ActivityPhp\Server\Http\Normalizer;
 use ActivityPhp\Type;
 use ActivityPhp\Type\Core\Activity;
 use ActivityPhp\Type\Core\Collection;
@@ -58,25 +60,41 @@ use ActivityPhp\Type\Extended\Object\Relationship;
 use ActivityPhp\Type\Extended\Object\Tombstone;
 use ActivityPhp\Type\Extended\Object\Video;
 use ActivityPhp\Type\Validator;
+use ActivityPhp\TypeFactory;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
 class AttributeFormatValidationTest extends TestCase
 {
+
+    /**
+     * @var TypeFactory
+     */
+    private $typeFactory;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->typeFactory = new TypeFactory(new Type\TypeResolver(), new Type\Validator());
+    }
+
 	/**
 	 * Valid scenarios provider
 	 */
 	public function getValidAttributesScenarios()
 	{
-        $link = Type::create([
+        $typeFactory = new TypeFactory(new Type\TypeResolver(), new Type\Validator());
+
+        $link = $typeFactory->create([
             'type' => 'Link',
             'href' => 'https://example.com/my-href'
         ]);
-        $note = Type::create([
+        $note = $typeFactory->create([
             'type' => 'Note',
             'name' => "It's a note"
         ]);
-        $place = Type::create([
+        $place = $typeFactory->create([
             'type' => 'Place',
             'name' => "Over the Arabian Sea, east of Socotra Island Nature Sanctuary",
             'longitude' => 12.34,
@@ -106,10 +124,10 @@ class AttributeFormatValidationTest extends TestCase
                                 "name" => "Sally"
                               ]
                             ]                                          ], # Set actor as multiple actors, JSON encoded
-['actor', Activity::class, Type::create('Person', ["name" => "Sally"]) ], # Set actor as an Actor type
+['actor', Activity::class, $typeFactory->create('Person', ["name" => "Sally"]) ], # Set actor as an Actor type
 ['actor', Activity::class, [
-                         Type::create('Person', ["name" => "Sally"]),
-                         Type::create('Person', ["name" => "Bob"])
+    $typeFactory->create('Person', ["name" => "Sally"]),
+    $typeFactory->create('Person', ["name" => "Bob"])
                        ]                                               ], # Set actor as an Actor type
 
 ['altitude', Place::class, 0.5                                         ], # Set altitude (float)
@@ -124,8 +142,8 @@ class AttributeFormatValidationTest extends TestCase
                               ]
                             ]                                          ], # Set anyOf choices 
 ['attachment', Note::class, []                                         ], # Set attachment with an empty array
-['attachment', Note::class, Type::create(['type'=> 'Object'])          ], # Set attachment with an Object type
-['attachment', Note::class, [ Type::create(['type'=> 'Object']) ]      ], # Set attachment with an array of Object types
+['attachment', Note::class, $typeFactory->create(['type'=> 'Object'])          ], # Set attachment with an Object type
+['attachment', Note::class, [ $typeFactory->create(['type'=> 'Object']) ]      ], # Set attachment with an array of Object types
 ['attachment', Note::class, [
                                [
                                  "type"    => "Image",
@@ -299,7 +317,7 @@ class AttributeFormatValidationTest extends TestCase
 
 ['formerType', Tombstone::class, new Note()                            ], # Set formerType as an Note
 ['formerType', Tombstone::class, ["type" => "Video"]                   ], # Set formerType as an Video array
-['formerType', Tombstone::class, Type::create('Video')                 ], # Set formerType as an Video type
+['formerType', Tombstone::class, $typeFactory->create('Video')                 ], # Set formerType as an Video type
 
 
 ['generator', ObjectType::class, new Person()                          ], # Set generator as a Person
@@ -1373,17 +1391,19 @@ class AttributeFormatValidationTest extends TestCase
 	 */
 	public function testValidAttributesScenarios($attr, $type, $value)
 	{
+        $denormalizer = new Denormalizer($this->typeFactory);
+
 		$object = new $type();
-		$object->{$attr} = $value;
+		$object->{$attr} = is_array($value) ? $denormalizer->denormalize($value) : $value;
         
         // Cast $value
         if (is_array($value)) {
             if (isset($value['type'])) {
-                $value = Type::create($value);
+                $value = $this->typeFactory->create($value);
             } elseif (is_int(key($value))) {
                 $value = array_map(function($value) {
                         return is_array($value) && isset($value['type'])
-                            ? Type::create($value)
+                            ? $this->typeFactory->create($value)
                             : $value;
                     },
                     $value
@@ -1405,6 +1425,8 @@ class AttributeFormatValidationTest extends TestCase
 
 		$object = new $type();
 		$object->{$attr} = $value;
+
+        (new Validator())->validate($attr, $value, $type);
 	}
 
 	/**
@@ -1416,21 +1438,5 @@ class AttributeFormatValidationTest extends TestCase
         $this->expectException(Exception::class);
 
 		Validator::validate('property', 'value', 'NotAnObject');
-	}
-
-
-	/**
-	 * Validator add method MUST receive an object that implements
-	 * \ActivityPhp\Type\ValidatorInterface interface
-	 */
-	public function testValidatorAddNotValidCustomValidator()
-	{
-        $this->expectException(Exception::class);
-
-		Validator::add('custom', new class {
-			public function validate($value) {
-				return true;
-			}
-		});
 	}
 }

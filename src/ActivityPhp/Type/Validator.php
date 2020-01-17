@@ -17,7 +17,7 @@ use Exception;
  * \ActivityPhp\Type\Validator is an abstract class for
  * attribute validation.
  */
-abstract class Validator
+class Validator
 {
     /**
      * Contains all custom validators
@@ -26,7 +26,7 @@ abstract class Validator
      * 
      * [ 'attributeName' => CustomValidatorClassName::class ]
      */
-    protected static $validators = [];
+    protected $validators = [];
 
     /**
      * Validate an attribute value for given attribute name and 
@@ -38,7 +38,7 @@ abstract class Validator
      * @return bool
      * @throws \Exception if $container is not an object
      */
-    public static function validate($name, $value, $container)
+    public function validate($name, $value, $container)
     {
         if (!is_object($container)) {
             throw new Exception(
@@ -47,19 +47,8 @@ abstract class Validator
         }
 
         // Perform validation
-        if (isset(self::$validators[$name])) {
-            return self::$validators[$name]->validate($value, $container);
-        } 
-
-        // Try to load a default validator
-        $validatorName = sprintf(
-            '\ActivityPhp\Type\Validator\%sValidator',
-            ucfirst($name)
-        );
-
-        if (class_exists($validatorName)) {
-            self::add($name, $validatorName);
-            return self::validate($name, $value, $container);
+        if (isset($this->validators[$name])) {
+            return $this->validators[$name]->validate($value, $container);
         }
 
         // There is no validator for this attribute
@@ -69,26 +58,12 @@ abstract class Validator
     /**
      * Add a new validator in the pool.
      * It checks that it implements Validator\Interface
-     * 
+     *
      * @param string $name An attribute name to validate.
-     * @param string $class A validator class name
-     * @throws \Exception if validator class does not implement
-     * \ActivityPhp\Type\Helper\ValidatorInterface
+     * @param ValidatorInterface $validator
      */
-    public static function add($name, $class)
+    public function add($name, ValidatorInterface $validator)
     {
-        $validator = new $class();
-
-        if (!($validator instanceof ValidatorInterface)) {
-            throw new Exception(
-                sprintf(
-                    'Validator "%s" MUST implement "%s" interface',
-                    get_class($validator),
-                    ValidatorInterface::class
-                )
-            );
-        }
-
-        self::$validators[$name] = $validator;
+        $this->validators[$name] = $validator;
     }
 }

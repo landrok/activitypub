@@ -20,12 +20,20 @@ use Exception;
  * \ActivityPhp\Server\ActorFactory provides a factory for server-side 
  * actor.
  */
-abstract class ActorFactory
+final class ActorFactory
 {
     /**
-     * @var null|\ActivityPhp\Server
+     * @var Server
      */
-    protected static $server;
+    private $server;
+
+    /**
+     * @param Server $server
+     */
+    public function __construct(Server $server)
+    {
+        $this->server = $server;
+    }
 
     /**
      * Create an actor from its profile url
@@ -34,17 +42,17 @@ abstract class ActorFactory
      * @return \ActivityPhp\Type\Extended\AbstractActor
      * @throws \Exception if actor does not exist
      */
-    public static function create(string $url)
+    public function create(string $url)
     {
         // Is it a local actor?
-        if (parse_url($url, PHP_URL_HOST) == self::$server->config('instance.host')
-         && parse_url($url, PHP_URL_PORT) == self::$server->config('instance.port')
+        if (parse_url($url, PHP_URL_HOST) == $this->server->config('instance.host')
+         && parse_url($url, PHP_URL_PORT) == $this->server->config('instance.port')
         ) {
-            return self::createLocalActor($url);
+            return $this->createLocalActor($url);
         }
         
         
-        $content = self::$server->getClient()->get($url);
+        $content = $this->server->getClient()->get($url);
 
         if (!is_array($content)
             || !count($content)
@@ -54,7 +62,7 @@ abstract class ActorFactory
         }
 
         // @todo check AbstractActor type
-        $actor = Type::create($content['type'], $content);
+        $actor = $this->server->getTypeFactory()->create($content['type'], $content);
 
         // An actor must have a set of properties to be a valid
         // ActivityPhp profile
@@ -74,27 +82,17 @@ abstract class ActorFactory
     }
 
     /**
-     * Inject a server instance
-     * 
-     * @param  \ActivityPhp\Server $server
-     */
-    public static function setServer(Server $server)
-    {
-        self::$server = $server;
-    }
-
-    /**
      * Create an actor type from a profile id
      * 
      * @param  string $url
      * @return string
      */
-    public static function createLocalActor(string $url)
+    public function createLocalActor(string $url)
     {
-        return Type::create([
+        return $this->server->getTypeFactory()->create([
             'id'   => $url,
             'type' => 'Person',
-            'preferredUsername' => self::extractHandle($url)
+            'preferredUsername' => $this->extractHandle($url)
         ]);
     }
 
@@ -104,9 +102,9 @@ abstract class ActorFactory
      * @param  string $url
      * @return string
      */
-    public static function extractHandle(string $url)
+    public function extractHandle(string $url)
     {
-        $pattern = self::$server->config('instance.actorPath');
+        $pattern = $this->server->config('instance.actorPath');
         $pattern = str_replace(
             ['<handle>', '@'],
             ['([\w\d\-]+)', '\@'],
@@ -114,13 +112,11 @@ abstract class ActorFactory
         );
 
         if (!preg_match("#{$pattern}#", $url, $matches)) {
-            throw new Exception(
-                sprintf(
-                    'Failed to extract username from URL "%s", pattern="%s"',
-                    $url,
-                    $pattern
-                )
-            );
+            throw new Exception(sprintf(
+                'Failed to extract username from URL "%s", pattern="%s"',
+                $url,
+                $pattern
+            ));
         }
 
         return $matches[1];

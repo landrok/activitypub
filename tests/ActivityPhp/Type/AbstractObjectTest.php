@@ -2,19 +2,35 @@
 
 namespace ActivityPhpTest\Type;
 
+use ActivityPhp\Server\Http\JsonEncoder;
+use ActivityPhp\Server\Http\Normalizer;
 use ActivityPhp\Type;
-use ActivityPhpTest\MyCustomType;
+use ActivityPhp\TypeFactory;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
 class AbstractObjectTest extends TestCase
 {
+
+    /**
+     * @var TypeFactory
+     */
+    private $typeFactory;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->typeFactory = new TypeFactory(new Type\TypeResolver(), new Type\Validator());
+    }
+
     /**
      * Test valid setters
      */
     public function testValidSetters()
     {
-        $type = Type::create('ObjectType');
+
+        $type = $this->typeFactory->create('ObjectType');
 
         $value = 'http://example1.com';
         $type->id = $value;
@@ -22,10 +38,6 @@ class AbstractObjectTest extends TestCase
 
         $value = 'http://example2.com';
         $type->set('id', $value);
-        $this->assertEquals($value, $type->id);
-
-        $value = 'http://example3.com';
-        $type->setId($value);
         $this->assertEquals($value, $type->id);
     }
 
@@ -34,19 +46,11 @@ class AbstractObjectTest extends TestCase
      */
     public function testValidGetters()
     {
-        $type = Type::create('ObjectType');
+        $type = $this->typeFactory->create('ObjectType');
 
         $value = 'http://example1.com';
         $type->id = $value;
         $this->assertEquals($value, $type->id);
-
-        $value = 'http://example2.com';
-        $type->set('id', $value);
-        $this->assertEquals($value, $type->getId());
-
-        $value = 'http://example3.com';
-        $type->setId($value);
-        $this->assertEquals($value, $type->get('id'));
     }
 
     /**
@@ -56,30 +60,8 @@ class AbstractObjectTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $object = Type::create('ObjectType');
+        $object = $this->typeFactory->create('ObjectType');
         $object->myCustomAttribute;
-    }
-
-    /**
-     * Setting without argument should throw an exception
-     */
-    public function testSetWithNoArgument()
-    {
-        $this->expectException(Exception::class);
-
-        $object = Type::create('ObjectType');
-        $object->setMyCustomAttribute();
-    }
-
-    /**
-     * Call an undefined method
-     */
-    public function testCallUndefinedMethod()
-    {
-        $this->expectException(Exception::class);
-
-        $object = Type::create('ObjectType');
-        $object->illegalCall();
     }
 
     /**
@@ -103,7 +85,7 @@ class AbstractObjectTest extends TestCase
 
         $this->assertEquals(
             $expected, 
-            Type::create('Link')->getProperties()
+            $this->typeFactory->create('Link')->getProperties()
         );
     }
 
@@ -118,28 +100,13 @@ class AbstractObjectTest extends TestCase
             'href' => 'http://example.com',
         ];
 
-        $this->assertEquals(
-            $expected, 
-            Type::create('Link', $expected)->toArray()
-        );
-    }
+        $object = $this->typeFactory->create('Link', $expected);
 
-    /**
-     * Try to set a property without any validator
-     */
-    public function testToSetFreeProperty()
-    {
-        Type::add('MyCustomType', MyCustomType::class);
-
-        $expected = [
-            'type' => 'MyCustomType',
-            'customFreeProperty' => 'Free value',
-            'streams' => [],
-        ];
+        $normalizer = new Normalizer();
 
         $this->assertEquals(
-            $expected, 
-            Type::create('MyCustomType', $expected)->toArray()
+            $expected,
+            $normalizer->normalize($object)
         );
     }
 
@@ -154,7 +121,7 @@ class AbstractObjectTest extends TestCase
 
         $this->assertEquals(
             $expected, 
-            Type::create('Link')->toArray()
+            (new Normalizer())->normalize($this->typeFactory->create('Link'))
         );
     }
 
@@ -163,14 +130,17 @@ class AbstractObjectTest extends TestCase
      * tests toJson() method
      */
     public function testToJson()
-    {	
-        $expected = [
-            'type' => 'Link',
-        ];
+    {
+        $encoder = new JsonEncoder();
+        $normalizer = new Normalizer();
 
         $this->assertEquals(
             '{"type":"Link"}',
-            Type::create('Link')->toJson()
+            $encoder->encode(
+                $normalizer->normalize(
+                    $this->typeFactory->create('Link')
+                )
+            )
         );
     }
 
@@ -185,9 +155,16 @@ class AbstractObjectTest extends TestCase
             'href' => 'http://example.com',
         ];
 
+        $encoder = new JsonEncoder();
+        $normalizer = new Normalizer();
+
         $this->assertEquals(
             '{"type":"Link","name":"An example","href":"http:\/\/example.com"}',
-            Type::create($expected)->toJson()
+            $encoder->encode(
+                $normalizer->normalize(
+                    $this->typeFactory->create($expected)
+                )
+            )
         );
     }
 
@@ -202,13 +179,20 @@ class AbstractObjectTest extends TestCase
             'href' => 'http://example.com',
         ];
 
+        $encoder = new JsonEncoder(JSON_PRETTY_PRINT);
+        $normalizer = new Normalizer();
+
         $this->assertEquals(
             '{
     "type": "Link",
     "name": "An example",
     "href": "http:\/\/example.com"
 }',
-            Type::create($expected)->toJson(JSON_PRETTY_PRINT)
+            $encoder->encode(
+                $normalizer->normalize(
+                    $this->typeFactory->create($expected)
+                )
+            )
         );
     }
 
@@ -219,7 +203,7 @@ class AbstractObjectTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $object = Type::create('ObjectType');
+        $object = $this->typeFactory->create('ObjectType');
         $object->has('UndefinedProperty', true);
     }
 
@@ -228,11 +212,8 @@ class AbstractObjectTest extends TestCase
      */
     public function testHasCheck()
     {
-        $object = Type::create('ObjectType');
+        $object = $this->typeFactory->create('ObjectType');
         
-        $this->assertEquals(
-            false,
-            $object->has('UndefinedProperty')
-        );
+        $this->assertFalse($object->has('UndefinedProperty'));
     }
 }

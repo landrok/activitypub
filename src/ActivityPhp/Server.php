@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the ActivityPhp package.
- *
- * Copyright (c) landrok at github.com/landrok
- *
- * For the full copyright and license information, please see
- * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
- */
-
 namespace ActivityPhp;
 
 use ActivityPhp\Server\Actor;
@@ -16,7 +7,9 @@ use ActivityPhp\Server\Actor\Inbox;
 use ActivityPhp\Server\Actor\Outbox;
 use ActivityPhp\Server\Configuration;
 use ActivityPhp\Server\Http\ActivityPubClientInterface;
+use ActivityPhp\Server\Http\NormalizerInterface;
 use ActivityPhp\Server\Http\WebFingerClient;
+use ActivityPhp\Server\Http\DenormalizerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 
 class Server
@@ -35,11 +28,6 @@ class Server
      * @var Outbox[]
      */
     protected $outboxes = [];
-
-    /**
-     * @var null|\Psr\Log\LoggerInterface
-     */
-    protected $logger;
 
     /**
      * @var null|\ActivityPhp\Server\Configuration
@@ -62,11 +50,29 @@ class Server
     private $webFingerClient;
 
     /**
+     * @var TypeFactory
+     */
+    private $typeFactory;
+
+    /**
+     * @var NormalizerInterface
+     */
+    private $normalizer;
+
+    /**
+     * @var DenormalizerInterface
+     */
+    private $denormalizer;
+
+    /**
      * Server constructor
      *
      * @param ResponseFactoryInterface $responseFactory
      * @param ActivityPubClientInterface $activityPubClient
      * @param WebFingerClient $webFingerClient
+     * @param TypeFactory $typeFactory
+     * @param NormalizerInterface $normalizer
+     * @param DenormalizerInterface $denormalizer
      * @param array $config Server configuration
      * @throws \Exception
      */
@@ -74,6 +80,9 @@ class Server
         ResponseFactoryInterface $responseFactory,
         ActivityPubClientInterface $activityPubClient,
         WebFingerClient $webFingerClient,
+        TypeFactory $typeFactory,
+        NormalizerInterface $normalizer,
+        DenormalizerInterface $denormalizer,
         array $config = []
     ) {
         $this->configuration = new Configuration($config);
@@ -81,6 +90,9 @@ class Server
         $this->responseFactory = $responseFactory;
         $this->activityPubClient = $activityPubClient;
         $this->webFingerClient = $webFingerClient;
+        $this->typeFactory = $typeFactory;
+        $this->normalizer = $normalizer;
+        $this->denormalizer = $denormalizer;
     }
 
     /**
@@ -169,5 +181,29 @@ class Server
     public function getClient(): ActivityPubClientInterface
     {
         return $this->activityPubClient;
+    }
+
+    /**
+     * @return TypeFactory
+     */
+    public function getTypeFactory(): TypeFactory
+    {
+        return $this->typeFactory;
+    }
+
+    /**
+     * @return NormalizerInterface
+     */
+    public function getNormalizer(): NormalizerInterface
+    {
+        return $this->normalizer;
+    }
+
+    /**
+     * @return DenormalizerInterface
+     */
+    public function getDenormalizer(): DenormalizerInterface
+    {
+        return $this->denormalizer;
     }
 }
