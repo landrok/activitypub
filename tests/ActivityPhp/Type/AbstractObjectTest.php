@@ -203,11 +203,11 @@ class AbstractObjectTest extends TestCase
         ];
 
         $this->assertEquals(
-            '{
-    "type": "Link",
-    "name": "An example",
-    "href": "http:\/\/example.com"
-}',
+            '{' . "\n" .
+'    "type": "Link",' . "\n" .
+'    "name": "An example",' . "\n" .
+'    "href": "http:\/\/example.com"' . "\n" .
+'}',
             Type::create($expected)->toJson(JSON_PRETTY_PRINT)
         );
     }

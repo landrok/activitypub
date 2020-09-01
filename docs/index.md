@@ -113,6 +113,35 @@ $array = [
 $note = Type::create($array);
 
 ```
+
+When a property does not exist, an Exception is thrown in strict mode.
+You can define 3 different behaviours:
+
+- throw an exception (default=strict)
+- ignore property (ignore)
+- set property (include)
+
+```php
+use ActivityPhp\Type;
+use ActivityPhp\TypeConfiguration;
+
+$note = Type::create('Note');
+
+// Ignore mode
+TypeConfiguration::set('undefined_properties', 'ignore');
+$note->undefinedProperty = 'https://example.com/custom-notes/1';
+echo $note->undefinedProperty; // null
+
+// Include mode
+TypeConfiguration::set('undefined_properties', 'include');
+$note->undefinedProperty = 'https://example.com/custom-notes/1';
+echo $note->undefinedProperty; // https://example.com/custom-notes/1
+
+// Strict mode
+TypeConfiguration::set('undefined_properties', 'strict');
+$note->undefinedProperty = 'https://example.com/custom-notes/1'; // Exception
+
+```
 ________________________________________________________________________
 
 
@@ -262,6 +291,34 @@ Whenever you assign a value, the format of this value is checked.
 This action is made by a validator. If rules are not respected an 
 Exception is thrown.
 
+When a property does not exist, an Exception is thrown in strict mode.
+You can define 3 different behaviours:
+
+- throw an exception (default=strict)
+- ignore property (ignore)
+- set property (include)
+
+```php
+use ActivityPhp\Type;
+use ActivityPhp\TypeConfiguration;
+
+$note = Type::create('Note');
+
+// Ignore mode
+TypeConfiguration::set('undefined_properties', 'ignore');
+$note->undefinedProperty = 'https://example.com/custom-notes/1';
+echo $note->undefinedProperty; // null
+
+// Include mode
+TypeConfiguration::set('undefined_properties', 'include');
+$note->undefinedProperty = 'https://example.com/custom-notes/1';
+echo $note->undefinedProperty; // https://example.com/custom-notes/1
+
+// Strict mode
+TypeConfiguration::set('undefined_properties', 'strict');
+$note->undefinedProperty = 'https://example.com/custom-notes/1'; // Exception
+
+```
 ________________________________________________________________________
 
 ### Set several properties

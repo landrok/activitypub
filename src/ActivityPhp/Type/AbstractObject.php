@@ -12,6 +12,7 @@
 namespace ActivityPhp\Type;
 
 use ActivityPhp\Type;
+use ActivityPhp\Type\TypeConfiguration as Config;
 use Exception;
 
 /**
@@ -39,7 +40,9 @@ abstract class AbstractObject
      */
     public function set($name, $value)
     {
-        if ($name !== '@context') {
+        if ($name !== '@context' 
+            && Config::get('undefined_properties') == 'strict'
+        ) {
             $this->has($name, true);
         }
 
@@ -57,11 +60,18 @@ abstract class AbstractObject
         	);
         }
 
+        // @context has a special role
         if ($name == '@context') {
             $this->_props[$name] = $value;
-        }
+            
+        // All modes and property defined
+        } elseif ($this->has($name)) {
+            $this->_props[$name] = $this->transform($value);
 
-        $this->_props[$name] = $this->transform($value);
+        // Undefined property but we are in 'include' mode
+        } elseif (Config::get('undefined_properties') == 'include') {
+            $this->_props[$name] = $this->transform($value);
+        }
 
         return $this;
     }
@@ -104,7 +114,13 @@ abstract class AbstractObject
      */
     public function get($name)
     {
-        $this->has($name, true);
+        // Strict mode throws an exception when property is undefined
+        if (Config::get('undefined_properties') == 'strict') {
+            $this->has($name, true);
+        // Non strict mode returns null when property is not defined
+        } elseif (!$this->has($name)) {
+            return null;
+        }
         return $this->_props[$name];
     }
 
