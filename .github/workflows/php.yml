@@ -34,4 +34,6 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Run test suite
-      run: vendor/bin/phpunit -c phpunit.xml.dist
+      run: |
+        php -v
+        vendor/bin/phpunit -c phpunit.xml.dist
