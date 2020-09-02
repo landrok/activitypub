@@ -33,9 +33,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-${{ matrix.php-versions }}-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
-          ${{ runner.os }}-php-
+          ${{ runner.os }}--${{ matrix.php-versions }}php-
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
