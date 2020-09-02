@@ -9,16 +9,17 @@
  * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
  */
 
-namespace ActivityPhp\Server;
+namespace ActivityPhp\Server\Cache;
 
 use ActivityPhp\Server\Configuration\CacheConfiguration;
 use Exception;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * \ActivityPhp\Server\CacheHelper provides global helper methods for 
  * cache manipulation.
  */
-abstract class CacheHelper
+abstract class CacheHelper // implements CacheInterface
 {
     /**
      *@var null|\Psr\Cache\CacheItemPoolInterface

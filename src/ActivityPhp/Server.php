@@ -14,7 +14,7 @@ namespace ActivityPhp;
 use ActivityPhp\Server\Actor;
 use ActivityPhp\Server\Actor\Inbox;
 use ActivityPhp\Server\Actor\Outbox;
-use ActivityPhp\Server\CacheHelper;
+use ActivityPhp\Server\Cache\CacheHelper;
 use ActivityPhp\Server\Configuration;
 use Exception;
 

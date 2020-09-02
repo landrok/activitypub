@@ -15,6 +15,7 @@ use Exception;
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
+use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * Cache configuration stack
@@ -58,6 +59,9 @@ class CacheConfiguration extends AbstractConfiguration
         if (!isset($params['stream'])) {
             $this->stream = getcwd();
         }
+        
+        // Custom driver
+        
     }
 
     /**
@@ -65,7 +69,7 @@ class CacheConfiguration extends AbstractConfiguration
      * 
      * @return \Psr\Cache\CacheItemPoolInterface
      */
-    public function createPool()
+    public function createPool(): ?CacheItemPoolInterface
     {
         if (!class_exists($this->pool)) {
             throw new Exception(
@@ -74,7 +78,7 @@ class CacheConfiguration extends AbstractConfiguration
         }
 
         if (!$this->enabled) {
-            return;
+            return null;
         }
 
 

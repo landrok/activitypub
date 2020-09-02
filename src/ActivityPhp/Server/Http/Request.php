@@ -11,7 +11,7 @@
 
 namespace ActivityPhp\Server\Http;
 
-use ActivityPhp\Server\CacheHelper;
+use ActivityPhp\Server\Cache\CacheHelper;
 use Exception;
 use GuzzleHttp\Client;
 

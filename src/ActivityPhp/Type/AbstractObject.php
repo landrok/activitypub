@@ -117,10 +117,12 @@ abstract class AbstractObject
         // Strict mode throws an exception when property is undefined
         if (Config::get('undefined_properties') == 'strict') {
             $this->has($name, true);
+
         // Non strict mode returns null when property is not defined
         } elseif (!$this->has($name)) {
             return null;
         }
+
         return $this->_props[$name];
     }
 
