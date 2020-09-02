@@ -11,14 +11,19 @@ php:
     - 7.2
     - 7.3
     - 7.4
+    - 8.0snapshot
+
+matrix:
+  allow_failures:
+    - php: 8.0snapshot
 
 install:
     - composer install
 
-before_script: 
+before_script:
     ## Install Code climate reporter
-    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter 
-    - chmod +x ./cc-test-reporter 
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
     - ./cc-test-reporter before-build
 
 script: ./vendor/bin/phpunit -c phpunit.xml.dist
