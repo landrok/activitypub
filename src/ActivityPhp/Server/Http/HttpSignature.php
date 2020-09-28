@@ -28,7 +28,7 @@ class HttpSignature
             ([\w\-\.#\/@]+)
         )",
         (headers="\(request-target\) (?P<headers>[\w\s]+)",)?
-        signature="(?P<signature>[\w+\/]+==)"
+        signature="(?P<signature>[\w+\/]+={0,2})"
     /x';
 
     /**
