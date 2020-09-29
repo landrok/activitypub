@@ -23,7 +23,7 @@ class CurrentValidator implements ValidatorInterface
 {
     /**
      * Validate a current attribute value
-     * 
+     *
      * @param string  $value
      * @param mixed   $container
      * @return bool

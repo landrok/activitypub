@@ -11,9 +11,11 @@
 
 namespace ActivityPhp\Server\Configuration;
 
+use ActivityPhp\Type\TypeConfiguration;
+
 /**
  * Server instance configuration stack
- */ 
+ */
 class InstanceConfiguration extends AbstractConfiguration
 {
     /**
@@ -37,6 +39,14 @@ class InstanceConfiguration extends AbstractConfiguration
     protected $scheme = 'https';
 
     /**
+     * @var string Types behavior when property are not defined
+     * - strict     (default) throw an exception
+     * - ignore     ignore property
+     * - include    set the property
+     */
+    protected $types = 'strict';
+
+    /**
      * @var string Default actor path
      */
     protected $actorPath = '/@<handle>';
@@ -53,11 +63,13 @@ class InstanceConfiguration extends AbstractConfiguration
 
     /**
      * Dispatch configuration parameters
-     * 
+     *
      * @param array $params
      */
     public function __construct(array $params = [])
     {
         parent::__construct($params);
+
+        TypeConfiguration::set('undefined_properties', $this->types);
     }
 }

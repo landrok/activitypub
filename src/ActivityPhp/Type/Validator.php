@@ -21,17 +21,17 @@ abstract class Validator
 {
     /**
      * Contains all custom validators
-     * 
+     *
      * @var array
-     * 
+     *
      * [ 'attributeName' => CustomValidatorClassName::class ]
      */
     protected static $validators = [];
 
     /**
-     * Validate an attribute value for given attribute name and 
+     * Validate an attribute value for given attribute name and
      * container object.
-     * 
+     *
      * @param string $name
      * @param mixed  $value
      * @param mixed  $container An object
@@ -47,12 +47,14 @@ abstract class Validator
         }
 
         // Perform validation
-        if (isset(self::$validators[$name])) {
+        if (isset(self::$validators[$name])
+            && TypeConfiguration::get('undefined_properties') == 'strict'
+        ) {
             return self::$validators[$name]->validate(
                 $value,
                 $container
             );
-        } 
+        }
 
         // Try to load a default validator
         $validatorName = sprintf(
@@ -60,7 +62,9 @@ abstract class Validator
             ucfirst($name)
         );
 
-        if (class_exists($validatorName)) {
+        if (class_exists($validatorName)
+            && TypeConfiguration::get('undefined_properties') == 'strict'
+        ) {
             self::add($name, $validatorName);
             return self::validate($name, $value, $container);
         }
@@ -72,7 +76,7 @@ abstract class Validator
     /**
      * Add a new validator in the pool.
      * It checks that it implements Validator\Interface
-     * 
+     *
      * @param string $name An attribute name to validate.
      * @param string $class A validator class name
      * @throws \Exception if validator class does not implement
