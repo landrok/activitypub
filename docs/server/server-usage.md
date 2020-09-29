@@ -21,17 +21,17 @@ $server = new Server();
 
 ```
 
-It's a very minimalistic example of use. With this configuration, an 
-instance can only request for public activities and can't receive some 
+It's a very minimalistic example of use. With this configuration, an
+instance can only request for public activities and can't receive some
 data.
 
-As you could imagine, a server instance, to be fully-functional, must 
+As you could imagine, a server instance, to be fully-functional, must
 accept some parameters.
 
 Server parameters
 -----------------
 
-A server instance can receive an array of configurations as first 
+A server instance can receive an array of configurations as first
 parameter.
 
 ```php
@@ -48,7 +48,7 @@ $server = new Server([
 ]);
 ```
 
-Each array defines a scope of configuration. 
+Each array defines a scope of configuration.
 
 ________________________________________________________________________
 
@@ -64,13 +64,13 @@ use ActivityPhp\Server;
 // Create a server instance with no log output
 $server = new Server([
     'logger'   => [
-        'driver' => '\Psr\Log\NullLogger'    
+        'driver' => '\Psr\Log\NullLogger'
     ],
 ]);
 ```
 
-If you have specific needs (Storing logs into a database, for 
-instance), you may pass a custom logger driver. As it implements 
+If you have specific needs (Storing logs into a database, for
+instance), you may pass a custom logger driver. As it implements
 `Psr\Log\LoggerInterface`, you may pass any custom logger.
 
 By default, the driver is [Monolog\Logger](https://github.com/Seldaek/monolog).
@@ -87,7 +87,7 @@ use ActivityPhp\Server;
 // Put logs into a specific file
 $server = new Server([
     'logger'   => [
-        'stream' => '/var/log/activitypub/server.log'    
+        'stream' => '/var/log/activitypub/server.log'
     ],
 ]);
 ```
@@ -104,13 +104,12 @@ use ActivityPhp\Server;
 // Put logs with a specific channel
 $server = new Server([
     'logger'   => [
-        'channel' => 'ap_channel'    
+        'channel' => 'ap_channel'
     ],
 ]);
 ```
 
-
-________________________________________________________________________                
+________________________________________________________________________
 
 
 ### Instance parameters
@@ -126,7 +125,7 @@ use ActivityPhp\Server;
 
 $server = new Server([
     'instance'   => [
-        'host' => 'activitypub.example.org'    
+        'host' => 'activitypub.example.org'
     ],
 ]);
 ```
@@ -141,13 +140,45 @@ use ActivityPhp\Server;
 
 $server = new Server([
     'instance'   => [
-        'port' => 8000   
+        'port' => 8000
     ],
 ]);
 ```
 
 Note: this does not seem to be supported by all ActivityPub servers of
 the federation.
+
+**types**
+
+This option tells the instance which behaviour when an unknown property
+or an undefined type is encountered.
+
+All federations (mastodon, peertube, pixelfed, etc...) are implementing
+non standard activity streams properties and types.
+
+By default, an instance is configured in `strict` mode. When a non-
+standard type is encountered, if it's not defined as a dialect, it
+throws an exception.
+
+It can be blocking if you're working with many kinds of federations.
+
+So, you may configure your instance with a less strict requirement in two
+ways:
+
+- `ignore` : non standard types and properties are ignored
+- `include`: non standard types and properties are set and created on
+the fly.
+
+
+```php
+use ActivityPhp\Server;
+
+$server = new Server([
+    'instance'   => [
+        'types' => 'include'
+    ],
+]);
+```
 
 
 **debug**
@@ -160,14 +191,14 @@ use ActivityPhp\Server;
 
 $server = new Server([
     'instance'   => [
-        'debug' => true  
+        'debug' => true
     ],
 ]);
 ```
 
 For security purpose, the default value is `false`.
 
-________________________________________________________________________                
+________________________________________________________________________
 
 
 ### HTTP parameters
@@ -180,10 +211,10 @@ The default timeout for HTTP requests is `10s`..
 ```php
 use ActivityPhp\Server;
 
-// Increase HTTP request timeout to 20 seconds 
+// Increase HTTP request timeout to 20 seconds
 $server = new Server([
     'http'   => [
-        'timeout' => '20'    
+        'timeout' => '20'
     ],
 ]);
 ```
@@ -216,9 +247,9 @@ $server = new Server([
 **stream**
 
 By default, it stores cache files in the common working directory (See
-[PHP getcwd() manual](http://php.net/manual/en/function.getcwd.php)). 
+[PHP getcwd() manual](http://php.net/manual/en/function.getcwd.php)).
 
-You can customize where cache files are stored with the `stream` 
+You can customize where cache files are stored with the `stream`
 parameter.
 
 
@@ -227,14 +258,14 @@ use ActivityPhp\Server;
 
 $server = new Server([
     'cache'   => [
-        'stream' => '/mycustom/directory'    
+        'stream' => '/mycustom/directory'
     ],
 ]);
 ```
 
 **ttl**
 
-The Time To Live (TTL) of an item is the amount of time in seconds 
+The Time To Live (TTL) of an item is the amount of time in seconds
 between when that item is stored and it is considered stale.
 
 The default value is 3600.
@@ -244,7 +275,7 @@ use ActivityPhp\Server;
 
 $server = new Server([
     'cache'   => [
-        'ttl' => 60 // Set to 60 seconds  
+        'ttl' => 60 // Set to 60 seconds
     ],
 ]);
 ```
@@ -256,7 +287,7 @@ ________________________________________________________________________
 
 Dialect parameter has a special role.
 
-It defines and load ActivityPub types and properties which are not 
+It defines and load ActivityPub types and properties which are not
 defined in the standard protocol.
 
 
@@ -271,7 +302,7 @@ This parameter is a 3-levels array containing:
 In this example, we define 2 dialects with 1 type for each.
 
 The first type extends ActivityPub `Person` type with an `uuid` property.
-The second type creates a new type `HashTag` with 2 properties, `uuid` 
+The second type creates a new type `HashTag` with 2 properties, `uuid`
 and `name`.
 
 ```php
@@ -324,7 +355,7 @@ ________________________________________________________________________
 
 Ontology parameter has a special role.
 
-It defines and load ActivityPub types and properties which are not 
+It defines and load ActivityPub types and properties which are not
 defined in the standard protocol but that are commonly used by Federated
 applications. It permits that your application will be compatible with
 other federations.
@@ -335,7 +366,7 @@ This parameter is a 1 or 2-levels array containing:
 
 `OntologyName`
 
-or 
+or
 
 `OntologyName` => `CustomOntologyClassName`
 
