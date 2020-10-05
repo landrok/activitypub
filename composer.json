@@ -13,7 +13,7 @@
         "symfony/http-foundation": ">=3.4",
         "phpseclib/phpseclib": "^2.0",
         "psr/cache": "^1.0",
-        "symfony/cache": "^5.1"
+        "symfony/cache": ">=4.0"
     },
     "require-dev": {
         "phpunit/phpunit": "*"

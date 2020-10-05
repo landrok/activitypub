@@ -36,8 +36,7 @@ jobs:
           ${{ runner.os }}-${{ matrix.php-versions }}-php-
 
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: composer update --no-progress --no-suggest --ansi
 
     - name: Run test suite
       run: |
