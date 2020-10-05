@@ -16,7 +16,7 @@ use Exception;
 use Psr\SimpleCache\CacheInterface;
 
 /**
- * \ActivityPhp\Server\CacheHelper provides global helper methods for 
+ * \ActivityPhp\Server\CacheHelper provides global helper methods for
  * cache manipulation.
  */
 abstract class CacheHelper // implements CacheInterface
@@ -33,7 +33,7 @@ abstract class CacheHelper // implements CacheInterface
 
     /**
      * Inject a cache pool
-     * 
+     *
      * @param  \ActivityPhp\Server\Configuration\CacheConfiguration $config
      */
     public static function setPool(CacheConfiguration $config)
@@ -44,7 +44,7 @@ abstract class CacheHelper // implements CacheInterface
 
     /**
      * Set a cache item
-     * 
+     *
      * @param  string $key
      * @param  mixed $value
      */
@@ -64,7 +64,7 @@ abstract class CacheHelper // implements CacheInterface
 
     /**
      * Get a cache item content
-     * 
+     *
      * @return mixed
      */
     public static function get(string $key)
@@ -79,21 +79,25 @@ abstract class CacheHelper // implements CacheInterface
 
     /**
      * Check that a cache item exists
-     * 
+     *
      * @return bool
      */
     public static function has(string $key)
     {
-        if (!is_null(self::$pool)) {
-            return self::$pool->has(
-                self::key($key)
-            );
+        if (is_null(self::$pool)) {
+            return false;
         }
+
+        return is_null(
+            self::$pool->getItem(
+                self::key($key)
+            )
+        );
     }
 
     /**
      * Normalize hash keys
-     * 
+     *
      * @param  string $value
      * @return string
      */

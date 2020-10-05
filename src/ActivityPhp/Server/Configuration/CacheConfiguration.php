@@ -12,14 +12,12 @@
 namespace ActivityPhp\Server\Configuration;
 
 use Exception;
-
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 /**
  * Cache configuration stack
- */ 
+ */
 class CacheConfiguration extends AbstractConfiguration
 {
     /**
@@ -35,7 +33,7 @@ class CacheConfiguration extends AbstractConfiguration
     /**
      * @var string Cache class name
      */
-    protected $pool = '\Cache\Adapter\Filesystem\FilesystemCachePool';
+    protected $pool = '\Symfony\Component\Cache\Adapter\FilesystemAdapter';
 
     /**
      * @var string Cache stream
@@ -49,24 +47,24 @@ class CacheConfiguration extends AbstractConfiguration
 
     /**
      * Dispatch configuration parameters
-     * 
+     *
      * @param array $params
      */
     public function __construct(array $params = [])
     {
         parent::__construct($params);
-        
+
         if (!isset($params['stream'])) {
             $this->stream = getcwd();
         }
-        
+
         // Custom driver
-        
+
     }
 
     /**
      * Create cache pool instance
-     * 
+     *
      * @return \Psr\Cache\CacheItemPoolInterface
      */
     public function createPool(): ?CacheItemPoolInterface
@@ -81,19 +79,15 @@ class CacheConfiguration extends AbstractConfiguration
             return null;
         }
 
-
         // Create a filesystem pool
         if ($this->type == 'filesystem') {
-            $filesystemAdapter = new Local($this->stream);
-            $filesystem        = new Filesystem($filesystemAdapter);
-            $pool = new $this->pool($filesystem);
-            return $pool;
+            return new $this->pool($this->ttl, 0, $this->stream);
         }
     }
 
     /**
      * Get TTL value
-     * 
+     *
      * @return int
      */
     public function getTtl()
