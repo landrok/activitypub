@@ -55,7 +55,7 @@ class CacheConfiguration extends AbstractConfiguration
         parent::__construct($params);
 
         if (!isset($params['stream'])) {
-            $this->stream = getcwd();
+            $this->stream = getcwd() . '/cache';
         }
 
         // Custom driver
