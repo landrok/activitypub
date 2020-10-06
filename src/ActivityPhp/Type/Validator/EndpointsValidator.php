@@ -23,7 +23,7 @@ class EndpointsValidator implements ValidatorInterface
 {
     /**
      * Validate ENDPOINTS value
-     * 
+     *
      * @param string|array $value
      * @param mixed  $container
      * @return bool
@@ -33,7 +33,7 @@ class EndpointsValidator implements ValidatorInterface
         // Validate that container is an AbstractActor type
         Util::subclassOf($container, AbstractActor::class, true);
 
-        // A link to a JSON-LD document 
+        // A link to a JSON-LD document
         if (Util::validateUrl($value)) {
             return true;
         }
@@ -46,7 +46,7 @@ class EndpointsValidator implements ValidatorInterface
 
     /**
      * Validate endpoints mapping
-     * 
+     *
      * @param  array $item
      * @return bool
      */
@@ -65,6 +65,10 @@ class EndpointsValidator implements ValidatorInterface
                         return false;
                     }
                     break;
+            }
+
+            if (is_numeric($key)) {
+                return false;
             }
         }
 
