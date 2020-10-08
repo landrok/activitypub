@@ -21,6 +21,11 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 class CacheConfiguration extends AbstractConfiguration
 {
     /**
+     * @const default driver name
+     */
+    const DEFAULT_DRIVER = '\Symfony\Component\Cache\Adapter\FilesystemAdapter';
+
+    /**
      * @var string Cache type
      */
     protected $type = 'filesystem';
@@ -31,7 +36,7 @@ class CacheConfiguration extends AbstractConfiguration
     protected $enabled = true;
 
     /**
-     * @var string Cache class name
+     * @var string|CacheItemPoolInterface A cache pool or a driver name
      */
     protected $pool = '\Symfony\Component\Cache\Adapter\FilesystemAdapter';
 
@@ -57,9 +62,6 @@ class CacheConfiguration extends AbstractConfiguration
         if (!isset($params['stream'])) {
             $this->stream = getcwd() . '/cache';
         }
-
-        // Custom driver
-
     }
 
     /**
@@ -69,7 +71,7 @@ class CacheConfiguration extends AbstractConfiguration
      */
     public function createPool(): ?CacheItemPoolInterface
     {
-        if (!class_exists($this->pool)) {
+        if (is_string($this->pool) && !class_exists($this->pool)) {
             throw new Exception(
                 "Cache pool driver does not exist. Given='{$this->pool}'"
             );
@@ -80,9 +82,42 @@ class CacheConfiguration extends AbstractConfiguration
         }
 
         // Create a filesystem pool
-        if ($this->type == 'filesystem') {
+        if ($this->type == 'filesystem' && $this->pool == self::DEFAULT_DRIVER) {
             return new $this->pool($this->ttl, 0, $this->stream);
         }
+
+        // Instanciate a pool with a custom driver name
+        if (is_string($this->pool)) {
+            return new $this->pool();
+        }
+
+        // An instanciated pool has been given as parameter
+        if ($this->pool instanceof CacheItemPoolInterface) {
+            return $this->pool;
+        }
+
+        // An instanciated pool has been given as parameter but is not
+        // Psr\Cache compliant
+        if (is_object($this->pool)
+            && !($this->pool instanceof CacheItemPoolInterface)
+        ) {
+            $message = sprintf(
+                "Given cache instance '%s' does not respect '%s' definition.",
+                get_class($this->pool),
+                CacheItemPoolInterface::class
+            );
+
+            throw new Exception($message);
+        }
+
+        // Finally throw an exception because cache configuration does
+        // not satisfy requirements
+        $message = sprintf(
+            "Cache pool has not been instanciated. Given parameter '%s'",
+            $this->pool
+        );
+
+        throw new Exception($message);
     }
 
     /**

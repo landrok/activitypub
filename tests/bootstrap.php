@@ -34,7 +34,7 @@ if (substr(php_uname(), 0, 7) !== 'Windows') {
         $pid = (int) $output[0];
 
         echo sprintf(
-            '%s - %s web server started on %s:%d with PID %d', 
+            '%s - %s web server started on %s:%d with PID %d',
             date('r'),
             $name,
             $host,

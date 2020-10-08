@@ -280,6 +280,45 @@ $server = new Server([
 ]);
 ```
 
+**pool**
+
+ActivtyPhp comes with a default cache driver `\Symfony\Component\Cache\Adapter\FilesystemAdapter`.
+
+There are 2 ways to override this driver with __pool__ parameter.
+
+You can pass a class name that will be automatically instanciated.
+
+```php
+use ActivityPhp\Server;
+
+$server = new Server([
+    'cache'   => [
+        'pool' => 'Symfony\Component\Cache\Adapter\ArrayAdapter'
+    ],
+]);
+```
+
+If you need a cache pool with custom configuration, you can pass an
+instanciated pool.
+
+```php
+use ActivityPhp\Server;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
+
+$server = new Server([
+    'cache'   => [
+        'pool' => new ArrayAdapter()
+    ],
+]);
+```
+
+The given pool must implement `Psr\Cache\CacheItemPoolInterface`.
+
+__Note__
+
+All [Symfony cache adapters](https://symfony.com/doc/current/components/cache.html#available-cache-adapters)
+are supplied as dependencies.
+
 ________________________________________________________________________
 
 
