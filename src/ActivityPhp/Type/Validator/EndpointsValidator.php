@@ -65,6 +65,9 @@ class EndpointsValidator implements ValidatorInterface
                         return false;
                     }
                     break;
+                // All other keys are not allowed
+                default:
+                    return false;
             }
 
             if (is_numeric($key)) {
