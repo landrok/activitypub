@@ -88,11 +88,7 @@ abstract class CacheHelper // implements CacheInterface
             return false;
         }
 
-        return is_null(
-            self::$pool->getItem(
-                self::key($key)
-            )
-        );
+        return self::$pool->getItem(self::key($key))->isHit();
     }
 
     /**
