@@ -69,7 +69,8 @@ class WebFingerFactory
 
         $content = Util::decodeJson(
             (new Request(
-                self::$server->config('http.timeout')
+                self::$server->config('http.timeout'),
+                self::$server->config('http.agent')
             ))->get($url)
         );
 

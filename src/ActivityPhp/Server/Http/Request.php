@@ -47,14 +47,19 @@ class Request
      * Set HTTP client
      * 
      * @param float|int $timeout
+     * @param string $agent
      */
-    public function __construct($timeout = 10.0)
+    public function __construct($timeout = 10.0, $agent = '')
     {
+
+        $headers = ['Accept' => self::HTTP_HEADER_ACCEPT];
+        if ($agent) {
+            $headers['User-Agent'] = $agent;
+        }
+
         $this->client = new Client([
             'timeout' => $timeout,
-            'headers' => [
-                'Accept' => self::HTTP_HEADER_ACCEPT,
-            ]
+            'headers' => $headers
         ]);
     }
 

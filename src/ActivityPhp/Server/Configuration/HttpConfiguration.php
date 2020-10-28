@@ -27,6 +27,11 @@ class HttpConfiguration extends AbstractConfiguration
     protected $timeout = 10.0;
 
     /**
+     * @var string The User Agent.
+     */
+    protected $agent = '';
+
+    /**
      * Dispatch configuration parameters
      * 
      * @param array $params

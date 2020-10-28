@@ -46,7 +46,8 @@ abstract class ActorFactory
         
         $content = json_decode(
             (new Request(
-                self::$server->config('http.timeout')
+                self::$server->config('http.timeout'),
+                self::$server->config('http.agent')
             ))->get($url),
             true
         );
