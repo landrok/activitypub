@@ -21,63 +21,40 @@ class Configuration
     const CONFIG_NS_PATTERN = '\ActivityPhp\Server\Configuration\%sConfiguration';
 
     /**
-     * @var null|\ActivityPhp\Server\Configuration\HttpConfiguration
+     * @var \ActivityPhp\Server\Configuration\HttpConfiguration
      */
     protected $http;
 
     /**
-     * @var null|\ActivityPhp\Server\Configuration\InstanceConfiguration
+     * @var \ActivityPhp\Server\Configuration\InstanceConfiguration
      */
     protected $instance;
 
     /**
-     * @var null|\ActivityPhp\Server\Configuration\LoggerConfiguration
+     * @var \ActivityPhp\Server\Configuration\LoggerConfiguration
      */
     protected $logger;
 
     /**
-     * @var null|\ActivityPhp\Server\Configuration\CacheConfiguration
+     * @var \ActivityPhp\Server\Configuration\CacheConfiguration
      */
     protected $cache;
 
     /**
-     * @var null|\ActivityPhp\Server\Configuration\DialectsConfiguration
+     * @var \ActivityPhp\Server\Configuration\DialectsConfiguration
      */
     protected $dialects;
 
     /**
-     * @var null|\ActivityPhp\Server\Configuration\OntologiesConfiguration
+     * @var \ActivityPhp\Server\Configuration\OntologiesConfiguration
      */
     protected $ontologies;
 
     /**
      * Dispatch configuration parameters
-     * 
-     * @param array $params
      */
-    public function __construct(array $params = [])
+    public function dispatchParameters(array $params): void
     {
-        foreach ($params as $key => $value) {
-            if (!is_string($key)) {
-                throw new Exception(
-                    "Configuration key must be a string"
-                );
-            } elseif (!isset($this->$key) && !property_exists($this, $key)) {
-                throw new Exception(
-                    "Configuration handler '$key' does not exist"
-                );                
-            } elseif (!is_array($value)) {
-                throw new Exception(
-                    "Configuration value must be an array"
-                );                
-            } else {
-                $handler = sprintf(
-                    self::CONFIG_NS_PATTERN, ucfirst($key)
-                );
-                $this->$key = new $handler($value);
-            }
-        }
-        
         // Create default configuration for each component
         foreach ([
                     'cache',
@@ -88,16 +65,39 @@ class Configuration
                     'ontologies'
             ] as $config
         ) {
+
+            if (isset($params[$config]) && !is_array($params[$config])) {
+                throw new Exception(
+                    "Configuration value for '$config' must be an array"
+                );                
+            }
+
             if (is_null($this->$config)) {
                 $handler = sprintf(
                     self::CONFIG_NS_PATTERN, ucfirst($config)
                 );
 
-                $this->$config = new $handler();
+                $this->$config = new $handler(
+                    isset($params[$config]) && is_array($params[$config])
+                        ? $params[$config]
+                        : []
+                );
+            }
+
+            // Clean params
+            if (isset($params[$config])) {
+                unset($params[$config]);
             }
         }
-    }
 
+        // Check if some parameters have been ignored.
+        if (count($params)) {
+            throw new Exception(
+                "Following configuration parameters have been ignored:\n"
+                 . json_encode($params, JSON_PRETTY_PRINT)
+            );                
+        }        
+    }
     /**
      * Get a configuration dedicated handler
      * 

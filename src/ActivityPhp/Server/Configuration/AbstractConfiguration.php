@@ -20,12 +20,35 @@ abstract class AbstractConfiguration
 {
     /**
      * Dispatch configuration parameters
-     * 
-     * @param array $params
      */
     public function __construct(array $params = [])
     {
-        foreach ($params as $key => $value) {
+        $this->setArray($params);
+    }
+    
+    /**
+     * Get a config value
+     *
+     * @param  string $key
+     * @return string A configuration value
+     */
+    public function get($key)
+    {
+        if (isset($this->$key)) {
+            return $this->$key;
+        }
+
+        throw new Exception("'$key' parameter does not exist");
+    }
+
+    /**
+     * Set configuration values by array
+     *
+     * @return void
+     */
+    public function setArray(array $settings)
+    {
+        foreach ($settings as $key => $value) {
             if (!is_string($key)) {
                 throw new Exception(
                     "Configuration key must be a string"
@@ -40,19 +63,6 @@ abstract class AbstractConfiguration
             }
         }
     }
-    
-    /**
-     * Get a config value
-     *
-     * @param  string $key
-     * @return string A configuration
-     */
-    public function get($key)
-    {
-        if (isset($this->$key)) {
-            return $this->$key;
-        }
 
-        throw new Exception("'$key' parameter does not exist");
-    }
+    
 }

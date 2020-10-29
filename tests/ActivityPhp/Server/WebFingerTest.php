@@ -125,6 +125,8 @@ class WebFingerTest extends TestCase
             ]
         ]);
 
+        
+
         $webfinger = $server->actor($handle)->webfinger();
     }
 

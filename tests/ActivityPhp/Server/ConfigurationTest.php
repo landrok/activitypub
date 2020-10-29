@@ -32,7 +32,8 @@ class ConfigurationTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $config = new Configuration($data);
+        $config = new Configuration();
+        $config->dispatchParameters($data);
     }
 
     /**

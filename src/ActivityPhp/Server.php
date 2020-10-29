@@ -24,6 +24,11 @@ use Exception;
 class Server
 {
     /**
+     * @var self
+     */
+    private static $singleton;
+
+    /**
      * @var \ActivityPhp\Server\Actor[]
      */
     protected $actors = [];
@@ -55,8 +60,11 @@ class Server
      */
     public function __construct(array $config = [])
     {
-        $this->configuration = new Configuration($config);
+        self::$singleton = $this;
+        $this->configuration = new Configuration();
+        $this->configuration->dispatchParameters($config);
         $this->logger = $this->config('logger')->createLogger();
+
         CacheHelper::setPool(
             $this->config('cache')
         );
@@ -159,5 +167,17 @@ class Server
         $this->actors[$handle] = new Actor($handle, $this);
 
         return $this->actors[$handle];
+    }
+
+    /**
+     * Get server instance with a static call
+     */
+    public static function singleton(array $settings = []): self
+    {
+        if (is_null(self::$singleton)) {
+            self::$singleton = new self($settings);
+        }
+
+        return self::$singleton;
     }
 }

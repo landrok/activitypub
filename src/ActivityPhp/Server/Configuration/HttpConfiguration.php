@@ -11,6 +11,8 @@
 
 namespace ActivityPhp\Server\Configuration;
 
+use ActivityPhp\Server;
+
 /**
  * Server HTTP configuration stack
  */ 
