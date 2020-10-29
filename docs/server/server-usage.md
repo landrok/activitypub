@@ -219,6 +219,23 @@ $server = new Server([
 ]);
 ```
 
+**agent**
+
+When talking to other federated servers, an instance
+uses the default user agent *ActivityPhp/x.y.z (+https://{host})*.
+
+It can be customized with agent parameter.
+
+```php
+use ActivityPhp\Server;
+
+$server = new Server([
+    'http'   => [
+        'agent' => 'MyCustomUserAgent'
+    ],
+]);
+```
+
 ________________________________________________________________________
 
 

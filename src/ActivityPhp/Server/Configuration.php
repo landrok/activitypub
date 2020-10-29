@@ -57,12 +57,12 @@ class Configuration
     {
         // Create default configuration for each component
         foreach ([
-                    'cache',
-                    'logger',
-                    'instance',
-                    'http',
-                    'dialects',
-                    'ontologies'
+                'cache',
+                'logger',
+                'instance',
+                'http',
+                'dialects',
+                'ontologies'
             ] as $config
         ) {
 

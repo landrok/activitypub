@@ -172,7 +172,7 @@ class Server
     /**
      * Get server instance with a static call
      */
-    public static function singleton(array $settings = []): self
+    public static function server(array $settings = []): self
     {
         if (is_null(self::$singleton)) {
             self::$singleton = new self($settings);
