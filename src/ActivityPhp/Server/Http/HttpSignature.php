@@ -51,8 +51,6 @@ class HttpSignature
 
     /**
      * Inject a server instance
-     * 
-     * @param \ActivityPhp\Server $server
      */
     public function __construct(Server $server)
     {
@@ -65,7 +63,7 @@ class HttpSignature
      * @param  \Symfony\Component\HttpFoundation\Request $request
      * @return bool True if signature has been verified. Otherwise false 
      */
-    public function verify(Request $request)
+    public function verify(Request $request): bool
     {
         // Read the Signature header,
         $signature = $request->headers->get('signature');
