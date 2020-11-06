@@ -84,6 +84,48 @@ class HttpSignatureTest extends TestCase
     }
 
     /**
+     * Check that the pattern used splitting signature
+     * is working as intended
+     */
+    public function testSplittingSignature()
+    {
+        $server = new Server([
+            'logger'    => [
+               'driver' => '\Psr\Log\NullLogger'
+            ],
+            'cache' => [
+                'enabled' => false,
+            ]
+        ]);
+        
+        $verifier = new HttpSignature($server);
+        
+        // Split a signature with headers but no algorithm
+        $signature = 'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="FbVtmZhMWrfbqQpXf1v86+ie/fL8Ng4O67PePKvxChnUtV7J8N6lndQcNfXcDuKDJ4Nda6gKUQabAF2JK2qeYPNZNJ1AdAa5Lak3hQd+rAbdMJdvQpzGhAaSWK6atqOTH9v2CWdjAQbzvY0nOfGiw3ymtDSvTL0pVlIvq116uMtci0WOHeIbuBSyzM23liJmBomlm4EeB3/V1BVWY2MwaQ1cHVzxR7epP6XYts3C1KbZrdMKxhlWJFLdbLy0YGu5HRkYZepAh2q2NriSikNg8YTJ67owgQv/LqhFKnObgZU6np54fBMSpg7eAdWSIbhhg1a/WHtzFicc9cgoWMRhEg=="';
+    
+        $split = $verifier->splitSignature($signature);
+        
+        $this->assertEquals($split, [ 
+            'keyId' => 'http://localhost:8001/accounts/bob#main-key',
+            'algorithm' => '',
+            'headers' =>  ' host date',
+            'signature' => 'FbVtmZhMWrfbqQpXf1v86+ie/fL8Ng4O67PePKvxChnUtV7J8N6lndQcNfXcDuKDJ4Nda6gKUQabAF2JK2qeYPNZNJ1AdAa5Lak3hQd+rAbdMJdvQpzGhAaSWK6atqOTH9v2CWdjAQbzvY0nOfGiw3ymtDSvTL0pVlIvq116uMtci0WOHeIbuBSyzM23liJmBomlm4EeB3/V1BVWY2MwaQ1cHVzxR7epP6XYts3C1KbZrdMKxhlWJFLdbLy0YGu5HRkYZepAh2q2NriSikNg8YTJ67owgQv/LqhFKnObgZU6np54fBMSpg7eAdWSIbhhg1a/WHtzFicc9cgoWMRhEg==',
+        ]);
+        
+        // Split a signature with headers and algorithm
+        $signature = 'keyId="http://localhost:8001/accounts/bob#main-key",algorithm="rsa-sha256",headers="(request-target) host date",signature="FbVtmZhMWrfbqQpXf1v86+ie/fL8Ng4O67PePKvxChnUtV7J8N6lndQcNfXcDuKDJ4Nda6gKUQabAF2JK2qeYPNZNJ1AdAa5Lak3hQd+rAbdMJdvQpzGhAaSWK6atqOTH9v2CWdjAQbzvY0nOfGiw3ymtDSvTL0pVlIvq116uMtci0WOHeIbuBSyzM23liJmBomlm4EeB3/V1BVWY2MwaQ1cHVzxR7epP6XYts3C1KbZrdMKxhlWJFLdbLy0YGu5HRkYZepAh2q2NriSikNg8YTJ67owgQv/LqhFKnObgZU6np54fBMSpg7eAdWSIbhhg1a/WHtzFicc9cgoWMRhEg=="';
+    
+        $split = $verifier->splitSignature($signature);
+        
+        $this->assertEquals($split, [ 
+            'keyId' => 'http://localhost:8001/accounts/bob#main-key',
+            'algorithm' => 'rsa-sha256',
+            'headers' =>  ' host date',
+            'signature' => 'FbVtmZhMWrfbqQpXf1v86+ie/fL8Ng4O67PePKvxChnUtV7J8N6lndQcNfXcDuKDJ4Nda6gKUQabAF2JK2qeYPNZNJ1AdAa5Lak3hQd+rAbdMJdvQpzGhAaSWK6atqOTH9v2CWdjAQbzvY0nOfGiw3ymtDSvTL0pVlIvq116uMtci0WOHeIbuBSyzM23liJmBomlm4EeB3/V1BVWY2MwaQ1cHVzxR7epP6XYts3C1KbZrdMKxhlWJFLdbLy0YGu5HRkYZepAh2q2NriSikNg8YTJ67owgQv/LqhFKnObgZU6np54fBMSpg7eAdWSIbhhg1a/WHtzFicc9cgoWMRhEg==',
+        ]);
+    }
+
+    /**
      * Check that a given request is correctly signed
      * With a optionnal headers not specified (fallback on date)
      */

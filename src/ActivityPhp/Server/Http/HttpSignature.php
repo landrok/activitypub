@@ -27,9 +27,22 @@ class HttpSignature
             (:[\d]+)?
             ([\w\-\.#\/@]+)
         )",
+        (algorithm="(?P<algorithm>[\w\s-]+)",)?
         (headers="\(request-target\) (?P<headers>[\w\s]+)",)?
         signature="(?P<signature>[\w+\/]+={0,2})"
-    /x';
+    /x';       
+
+    /**
+     * Allowed keys when splitting signature
+     *
+     * @var array
+     */
+    private $allowedKeys = [
+        'keyId',
+        'algorithm', // optional
+        'headers',   // optional
+        'signature',
+    ];
 
     /**
      * @var \ActivityPhp\Server
@@ -67,7 +80,7 @@ class HttpSignature
 
         // Split it into its parts (keyId, headers and signature)
         $parts = $this->splitSignature($signature);
-        if (!$parts) {
+        if (!count($parts)) {
             return false;
         }
 
@@ -102,19 +115,16 @@ class HttpSignature
 
     /**
      * Split HTTP signature into its parts (keyId, headers and signature)
-     * 
-     * @param s tring $signature
-     * @return bool|array
      */
-    private function splitSignature(string $signature)
-    {
+    public function splitSignature(string $signature): array
+    {        
         if (!preg_match(self::SIGNATURE_PATTERN, $signature, $matches)) {
             $this->server->logger()->info(
                 'Signature pattern failed',
                 [$signature]
             );
 
-            return false;
+            return [];
         }
 
         // Headers are optional
@@ -122,7 +132,9 @@ class HttpSignature
             $matches['headers'] = 'date';
         }
 
-        return $matches;        
+        return array_filter($matches, function($key) {
+                return !is_int($key) && in_array($key, $this->allowedKeys);
+        },  ARRAY_FILTER_USE_KEY );        
     }
 
     /**
@@ -130,9 +142,8 @@ class HttpSignature
      * 
      * @param  array $headers HTTP header keys
      * @param  \Symfony\Component\HttpFoundation\Request $request 
-     * @return string
      */
-    private function getPlainText(array $headers, Request $request)
+    private function getPlainText(array $headers, Request $request): string
     {
         $strings = [];
         $strings[] = sprintf(
