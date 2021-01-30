@@ -295,4 +295,42 @@ class FactoryTest extends TestCase
             $original->id
         );  
     }
+
+    /**
+     * Test creating a type from a JSON string
+     */
+    public function testFromJson()
+    {
+        $json = '{"type":"Note","content":"A content for my note"}';
+
+        $note = Type::fromJson($json);
+
+        $this->assertEquals(
+            $json,
+            $note->toJson()
+        );          
+    }
+
+    /**
+     * Test creating a type from a malformed JSON string
+     */
+    public function testFromJsonMalformedJsonString()
+    {
+        $this->expectException(Exception::class);
+
+        $json = '{';
+        $note = Type::fromJson($json);
+    }
+
+    /**
+     * Test creating a type from a JSON string which does not contains
+     * an array.
+     */
+    public function testFromJsonNotAnArray()
+    {
+        $this->expectException(Exception::class);  
+
+        $json = '"OK"';
+        $note = Type::fromJson($json);
+    }
 }

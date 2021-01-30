@@ -89,6 +89,27 @@ abstract class Type
     }
 
     /**
+     * Create an activitystream type from a JSON string
+     */
+    public static function fromJson(string $json): AbstractObject
+    {
+        $data = json_decode($json, true);
+
+        if (json_last_error() === JSON_ERROR_NONE
+            && is_array($data)
+        ) {
+            return self::create($data);
+        }
+
+        throw new Exception(
+            sprintf(
+                "An error occurred during the JSON decoding.\n '%s'",
+                $json
+            )
+        );
+    }
+
+    /**
      * Add a custom type definition
      * It overrides defined types
      * 

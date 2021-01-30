@@ -114,6 +114,22 @@ $note = Type::create($array);
 
 ```
 
+You may create a type from a JSON string with the `fromJson()` method.
+JSON must have a `type` key.
+
+```php
+use ActivityPhp\Type;
+
+$json = '
+{
+    "type": "Note",
+    "content": "A content for my note"
+}';
+
+$note = Type::fromJson($json);
+
+```
+
 When a property does not exist, an Exception is thrown in strict mode.
 You can define 3 different behaviours:
 
