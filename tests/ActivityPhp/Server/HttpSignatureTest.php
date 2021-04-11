@@ -8,7 +8,7 @@ use ActivityPhp\Type;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
-use phpseclib\Crypt\RSA;
+use phpseclib3\Crypt\RSA;
 
 /*
  * These scenarios are around verifying an HTTP signature
@@ -40,18 +40,14 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = new RSA();
-        $rsa->loadKey(
+        $rsa = RSA::createKey()->loadPrivateKey(
             file_get_contents(
                 dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-            )  
-        ); // private key
-
+            ) 
+        )->withHash('sha256'); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
 
-        $rsa->setHash("sha256"); 
-        $rsa->setSignatureMode(RSA::SIGNATURE_PSS); 
         $signature = $rsa->sign($plaintext);
 
         /* ------------------------------------------------------------------
@@ -164,18 +160,14 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = new RSA();
-        $rsa->loadKey(
-            file_get_contents(
-                dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-            )  
-        ); // private key
-
+        $rsa = RSA::createKey()
+                    ->loadPrivateKey(
+                        file_get_contents(
+                            dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
+                        )  
+                    )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\ndate: $date";
-
-        $rsa->setHash("sha256"); 
-        $rsa->setSignatureMode(RSA::SIGNATURE_PSS); 
         $signature = $rsa->sign($plaintext);
 
         /* ------------------------------------------------------------------
@@ -231,18 +223,14 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = new RSA();
-        $rsa->loadKey(
-            file_get_contents(
-                dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-            )  
-        ); // private key
-
+        $rsa = RSA::createKey()
+            ->loadPrivateKey(
+                file_get_contents(
+                    dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
+                )  
+            )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
-
-        $rsa->setHash("sha256"); 
-        $rsa->setSignatureMode(RSA::SIGNATURE_PSS); 
         $signature = $rsa->sign($plaintext);
 
         /* ------------------------------------------------------------------
@@ -296,18 +284,14 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = new RSA();
-        $rsa->loadKey(
-            file_get_contents(
-                dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-            )  
-        ); // private key
-
+        $rsa = RSA::createKey()
+            ->loadPrivateKey(
+                file_get_contents(
+                    dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
+                )  
+            )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
-
-        $rsa->setHash("sha256"); 
-        $rsa->setSignatureMode(RSA::SIGNATURE_PSS); 
         $signature = $rsa->sign($plaintext);
 
         /* ------------------------------------------------------------------
@@ -362,18 +346,14 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = new RSA();
-        $rsa->loadKey(
-            file_get_contents(
-                dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-            )  
-        ); // private key
-
+        $rsa = RSA::createKey()
+            ->loadPrivateKey(
+                file_get_contents(
+                    dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
+                )  
+            )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
-
-        $rsa->setHash("sha256"); 
-        $rsa->setSignatureMode(RSA::SIGNATURE_PSS); 
         $signature = $rsa->sign($plaintext);
 
         /* ------------------------------------------------------------------
@@ -430,18 +410,14 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = new RSA();
-        $rsa->loadKey(
-            file_get_contents(
-                dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-            )  
-        ); // private key
-
+        $rsa = RSA::createKey()
+            ->loadPrivateKey(
+                file_get_contents(
+                    dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
+                )  
+            )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
-
-        $rsa->setHash("sha256"); 
-        $rsa->setSignatureMode(RSA::SIGNATURE_PSS); 
         $signature = $rsa->sign($plaintext);
 
         /* ------------------------------------------------------------------
@@ -491,18 +467,14 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = new RSA();
-        $rsa->loadKey(
-            file_get_contents(
-                dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-            )  
-        ); // private key
-
+        $rsa = RSA::createKey()
+            ->loadPrivateKey(
+                file_get_contents(
+                    dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
+                )  
+            )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
-
-        $rsa->setHash("sha256"); 
-        $rsa->setSignatureMode(RSA::SIGNATURE_PSS); 
         $signature = $rsa->sign($plaintext);
 
         /* ------------------------------------------------------------------
