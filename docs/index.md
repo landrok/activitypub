@@ -139,7 +139,7 @@ You can define 3 different behaviours:
 
 ```php
 use ActivityPhp\Type;
-use ActivityPhp\TypeConfiguration;
+use ActivityPhp\Type\TypeConfiguration;
 
 $note = Type::create('Note');
 
@@ -316,7 +316,7 @@ You can define 3 different behaviours:
 
 ```php
 use ActivityPhp\Type;
-use ActivityPhp\TypeConfiguration;
+use ActivityPhp\Type\TypeConfiguration;
 
 $note = Type::create('Note');
 
