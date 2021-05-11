@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -16,15 +18,15 @@ use Exception;
 /**
  * \ActivityPhp\Type\Ontology is an abstract class for
  * Ontology management.
- * 
+ *
  * @since 0.4.0
  */
 abstract class Ontology
 {
     /**
-     * A list of officially supported ontologies by their names and 
+     * A list of officially supported ontologies by their names and
      * associated classes.
-     * 
+     *
      * @var array
      */
     private static $internals = [
@@ -32,9 +34,9 @@ abstract class Ontology
     ];
 
     /**
-     * A list of ontologies loaded by implementers, by their names and 
+     * A list of ontologies loaded by implementers, by their names and
      * associated definitions.
-     * 
+     *
      * @var array
      */
     private static $externals = [];
@@ -42,7 +44,7 @@ abstract class Ontology
     /**
      * Allowed ontologies in current context. A list of keys that refers
      * to self::$internals and self::$externals definitions
-     * 
+     *
      * @var array
      */
     private static $loaded = [];
@@ -53,7 +55,7 @@ abstract class Ontology
     public static function clear()
     {
         self::$externals = [];
-        
+
         foreach (self::$loaded as $name) {
             self::unload($name);
         }
@@ -62,7 +64,7 @@ abstract class Ontology
     /**
      * Add an ontology definition in the pool.
      * Useful to define custom ontology classes on the fly
-     * 
+     *
      * @param  string $name   Ontology name.
      * @param  string $class  Types definitions
      * @param  bool   $load
@@ -86,23 +88,23 @@ abstract class Ontology
         // Class implements OntologyBase
         if (!method_exists($class, 'getDefinition')) {
             throw new Exception(
-                "Class '$class' MUST implement " 
-                . OntologyInterface::class . " interface." 
+                "Class '$class' MUST implement "
+                . OntologyInterface::class . " interface."
             );
         }
 
         // Put in the external stack if needed
         self::$externals[$name] = $class;
-        
+
         // Load if needed
         if ($load) {
             self::load($name);
         }
     }
-    
+
     /**
      * Load an ontology as an active one.
-     * 
+     *
      * @param  string $name Ontology name.
      * @throws \Exception if ontology has not been defined
      */
@@ -136,7 +138,7 @@ abstract class Ontology
 
     /**
      * Unload an ontology.
-     * 
+     *
      * @param  string $name Ontology name.
      */
     public static function unload(string $name)
@@ -144,7 +146,7 @@ abstract class Ontology
         self::$loaded = array_filter(
             self::$loaded,
             function ($value) use ($name) {
-                return $value != $name 
+                return $value != $name
                     && $dialect != '*';
             }
         );

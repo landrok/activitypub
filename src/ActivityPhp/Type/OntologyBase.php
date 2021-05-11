@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -13,18 +15,16 @@ namespace ActivityPhp\Type;
 
 /**
  * \ActivityPhp\Type\OntologyBase implements Ontology methods
- * 
+ *
  * @since 0.4.0
  */
 abstract class OntologyBase implements OntologyInterface
 {
     /**
      * Get a specific dialects
-     * 
-     * @var array
      */
-    public static function getDefinition()
+    public static function getDefinition(): array
     {
-        return static::$definitions;    
+        return static::$definitions;
     }
 }

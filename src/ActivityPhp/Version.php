@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -13,7 +15,7 @@ namespace ActivityPhp;
 
 /**
  * \ActivityPhp\Version handles current version of this package
- */ 
+ */
 abstract class Version
 {
     /**
@@ -56,24 +58,24 @@ abstract class Version
     public static function checkFile(string $filename): void
     {
         // Must be a string
-        if (!is_string($filename)) {
+        if (! is_string($filename)) {
             throw new Exception(
-                "FILE_ERROR Filename must be a string. Given: "
+                'FILE_ERROR Filename must be a string. Given: '
                 . gettype($filename)
             );
         }
 
         // Must be readable
-        if (!is_readable($filename)) {
+        if (! is_readable($filename)) {
             throw new Exception(
-                "FILE_ERROR Filename '$filename' is not readable"
+                "FILE_ERROR Filename '{$filename}' is not readable"
             );
         }
 
         // Must be a file
-        if (!is_file($filename)) {
+        if (! is_file($filename)) {
             throw new Exception(
-                "FILE_ERROR Filename '$filename' must be a file"
+                "FILE_ERROR Filename '{$filename}' must be a file"
             );
         }
     }

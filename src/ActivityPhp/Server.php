@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -16,12 +18,13 @@ use ActivityPhp\Server\Actor\Inbox;
 use ActivityPhp\Server\Actor\Outbox;
 use ActivityPhp\Server\Cache\CacheHelper;
 use ActivityPhp\Server\Configuration;
-use Exception;
+use Psr\Cache\CacheItemPoolInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * \ActivityPhp\Server is the entry point for server processes.
- */ 
-class Server
+ */
+final class Server
 {
     /**
      * @var self
@@ -29,34 +32,34 @@ class Server
     private static $singleton;
 
     /**
-     * @var \ActivityPhp\Server\Actor[]
+     * @var array<\ActivityPhp\Server\Actor>
      */
-    protected $actors = [];
+    private $actors = [];
 
     /**
-     * @var \ActivityPhp\Server\Actor\Inbox[]
+     * @var array<\ActivityPhp\Server\Actor\Inbox>
      */
-    protected $inboxes = [];
+    private $inboxes = [];
 
     /**
-     * @var \ActivityPhp\Server\Actor\Outbox[]
+     * @var array<\ActivityPhp\Server\Actor\Outbox>
      */
-    protected $outboxes = [];
+    private $outboxes = [];
 
     /**
-     * @var null|\Psr\Log\LoggerInterface
+     * @var \Psr\Log\LoggerInterface|null
      */
-    protected $logger;
+    private $logger;
 
     /**
-     * @var null|\ActivityPhp\Server\Configuration
+     * @var \ActivityPhp\Server\Configuration|null
      */
-    protected $configuration;
+    private $configuration;
 
     /**
      * Server constructor
-     * 
-     * @param array $config Server configuration
+     *
+     * @param array<string,mixed> $config Server configuration
      */
     public function __construct(array $config = [])
     {
@@ -72,28 +75,23 @@ class Server
 
     /**
      * Get logger instance
-     * 
-     * @return null|\Psr\Log\LoggerInterface
      */
-    public function logger()
+    public function logger(): ?LoggerInterface
     {
         return $this->logger;
     }
 
     /**
      * Get cache instance
-     * 
-     * @return null|\Psr\Cache\CacheItemPoolInterface
      */
-    public function cache()
+    public function cache(): ?CacheItemPoolInterface
     {
         return $this->cache;
     }
 
     /**
      * Get a configuration handler
-     * 
-     * @param  string $parameter
+     *
      * @return \ActivityPhp\Server\Configuration\LoggerConfiguration
      *       | \ActivityPhp\Server\Configuration\InstanceConfiguration
      *       | \ActivityPhp\Server\Configuration\HttpConfiguration
@@ -107,11 +105,10 @@ class Server
     /**
      * Get an inbox instance
      * It's a local instance
-     * 
+     *
      * @param  string $handle An actor name
-     * @return \ActivityPhp\Server\Actor\Inbox
      */
-    public function inbox(string $handle)
+    public function inbox(string $handle): Inbox
     {
         $this->logger()->info($handle . ':' . __METHOD__);
 
@@ -130,11 +127,8 @@ class Server
     /**
      * Get an outbox instance
      * It may be a local or a distant outbox.
-     * 
-     * @param  string $handle
-     * @return \ActivityPhp\Server\Actor\Outbox
      */
-    public function outbox(string $handle)
+    public function outbox(string $handle): Outbox
     {
         $this->logger()->info($handle . ':' . __METHOD__);
 
@@ -152,11 +146,8 @@ class Server
 
     /**
      * Build an server-oriented actor object
-     * 
-     * @param  string $handle
-     * @return \ActivityPhp\Server\Actor
      */
-    public function actor(string $handle)
+    public function actor(string $handle): Actor
     {
         $this->logger()->info($handle . ':' . __METHOD__);
 
@@ -171,6 +162,8 @@ class Server
 
     /**
      * Get server instance with a static call
+     *
+     * @param array<string,string|int|array<string>> $settings
      */
     public static function server(array $settings = []): self
     {

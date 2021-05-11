@@ -21,7 +21,7 @@ use phpseclib3\Crypt\RSA;
  */ 
 class HttpSignature
 {
-    const SIGNATURE_PATTERN = '/^
+    public const SIGNATURE_PATTERN = '/^
         keyId="(?P<keyId>
             (https?:\/\/[\w\-\.]+[\w]+)
             (:[\d]+)?
