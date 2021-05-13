@@ -23,17 +23,16 @@ class TotalItemsValidator implements ValidatorInterface
 {
     /**
      * Validate totalItems value
-     * 
+     *
      * @param int    $value
      * @param mixed  $container A Collection
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container type is Collection
         Util::subclassOf($container, Collection::class, true);
 
         // Must be a non negative integer
         return Util::validateNonNegativeInteger($value);
-    }    
+    }
 }

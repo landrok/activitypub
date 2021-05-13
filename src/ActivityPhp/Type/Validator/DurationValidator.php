@@ -23,12 +23,11 @@ class DurationValidator implements ValidatorInterface
 {
     /**
      * Validate an DURATION attribute value
-     * 
+     *
      * @param string $value
      * @param mixed  $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container has an ObjectType type
         Util::subclassOf($container, ObjectType::class, true);
@@ -37,5 +36,7 @@ class DurationValidator implements ValidatorInterface
             // MUST be a XML 8601 Duration formatted string
             return Util::isDuration($value, true);
         }
+
+        return false;
     }
 }

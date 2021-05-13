@@ -22,12 +22,11 @@ class NameMapValidator extends ValidatorTools
 {
     /**
      * Validate a nameMap value
-     * 
+     *
      * @param string  $value
      * @param mixed   $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         return $this->validateMap('name', $value, $container);
     }

@@ -23,14 +23,13 @@ class IconValidator implements ValidatorInterface
 {
     /**
      * Validate icon item
-     * 
+     *
      * @param string $item
      * @param mixed  $container An object
-     * @return bool
      * @todo Support Image objects and Link objects
      * @todo Implement size checks
      */
-    public function validate($item, $container)
+    public function validate($item, $container): bool
     {
         // Validate that container is a ObjectType
         Util::subclassOf($container, ObjectType::class, true);
@@ -68,7 +67,7 @@ class IconValidator implements ValidatorInterface
 
     /**
      * Validate an object format
-     * 
+     *
      * @param object $item
      * @return bool
      */

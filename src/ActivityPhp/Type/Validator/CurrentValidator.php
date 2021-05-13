@@ -26,9 +26,8 @@ class CurrentValidator implements ValidatorInterface
      *
      * @param string  $value
      * @param mixed   $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container must be a Collection
         Util::subclassOf($container, Collection::class, true);

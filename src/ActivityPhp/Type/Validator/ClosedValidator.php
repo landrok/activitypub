@@ -23,12 +23,11 @@ class ClosedValidator implements ValidatorInterface
 {
     /**
      * Validate an CLOSED attribute value
-     * 
+     *
      * @param bool|string|object|array  $value
      * @param object $container A Question type
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is a Question type
         Util::subclassOf($container, Question::class, true);
@@ -37,13 +36,13 @@ class ClosedValidator implements ValidatorInterface
         if (is_bool($value)) {
             return true;
         }
-        
+
         if (is_string($value)) {
             // Can be a datetime
             if (Util::validateDatetime($value)) {
                 return true;
             }
-            
+
             // Can be an URL
             if (Util::validateUrl($value)) {
                 return true;
@@ -59,5 +58,7 @@ class ClosedValidator implements ValidatorInterface
             return Util::validateLink($value)
                 || Util::validateObject($value);
         }
+
+        return false;
     }
 }

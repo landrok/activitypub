@@ -23,12 +23,11 @@ class StreamsValidator implements ValidatorInterface
 {
     /**
      * Validate streams value
-     * 
+     *
      * @param array  $value
      * @param object $container An object
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is an Actor
         Util::subclassOf($container, AbstractActor::class, true);

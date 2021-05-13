@@ -23,16 +23,15 @@ class InReplyToValidator implements ValidatorInterface
 {
     /**
      * Validate inReplyTo value
-     * 
+     *
      * @param  string|array|object $value
      * @param  object              $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container is an ObjectType
         Util::subclassOf(
-            $container, 
+            $container,
             ObjectType::class,
             true
         );
@@ -56,5 +55,7 @@ class InReplyToValidator implements ValidatorInterface
             return Util::validateLink($value)
                 || Util::isObjectType($value);
         }
+
+        return false;
     }
 }

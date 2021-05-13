@@ -23,16 +23,15 @@ class OriginValidator implements ValidatorInterface
 {
     /**
      * Validate an origin value
-     * 
+     *
      * @param  string|array|object $value
      * @param  object              $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container is an Activity
         Util::subclassOf(
-            $container, 
+            $container,
             [Activity::class],
             true
         );
@@ -51,5 +50,7 @@ class OriginValidator implements ValidatorInterface
             return Util::validateLink($value)
                 || Util::isObjectType($value);
         }
+
+        return false;
     }
 }

@@ -23,17 +23,16 @@ class StartIndexValidator implements ValidatorInterface
 {
     /**
      * Validate startIndex value
-     * 
+     *
      * @param int    $value
      * @param mixed  $container An OrderedCollectionPage
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container type is OrderedCollectionPage
         Util::subclassOf($container, OrderedCollectionPage::class, true);
 
         // Must be a non negative integer
         return Util::validateNonNegativeInteger($value);
-    }    
+    }
 }

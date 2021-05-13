@@ -23,12 +23,11 @@ class LatitudeValidator implements ValidatorInterface
 {
     /**
      * Validate a latitude attribute value
-     * 
+     *
      * @param mixed  $value
      * @param mixed  $container An object
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is a Place
         Util::subclassOf($container, Place::class, true);

@@ -22,12 +22,11 @@ class SummaryMapValidator extends ValidatorTools
 {
     /**
      * Validate a summaryMap attribute value
-     * 
+     *
      * @param string  $value
      * @param mixed   $container An Object type
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         return $this->validateMap('summary', $value, $container);
     }

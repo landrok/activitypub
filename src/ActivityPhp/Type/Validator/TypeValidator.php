@@ -24,16 +24,15 @@ class TypeValidator extends ValidatorTools
 {
     /**
      * Validate a type value
-     * 
+     *
      * @param  string $value
      * @param  mixed  $container An Object type
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is an ObjectType or a Link
         Util::subclassOf(
-            $container, 
+            $container,
             [ObjectType::class, Link::class],
             true
         );

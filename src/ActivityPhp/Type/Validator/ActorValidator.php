@@ -25,18 +25,17 @@ class ActorValidator implements ValidatorInterface
 {
     /**
      * Validate an ACTOR attribute value
-     * 
+     *
      * @param mixed  $value
      * @param mixed  $container An object
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Can be an indirect link
         if (is_string($value) && Util::validateUrl($value)) {
             return true;
         }
-        
+
         if (is_array($value)) {
             $value = Util::arrayToType($value);
         }
@@ -57,7 +56,7 @@ class ActorValidator implements ValidatorInterface
 
     /**
      * Validate an Actor object type
-     * 
+     *
      * @param object|array $item
      * @return bool
      */
@@ -84,7 +83,7 @@ class ActorValidator implements ValidatorInterface
      * Collection can contain:
      * - Indirect URL
      * - An actor object
-     * 
+     *
      * @param array $collection
      * @return bool
      */

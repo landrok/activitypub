@@ -24,12 +24,11 @@ class NextValidator implements ValidatorInterface
 {
     /**
      * Validate a next value
-     * 
+     *
      * @param  string|array|object $value
      * @param  object              $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container is CollectionPage or OrderedCollectionPage type
         Util::subclassOf(
@@ -52,5 +51,7 @@ class NextValidator implements ValidatorInterface
             return Util::validateLink($value)
                 || Util::validateCollectionPage($value);
         }
+
+        return false;
     }
 }

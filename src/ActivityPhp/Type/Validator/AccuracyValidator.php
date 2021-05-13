@@ -21,15 +21,14 @@ class AccuracyValidator implements ValidatorInterface
 {
     /**
      * Validate an ACCURACY attribute value
-     * 
+     *
      * @param mixed  $value
      * @param mixed  $container An object
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         if (is_numeric($value)
-            && (float)$value >= 0 
+            && (float)$value >= 0
             && (float)$value <= 100.0
         ) {
             return true;

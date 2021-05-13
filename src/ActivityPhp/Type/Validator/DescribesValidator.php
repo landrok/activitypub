@@ -24,12 +24,11 @@ class DescribesValidator implements ValidatorInterface
 {
     /**
      * Validate an DESCRIBES attribute value
-     * 
+     *
      * @param object $value
      * @param mixed  $container A Profile type
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is a Tombstone type
         Util::subclassOf($container, Profile::class, true);
@@ -38,5 +37,7 @@ class DescribesValidator implements ValidatorInterface
             // MUST be an Object
             return Util::subclassOf($value, ObjectType::class, true);
         }
+
+        return false;
     }
 }

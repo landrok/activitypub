@@ -23,12 +23,11 @@ class RelValidator implements ValidatorInterface
 {
     /**
      * Validate rel value
-     * 
+     *
      * @param string|array $value
      * @param mixed  $container A Link
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is a Link
         Util::subclassOf($container, Link::class, true);

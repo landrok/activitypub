@@ -23,14 +23,13 @@ class AnyOfValidator extends ValidatorTools
 {
     /**
      * Validate an ANYOF attribute value
-     * 
+     *
      * @param mixed  $value
      * @param mixed  $container An object
-     * @return bool
      * @todo Choices can contain Indirect references.
-     * 		This validation should validate this kind of usage.
+     *      This validation should validate this kind of usage.
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is a Question type
         Util::subclassOf($container, Question::class, true);

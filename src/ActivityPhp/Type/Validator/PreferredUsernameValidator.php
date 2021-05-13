@@ -23,12 +23,11 @@ class PreferredUsernameValidator extends ValidatorTools
 {
     /**
      * Validate preferredUsername value
-     * 
+     *
      * @param string $value
      * @param mixed  $container An Actor
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is an Actor
         Util::subclassOf($container, AbstractActor::class, true);

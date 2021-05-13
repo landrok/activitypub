@@ -25,16 +25,15 @@ class ObjectValidator implements ValidatorInterface
 {
     /**
      * Validate an object value
-     * 
+     *
      * @param  string|array|object $value
      * @param  object              $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container is an ObjectType or a Link
         Util::subclassOf(
-            $container, 
+            $container,
             [Activity::class, Relationship::class],
             true
         );
@@ -54,7 +53,7 @@ class ObjectValidator implements ValidatorInterface
             return Util::validateLink($value)
                 || Util::isObjectType($value);
         }
-        
+
         // Collection
         if (is_array($value)) {
             foreach ($value as $item) {
@@ -63,16 +62,18 @@ class ObjectValidator implements ValidatorInterface
                 } elseif (is_array($item)) {
                     $item = Util::arrayToType($item);
                 }
-              
+
                 if (is_object($item)
                     && Util::subclassOf($item, [ObjectType::class], true)) {
                     continue;
                 }
-                
+
                 return false;
             }
 
             return count($value) && true;
         }
+
+        return false;
     }
 }

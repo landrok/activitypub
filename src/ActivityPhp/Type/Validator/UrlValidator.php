@@ -23,12 +23,11 @@ class UrlValidator implements ValidatorInterface
 {
     /**
      * Validate url value
-     * 
+     *
      * @param  string|array $value
      * @param  mixed  $container A Link
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is an ObjectType
         Util::subclassOf($container, ObjectType::class, true);
@@ -50,7 +49,7 @@ class UrlValidator implements ValidatorInterface
 
     /**
      * Validate that a value is a Link or an URL
-     * 
+     *
      * @param  string|\ActivityPhp\Type\Core\Link $value
      * @return bool
      */

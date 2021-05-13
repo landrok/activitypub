@@ -21,14 +21,13 @@ class TagValidator extends ValidatorTools
 {
     /**
      * Validate a tag value
-     * 
+     *
      * @param  array $value
      * @param  mixed  $container An Object type
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
-        if (!count($value)) {
+        if (! count($value)) {
             return true;
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -12,10 +14,10 @@
 namespace ActivityPhp\Type;
 
 /**
- * \ActivityPhp\Type\ValidatorInterface specifies methods that must be 
+ * \ActivityPhp\Type\ValidatorInterface specifies methods that must be
  * implemented for attribute (property) validation.
- */ 
+ */
 interface ValidatorInterface
 {
-    public function validate($value, $container);
+    public function validate($value, $container): bool;
 }

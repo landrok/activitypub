@@ -22,12 +22,11 @@ class MediaTypeValidator implements ValidatorInterface
 {
     /**
      * Validate a mediaType attribute value
-     * 
+     *
      * @param string  $value
      * @param mixed   $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         return is_null($value)
             || Util::validateMediaType($value);

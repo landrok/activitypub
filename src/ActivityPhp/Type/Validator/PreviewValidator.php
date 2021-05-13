@@ -24,16 +24,15 @@ class PreviewValidator implements ValidatorInterface
 {
     /**
      * Validate a preview value
-     * 
+     *
      * @param  string|array|object $value
      * @param  mixed  $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container is an ObjectType or a Link
         Util::subclassOf(
-            $container, 
+            $container,
             [ObjectType::class, Link::class],
             true
         );
@@ -52,5 +51,7 @@ class PreviewValidator implements ValidatorInterface
             return Util::validateLink($value)
                 || Util::isObjectType($value);
         }
+
+        return false;
     }
 }

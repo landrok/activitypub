@@ -22,12 +22,12 @@ class IdValidator implements ValidatorInterface
 {
     /**
      * Validate an ID attribute value
-     * 
+     *
      * @param mixed  $value
      * @param mixed  $container An object
      * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         return Util::validateUrl($value)
             || Util::validateOstatusTag($value);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -21,7 +23,7 @@ abstract class TypeConfiguration
 {
     /**
      * Defaults
-     * 
+     *
      * @var array
      */
     protected static $configs = [
@@ -32,28 +34,27 @@ abstract class TypeConfiguration
     /**
      * Allowed configs
      * When a key is defined here, the property must be in defined values
-     * 
+     *
      * @var array
      */
     protected static $allowed = [
         'undefined_properties' => [
-           'strict',    // Throw an exception when a property is not defined
-           'ignore',    // Ignore key and value
-           'include',   // Set key and value
-        ]
+            'strict',    // Throw an exception when a property is not defined
+            'ignore',    // Ignore key and value
+            'include',   // Set key and value
+        ],
     ];
 
     /**
      * Set a custom configuration.
-     * 
-     * @param  string $name.
+     *
      * @param  mixed  $value.
      * @throws \Exception if $value is not allowed
      */
-    public static function set(string $name, $value)
+    public static function set(string $name, $value): void
     {
-        if (isset(self::$allowed[$name]) 
-            && !in_array($value, self::$allowed[$name])
+        if (isset(self::$allowed[$name])
+            && ! in_array($value, self::$allowed[$name])
         ) {
             throw new Exception(
                 sprintf(
@@ -70,14 +71,11 @@ abstract class TypeConfiguration
 
     /**
      * Get a type configuration.
-     * 
-     * @param  string $name
+     *
      * @return mixed
      */
-    public static function get($name)
+    public static function get(string $name)
     {
-        return isset(self::$configs[$name])
-            ? self::$configs[$name]
-            : null;
+        return self::$configs[$name] ?? null;
     }
 }

@@ -21,12 +21,11 @@ class AttributedToValidator extends ValidatorTools
 {
     /**
      * Validate an attributedTo value
-     * 
+     *
      * @param  string $value
      * @param  mixed  $container An Object type
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         return $this->validateListOrObject(
             $value,

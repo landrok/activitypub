@@ -116,7 +116,7 @@ abstract class TypeResolver
             $type .= 'Type';
         }
 
-        switch($type) {
+        switch ($type) {
             // Custom dialect types
             case in_array($type, self::$dialectTypes):
                 $class = new ObjectType();

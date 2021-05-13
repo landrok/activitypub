@@ -22,12 +22,11 @@ class NameValidator implements ValidatorInterface
 {
     /**
      * Validate a name attribute value
-     * 
+     *
      * @param null|string  $value
      * @param mixed   $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         if (is_null($value) || $value == '') {
             return true;

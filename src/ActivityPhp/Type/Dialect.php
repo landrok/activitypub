@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -21,7 +23,7 @@ abstract class Dialect
 {
     /**
      * A list of supported dialects by their names
-     * 
+     *
      * @var array
      */
     private static $dialects = [];
@@ -29,9 +31,9 @@ abstract class Dialect
     /**
      * A list of types => properties
      * where properties overloads basic ones
-     * 
+     *
      * @var array
-     * 
+     *
      * [
      *  'Person' => [
      *      'propertyName' => [
@@ -46,7 +48,7 @@ abstract class Dialect
 
     /**
      * Loaded types definitions
-     * 
+     *
      * @var array
      */
     private static $loaded = [];
@@ -54,7 +56,7 @@ abstract class Dialect
     /**
      * Clear all dialects, definitions and loaded array
      */
-    public static function clear()
+    public static function clear(): void
     {
         self::$dialects = [];
         self::$definitions = [];
@@ -63,14 +65,14 @@ abstract class Dialect
 
     /**
      * Load a dialect as an active one.
-     * 
+     *
      * @param  string $dialect Dialect name.
      */
-    public static function load(string $dialect)
+    public static function load(string $dialect): void
     {
         $dialects = [];
 
-        if ($dialect == '*') {
+        if ($dialect === '*') {
             $dialects = self::$dialects;
         } else {
             $dialects[] = $dialect;
@@ -78,23 +80,23 @@ abstract class Dialect
 
         foreach ($dialects as $dialect) {
             // Dialect does not exist
-            if (!in_array($dialect, self::$dialects)) {
+            if (! in_array($dialect, self::$dialects)) {
                 throw new Exception(
                     "Dialect '{$dialect}' has no definition"
                 );
             }
 
             // dialect not already loaded ?
-            if (!in_array($dialect, self::$loaded)) {
+            if (! in_array($dialect, self::$loaded)) {
                 array_push(self::$loaded, $dialect);
             }
         }
-        
+
         // Load new types
         foreach (self::$definitions as $type => $properties) {
             foreach ($properties as $property => $definition) {
                 if (count(array_intersect($definition['dialects'], self::$loaded))) {
-                    if (!TypeResolver::exists($type)) {
+                    if (! TypeResolver::exists($type)) {
                         TypeResolver::addDialectType($type);
                     }
                 }
@@ -104,23 +106,23 @@ abstract class Dialect
 
     /**
      * Unload a dialect.
-     * 
-     * @param  string $dialect Dialect name.
+     *
+     * @param string $dialect Dialect name.
      */
-    public static function unload(string $dialect)
+    public static function unload(string $dialect): void
     {
         self::$loaded = array_filter(
             self::$loaded,
-            function ($value) use ($dialect) {
-                return $value != $dialect 
-                    && $dialect != '*';
+            static function ($value) use ($dialect): bool {
+                return $value !== $dialect
+                    && $dialect !== '*';
             }
         );
 
         // Unload new types
         foreach (self::$definitions as $type => $properties) {
             foreach ($properties as $property => $definition) {
-                if (!count(array_intersect($definition['dialects'], self::$loaded))) {
+                if (! count(array_intersect($definition['dialects'], self::$loaded))) {
                     if (TypeResolver::exists($type)) {
                         TypeResolver::removeDialectType($type);
                     }
@@ -131,15 +133,14 @@ abstract class Dialect
 
     /**
      * Add a dialect definition in the pool.
-     * 
+     *
      * @param  string $name       Dialect name.
      * @param  array  $definition Types definitions
-     * @param  bool   $load
      */
-    public static function add(string $name, array $definition, bool $load = true)
+    public static function add(string $name, array $definition, bool $load = true): void
     {
         // dialect not already defined ?
-        if (!in_array($name, self::$dialects)) {
+        if (! in_array($name, self::$dialects)) {
             array_push(self::$dialects, $name);
         }
 
@@ -150,62 +151,58 @@ abstract class Dialect
         foreach ($definition as $types => $properties) {
             $xpt = explode('|', $types);
             foreach ($xpt as $type) {
-                if (!is_array($properties)) {
+                if (! is_array($properties)) {
                     throw new Exception(
-                        "Properties for Type '$type' must be an array."
-                        . " Given=" . print_r($properties, true)
+                        "Properties for Type '{$type}' must be an array."
+                        . ' Given=' . print_r($properties, true)
                     );
                 }
                 self::putType($type, $properties, $name);
-                
+
                 // Define new types if needed
-                if ($load && !TypeResolver::exists($type)) {
+                if ($load && ! TypeResolver::exists($type)) {
                     TypeResolver::addDialectType($type);
                 }
             }
         }
 
         // load if needed
-        if ($load && !in_array($name, self::$loaded)) {
+        if ($load && ! in_array($name, self::$loaded)) {
             array_push(self::$loaded, $name);
         }
     }
 
     /**
      * Add a type in the pool.
-     * 
+     *
      * @param  string $type Type name.
-     * @param  array  $definition
      * @param  string $dialect Dialect name
      */
-    private static function putType(string $type, array $properties, string $dialect)
+    private static function putType(string $type, array $properties, string $dialect): void
     {
         // Type already extended ?
-        if (!isset(self::$definitions[$type])) {
+        if (! isset(self::$definitions[$type])) {
             self::$definitions[$type] = [];
         }
-    
+
         // Define a property
         foreach ($properties as $property => $config) {
             if (is_string($config)) {
                 $property = $config;
             }
-            self::$definitions[$type][$property] = 
+            self::$definitions[$type][$property] =
                 self::createProperty($type, $property, $config, $dialect);
         }
     }
 
     /**
-     * Transform various form of property configs into a local and 
+     * Transform various form of property configs into a local and
      * exploitable property configuration.
-     * 
-     * @param   string       $type
-     * @param   string       $property
+     *
      * @param   string|array $config
-     * @param   string       $dialect
      * @return  array
      */
-    private static function createProperty(string $type, string $property, $config, string $dialect)
+    private static function createProperty(string $type, string $property, $config, string $dialect): array
     {
         $local = [
             'defaultValue' => null,
@@ -219,74 +216,74 @@ abstract class Dialect
         }
 
         // New dialect attachment for this property
-        if (!in_array($dialect, $local['dialects'])) { 
+        if (! in_array($dialect, $local['dialects'])) {
             array_push($local['dialects'], $dialect);
         }
 
         $local['defaultValue'] = is_array($config) && isset($config['defaultValue'])
-            ? $config['defaultValue'] : null;
+            ? $config['defaultValue']
+            : null;
 
         // Validator should be loaded in type factory when this
         // dialect is loaded
         $local['validator'] = is_array($config) && isset($config['validator'])
-            ? $config['validator'] : null;
+            ? $config['validator']
+            : null;
 
         return $local;
     }
 
     /**
      * Check if there is a dialect that extends a given type
-     * 
-     * @param \ActivityPhp\Type\AbstractObject $type
      */
-    public static function extend(AbstractObject $type)
+    public static function extend(AbstractObject $type): void
     {
         // No extensions for this type
-        if (!isset(self::$definitions[$type->type])) {
+        if (! isset(self::$definitions[$type->type])) {
             return;
         }
-        
+
         $definition = self::$definitions[$type->type];
-        
+
         foreach ($definition as $property => $config) {
             // Dialect is not loaded for this property
-            if (!count(array_intersect(self::$loaded, $config['dialects']))) {
+            if (! count(array_intersect(self::$loaded, $config['dialects']))) {
                 continue;
             }
-        
+
             // Extends type
             $type->extend($property, $config['defaultValue']);
-            
-            // @todo Loads a validator for property 
+
+            // @todo Loads a validator for property
         }
     }
 
     /**
      * Get all loaded dialects (defined and loaded)
-     * 
+     *
      * @return array
      */
-    public static function getLoadedDialects()
+    public static function getLoadedDialects(): array
     {
         return self::$loaded;
     }
 
     /**
      * Get defined dialects (ready to load)
-     * 
+     *
      * @return array
      */
-    public static function getDialects()
+    public static function getDialects(): array
     {
         return self::$dialects;
     }
 
     /**
      * Get all defined ActivityPub Dialects definitions
-     * 
+     *
      * @return array
      */
-    public static function getDefinitions()
+    public static function getDefinitions(): array
     {
         return self::$definitions;
     }

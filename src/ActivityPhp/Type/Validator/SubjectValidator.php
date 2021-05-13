@@ -23,16 +23,15 @@ class SubjectValidator implements ValidatorInterface
 {
     /**
      * Validate subject value
-     * 
+     *
      * @param  string|array|object $value
      * @param  object              $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container is a Relationship
         Util::subclassOf(
-            $container, 
+            $container,
             Relationship::class,
             true
         );
@@ -51,5 +50,7 @@ class SubjectValidator implements ValidatorInterface
             return Util::validateLink($value)
                 || Util::isObjectType($value);
         }
+
+        return false;
     }
 }

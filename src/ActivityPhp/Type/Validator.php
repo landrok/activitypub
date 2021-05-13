@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -22,7 +24,7 @@ abstract class Validator
     /**
      * Contains all custom validators
      *
-     * @var array
+     * @var array<string,string>
      *
      * [ 'attributeName' => CustomValidatorClassName::class ]
      */
@@ -32,15 +34,13 @@ abstract class Validator
      * Validate an attribute value for given attribute name and
      * container object.
      *
-     * @param string $name
      * @param mixed  $value
      * @param mixed  $container An object
-     * @return bool
      * @throws \Exception if $container is not an object
      */
-    public static function validate($name, $value, $container)
+    public static function validate(string $name, $value, $container): bool
     {
-        if (!is_object($container)) {
+        if (! is_object($container)) {
             throw new Exception(
                 'Given container is not an object'
             );
@@ -48,7 +48,7 @@ abstract class Validator
 
         // Perform validation
         if (isset(self::$validators[$name])
-            && TypeConfiguration::get('undefined_properties') == 'strict'
+            && TypeConfiguration::get('undefined_properties') === 'strict'
         ) {
             return self::$validators[$name]->validate(
                 $value,
@@ -63,7 +63,7 @@ abstract class Validator
         );
 
         if (class_exists($validatorName)
-            && TypeConfiguration::get('undefined_properties') == 'strict'
+            && TypeConfiguration::get('undefined_properties') === 'strict'
         ) {
             self::add($name, $validatorName);
             return self::validate($name, $value, $container);
@@ -78,15 +78,15 @@ abstract class Validator
      * It checks that it implements Validator\Interface
      *
      * @param string $name An attribute name to validate.
-     * @param string $class A validator class name
+     * @param string|object $class A validator class name
      * @throws \Exception if validator class does not implement
      * \ActivityPhp\Type\Helper\ValidatorInterface
      */
-    public static function add($name, $class)
+    public static function add(string $name, $class): void
     {
         $validator = new $class();
 
-        if (!($validator instanceof ValidatorInterface)) {
+        if (! ($validator instanceof ValidatorInterface)) {
             throw new Exception(
                 sprintf(
                     'Validator "%s" MUST implement "%s" interface',

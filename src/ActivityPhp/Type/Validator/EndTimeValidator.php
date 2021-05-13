@@ -23,12 +23,11 @@ class EndTimeValidator implements ValidatorInterface
 {
     /**
      * Validate an ENDTIME attribute value
-     * 
+     *
      * @param string $value
      * @param mixed  $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container has an ObjectType type
         Util::subclassOf($container, ObjectType::class, true);

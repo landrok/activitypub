@@ -25,13 +25,12 @@ class FollowersValidator implements ValidatorInterface
 {
     /**
      * Validate a FOLLOWERS attribute value
-     * 
+     *
      * @param  string|object $value
      * @param  object        $container
-     * @return bool
      * @todo Support indirect reference for followers attribute?
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is an AbstractActor type
         Util::subclassOf($container, AbstractActor::class, true);
@@ -48,7 +47,7 @@ class FollowersValidator implements ValidatorInterface
 
     /**
      * Validate that it is an OrderedCollection or a Collection
-     * 
+     *
      * @param object $collection
      * @return bool
      */

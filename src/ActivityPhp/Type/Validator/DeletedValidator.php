@@ -23,12 +23,11 @@ class DeletedValidator implements ValidatorInterface
 {
     /**
      * Validate a DELETED attribute value
-     * 
+     *
      * @param string $value
      * @param mixed  $container A Tombstone type
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is a Tombstone type
         Util::subclassOf($container, Tombstone::class, true);
@@ -39,5 +38,7 @@ class DeletedValidator implements ValidatorInterface
                 return true;
             }
         }
+
+        return false;
     }
 }

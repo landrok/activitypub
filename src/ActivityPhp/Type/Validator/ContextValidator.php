@@ -23,12 +23,11 @@ class ContextValidator implements ValidatorInterface
 {
     /**
      * Validate a context attribute value
-     * 
+     *
      * @param string|array  $value
      * @param object        $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // URL
         if (Util::validateUrl($value)) {
@@ -44,5 +43,7 @@ class ContextValidator implements ValidatorInterface
             return Util::validateLink($value)
                 || Util::validateObject($value);
         }
+
+        return false;
     }
 }

@@ -24,22 +24,21 @@ class ItemsValidator extends ValidatorTools
 {
     /**
      * Validate items value
-     * 
+     *
      * @param  string $value
      * @param  mixed  $container A Collection type
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is a Collection
         Util::subclassOf(
-            $container, 
+            $container,
             [Collection::class],
             true
         );
 
         // URL type
-        if (is_string($value)) { 
+        if (is_string($value)) {
             return Util::validateUrl($value);
         }
 
@@ -52,7 +51,7 @@ class ItemsValidator extends ValidatorTools
         }
 
         // Link type
-        if (is_object($value)) { 
+        if (is_object($value)) {
             return Util::subclassOf($value, Link::class, true);
         }
 

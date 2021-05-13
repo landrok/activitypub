@@ -23,12 +23,11 @@ class UnitsValidator implements ValidatorInterface
 {
     /**
      * Validate units value
-     * 
+     *
      * @param string $value
      * @param mixed  $container A Place
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container must be Place
         Util::subclassOf($container, Place::class, true);

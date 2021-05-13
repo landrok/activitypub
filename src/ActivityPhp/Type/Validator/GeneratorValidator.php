@@ -23,12 +23,11 @@ class GeneratorValidator implements ValidatorInterface
 {
     /**
      * Validate a generator attribute value
-     * 
+     *
      * @param string|object|array $value
      * @param object              $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container has an ObjectType type
         Util::subclassOf($container, ObjectType::class, true);
@@ -43,5 +42,5 @@ class GeneratorValidator implements ValidatorInterface
 
         // MUST be a valid Actor type
         return Util::isActorType($value) || Util::validateLink($value);
-    }    
+    }
 }

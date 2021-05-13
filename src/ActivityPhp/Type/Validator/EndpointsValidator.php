@@ -26,9 +26,8 @@ class EndpointsValidator implements ValidatorInterface
      *
      * @param string|array $value
      * @param mixed  $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is an AbstractActor type
         Util::subclassOf($container, AbstractActor::class, true);

@@ -24,17 +24,17 @@ class HrefValidator implements ValidatorInterface
 {
     /**
      * Validate href value
-     * 
+     *
      * @param string $value
      * @param mixed  $container An object
      * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is a Link or an Object
         Util::subclassOf(
-            $container, 
-            [Link::class, ObjectType::class], 
+            $container,
+            [Link::class, ObjectType::class],
             true
         );
 

@@ -52,7 +52,7 @@ abstract class Ontology
     /**
      * Clear all ontologies definitions and loaded array
      */
-    public static function clear()
+    public static function clear(): void
     {
         self::$externals = [];
 
@@ -65,31 +65,30 @@ abstract class Ontology
      * Add an ontology definition in the pool.
      * Useful to define custom ontology classes on the fly
      *
-     * @param  string $name   Ontology name.
-     * @param  string $class  Types definitions
-     * @param  bool   $load
+     * @param string $name  Ontology name.
+     * @param string $class Types definitions
      */
-    public static function add(string $name, string $class, bool $load = true)
+    public static function add(string $name, string $class, bool $load = true): void
     {
         // Reserved keyword
-        if ($name == '*') {
+        if ($name === '*') {
             throw new Exception(
-                "Name '$name' is a reserved keyword"
+                "Name '{$name}' is a reserved keyword"
             );
         }
 
         // Class exists
-        if (!class_exists($class)) {
+        if (! class_exists($class)) {
             throw new Exception(
-                "Class '$class' does not exist"
+                "Class '{$class}' does not exist"
             );
         }
 
         // Class implements OntologyBase
-        if (!method_exists($class, 'getDefinition')) {
+        if (! method_exists($class, 'getDefinition')) {
             throw new Exception(
-                "Class '$class' MUST implement "
-                . OntologyInterface::class . " interface."
+                "Class '{$class}' MUST implement "
+                . OntologyInterface::class . ' interface.'
             );
         }
 
@@ -108,11 +107,11 @@ abstract class Ontology
      * @param  string $name Ontology name.
      * @throws \Exception if ontology has not been defined
      */
-    public static function load(string $name)
+    public static function load(string $name): void
     {
         $ontologies = [];
 
-        if ($name == '*') {
+        if ($name === '*') {
             $ontologies = self::$internals + self::$externals;
         } else {
             // externals (override)
@@ -130,7 +129,7 @@ abstract class Ontology
 
         foreach ($ontologies as $name => $ontology) {
             Dialect::add($name, $ontology::getDefinition());
-            if (!array_search($name, self::$loaded)) {
+            if (! array_search($name, self::$loaded)) {
                 array_push(self::$loaded, $name);
             }
         }
@@ -141,13 +140,13 @@ abstract class Ontology
      *
      * @param  string $name Ontology name.
      */
-    public static function unload(string $name)
+    public static function unload(string $name): void
     {
         self::$loaded = array_filter(
             self::$loaded,
-            function ($value) use ($name) {
-                return $value != $name
-                    && $dialect != '*';
+            static function ($value) use ($name): bool {
+                return $value !== $name
+                    && $dialect !== '*';
             }
         );
 

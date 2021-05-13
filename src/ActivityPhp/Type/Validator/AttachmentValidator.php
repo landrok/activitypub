@@ -21,12 +21,12 @@ class AttachmentValidator extends ValidatorTools
 {
     /**
      * Validate an attachment value
-     * 
+     *
      * @param  array $value
      * @param  mixed  $container An Object type
      * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         if (is_array($value) && !count($value)) {
             return true;

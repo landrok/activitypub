@@ -22,12 +22,11 @@ class ContentMapValidator extends ValidatorTools
 {
     /**
      * Validate a contentMap value
-     * 
+     *
      * @param string  $value
      * @param mixed   $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         return $this->validateMap('content', $value, $container);
     }

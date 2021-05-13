@@ -23,16 +23,15 @@ class RepliesValidator implements ValidatorInterface
 {
     /**
      * Validate replies value
-     * 
+     *
      * @param  string|array|object $value
      * @param  object              $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container is an ObjectType
         Util::subclassOf(
-            $container, 
+            $container,
             ObjectType::class,
             true
         );
@@ -51,5 +50,7 @@ class RepliesValidator implements ValidatorInterface
             return Util::validateLink($value)
                 || Util::validateCollection($value);
         }
+
+        return false;
     }
 }

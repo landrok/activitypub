@@ -23,12 +23,11 @@ class RadiusValidator implements ValidatorInterface
 {
     /**
      * Validate radius value
-     * 
+     *
      * @param mixed $value
      * @param mixed $container A Place
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container must be Place
         Util::subclassOf($container, Place::class, true);

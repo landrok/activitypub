@@ -23,12 +23,11 @@ class SummaryValidator implements ValidatorInterface
 {
     /**
      * Validate a summary attribute value
-     * 
+     *
      * @param null|string  $value
      * @param mixed        $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container is an ObjectType type
         Util::subclassOf($container, ObjectType::class, true);
@@ -37,5 +36,7 @@ class SummaryValidator implements ValidatorInterface
         if (is_null($value) || is_string($value)) {
             return true;
         }
+
+        return false;
     }
 }

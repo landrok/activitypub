@@ -23,16 +23,15 @@ class SourceValidator implements ValidatorInterface
 {
     /**
      * Validate source value
-     * 
+     *
      * @param  array|object $value
      * @param  object       $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Container is an ObjectType
         Util::subclassOf(
-            $container, 
+            $container,
             ObjectType::class,
             true
         );
@@ -48,5 +47,7 @@ class SourceValidator implements ValidatorInterface
                 true
             );
         }
+
+        return false;
     }
 }

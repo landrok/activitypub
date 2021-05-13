@@ -23,12 +23,11 @@ class FormerTypeValidator implements ValidatorInterface
 {
     /**
      * Validate a formerType attribute value
-     * 
+     *
      * @param string|object|array $value
      * @param object  $container
-     * @return bool
      */
-    public function validate($value, $container)
+    public function validate($value, $container): bool
     {
         // Validate that container has an Tombstone type
         Util::subclassOf($container, Tombstone::class, true);
@@ -39,5 +38,5 @@ class FormerTypeValidator implements ValidatorInterface
 
         // MUST be a valid Object type
         return Util::isObjectType($value);
-    }    
+    }
 }
