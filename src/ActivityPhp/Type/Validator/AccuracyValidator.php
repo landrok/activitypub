@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -27,13 +29,8 @@ class AccuracyValidator implements ValidatorInterface
      */
     public function validate($value, $container): bool
     {
-        if (is_numeric($value)
-            && (float)$value >= 0
-            && (float)$value <= 100.0
-        ) {
-            return true;
-        }
-
-        return false;
+        return is_numeric($value)
+            && (float) $value >= 0
+            && (float) $value <= 100.0;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -12,13 +14,13 @@
 namespace ActivityPhp\Type\Extended\Object;
 
 /**
- * \ActivityPhp\Type\Extended\Object\Audio is an implementation of 
+ * \ActivityPhp\Type\Extended\Object\Audio is an implementation of
  * one of the Activity Streams Extended Types.
- * 
- * Represents a document of any kind. 
- * 
+ *
+ * Represents a document of any kind.
+ *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-audio
- */ 
+ */
 class Audio extends Document
 {
     /**

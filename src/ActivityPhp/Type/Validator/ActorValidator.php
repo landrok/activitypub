@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -46,7 +48,7 @@ class ActorValidator implements ValidatorInterface
         }
 
         // Must be an object
-        if (!is_object($value)) {
+        if (! is_object($value)) {
             return false;
         }
 
@@ -58,9 +60,8 @@ class ActorValidator implements ValidatorInterface
      * Validate an Actor object type
      *
      * @param object|array $item
-     * @return bool
      */
-    protected function validateObject($item)
+    protected function validateObject($item): bool
     {
         if (is_array($item)) {
             $item = Util::arrayToType($item);
@@ -83,24 +84,23 @@ class ActorValidator implements ValidatorInterface
      * Collection can contain:
      * - Indirect URL
      * - An actor object
-     *
-     * @param array $collection
-     * @return bool
      */
-    protected function validateObjectCollection(array $collection)
+    protected function validateObjectCollection(array $collection): bool
     {
         foreach ($collection as $item) {
             if (is_array($item) && $this->validateObject($item)) {
                 continue;
-            } elseif (is_object($item) && $this->validateObject($item)) {
+            }
+            if (is_object($item) && $this->validateObject($item)) {
                 continue;
-            } elseif (is_string($item) && Util::validateUrl($item)) {
+            }
+            if (is_string($item) && Util::validateUrl($item)) {
                 continue;
             }
 
             return false;
         }
 
-        return count($collection) && true;
+        return count($collection) > 0;
     }
 }

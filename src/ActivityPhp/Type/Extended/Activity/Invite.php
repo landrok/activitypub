@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -12,11 +14,11 @@
 namespace ActivityPhp\Type\Extended\Activity;
 
 /**
- * \ActivityPhp\Type\Extended\Activity\Invite is an implementation of 
+ * \ActivityPhp\Type\Extended\Activity\Invite is an implementation of
  * one of the Activity Streams Extended Types.
  *
- * A specialization of Offer in which the actor is extending an 
- * invitation for the object to the target.  
+ * A specialization of Offer in which the actor is extending an
+ * invitation for the object to the target.
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-invite
  */

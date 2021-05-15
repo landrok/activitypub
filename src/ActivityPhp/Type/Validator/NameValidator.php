@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -23,12 +25,12 @@ class NameValidator implements ValidatorInterface
     /**
      * Validate a name attribute value
      *
-     * @param null|string  $value
-     * @param mixed   $container
+     * @param string|null $value
+     * @param mixed $container
      */
     public function validate($value, $container): bool
     {
-        if (is_null($value) || $value == '') {
+        if (is_null($value) || $value === '') {
             return true;
         }
 

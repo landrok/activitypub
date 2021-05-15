@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -59,7 +61,9 @@ class ObjectValidator implements ValidatorInterface
             foreach ($value as $item) {
                 if (is_string($item) && Util::validateUrl($item)) {
                     continue;
-                } elseif (is_array($item)) {
+                }
+
+                if (is_array($item)) {
                     $item = Util::arrayToType($item);
                 }
 
@@ -71,7 +75,7 @@ class ObjectValidator implements ValidatorInterface
                 return false;
             }
 
-            return count($value) && true;
+            return count($value) > 0;
         }
 
         return false;

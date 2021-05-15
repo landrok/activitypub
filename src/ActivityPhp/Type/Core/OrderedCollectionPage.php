@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -12,14 +14,14 @@
 namespace ActivityPhp\Type\Core;
 
 /**
- * \ActivityPhp\Type\Core\OrderedCollection is an implementation of one 
+ * \ActivityPhp\Type\Core\OrderedCollection is an implementation of one
  * of the Activity Streams Core Types.
  *
- * The OrderedCollectionPage type extends from both CollectionPage and 
+ * The OrderedCollectionPage type extends from both CollectionPage and
  * OrderedCollection. In addition to the properties inherited from each
- * of those, the OrderedCollectionPage may contain an additional 
+ * of those, the OrderedCollectionPage may contain an additional
  * startIndex property whose value indicates the relative index position
- * of the first item contained by the page within the OrderedCollection 
+ * of the first item contained by the page within the OrderedCollection
  * to which the page belongs.
  *
  * @see https://www.w3.org/TR/activitystreams-core/#paging
@@ -32,7 +34,7 @@ class OrderedCollectionPage extends CollectionPage
     protected $type = 'OrderedCollectionPage';
 
     /**
-     * A non-negative integer value identifying the relative position 
+     * A non-negative integer value identifying the relative position
      * within the logical view of a strictly ordered collection.
      *
      * @var int

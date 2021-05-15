@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -12,7 +14,7 @@
 namespace ActivityPhp\Type\Core;
 
 /**
- * \ActivityPhp\Type\Core\IntransitiveActivity is an implementation of 
+ * \ActivityPhp\Type\Core\IntransitiveActivity is an implementation of
  * one of the Activity Streams Core Types.
  *
  * IntransitiveActivity objects are specializations of the Activity type

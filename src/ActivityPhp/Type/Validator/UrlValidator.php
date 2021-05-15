@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -36,7 +38,7 @@ class UrlValidator implements ValidatorInterface
         if (is_array($value) && is_int(key($value))) {
 
             foreach ($value as $key => $item) {
-                if (!$this->validateUrlOrLink($item)) {
+                if (! $this->validateUrlOrLink($item)) {
                     return false;
                 }
             }
@@ -51,9 +53,8 @@ class UrlValidator implements ValidatorInterface
      * Validate that a value is a Link or an URL
      *
      * @param  string|\ActivityPhp\Type\Core\Link $value
-     * @return bool
      */
-    protected function validateUrlOrLink($value)
+    protected function validateUrlOrLink($value): bool
     {
         return Util::validateUrl($value)
             || Util::validateLink($value)

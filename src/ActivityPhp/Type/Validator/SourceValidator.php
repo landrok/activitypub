@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -37,7 +39,7 @@ class SourceValidator implements ValidatorInterface
         );
 
         if (is_array($value)) {
-            $value = (object)$value;
+            $value = (object) $value;
         }
 
         if (is_object($value)) {

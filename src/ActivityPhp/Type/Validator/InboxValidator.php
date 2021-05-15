@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -49,9 +51,8 @@ class InboxValidator implements ValidatorInterface
      * Validate that it is an OrderedCollection
      *
      * @param object $collection
-     * @return bool
      */
-    protected function validateObject($collection)
+    protected function validateObject($collection): bool
     {
         return Util::subclassOf(
             $collection,

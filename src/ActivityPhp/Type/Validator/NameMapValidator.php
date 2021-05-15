@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -11,7 +13,6 @@
 
 namespace ActivityPhp\Type\Validator;
 
-use ActivityPhp\Type\Util;
 use ActivityPhp\Type\ValidatorTools;
 
 /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -12,7 +14,7 @@
 namespace ActivityPhp\Type\Core;
 
 /**
- * \ActivityPhp\Type\Core\CollectionPage is an implementation of one 
+ * CollectionPage is an implementation of one
  * of the Activity Streams Core Types.
  *
  * Used to represent distinct subsets of items from a Collection.
@@ -32,39 +34,39 @@ class CollectionPage extends Collection
     protected $id;
 
     /**
-     * Identifies the Collection to which CollectionPage objects items 
-     * belong. 
+     * Identifies the Collection to which CollectionPage objects items
+     * belong.
      *
      * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-partof
-     * 
-     * @var null
-     *    | string
-     *    | \ActivityPhp\Type\Core\Link
-     *    | \ActivityPhp\Type\Core\Collection 
+     *
+     * @var string
+     *    | Link
+     *    | Collection
+     *    | null
      */
     protected $partOf;
 
     /**
-     * Indicates the next page of items. 
-     * 
+     * Indicates the next page of items.
+     *
      * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-next
      *
-     * @var null
-     *    | string
-     *    | \ActivityPhp\Type\Core\Link
-     *    | \ActivityPhp\Type\Core\CollectionPage 
+     * @var string
+     *    | Link
+     *    | CollectionPage
+     *    | null
      */
     protected $next;
 
     /**
-     * Identifies the previous page of items. 
-     * 
+     * Identifies the previous page of items.
+     *
      * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-prev
      *
-     * @var null
-     *    | string
-     *    | \ActivityPhp\Type\Core\Link
-     *    | \ActivityPhp\Type\Core\CollectionPage
+     * @var string
+     *    | Link
+     *    | CollectionPage
+     *    | null
      */
     protected $prev;
 }

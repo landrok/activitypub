@@ -15,10 +15,10 @@ use Exception;
 
 /**
  * Server configuration dispatcher
- */ 
+ */
 class Configuration
 {
-    const CONFIG_NS_PATTERN = '\ActivityPhp\Server\Configuration\%sConfiguration';
+    private const CONFIG_NS_PATTERN = '\ActivityPhp\Server\Configuration\%sConfiguration';
 
     /**
      * @var \ActivityPhp\Server\Configuration\HttpConfiguration
@@ -66,10 +66,10 @@ class Configuration
             ] as $config
         ) {
 
-            if (isset($params[$config]) && !is_array($params[$config])) {
+            if (isset($params[$config]) && ! is_array($params[$config])) {
                 throw new Exception(
-                    "Configuration value for '$config' must be an array"
-                );                
+                    "Configuration value for '{$config}' must be an array"
+                );
             }
 
             if (is_null($this->$config)) {
@@ -95,12 +95,12 @@ class Configuration
             throw new Exception(
                 "Following configuration parameters have been ignored:\n"
                  . json_encode($params, JSON_PRETTY_PRINT)
-            );                
-        }        
+            );
+        }
     }
     /**
      * Get a configuration dedicated handler
-     * 
+     *
      * @return \ActivityPhp\Server\Configuration\LoggerConfiguration
      *       | \ActivityPhp\Server\Configuration\InstanceConfiguration
      *       | \ActivityPhp\Server\Configuration\HttpConfiguration
@@ -111,9 +111,9 @@ class Configuration
     {
         // Get configuration identifier
         $xpt = explode('.', $parameter, 2);
-        
+
         if (isset($this->{$xpt[0]})) {
-            if (!isset($xpt[1])) {
+            if (! isset($xpt[1])) {
                 return $this->{$xpt[0]};
             }
             return $this->{$xpt[0]}->get($xpt[1]);
@@ -121,6 +121,6 @@ class Configuration
 
         throw new Exception(
             "Configuration handler '{$xpt[0]}' does not exist"
-        );   
+        );
     }
 }

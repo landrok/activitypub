@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -11,8 +13,8 @@
 
 namespace ActivityPhp\Type\Validator;
 
-use ActivityPhp\Type\Core\Link;
 use ActivityPhp\Type\Core\Collection;
+use ActivityPhp\Type\Core\Link;
 use ActivityPhp\Type\Util;
 use ActivityPhp\Type\ValidatorTools;
 
@@ -44,7 +46,7 @@ class ItemsValidator extends ValidatorTools
 
         if (is_array($value)) {
             // Empty array
-            if (!count($value)) {
+            if (! count($value)) {
                 return true;
             }
             $value = Util::arrayToType($value);
@@ -56,11 +58,11 @@ class ItemsValidator extends ValidatorTools
         }
 
         // A Collection
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             return false;
         }
 
-        if (!count($value)) {
+        if (! count($value)) {
             return false;
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -14,13 +16,13 @@ namespace ActivityPhp\Type\Extended\Object;
 use ActivityPhp\Type\Core\Link;
 
 /**
- * \ActivityPhp\Type\Extended\Object\Mention is an implementation of 
+ * \ActivityPhp\Type\Extended\Object\Mention is an implementation of
  * one of the Activity Streams Extended Types.
  *
- * A specialized Link that represents an @mention. 
+ * A specialized Link that represents an @mention.
  *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-mention
- */ 
+ */
 class Mention extends Link
 {
     /**

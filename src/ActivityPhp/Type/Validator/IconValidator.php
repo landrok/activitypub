@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -53,7 +55,7 @@ class IconValidator implements ValidatorInterface
                     continue;
                 }
 
-                if (!$this->validateObject($value)) {
+                if (! $this->validateObject($value)) {
                     return false;
                 }
             }
@@ -69,9 +71,8 @@ class IconValidator implements ValidatorInterface
      * Validate an object format
      *
      * @param object $item
-     * @return bool
      */
-    protected function validateObject($item)
+    protected function validateObject($item): bool
     {
         return Util::validateLink($item)
             || Util::isType($item, 'Image');

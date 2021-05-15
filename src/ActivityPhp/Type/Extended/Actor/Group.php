@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -14,13 +16,13 @@ namespace ActivityPhp\Type\Extended\Actor;
 use ActivityPhp\Type\Extended\AbstractActor;
 
 /**
- * \ActivityPhp\Type\Extended\Actor\Group is an implementation of 
+ * \ActivityPhp\Type\Extended\Actor\Group is an implementation of
  * one of the Activity Streams Extended Types.
- * 
- * Represents a formal or informal collective of Actors. 
- * 
+ *
+ * Represents a formal or informal collective of Actors.
+ *
  * @see https://www.w3.org/TR/activitystreams-vocabulary/#dfn-group
- */ 
+ */
 class Group extends AbstractActor
 {
     /**

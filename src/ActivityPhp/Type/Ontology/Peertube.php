@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -15,7 +17,7 @@ use ActivityPhp\Type\OntologyBase;
 
 /**
  * \ActivityPhp\Type\Ontology\Peertube contains Peertube dialects
- * 
+ *
  * @since 0.4.0
  */
 abstract class Peertube extends OntologyBase
@@ -23,16 +25,16 @@ abstract class Peertube extends OntologyBase
     /**
      * A definition of peertube's dialect to overload Activity Streams
      * vocabulary.
-     * 
+     *
      * @var array
      */
     protected static $definitions = [
         'Group'  => ['support'],
         'Video'  => [
-            'uuid', 'category', 'language', 'views', 'sensitive', 
-            'waitTranscoding', 'state', 'commentsEnabled', 'support', 
-            'subtitleLanguage', 'likes', 'dislikes', 'shares', 
-            'comments', 'licence', 
+            'uuid', 'category', 'language', 'views', 'sensitive',
+            'waitTranscoding', 'state', 'commentsEnabled', 'support',
+            'subtitleLanguage', 'likes', 'dislikes', 'shares',
+            'comments', 'licence',
             'downloadEnabled', 'originallyPublishedAt'
         ],
         'Image'   => ['width', 'height'],

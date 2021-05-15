@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -12,11 +14,11 @@
 namespace ActivityPhp\Type\Core;
 
 /**
- * \ActivityPhp\Type\Core\OrderedCollection is an implementation of one 
+ * \ActivityPhp\Type\Core\OrderedCollection is an implementation of one
  * of the Activity Streams Core Types.
  *
  * A subtype of Collection in which members of the logical collection
- * are assumed to always be strictly ordered. 
+ * are assumed to always be strictly ordered.
  *
  * @see https://www.w3.org/TR/activitystreams-core/#collections
  */

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -45,11 +47,8 @@ class EndpointsValidator implements ValidatorInterface
 
     /**
      * Validate endpoints mapping
-     *
-     * @param  array $item
-     * @return bool
      */
-    protected function validateObject(array $item)
+    protected function validateObject(array $item): bool
     {
         foreach ($item as $key => $value) {
 
@@ -60,7 +59,7 @@ class EndpointsValidator implements ValidatorInterface
                 case 'provideClientKey':
                 case 'signClientKey':
                 case 'sharedInbox':
-                    if (!Util::validateUrl($value)) {
+                    if (! Util::validateUrl($value)) {
                         return false;
                     }
                     break;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -25,7 +27,6 @@ class IdValidator implements ValidatorInterface
      *
      * @param mixed  $value
      * @param mixed  $container An object
-     * @return bool
      */
     public function validate($value, $container): bool
     {
