@@ -13,11 +13,11 @@ namespace ActivityPhp\Server\Http;
 
 use ActivityPhp\Server\Cache\CacheHelper;
 use Exception;
-use GuzzleHttp\Client;
+use Psr\Http\Client\ClientInterface;
 
 /**
  * Request handler
- */ 
+ */
 class Request
 {
     const HTTP_HEADER_ACCEPT = 'application/activity+json,application/ld+json,application/json';
@@ -29,7 +29,7 @@ class Request
 
     /**
      * Allowed HTTP methods
-     * 
+     *
      * @var array
      */
     protected $allowedMethods = [
@@ -38,14 +38,14 @@ class Request
 
     /**
      * HTTP client
-     * 
-     * @var \GuzzleHttp\Client
+     *
+     * @var \Psr\Http\Client\ClientInterface
      */
     protected $client;
 
     /**
      * Set HTTP client
-     * 
+     *
      * @param float|int $timeout
      * @param string $agent
      */
@@ -65,7 +65,7 @@ class Request
 
     /**
      * Set HTTP methods
-     * 
+     *
      * @param string $method
      */
     protected function setMethod(string $method)
@@ -77,17 +77,17 @@ class Request
 
     /**
      * Get HTTP methods
-     * 
+     *
      * @return string
      */
     protected function getMethod()
     {
         return $this->method;
     }
-    
+
     /**
      * Execute a GET request
-     * 
+     *
      * @param  string $url
      * @return string
      */
@@ -98,7 +98,7 @@ class Request
         }
         try {
             $content = $this->client->get($url)->getBody()->getContents();
-        } catch (\GuzzleHttp\Exception\ClientException $exception) {
+        } catch (Exception $exception) {
             throw new Exception($exception->getMessage());
         }
 
