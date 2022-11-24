@@ -7,13 +7,7 @@
     "homepage": "https://github.com/landrok/activitypub",
     "license": "MIT",
     "require": {
-        "php": "^7.2|^8.0",
-        "guzzlehttp/guzzle": ">=6.3",
-        "monolog/monolog": "^1.12|^2.0|^3.0",
-        "symfony/http-foundation": ">=3.4",
-        "phpseclib/phpseclib": "^3.0.7",
-        "psr/cache": "^1.0|^2.0|^3.0",
-        "symfony/cache": ">=4.0"
+        "php": "^7.2|^8.0"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
