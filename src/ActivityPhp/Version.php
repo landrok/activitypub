@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace ActivityPhp;
 
+use Exception;
+
 /**
  * \ActivityPhp\Version handles current version of this package
  */
@@ -31,7 +33,7 @@ abstract class Version
             file_get_contents($filename)
         );
 
-        if (json_last_error() === JSON_ERROR_NONE) {
+        if (\json_last_error() === \JSON_ERROR_NONE) {
             if (isset($composer->version) && is_string($composer->version)) {
                 return $composer->version;
             }
@@ -61,7 +63,7 @@ abstract class Version
         if (! is_string($filename)) {
             throw new Exception(
                 'FILE_ERROR Filename must be a string. Given: '
-                . gettype($filename)
+                . \gettype($filename)
             );
         }
 
