@@ -12,7 +12,7 @@ class ConfigurationTest extends TestCase
     /**
      * Scenarios which throw an Exception
      */
-    public function getFailingInstanceScenarios()
+    public static function getFailingInstanceScenarios()
     {
         # data
         return [

@@ -10,7 +10,7 @@ class HelperTest extends TestCase
     /**
      * Test accept accept headers
      */
-    public function getAcceptHeaderScenarios()
+    public static function getAcceptHeaderScenarios()
     {
         # input / expected
         return [

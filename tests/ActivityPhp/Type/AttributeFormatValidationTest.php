@@ -66,7 +66,7 @@ class AttributeFormatValidationTest extends TestCase
     /**
      * Valid scenarios provider
      */
-    public function getValidAttributesScenarios()
+    public static function getValidAttributesScenarios()
     {
         $link = Type::create([
             'type' => 'Link',
@@ -678,7 +678,7 @@ class AttributeFormatValidationTest extends TestCase
     /**
      * Exception scenarios provider
      */
-    public function getExceptionScenarios()
+    public static function getExceptionScenarios()
     {
         # TypeClass, property, value
         return [

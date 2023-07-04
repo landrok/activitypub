@@ -13,7 +13,7 @@ class FactoryTest extends TestCase
     /**
      * Valid scenarios provider
      */
-    public function getShortTypes()
+    public static function getShortTypes()
     {
         # Short type name
         return [

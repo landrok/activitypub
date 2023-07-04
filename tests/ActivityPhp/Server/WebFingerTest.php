@@ -12,7 +12,7 @@ class WebFingerTest extends TestCase
     /**
      * Valid scenarios provider
      */
-    public function getSuccessScenarios()
+    public static function getSuccessScenarios()
     {
         $sample = [
             'subject' => 'acct:bob@localhost:8000',
@@ -43,7 +43,7 @@ class WebFingerTest extends TestCase
     /**
      * Exception scenarios provider
      */
-    public function getFailingScenarios()
+    public static function getFailingScenarios()
     {
         $sample = [
             'subject' => 'acct:bob@localhost:8000',
@@ -133,7 +133,7 @@ class WebFingerTest extends TestCase
     /**
      * Scenarios which throw an Exception
      */
-    public function getFailingInstanceScenarios()
+    public static function getFailingInstanceScenarios()
     {
         # data
         return [
