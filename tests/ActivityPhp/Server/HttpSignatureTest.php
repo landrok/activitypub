@@ -8,7 +8,7 @@ use ActivityPhp\Type;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
-use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
 
 /*
  * These scenarios are around verifying an HTTP signature
@@ -40,7 +40,7 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = RSA::createKey()->loadPrivateKey(
+        $rsa = PublicKeyLoader::loadPrivateKey(
             file_get_contents(
                 dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
             ) 
@@ -160,8 +160,7 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = RSA::createKey()
-                    ->loadPrivateKey(
+        $rsa = PublicKeyLoader::loadPrivateKey(
                         file_get_contents(
                             dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
                         )  
@@ -223,8 +222,7 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = RSA::createKey()
-            ->loadPrivateKey(
+        $rsa = PublicKeyLoader::loadPrivateKey(
                 file_get_contents(
                     dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
                 )  
@@ -284,8 +282,7 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = RSA::createKey()
-            ->loadPrivateKey(
+        $rsa = PublicKeyLoader::loadPrivateKey(
                 file_get_contents(
                     dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
                 )  
@@ -346,8 +343,7 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = RSA::createKey()
-            ->loadPrivateKey(
+        $rsa = PublicKeyLoader::loadPrivateKey(
                 file_get_contents(
                     dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
                 )  
@@ -410,8 +406,7 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = RSA::createKey()
-            ->loadPrivateKey(
+        $rsa = PublicKeyLoader::loadPrivateKey(
                 file_get_contents(
                     dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
                 )  
@@ -467,8 +462,7 @@ class HttpSignatureTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = RSA::createKey()
-            ->loadPrivateKey(
+        $rsa = PublicKeyLoader::loadPrivateKey(
                 file_get_contents(
                     dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
                 )  
