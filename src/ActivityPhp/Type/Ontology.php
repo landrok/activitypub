@@ -31,6 +31,7 @@ abstract class Ontology
      */
     private static $internals = [
         'bookwyrm' => Ontology\BookWyrm::class,
+        'lemmy' => Ontology\Lemmy::class,
         'mastodon' => Ontology\Mastodon::class,
         'peertube' => Ontology\Peertube::class,
     ];
