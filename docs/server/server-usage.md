@@ -478,6 +478,16 @@ $server = new Server([
 ]);
 ```
 
+**supported ontologies**
+
+Following ontologies are currently supported:
+
+- peertube
+- mastodon
+- lemmy
+- bookwyrm
+
+
 This feature needs you. Contributions are very welcome.
 
 [More about ontologies management]({{ site.doc_baseurl }}/activitypub-ontologies-management.html)
