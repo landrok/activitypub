@@ -12,7 +12,7 @@ It provides two layers:
 - A __client to server protocol__, or "Social API"
     This protocol permits a client to act on behalf of a user.
 - A [__server to server protocol__](#server), or "Federation Protocol"
-    This protocol is used to distribute activities between actors on different servers, tying them into the same social graph. 
+    This protocol is used to distribute activities between actors on different servers, tying them into the same social graph.
 
 As the two layers are implemented, it aims to be an ActivityPub conformant Federated Server
 
@@ -58,7 +58,7 @@ ________________________________________________________________________
 Requirements
 ------------
 
-- Supports PHP 7.2+ | 8.0
+- Supports PHP 7.3+ | 8.0+
 
 ________________________________________________________________________
 
@@ -172,7 +172,7 @@ $note = Type::create('Note');
 
 ```
 
-Instanciating a type and setting properties is possible with the second 
+Instanciating a type and setting properties is possible with the second
 parameter.
 
 ```php
@@ -300,7 +300,7 @@ $note->setId('https://example.com/custom-notes/1');
 
 Whenever you assign a value, the format of this value is checked.
 
-This action is made by a validator. If rules are not respected an 
+This action is made by a validator. If rules are not respected an
 Exception is thrown.
 
 When a property does not exist, an Exception is thrown in strict mode.
@@ -336,7 +336,7 @@ ________________________________________________________________________
 
 ### Set several properties
 
-With __Type factory__, you can instanciate a type and set several 
+With __Type factory__, you can instanciate a type and set several
 properties.
 
 ```php
@@ -436,7 +436,7 @@ $note->myProperty = 'Custom Value';
 echo $note->getMyProperty(); // Custom Value
 ```
 
-- With the Type factory: 
+- With the Type factory:
 
 ```php
 use ActivityPhp\Type;
@@ -447,7 +447,7 @@ $note = Type::create('MyNote', [
 ]);
 ```
 
-Extending types preserves benefits of getters, setters and 
+Extending types preserves benefits of getters, setters and
 their validators.
 
 ________________________________________________________________________
@@ -455,14 +455,14 @@ ________________________________________________________________________
 
 ### Create your own property validator
 
-Use a custom property validator when you define custom attributes or 
+Use a custom property validator when you define custom attributes or
 when you want to override ActivityPub attribute default validation.
 
 Regarding to previous example with a custom attribute `$myProperty`, if
 you try to set this property, it would be done without any check on
 values you're providing.
 
-You can easily cope with that implementing a custom validator using 
+You can easily cope with that implementing a custom validator using
 `Validator`.
 
 ```php
@@ -688,7 +688,7 @@ More
 
 - [See the full documentation](https://landrok.github.io/activitypub/)
 
-- To discuss new features, make feedback or simply to share ideas, you 
+- To discuss new features, make feedback or simply to share ideas, you
   can contact me on Mastodon at [https://cybre.space/@landrok](https://cybre.space/@landrok)
 - [ActivityPub](https://www.w3.org/TR/activitypub/)
 - [ActivityStreams 2.0](https://www.w3.org/TR/activitystreams-core/)
