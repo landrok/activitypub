@@ -16,7 +16,7 @@ namespace ActivityPhp\Type\Ontology;
 use ActivityPhp\Type\OntologyBase;
 
 /**
- * \ActivityPhp\Type\Ontology\Lemmy contains Mastodon dialects
+ * \ActivityPhp\Type\Ontology\Lemmy contains Lemmy dialects
  *
  * @since 0.6.0
  */
