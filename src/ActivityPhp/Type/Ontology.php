@@ -149,7 +149,7 @@ abstract class Ontology
             self::$loaded,
             static function ($value) use ($name): bool {
                 return $value !== $name
-                    && $dialect !== '*';
+                    && $name !== '*';
             }
         );
 
