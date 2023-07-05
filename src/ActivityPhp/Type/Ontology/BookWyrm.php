@@ -16,7 +16,7 @@ namespace ActivityPhp\Type\Ontology;
 use ActivityPhp\Type\OntologyBase;
 
 /**
- * \ActivityPhp\Type\Ontology\BookWyrm contains Mastodon dialects
+ * \ActivityPhp\Type\Ontology\BookWyrm contains BookWyrm dialects
  *
  * @since 0.6.0
  */
