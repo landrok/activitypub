@@ -30,6 +30,9 @@ abstract class Ontology
      * @var array
      */
     private static $internals = [
+        'bookwyrm' => Ontology\BookWyrm::class,
+        'lemmy' => Ontology\Lemmy::class,
+        'mastodon' => Ontology\Mastodon::class,
         'peertube' => Ontology\Peertube::class,
     ];
 
@@ -146,7 +149,7 @@ abstract class Ontology
             self::$loaded,
             static function ($value) use ($name): bool {
                 return $value !== $name
-                    && $dialect !== '*';
+                    && $name !== '*';
             }
         );
 
