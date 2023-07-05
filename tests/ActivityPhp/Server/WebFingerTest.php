@@ -138,32 +138,6 @@ class WebFingerTest extends TestCase
         # data
         return [
 [[
-    'aliases' => ['http//localhost:8000/accounts/bob'],
-    'links' => [
-            [
-                'rel' => 'self',
-                'type' => 'application/activity+json',
-                'href' => 'http://localhost:8000/accounts/bob',
-            ]
-        ]
-    ]                                                                  ], # Missing key: subject
-[[
-    'subject' => 'acct:bob@localhost:8000',
-    'links' => [
-        [
-            'rel' => 'self',
-            'type' => 'application/activity+json',
-            'href' => 'http://localhost:8000/accounts/bob',
-        ]
-    ]
-]                                                                      ], # Missing key: aliases
-[[
-    'subject' => 'acct:bob@localhost:8000',
-    'aliases' => [
-        'http//localhost:8000/accounts/bob'
-    ],
-]                                                                      ], # Missing key: links
-[[
     'subject' => ['acct:bob@localhost:8000'],
     'aliases' => [
         'http//localhost:8000/accounts/bob'

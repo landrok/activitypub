@@ -41,13 +41,9 @@ class WebFinger
     public function __construct(array $data)
     {
         foreach (['subject', 'aliases', 'links'] as $key) {
-            if (!isset($data[$key])) {
-                throw new Exception(
-                    "WebFinger profile must contain '$key' property"
-                );
-            }
+            $value = $data[$key] ?? $this->$key;
             $method = 'set' . ucfirst($key);
-            $this->$method($data[$key]);
+            $this->$method($value);
         }
     }
 
