@@ -63,7 +63,7 @@ class TypesTypeAttributeTest extends TestCase
 	/**
 	 * Valid scenarios provider
 	 */
-	public function getObjectTypeScenarios()
+	public static function getObjectTypeScenarios()
 	{
 		# TypeClass, property, expected value
 		return [

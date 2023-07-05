@@ -13,7 +13,7 @@ class OutboxPostTest extends TestCase
     /**
      * Valid scenarios provider
      */
-    public function getOutboxPostActivities()
+    public static function getOutboxPostActivities()
     {
         # Activities or objects
         return [

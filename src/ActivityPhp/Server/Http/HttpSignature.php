@@ -14,7 +14,7 @@ namespace ActivityPhp\Server\Http;
 use ActivityPhp\Server;
 use ActivityPhp\Type\Util;
 use Symfony\Component\HttpFoundation\Request;
-use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
 
 /**
  * HTTP signatures tool
@@ -103,8 +103,7 @@ class HttpSignature
 
         // Verify that string using the public key and the original 
         // signature.
-        $rsa = RSA::createKey()
-                  ->loadPublicKey($publicKeyPem)
+        $rsa = PublicKeyLoader::loadPublicKey($publicKeyPem)
                   ->withHash('sha256'); 
 
         return $rsa->verify($data, base64_decode($signature, true)); 

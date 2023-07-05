@@ -7,7 +7,7 @@ use ActivityPhp\Type;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
 
 /*
  * These scenarios are around receiving a POST on a local INBOX
@@ -65,8 +65,7 @@ class InboxPostTest extends TestCase
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
-        $rsa = RSA::createKey()
-            ->loadPrivateKey(
+        $rsa = PublicKeyLoader::loadPrivateKey(
                 file_get_contents(
                     dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
                 )  
