@@ -49,5 +49,16 @@ abstract class Mastodon extends OntologyBase
         'PropertyValue' => [
             'value'
         ],
+        'Service' => [
+            'devices',
+            'discoverable',
+            'featured',
+            'featuredTags',
+            'indexable',
+            'key_id_url',
+            'manuallyApprovesFollowers',
+            'memorial',
+            'private_key',
+        ]
     ];
 }
