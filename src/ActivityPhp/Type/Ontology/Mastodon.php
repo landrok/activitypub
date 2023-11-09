@@ -42,7 +42,9 @@ abstract class Mastodon extends OntologyBase
             'discoverable',
             'featured',
             'featuredTags',
+            'indexable',
             'manuallyApprovesFollowers',
+            'memorial',
         ],
         'PropertyValue' => [
             'value'
