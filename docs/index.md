@@ -721,7 +721,7 @@ More
 
 - To discuss new features, make feedback or simply to share ideas, you
   can contact me on Mastodon at
-  [https://cybre.space/@landrok](https://cybre.space/@landrok)
+  [https://phpc.social/@landrok](https://phpc.social/@landrok)
 
 - [ActivityPub](https://www.w3.org/TR/activitypub/)
 
