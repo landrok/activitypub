@@ -35,11 +35,14 @@ abstract class Peertube extends OntologyBase
             'waitTranscoding', 'state', 'commentsEnabled', 'support',
             'subtitleLanguage', 'likes', 'dislikes', 'shares',
             'comments', 'licence',
-            'downloadEnabled', 'originallyPublishedAt'
+            'downloadEnabled', 'originallyPublishedAt',
+            'url', 'isLiveBroadcast', 'liveSaveReplay', 'permanentLive',
+            'latencyMode'
         ],
         'Image'   => ['width', 'height'],
-        'Link'    => ['fps', 'mimeType', 'size' ],
+        'Link'    => ['fps', 'mimeType', 'size', 'tag' ],
         'Hashtag' => ['type'],
-        'Person|Group' => ['uuid', 'publicKey', 'playlists'],
+        'Infohash' => ['name'],
+        'Person|Group' => ['uuid', 'publicKey', 'playlists', 'icons'],
     ];
 }
