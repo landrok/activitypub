@@ -8,10 +8,10 @@ excerpt: How to fetch Peertube Outbox activities using ActivityPhp's dialects in
 Using dialects to fetch Peertube Outbox activities
 ==================================================
 
-For some usages, you may use an instance without having to configure 
+For some usages, you may use an instance without having to configure
 many items.
 
-For instance, if you want to fetch some public activities, you don't 
+For instance, if you want to fetch some public activities, you don't
 need to have a fully-configured server instance. Indeed, you don't need
 any configuration at all.
 
@@ -47,18 +47,18 @@ while ($page->next !== null) {
 
 And that's it, you have an array containing all pages.
 
-Therefore, if you test this implementation on a real world 
-ActivityPub-powered application like Peertube, you would have something 
+Therefore, if you test this implementation on a real world
+ActivityPub-powered application like Peertube, you would have something
 like:
 
 ```sh
 Exception: Property "uuid" is not defined. Type="Video", Class="\ActivityPhp\Type\Extended\Object\Video"
 ```
 
-Indeed, Peertube (and others like Mastodon) extends the ActivityPub 
+Indeed, Peertube (and others like Mastodon) extends the ActivityPub
 object model to fit their needs.
 
-So, in order to fetch Peertube's activities, we need to extend our base 
+So, in order to fetch Peertube's activities, we need to extend our base
 models with Peertube dialect.
 
 ________________________________________________________________________
@@ -77,14 +77,14 @@ that are specific.
 use ActivityPhp\Server;
 
 /* ------------------------------------------------------------------
- | We'll use the following definitions to fit PeerTube's dialect 
+ | We'll use the following definitions to fit PeerTube's dialect
    ------------------------------------------------------------------ */
-   
+
 $peertube = [
     'Group'  => ['support'],
     'Video'  => [
-        'uuid', 'category', 'language', 'views', 'sensitive', 'waitTranscoding', 
-        'state', 'commentsEnabled', 'support', 'subtitleLanguage', 'likes', 
+        'uuid', 'category', 'language', 'views', 'sensitive', 'waitTranscoding',
+        'state', 'commentsEnabled', 'support', 'subtitleLanguage', 'likes',
         'dislikes', 'shares', 'comments', 'licence'
     ],
     'Image'   => ['width', 'height'],
@@ -122,13 +122,13 @@ and their videos names.
 use ActivityPhp\Server;
 
 /* ------------------------------------------------------------------
- | We'll use the following definitions to fit PeerTube's dialect 
+ | We'll use the following definitions to fit PeerTube's dialect
    ------------------------------------------------------------------ */
 $peertube = [
     'Group'  => ['support'],
     'Video'  => [
-        'uuid', 'category', 'language', 'views', 'sensitive', 'waitTranscoding', 
-        'state', 'commentsEnabled', 'support', 'subtitleLanguage', 'likes', 
+        'uuid', 'category', 'language', 'views', 'sensitive', 'waitTranscoding',
+        'state', 'commentsEnabled', 'support', 'subtitleLanguage', 'likes',
         'dislikes', 'shares', 'comments', 'licence'
     ],
     'Image'   => ['width', 'height'],
@@ -183,11 +183,10 @@ ________________________________________________________________________
 
 Read more
 ---------
+- [An even better way to fetch Peertube Outbox activities]({{ site.doc_baseurl }}/fetch-peertube-outbox-activities-using-ontologies.html)
 
 - [Extending ActivityPub Vocabulary with custom dialects]({{ site.doc_baseurl }}/activitypub-dialects-management.html).
-
 - [Configuring a server instance]({{ site.doc_baseurl }}/activitypub-server-usage.html).
-
 - [Server methods]({{ site.doc_baseurl }}/#server).
 
 

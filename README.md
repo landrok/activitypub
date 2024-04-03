@@ -1,7 +1,7 @@
 ActivityPhp
 ===========
 
-[![Build Status](https://travis-ci.com/landrok/activitypub.svg?branch=master)](https://travis-ci.com/landrok/activitypub)
+[![Build Status](https://github.com/landrok/activitypub/workflows/tests/badge.svg)](https://github.com/landrok/activitypub/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/maintainability)](https://codeclimate.com/github/landrok/activitypub/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/410c804f4cd03cc39b60/test_coverage)](https://codeclimate.com/github/landrok/activitypub/test_coverage)
 
