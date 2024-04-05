@@ -19,7 +19,7 @@ use Exception;
 
 /**
  * A server-oriented actor object
- */ 
+ */
 class Actor
 {
     /**
@@ -36,7 +36,7 @@ class Actor
      * Construct an Actor instance based upon a WebFinger discovery if
      * an handle-like is provided. Otherwise, it checks an ActivityPhp
      * profile id if it's an URL.
-     * 
+     *
      * @param  string $handle  URL or a WebFinger handle
      * @param  \ActivityPhp\Server $server
      */
@@ -45,12 +45,13 @@ class Actor
         $this->server = $server;
         $url = null;
 
+        WebFinger::setServer($this->server);
+
         // Is a valid handle?
         if ($this->isHandle($handle)) {
             // testing only
             $scheme = $this->server->config('instance.debug')
                 ? 'http' : 'https';
-            WebFinger::setServer($this->server);
             $webfinger = WebFinger::get($handle, $scheme);
             $url = $webfinger->getProfileId();
         // Is an id?
@@ -69,7 +70,7 @@ class Actor
 
     /**
      * Check that a string is a valid handle
-     * 
+     *
      * @param  string $handle
      * @return bool
      */
@@ -94,7 +95,7 @@ class Actor
 
     /**
      * Get ActivityStream Actor
-     * 
+     *
      * @param  null|string $property
      * @return \ActivityPhp\Type\Extended\AbstractActor
      *       | string
@@ -111,20 +112,20 @@ class Actor
 
     /**
      * Get Actor's public key PEM
-     * 
+     *
      * @return string|null
      */
     public function getPublicKeyPem()
     {
-        if (!isset($this->actor->publicKey)
-            || !is_array($this->actor->publicKey)
-            || !isset($this->actor->publicKey['publicKeyPem'])
+        if (! isset($this->actor->publicKey)
+            || ! is_array($this->actor->publicKey)
+            || ! isset($this->actor->publicKey['publicKeyPem'])
         ) {
             $this->server->logger()->info(
                 'Public key not found',
                 [$this->actor->toArray()]
             );
-            return false;            
+            return false;
         }
 
         return $this->actor->publicKey['publicKeyPem'];
@@ -132,7 +133,7 @@ class Actor
 
     /**
      * Get WebFinger bound to a profile
-     * 
+     *
      * @return \ActivityPhp\Server\Http\WebFinger
      */
     public function webfinger()
@@ -141,7 +142,7 @@ class Actor
         $scheme = $this->server->config('instance.debug')
             ? 'http' : 'https';
 
-        $port = !is_null(parse_url($this->actor->id, PHP_URL_PORT))
+        $port = ! is_null(parse_url($this->actor->id, PHP_URL_PORT))
             ? ':' . parse_url($this->actor->id, PHP_URL_PORT)
             : '';
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -15,7 +17,6 @@ use ActivityPhp\Server;
 use ActivityPhp\Server\Activity\HandlerInterface;
 use ActivityPhp\Server\Actor;
 use ActivityPhp\Server\Helper;
-use ActivityPhp\Server\Http\Request as HttpRequest;
 use ActivityPhp\Type;
 use ActivityPhp\Type\Core\AbstractActivity;
 use ActivityPhp\Type\Util;
@@ -25,12 +26,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * A server-side outbox
- */ 
+ */
 class Outbox extends AbstractBox
 {
     /**
      * Outbox constructor
-     * 
+     *
      * @param  \ActivityPhp\Server\Actor $actor An actor
      * @param  \ActivityPhp\Server $server
      */
@@ -44,14 +45,14 @@ class Outbox extends AbstractBox
 
     /**
      * Get items from an outbox
-     * 
+     *
      * @param  string $page
      * @return array
      */
     public function getPage(string $url)
     {
         $this->server->logger()->info(
-            $this->actor->webfinger()->getHandle() . ':' . __METHOD__, 
+            $this->actor->webfinger()->getHandle() . ':' . __METHOD__,
             [$url]
         );
 
@@ -60,12 +61,12 @@ class Outbox extends AbstractBox
 
     /**
      * Fetch an outbox
-     * 
+     *
      * @return \ActivityPhp\Type\Core\OrderedCollection
      */
     public function get()
     {
-        if (!is_null($this->orderedCollection)) {
+        if (! is_null($this->orderedCollection)) {
             return $this->orderedCollection;
         }
 
@@ -74,25 +75,25 @@ class Outbox extends AbstractBox
         );
 
         $url = $this->actor->get('outbox');
-        
+
         if (is_null($url)) {
             $this->server->logger()->warning(
-                $this->actor->webfinger()->getHandle() 
+                $this->actor->webfinger()->getHandle()
                 . ': Outbox is not defined'
             );
             return;
-        }            
-        
+        }
+
         $this->orderedCollection = Type::create(
             Helper::fetch($url)
         );
-        
+
         return $this->orderedCollection;
     }
 
     /**
      * Post a message to the world
-     * 
+     *
      * @param  \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -106,8 +107,8 @@ class Outbox extends AbstractBox
             );
 
             // Check current actor can post
-            
-            
+
+
             // Get content
             $payload = Util::decodeJson(
                 (string)$request->getContent()
@@ -125,10 +126,10 @@ class Outbox extends AbstractBox
 
             return new Response('', 400);
         }
-        
+
         // Log
         $this->getServer()->logger()->debug(
-            $this->actor->get()->preferredUsername. ':' . __METHOD__ . '(starting)', 
+            $this->actor->get()->preferredUsername. ':' . __METHOD__ . '(starting)',
             $activity->toArray()
         );
 
@@ -137,9 +138,9 @@ class Outbox extends AbstractBox
             $activity = $this->wrapObject($activity);
         }
 
-        // Clients submitting the following activities to an outbox MUST 
-        // provide the object property in the activity: 
-        //  Create, Update, Delete, Follow, 
+        // Clients submitting the following activities to an outbox MUST
+        // provide the object property in the activity:
+        //  Create, Update, Delete, Follow,
         //  Add, Remove, Like, Block, Undo
         if (!isset($activity->object)) {
             throw new Exception(
@@ -172,7 +173,7 @@ class Outbox extends AbstractBox
 
         // Log
         $this->getServer()->logger()->debug(
-            $this->actor->get()->preferredUsername. ':' . __METHOD__ . '(posted)', 
+            $this->actor->get()->preferredUsername. ':' . __METHOD__ . '(posted)',
             $activity->toArray()
         );
 

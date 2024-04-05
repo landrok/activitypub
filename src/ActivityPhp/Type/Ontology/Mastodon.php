@@ -35,6 +35,11 @@ abstract class Mastodon extends OntologyBase
             'height',
             'focalPoint',
         ],
+        'Emoji' => [
+            'name',
+            'updated',
+            'icon',
+        ],
         'Hashtag' => [
             'href'
         ],

@@ -17,7 +17,7 @@ use ActivityPhp\Type;
 use Exception;
 
 /**
- * \ActivityPhp\Server\ActorFactory provides a factory for server-side 
+ * \ActivityPhp\Server\ActorFactory provides a factory for server-side
  * actor.
  */
 abstract class ActorFactory
@@ -29,7 +29,7 @@ abstract class ActorFactory
 
     /**
      * Create an actor from its profile url
-     * 
+     *
      * @param  string $url
      * @return \ActivityPhp\Type\Extended\AbstractActor
      * @throws \Exception if actor does not exist
@@ -42,8 +42,7 @@ abstract class ActorFactory
         ) {
             return self::createLocalActor($url);
         }
-        
-        
+
         $content = json_decode(
             (new Request(
                 self::$server->config('http.timeout'),
@@ -52,9 +51,9 @@ abstract class ActorFactory
             true
         );
 
-        if (!is_array($content)
-            || !count($content)
-            || !isset($content['type'])
+        if (! is_array($content)
+            || ! count($content)
+            || ! isset($content['type'])
         ) {
             throw new Exception('Actor fetching failed');
         }
@@ -66,7 +65,7 @@ abstract class ActorFactory
         // ActivityPhp profile
         foreach (['id', 'preferredUsername'] as $property) {
             if ($actor->has($property)
-                && !is_null($actor->$property)
+                && ! is_null($actor->$property)
             ) {
                 continue;
             }
@@ -81,7 +80,7 @@ abstract class ActorFactory
 
     /**
      * Inject a server instance
-     * 
+     *
      * @param  \ActivityPhp\Server $server
      */
     public static function setServer(Server $server)
@@ -91,7 +90,7 @@ abstract class ActorFactory
 
     /**
      * Create an actor type from a profile id
-     * 
+     *
      * @param  string $url
      * @return string
      */
@@ -106,7 +105,7 @@ abstract class ActorFactory
 
     /**
      * Parse an actor handle from a profile id
-     * 
+     *
      * @param  string $url
      * @return string
      */
@@ -119,7 +118,7 @@ abstract class ActorFactory
             $pattern
         );
 
-        if (!preg_match("#{$pattern}#", $url, $matches)) {
+        if (! preg_match("#{$pattern}#", $url, $matches)) {
             throw new Exception(
                 sprintf(
                     'Failed to extract username from URL "%s", pattern="%s"',
