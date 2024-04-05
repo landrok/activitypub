@@ -198,7 +198,23 @@ abstract class Util
         bool $strict = false
     ): bool {
         foreach ($properties as $property) {
-            if (! property_exists($item, $property)) {
+            if (is_object($item)
+              && ! property_exists($item, $property)
+            ) {
+                if ($strict) {
+                    throw new Exception(
+                        sprintf(
+                            'Attribute "%s" MUST be set for item: %s',
+                            $property,
+                            print_r($item, true)
+                        )
+                    );
+                }
+
+                return false;
+            } elseif (is_array($item)
+              && ! array_key_exists($property, $item)
+            ) {
                 if ($strict) {
                     throw new Exception(
                         sprintf(

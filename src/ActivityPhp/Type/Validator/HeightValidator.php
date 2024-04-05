@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace ActivityPhp\Type\Validator;
 
 use ActivityPhp\Type\Core\Link;
+use ActivityPhp\Type\Extended\Object\Document;
 use ActivityPhp\Type\Extended\Object\Image;
 use ActivityPhp\Type\Util;
 use ActivityPhp\Type\ValidatorInterface;
@@ -32,8 +33,8 @@ class HeightValidator implements ValidatorInterface
      */
     public function validate($value, $container): bool
     {
-        // Validate that container is a Link
-        Util::subclassOf($container, [Link::class, Image::class], true);
+        // Validate that container is a Link, an Image or a Document
+        Util::subclassOf($container, [Link::class, Image::class, Document::class], true);
 
         // Must be a non negative integer
         return Util::validateNonNegativeInteger($value);

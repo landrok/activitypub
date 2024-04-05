@@ -29,6 +29,12 @@ abstract class Mastodon extends OntologyBase
      * @var array
      */
     protected static $definitions = [
+        'Document' => [
+            'blurhash',
+            'width',
+            'height',
+            'focalPoint',
+        ],
         'Hashtag' => [
             'href'
         ],
@@ -36,6 +42,7 @@ abstract class Mastodon extends OntologyBase
             'atomUri',
             'inReplyToAtomUri',
             'sensitive',
+            'conversation',
         ],
         'Person' => [
             'devices',
@@ -45,6 +52,14 @@ abstract class Mastodon extends OntologyBase
             'indexable',
             'manuallyApprovesFollowers',
             'memorial',
+            'alsoKnownAs',
+        ],
+        'Question' => [
+            'sensitive',
+            'atomUri',
+            'inReplyToAtomUri',
+            'conversation',
+            'votersCount',
         ],
         'PropertyValue' => [
             'value'
