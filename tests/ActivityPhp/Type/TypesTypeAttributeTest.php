@@ -127,8 +127,9 @@ class TypesTypeAttributeTest extends TestCase
 	/**
 	 * Check that all core objects have a correct type property.
 	 * It checks that getter is working well too.
-	 * 
+	 *
 	 * @dataProvider      getObjectTypeScenarios
+	 * #[DataProvider('getObjectTypeScenarios')]
 	 */
 	public function testObjectTypeScenarios($type, $attr, $value)
 	{

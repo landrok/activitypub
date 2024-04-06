@@ -27,7 +27,7 @@ class WebFingerTest extends TestCase
                 ]
             ]
         ];
-    
+
         # handle / method / expected
         return [
 ['bob@localhost:8000', 'toArray', $sample                           ], # toArray()
@@ -80,6 +80,7 @@ class WebFingerTest extends TestCase
      * Check that all response are valid
      *
      * @dataProvider getSuccessScenarios
+     * #[DataProvider('getSuccessScenarios')]
      */
     public function testSuccessScenarios($handle, $method, $expected)
     {
@@ -97,7 +98,7 @@ class WebFingerTest extends TestCase
 
         $webfinger = $server->actor($handle)->webfinger();
 
-        // Assert 
+        // Assert
         $this->assertEquals(
             $expected,
             $webfinger->$method()
@@ -108,6 +109,7 @@ class WebFingerTest extends TestCase
      * Check that all tests are failing
      *
      * @dataProvider      getFailingScenarios
+     * #[DataProvider('getFailingScenarios')]
      */
     public function testFailingScenarios($handle, $method, $expected)
     {
@@ -125,7 +127,7 @@ class WebFingerTest extends TestCase
             ]
         ]);
 
-        
+
 
         $webfinger = $server->actor($handle)->webfinger();
     }
@@ -192,6 +194,7 @@ class WebFingerTest extends TestCase
      * Check that all tests are failing
      *
      * @dataProvider      getFailingInstanceScenarios
+     * #[DataProvider('getFailingInstanceScenarios')]
      */
     public function testFailingInstanceScenarios($data)
     {
@@ -201,7 +204,7 @@ class WebFingerTest extends TestCase
     }
 
     /**
-     * Get profile id can return null if webfinger is used for an 
+     * Get profile id can return null if webfinger is used for an
      * implementation that does not support ActivityPhp
      */
     public function testEmptyProfileId()
@@ -222,7 +225,7 @@ class WebFingerTest extends TestCase
 
         $webfinger = new WebFinger($data);
 
-        // Assert 
+        // Assert
         $this->assertEquals(
             null,
             $webfinger->getProfileId()

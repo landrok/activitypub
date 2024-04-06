@@ -27,12 +27,13 @@ class HelperTest extends TestCase
   'application/pdf',
   'application/json'
 ], false                                                               ], # Refused (array input)
-        
+
         ];
 	}
 
     /**
      * @dataProvider getAcceptHeaderScenarios
+     * #[DataProvider('getAcceptHeaderScenarios')]
      */
     public function testAcceptHeaderScenarios($input, $expected)
     {

@@ -27,6 +27,7 @@ class ConfigurationTest extends TestCase
      * Check that all tests are failing
      *
      * @dataProvider      getFailingInstanceScenarios
+     * #[DataProvider('getFailingInstanceScenarios')]
      */
     public function testFailingInstanceScenarios($data)
     {
@@ -45,7 +46,7 @@ class ConfigurationTest extends TestCase
         $this->expectException(Exception::class);
 
         $config = new Configuration();
-        
+
         $config->getConfig('https');
     }
 }

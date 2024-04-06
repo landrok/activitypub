@@ -77,13 +77,14 @@ class FactoryTest extends TestCase
 
     /**
      * Check that all core objects have a correct type property.
-     * 
+     *
      * @dataProvider getShortTypes
+     * #[DataProvider('getShortTypes')]
      */
     public function testShortTypesInstanciation($type)
     {
         $class = Type::create($type, ['name' => strtolower($type)]);
-        
+
         // Assert affectation
         $this->assertEquals(
             strtolower($type),
@@ -114,7 +115,7 @@ class FactoryTest extends TestCase
 
     /**
      * Scenario for a custom validator
-     * 
+     *
      * - Add a validator in the pool for 'customProperty' attribute
      * - Create a type with this property and affect a correct value
      */
@@ -123,7 +124,7 @@ class FactoryTest extends TestCase
         Type::add('MyCustomType', MyCustomType::class);
         Type::addValidator('customProperty', MyCustomValidator::class);
         $type = Type::create(
-            'MyCustomType', 
+            'MyCustomType',
             ['customProperty' => 'My value']
         );
 
@@ -135,7 +136,7 @@ class FactoryTest extends TestCase
     }
 
     /**
-     * Scenario for instanciating a Type with a single array parameter 
+     * Scenario for instanciating a Type with a single array parameter
      */
     public function testShortCallSuccess()
     {
@@ -149,7 +150,7 @@ class FactoryTest extends TestCase
             'Note',
             $type->type
         );
-        
+
         // Assert another property
         $this->assertEquals(
             'http://example.org/missing-type',
@@ -158,7 +159,7 @@ class FactoryTest extends TestCase
     }
 
     /**
-     * Scenario for instanciating a Type with a single array parameter 
+     * Scenario for instanciating a Type with a single array parameter
      * for a failing value (missing type property)
      */
     public function testShortCallFailing()
@@ -184,7 +185,7 @@ class FactoryTest extends TestCase
     }
 
     /**
-     * Scenario for a custom classes and custom validator with an 
+     * Scenario for a custom classes and custom validator with an
      * failing value
      */
     public function testCustomValidatorFailing()
@@ -193,22 +194,22 @@ class FactoryTest extends TestCase
 
         Type::addValidator('customProperty', MyCustomValidator::class);
         $type = Type::create(
-            'MyCustomType', 
+            'MyCustomType',
             ['customProperty' => 'Bad value']
         );
     }
 
     /**
      * Scenario for a custom type
-     * 
+     *
      * - Add a Type in the pool with 'Person' name
-     * - Instanciate and sets customType value 
+     * - Instanciate and sets customType value
      */
     public function testCustomTypeSuccess()
     {
         Type::add('Person', MyCustomType::class);
         $type = Type::create(
-            'Person', 
+            'Person',
             ['customProperty' => 'My value']
         );
 
@@ -240,7 +241,7 @@ class FactoryTest extends TestCase
         ]);
 
         $copy = $original->copy();
-        
+
         // Assert type are equals
         $this->assertEquals(
             $original->type,
@@ -252,7 +253,7 @@ class FactoryTest extends TestCase
             $original->toArray(),
             $copy->toArray()
         );
-        
+
         // Change a value
         $copy->id = 'http://example.org/copy-id';
 
@@ -260,13 +261,13 @@ class FactoryTest extends TestCase
         $this->assertEquals(
             'http://example.org/copy-id',
             $copy->id
-        );        
+        );
 
         // Assert original is not affected
         $this->assertEquals(
             'http://example.org/original-id',
             $original->id
-        );  
+        );
     }
 
     /**
@@ -287,13 +288,13 @@ class FactoryTest extends TestCase
         $this->assertEquals(
             'http://example.org/copy-id',
             $copy->id
-        );        
+        );
 
         // Assert original is not affected
         $this->assertEquals(
             'http://example.org/original-id',
             $original->id
-        );  
+        );
     }
 
     /**
@@ -308,7 +309,7 @@ class FactoryTest extends TestCase
         $this->assertEquals(
             $json,
             $note->toJson()
-        );          
+        );
     }
 
     /**
@@ -328,7 +329,7 @@ class FactoryTest extends TestCase
      */
     public function testFromJsonNotAnArray()
     {
-        $this->expectException(Exception::class);  
+        $this->expectException(Exception::class);
 
         $json = '"OK"';
         $note = Type::fromJson($json);
