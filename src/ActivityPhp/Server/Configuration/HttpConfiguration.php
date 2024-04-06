@@ -16,7 +16,7 @@ use ActivityPhp\Version;
 
 /**
  * Server HTTP configuration stack
- */ 
+ */
 class HttpConfiguration extends AbstractConfiguration
 {
     /**
@@ -30,8 +30,18 @@ class HttpConfiguration extends AbstractConfiguration
     protected $agent;
 
     /**
+     * @var int Max number of retries
+     */
+    protected $retries = 2;
+
+    /**
+     * @var int Number of seconds to sleep before retrying
+     */
+    protected $sleep = 5;
+
+    /**
      * Dispatch configuration parameters
-     * 
+     *
      * @param array $params
      */
     public function __construct(array $params = [])
@@ -67,7 +77,7 @@ class HttpConfiguration extends AbstractConfiguration
             $host,
             is_null($port) ? '' : ":{$port}"
         );
-        
+
         return sprintf(
             '%s/%s (+%s)',
             Version::getRootNamespace(),

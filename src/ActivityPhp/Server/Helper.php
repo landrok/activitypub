@@ -11,12 +11,13 @@
 
 namespace ActivityPhp\Server;
 
-use ActivityPhp\Server\Http\Request as HttpRequest;
-use ActivityPhp\Type;
-use ActivityPhp\Type\Util;
-use DateInterval;
 use DateTime;
 use Exception;
+use DateInterval;
+use ActivityPhp\Type;
+use ActivityPhp\Server;
+use ActivityPhp\Type\Util;
+use ActivityPhp\Server\Http\Request as HttpRequest;
 
 /**
  * \ActivityPhp\Server\Helper provides global helper methods for a server
@@ -26,9 +27,9 @@ abstract class Helper
 {
     /**
      * An array of allowed Accept HTTP headers
-     * 
+     *
      * @see https://www.w3.org/TR/activitypub/#client-to-server-interactions
-     * 
+     *
      * @var string[]
      */
     protected static $acceptHeaders = [
@@ -39,7 +40,7 @@ abstract class Helper
 
     /**
      * Validate HTTP Accept headers
-     * 
+     *
      * @param  null|string|array $accept
      * @param  bool              $strict Strict mode
      * @return bool
@@ -47,7 +48,7 @@ abstract class Helper
      */
     public static function validateAcceptHeader($accept, $strict = false)
     {
-        if (is_string($accept) 
+        if (is_string($accept)
             && in_array($accept, self::$acceptHeaders)
         ) {
             return true;
@@ -58,8 +59,8 @@ abstract class Helper
         ) {
             return true;
         }
-        
-        if (!$strict) {
+
+        if (! $strict) {
             return false;
         }
 
@@ -73,7 +74,7 @@ abstract class Helper
 
     /**
      * Fetch JSON content from an URL
-     * 
+     *
      * @param  string    $url
      * @param  float|int $timeout
      * @return array
@@ -81,7 +82,12 @@ abstract class Helper
     public static function fetch($url, $timeout = 10.0)
     {
         return Util::decodeJson(
-           (new HttpRequest($timeout))->get($url)
+           (new HttpRequest($timeout))
+                ->setMaxRetries(
+                    Server::server()->config('http')->get('retries'),
+                    Server::server()->config('http')->get('sleep')
+                )
+                ->get($url)
         );
     }
 }

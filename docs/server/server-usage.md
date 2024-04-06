@@ -206,7 +206,7 @@ ________________________________________________________________________
 
 **timeout**
 
-The default timeout for HTTP requests is `10s`..
+The default timeout for HTTP requests is `10s`.
 
 ```php
 use ActivityPhp\Server;
@@ -235,6 +235,29 @@ $server = new Server([
     ],
 ]);
 ```
+
+**retries** and **sleep**
+
+Other federated servers might have some problems and responds with HTTP errors (5xx).
+
+The server instance may retry to reach another instance.
+By default, it will make 2 more attempts with 5 seconds between each before failing.
+
+Setting to `-1` would make it endlessly attempt to transmit its message (Not recommended).
+Setting to `0` would make it never retry to transmit its message.
+
+```php
+use ActivityPhp\Server;
+
+// Setting to 5 maximum retries with 10 seconds between each
+$server = new Server([
+    'http'   => [
+        'retries' => 5,
+        'sleep'   => 10,
+    ],
+]);
+```
+
 
 ________________________________________________________________________
 
