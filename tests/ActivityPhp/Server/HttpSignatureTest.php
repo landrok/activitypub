@@ -12,7 +12,7 @@ use phpseclib3\Crypt\PublicKeyLoader;
 
 /*
  * These scenarios are around verifying an HTTP signature
- * 
+ *
  * Requests are sent from localhost:8001 (distant)
  */
 class HttpSignatureTest extends TestCase
@@ -32,18 +32,18 @@ class HttpSignatureTest extends TestCase
         ]);
 
         $payload = json_encode([]);
-                
+
         /* ------------------------------------------------------------------
          | Prepare signature
          | ------------------------------------------------------------------ */
-        $date = gmdate('D, d M Y H:i:s T', time()); 
+        $date = gmdate('D, d M Y H:i:s T', time());
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
         $rsa = PublicKeyLoader::loadPrivateKey(
             file_get_contents(
                 dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-            ) 
+            )
         )->withHash('sha256'); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
@@ -93,42 +93,42 @@ class HttpSignatureTest extends TestCase
                 'enabled' => false,
             ]
         ]);
-        
+
         $verifier = new HttpSignature($server);
-        
+
         // Split a signature with headers but no algorithm
         $signature = 'keyId="http://localhost:8001/accounts/bob#main-key",headers="(request-target) host date",signature="FbVtmZhMWrfbqQpXf1v86+ie/fL8Ng4O67PePKvxChnUtV7J8N6lndQcNfXcDuKDJ4Nda6gKUQabAF2JK2qeYPNZNJ1AdAa5Lak3hQd+rAbdMJdvQpzGhAaSWK6atqOTH9v2CWdjAQbzvY0nOfGiw3ymtDSvTL0pVlIvq116uMtci0WOHeIbuBSyzM23liJmBomlm4EeB3/V1BVWY2MwaQ1cHVzxR7epP6XYts3C1KbZrdMKxhlWJFLdbLy0YGu5HRkYZepAh2q2NriSikNg8YTJ67owgQv/LqhFKnObgZU6np54fBMSpg7eAdWSIbhhg1a/WHtzFicc9cgoWMRhEg=="';
-    
+
         $split = $verifier->splitSignature($signature);
-        
-        $this->assertEquals($split, [ 
+
+        $this->assertEquals($split, [
             'keyId' => 'http://localhost:8001/accounts/bob#main-key',
             'algorithm' => '',
             'headers' =>  ' host date',
             'signature' => 'FbVtmZhMWrfbqQpXf1v86+ie/fL8Ng4O67PePKvxChnUtV7J8N6lndQcNfXcDuKDJ4Nda6gKUQabAF2JK2qeYPNZNJ1AdAa5Lak3hQd+rAbdMJdvQpzGhAaSWK6atqOTH9v2CWdjAQbzvY0nOfGiw3ymtDSvTL0pVlIvq116uMtci0WOHeIbuBSyzM23liJmBomlm4EeB3/V1BVWY2MwaQ1cHVzxR7epP6XYts3C1KbZrdMKxhlWJFLdbLy0YGu5HRkYZepAh2q2NriSikNg8YTJ67owgQv/LqhFKnObgZU6np54fBMSpg7eAdWSIbhhg1a/WHtzFicc9cgoWMRhEg==',
         ]);
-        
+
         // Split a signature with headers and algorithm
         $signature = 'keyId="http://localhost:8001/accounts/bob#main-key",algorithm="rsa-sha256",headers="(request-target) host date",signature="FbVtmZhMWrfbqQpXf1v86+ie/fL8Ng4O67PePKvxChnUtV7J8N6lndQcNfXcDuKDJ4Nda6gKUQabAF2JK2qeYPNZNJ1AdAa5Lak3hQd+rAbdMJdvQpzGhAaSWK6atqOTH9v2CWdjAQbzvY0nOfGiw3ymtDSvTL0pVlIvq116uMtci0WOHeIbuBSyzM23liJmBomlm4EeB3/V1BVWY2MwaQ1cHVzxR7epP6XYts3C1KbZrdMKxhlWJFLdbLy0YGu5HRkYZepAh2q2NriSikNg8YTJ67owgQv/LqhFKnObgZU6np54fBMSpg7eAdWSIbhhg1a/WHtzFicc9cgoWMRhEg=="';
-    
+
         $split = $verifier->splitSignature($signature);
-        
-        $this->assertEquals($split, [ 
+
+        $this->assertEquals($split, [
             'keyId' => 'http://localhost:8001/accounts/bob#main-key',
             'algorithm' => 'rsa-sha256',
             'headers' =>  ' host date',
             'signature' => 'FbVtmZhMWrfbqQpXf1v86+ie/fL8Ng4O67PePKvxChnUtV7J8N6lndQcNfXcDuKDJ4Nda6gKUQabAF2JK2qeYPNZNJ1AdAa5Lak3hQd+rAbdMJdvQpzGhAaSWK6atqOTH9v2CWdjAQbzvY0nOfGiw3ymtDSvTL0pVlIvq116uMtci0WOHeIbuBSyzM23liJmBomlm4EeB3/V1BVWY2MwaQ1cHVzxR7epP6XYts3C1KbZrdMKxhlWJFLdbLy0YGu5HRkYZepAh2q2NriSikNg8YTJ67owgQv/LqhFKnObgZU6np54fBMSpg7eAdWSIbhhg1a/WHtzFicc9cgoWMRhEg==',
         ]);
 
-        // Split a signature with headers (headers contains hyphens), algorithm. 
+        // Split a signature with headers (headers contains hyphens), algorithm.
         // For informtion, the following signature is false, no problem here as
-        // we're only testing split HTTP signature component. Verification is 
+        // we're only testing split HTTP signature component. Verification is
         // made after
         $signature = 'keyId="http://localhost:8001/accounts/bob#main-key",algorithm="rsa-sha256",headers="(request-target) host content-type digest date",signature="FbVtmZhMWrfbqQpXf1v86+ie/fL8Ng4O67PePKvxChnUtV7J8N6lndQcNfXcDuKDJ4Nda6gKUQabAF2JK2qeYPNZNJ1AdAa5Lak3hQd+rAbdMJdvQpzGhAaSWK6atqOTH9v2CWdjAQbzvY0nOfGiw3ymtDSvTL0pVlIvq116uMtci0WOHeIbuBSyzM23liJmBomlm4EeB3/V1BVWY2MwaQ1cHVzxR7epP6XYts3C1KbZrdMKxhlWJFLdbLy0YGu5HRkYZepAh2q2NriSikNg8YTJ67owgQv/LqhFKnObgZU6np54fBMSpg7eAdWSIbhhg1a/WHtzFicc9cgoWMRhEg=="';
-    
+
         $split = $verifier->splitSignature($signature);
-        
-        $this->assertEquals($split, [ 
+
+        $this->assertEquals($split, [
             'keyId' => 'http://localhost:8001/accounts/bob#main-key',
             'algorithm' => 'rsa-sha256',
             'headers' =>  ' host content-type digest date',
@@ -152,18 +152,18 @@ class HttpSignatureTest extends TestCase
         ]);
 
         $payload = json_encode([]);
-                
+
         /* ------------------------------------------------------------------
          | Prepare signature
          | ------------------------------------------------------------------ */
-        $date = gmdate('D, d M Y H:i:s T', time()); 
+        $date = gmdate('D, d M Y H:i:s T', time());
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
         $rsa = PublicKeyLoader::loadPrivateKey(
                         file_get_contents(
                             dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-                        )  
+                        )
                     )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\ndate: $date";
@@ -199,7 +199,7 @@ class HttpSignatureTest extends TestCase
     }
 
     /**
-     * Check that it returns false when signature header is not 
+     * Check that it returns false when signature header is not
      * specified
      */
     public function testWrongSignatureMissingSignatureHeader()
@@ -214,18 +214,18 @@ class HttpSignatureTest extends TestCase
         ]);
 
         $payload = json_encode([]);
-                
+
         /* ------------------------------------------------------------------
          | Prepare signature
          | ------------------------------------------------------------------ */
-        $date = gmdate('D, d M Y H:i:s T', time()); 
+        $date = gmdate('D, d M Y H:i:s T', time());
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
         $rsa = PublicKeyLoader::loadPrivateKey(
                 file_get_contents(
                     dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-                )  
+                )
             )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
@@ -274,18 +274,18 @@ class HttpSignatureTest extends TestCase
         ]);
 
         $payload = json_encode([]);
-                
+
         /* ------------------------------------------------------------------
          | Prepare signature
          | ------------------------------------------------------------------ */
-        $date = gmdate('D, d M Y H:i:s T', time()); 
+        $date = gmdate('D, d M Y H:i:s T', time());
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
         $rsa = PublicKeyLoader::loadPrivateKey(
                 file_get_contents(
                     dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-                )  
+                )
             )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
@@ -335,18 +335,18 @@ class HttpSignatureTest extends TestCase
         ]);
 
         $payload = json_encode([]);
-                
+
         /* ------------------------------------------------------------------
          | Prepare signature
          | ------------------------------------------------------------------ */
-        $date = gmdate('D, d M Y H:i:s T', time()); 
+        $date = gmdate('D, d M Y H:i:s T', time());
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
         $rsa = PublicKeyLoader::loadPrivateKey(
                 file_get_contents(
                     dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-                )  
+                )
             )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
@@ -398,18 +398,18 @@ class HttpSignatureTest extends TestCase
         ]);
 
         $payload = json_encode([]);
-                
+
         /* ------------------------------------------------------------------
          | Prepare signature
          | ------------------------------------------------------------------ */
-        $date = gmdate('D, d M Y H:i:s T', time()); 
+        $date = gmdate('D, d M Y H:i:s T', time());
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
         $rsa = PublicKeyLoader::loadPrivateKey(
                 file_get_contents(
                     dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-                )  
+                )
             )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";
@@ -454,18 +454,18 @@ class HttpSignatureTest extends TestCase
         ]);
 
         $payload = json_encode([]);
-                
+
         /* ------------------------------------------------------------------
          | Prepare signature
          | ------------------------------------------------------------------ */
-        $date = gmdate('D, d M Y H:i:s T', time()); 
+        $date = gmdate('D, d M Y H:i:s T', time());
         $host = 'localhost';
         $path = '/my-path?q=ok';
 
         $rsa = PublicKeyLoader::loadPrivateKey(
                 file_get_contents(
                     dirname(__DIR__, 2) . '/WebServer/distant/keys/private.pem'
-                )  
+                )
             )->withHash("sha256"); // private key
 
         $plaintext = "(request-target) post $path\nhost: $host\ndate: $date";

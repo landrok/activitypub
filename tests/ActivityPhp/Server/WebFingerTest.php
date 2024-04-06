@@ -80,7 +80,6 @@ class WebFingerTest extends TestCase
      * Check that all response are valid
      *
      * @dataProvider getSuccessScenarios
-     * #[DataProvider('getSuccessScenarios')]
      */
     public function testSuccessScenarios($handle, $method, $expected)
     {
@@ -109,7 +108,6 @@ class WebFingerTest extends TestCase
      * Check that all tests are failing
      *
      * @dataProvider      getFailingScenarios
-     * #[DataProvider('getFailingScenarios')]
      */
     public function testFailingScenarios($handle, $method, $expected)
     {
@@ -194,7 +192,6 @@ class WebFingerTest extends TestCase
      * Check that all tests are failing
      *
      * @dataProvider      getFailingInstanceScenarios
-     * #[DataProvider('getFailingInstanceScenarios')]
      */
     public function testFailingInstanceScenarios($data)
     {

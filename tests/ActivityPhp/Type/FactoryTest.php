@@ -79,7 +79,6 @@ class FactoryTest extends TestCase
      * Check that all core objects have a correct type property.
      *
      * @dataProvider getShortTypes
-     * #[DataProvider('getShortTypes')]
      */
     public function testShortTypesInstanciation($type)
     {

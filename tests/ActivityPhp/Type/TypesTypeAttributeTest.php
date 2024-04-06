@@ -129,7 +129,6 @@ class TypesTypeAttributeTest extends TestCase
 	 * It checks that getter is working well too.
 	 *
 	 * @dataProvider      getObjectTypeScenarios
-	 * #[DataProvider('getObjectTypeScenarios')]
 	 */
 	public function testObjectTypeScenarios($type, $attr, $value)
 	{

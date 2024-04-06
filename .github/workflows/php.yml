@@ -22,7 +22,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: "${{ matrix.php-versions }}"
-        coverage: xdebug2
+        coverage: xdebug
         ini-values: "memory_limit=-1"
         tools: phpunit, composer
 

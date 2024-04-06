@@ -95,6 +95,7 @@ final class Server
      * @return \ActivityPhp\Server\Configuration\LoggerConfiguration
      *       | \ActivityPhp\Server\Configuration\InstanceConfiguration
      *       | \ActivityPhp\Server\Configuration\HttpConfiguration
+     *       | \ActivityPhp\Server\Configuration\CacheConfiguration
      *       | string
      */
     public function config(string $parameter)

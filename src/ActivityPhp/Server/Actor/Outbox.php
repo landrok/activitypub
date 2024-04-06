@@ -18,6 +18,7 @@ use ActivityPhp\Server\Activity\HandlerInterface;
 use ActivityPhp\Server\Actor;
 use ActivityPhp\Server\Helper;
 use ActivityPhp\Type;
+use ActivityPhp\Type\AbstractObject;
 use ActivityPhp\Type\Core\AbstractActivity;
 use ActivityPhp\Type\Util;
 use Exception;
@@ -46,10 +47,9 @@ class Outbox extends AbstractBox
     /**
      * Get items from an outbox
      *
-     * @param  string $page
-     * @return array
+     * @param  string $url A page URL
      */
-    public function getPage(string $url)
+    public function getPage(string $url): AbstractObject
     {
         $this->server->logger()->info(
             $this->actor->webfinger()->getHandle() . ':' . __METHOD__,
@@ -62,7 +62,7 @@ class Outbox extends AbstractBox
     /**
      * Fetch an outbox
      *
-     * @return \ActivityPhp\Type\Core\OrderedCollection
+     * @return void|\ActivityPhp\Type\Core\OrderedCollection
      */
     public function get()
     {

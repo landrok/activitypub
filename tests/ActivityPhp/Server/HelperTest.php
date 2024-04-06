@@ -33,7 +33,6 @@ class HelperTest extends TestCase
 
     /**
      * @dataProvider getAcceptHeaderScenarios
-     * #[DataProvider('getAcceptHeaderScenarios')]
      */
     public function testAcceptHeaderScenarios($input, $expected)
     {

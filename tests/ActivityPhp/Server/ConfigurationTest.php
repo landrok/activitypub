@@ -27,7 +27,6 @@ class ConfigurationTest extends TestCase
      * Check that all tests are failing
      *
      * @dataProvider      getFailingInstanceScenarios
-     * #[DataProvider('getFailingInstanceScenarios')]
      */
     public function testFailingInstanceScenarios($data)
     {

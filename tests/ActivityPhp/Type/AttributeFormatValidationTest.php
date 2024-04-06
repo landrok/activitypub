@@ -1370,7 +1370,6 @@ class AttributeFormatValidationTest extends TestCase
      * It checks that getter is working well too.
      *
      * @dataProvider      getValidAttributesScenarios
-     * #[DataProvider('getValidAttributesScenarios')]
      */
     public function testValidAttributesScenarios($attr, $type, $value)
     {
@@ -1399,7 +1398,6 @@ class AttributeFormatValidationTest extends TestCase
 
     /**
      * @dataProvider      getExceptionScenarios
-     * #[DataProvider('getExceptionScenarios')]
      */
     public function testExceptionScenarios($attr, $type, $value)
     {
