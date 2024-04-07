@@ -113,14 +113,12 @@ final class Server
     {
         $this->logger()->info($handle . ':' . __METHOD__);
 
-        if (isset($this->inboxes[$handle])) {
-            return $this->inboxes[$handle];
+        if (! isset($this->inboxes[$handle])) {
+            // Build actor
+            $actor = $this->actor($handle);
+
+            $this->inboxes[$handle] = new Inbox($actor, $this);
         }
-
-        // Build actor
-        $actor = $this->actor($handle);
-
-        $this->inboxes[$handle] = new Inbox($actor, $this);
 
         return $this->inboxes[$handle];
     }
@@ -133,14 +131,12 @@ final class Server
     {
         $this->logger()->info($handle . ':' . __METHOD__);
 
-        if (isset($this->outboxes[$handle])) {
-            return $this->outboxes[$handle];
+        if (! isset($this->outboxes[$handle])) {
+            // Build actor
+            $actor = $this->actor($handle);
+
+            $this->outboxes[$handle] = new Outbox($actor, $this);
         }
-
-        // Build actor
-        $actor = $this->actor($handle);
-
-        $this->outboxes[$handle] = new Outbox($actor, $this);
 
         return $this->outboxes[$handle];
     }
@@ -152,11 +148,9 @@ final class Server
     {
         $this->logger()->info($handle . ':' . __METHOD__);
 
-        if (isset($this->actors[$handle])) {
-            return $this->actors[$handle];
+        if (! isset($this->actors[$handle])) {
+            $this->actors[$handle] = new Actor($handle, $this);
         }
-
-        $this->actors[$handle] = new Actor($handle, $this);
 
         return $this->actors[$handle];
     }

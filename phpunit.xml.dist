@@ -4,6 +4,9 @@
     <report>
       <clover outputFile="build/logs/clover.xml"/>
     </report>
+    <include>
+        <directory suffix=".php">src</directory>
+    </include>
   </coverage>
   <testsuites>
     <testsuite name="ActivityPhp Test Suite">

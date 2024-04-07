@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace ActivityPhp;
 
+use Exception;
+
 /**
  * \ActivityPhp\Version handles current version of this package
  */
@@ -49,22 +51,13 @@ abstract class Version
     }
 
     /**
-     * Check that given filename is a string and is readable
+     * Check that given filename is a readable file
      *
-     * @throws \Exception if filename is not a string
-     *                 or if filename is not a file
+     * @throws \Exception if filename is not a file
      *                 or if file is not readable
      */
     public static function checkFile(string $filename): void
     {
-        // Must be a string
-        if (! is_string($filename)) {
-            throw new Exception(
-                'FILE_ERROR Filename must be a string. Given: '
-                . gettype($filename)
-            );
-        }
-
         // Must be readable
         if (! is_readable($filename)) {
             throw new Exception(
