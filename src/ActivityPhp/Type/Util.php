@@ -482,7 +482,7 @@ abstract class Util
     /**
      * Validate a Collection type
      *
-     * @param object $item
+     * @param object|array $item
      */
     public static function validateCollection($item): bool
     {
@@ -506,7 +506,7 @@ abstract class Util
     /**
      * Validate a CollectionPage type
      *
-     * @param object $item
+     * @param object|array $item
      */
     public static function validateCollectionPage($item): bool
     {
@@ -514,6 +514,10 @@ abstract class Util
         // Must be a Collection
         if (! self::validateCollection($item)) {
             return false;
+        }
+
+        if (! is_object($item)) {
+            $item = (object) $item;
         }
 
         self::hasProperties(
