@@ -3,6 +3,7 @@
 namespace ActivityPhpTest\Server;
 
 use ActivityPhp\Server;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ActivityPhp\Server\Configuration;
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -16,18 +17,13 @@ class ConfigurationTest extends TestCase
     {
         # data
         return [
-[[['http']]                                                            ], # Key is an array
-[['https' => 'bob']                                                    ], # property does not exist
-[['http' => 'bob']                                                     ], # property must have an array as value
-
+            [[['http']]          ], # Key is an array
+            [['https' => 'bob']  ], # property does not exist
+            [['http' => 'bob']   ], # property must have an array as value
         ];
 	}
 
-    /**
-     * Check that all tests are failing
-     *
-     * @dataProvider      getFailingInstanceScenarios
-     */
+    #[DataProvider('getFailingInstanceScenarios')]
     public function testFailingInstanceScenarios($data)
     {
         $this->expectException(Exception::class);
