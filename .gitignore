@@ -1,4 +1,5 @@
 /vendor
-/cache
 /build
 
+/cache
+.phpunit.result.cache

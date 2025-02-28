@@ -6,6 +6,7 @@ use ActivityPhp\Type;
 use ActivityPhpTest\MyCustomType;
 use ActivityPhpTest\MyCustomValidator;
 use Exception;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class FactoryTest extends TestCase
@@ -77,9 +78,8 @@ class FactoryTest extends TestCase
 
     /**
      * Check that all core objects have a correct type property.
-     *
-     * @dataProvider getShortTypes
      */
+    #[DataProvider('getShortTypes')]
     public function testShortTypesInstanciation($type)
     {
         $class = Type::create($type, ['name' => strtolower($type)]);
