@@ -5,6 +5,7 @@ namespace ActivityPhpTest\Server;
 use ActivityPhp\Server;
 use ActivityPhp\Server\Http\WebFinger;
 use Exception;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class WebFingerTest extends TestCase
@@ -30,13 +31,13 @@ class WebFingerTest extends TestCase
 
         # handle / method / expected
         return [
-['bob@localhost:8000', 'toArray', $sample                           ], # toArray()
-['bob@localhost:8000', 'getProfileId', $sample['links'][0]['href']  ], # getProfileId()
-['bob@localhost:8000', 'getHandle', substr($sample['subject'], 5)   ], # getHandle()
-['bob@localhost:8000', 'getSubject', $sample['subject']             ], # getSubject()
-['bob@localhost:8000', 'getAliases', $sample['aliases']             ], # getAliases()
-['bob@localhost:8000', 'getLinks', $sample['links']                 ], # getLinks()
-['http://localhost:8000/accounts/bob', 'toArray', $sample           ], # toArray() with an ActivityPhp profile id
+            ['bob@localhost:8000', 'toArray', $sample                           ], # toArray()
+            ['bob@localhost:8000', 'getProfileId', $sample['links'][0]['href']  ], # getProfileId()
+            ['bob@localhost:8000', 'getHandle', substr($sample['subject'], 5)   ], # getHandle()
+            ['bob@localhost:8000', 'getSubject', $sample['subject']             ], # getSubject()
+            ['bob@localhost:8000', 'getAliases', $sample['aliases']             ], # getAliases()
+            ['bob@localhost:8000', 'getLinks', $sample['links']                 ], # getLinks()
+            ['http://localhost:8000/accounts/bob', 'toArray', $sample           ], # toArray() with an ActivityPhp profile id
         ];
 	}
 
@@ -60,27 +61,26 @@ class WebFingerTest extends TestCase
         ];
         #
         return [
-['bob@localhost:9000', 'toArray', $sample                           ], # Bad host with an Handle
-['bob', 'toArray', $sample                                             ], # Malformed handle
-['http://localhost:9000/accounts/bob', 'toArray', $sample           ], # Bad port with an AS id
-['http//localhost:8000/accounts/bob', 'toArray', $sample            ], # Bad scheme
-['bob-subject-array@localhost:8000', 'toArray', $sample             ], # Bad response from server (Subject is an array)
-['bob-malformed-aliases@localhost:8000', 'toArray', $sample         ], # Bad response from server (Aliases must be string[])
-['bob-missing-links@localhost:8000', 'toArray', $sample             ], # Bad response from server (links key is not defined)
-['bob-links-arrays@localhost:8000', 'toArray', $sample              ], # Bad response from server (links is an array of arrays)
-['bob-links-missing-rel@localhost:8000', 'toArray', $sample         ], # Bad response from server (links key must contain a rel key)
-['bob-404-profile@localhost:8000', 'toArray', $sample               ], # Bad response from server (404 Not found)
+            ['bob@localhost:9000', 'toArray', $sample                           ], # Bad host with an Handle
+            ['bob', 'toArray', $sample                                             ], # Malformed handle
+            ['http://localhost:9000/accounts/bob', 'toArray', $sample           ], # Bad port with an AS id
+            ['http//localhost:8000/accounts/bob', 'toArray', $sample            ], # Bad scheme
+            ['bob-subject-array@localhost:8000', 'toArray', $sample             ], # Bad response from server (Subject is an array)
+            ['bob-malformed-aliases@localhost:8000', 'toArray', $sample         ], # Bad response from server (Aliases must be string[])
+            ['bob-missing-links@localhost:8000', 'toArray', $sample             ], # Bad response from server (links key is not defined)
+            ['bob-links-arrays@localhost:8000', 'toArray', $sample              ], # Bad response from server (links is an array of arrays)
+            ['bob-links-missing-rel@localhost:8000', 'toArray', $sample         ], # Bad response from server (links key must contain a rel key)
+            ['bob-404-profile@localhost:8000', 'toArray', $sample               ], # Bad response from server (404 Not found)
 
-['http://localhost:8000/accounts/empty-profile', 'toArray', $sample ], # Bad response from server (ActivityPhp profile is empty)
-['http://localhost:8000/accounts/missing-property', 'toArray', $sample ], # Bad response from server (Missing preferredUsername)
+            ['http://localhost:8000/accounts/empty-profile', 'toArray', $sample ], # Bad response from server (ActivityPhp profile is empty)
+            ['http://localhost:8000/accounts/missing-property', 'toArray', $sample ], # Bad response from server (Missing preferredUsername)
         ];
 	}
 
     /**
      * Check that all response are valid
-     *
-     * @dataProvider getSuccessScenarios
      */
+    #[DataProvider('getSuccessScenarios')]
     public function testSuccessScenarios($handle, $method, $expected)
     {
         $server = new Server([
@@ -106,9 +106,8 @@ class WebFingerTest extends TestCase
 
     /**
      * Check that all tests are failing
-     *
-     * @dataProvider      getFailingScenarios
      */
+    #[DataProvider('getFailingScenarios')]
     public function testFailingScenarios($handle, $method, $expected)
     {
         $this->expectException(Exception::class);
@@ -190,9 +189,8 @@ class WebFingerTest extends TestCase
 
     /**
      * Check that all tests are failing
-     *
-     * @dataProvider      getFailingInstanceScenarios
      */
+    #[DataProvider('getFailingInstanceScenarios')]
     public function testFailingInstanceScenarios($data)
     {
         $this->expectException(Exception::class);

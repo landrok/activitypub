@@ -4,6 +4,7 @@ namespace ActivityPhpTest\Server;
 
 use ActivityPhp\Server\Helper;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class HelperTest extends TestCase
 {
@@ -14,26 +15,24 @@ class HelperTest extends TestCase
     {
         # input / expected
         return [
-['application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
- true                                                                  ], # Allowed
-['application/activity+json', true                                     ], # Allowed
-['*/*', true                                                           ], # Allowed
-['application/json', false                                             ], # Refused
-[[
-  'application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
-  'application/json'
-], true                                                                ], # Allowed (array input)
-[[
-  'application/pdf',
-  'application/json'
-], false                                                               ], # Refused (array input)
+            ['application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
+             true                                                                  ], # Allowed
+            ['application/activity+json', true                                     ], # Allowed
+            ['*/*', true                                                           ], # Allowed
+            ['application/json', false                                             ], # Refused
+            [[
+                'application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
+                'application/json'
+            ], true                                                                ], # Allowed (array input)
+            [[
+                'application/pdf',
+                'application/json'
+            ], false                                                               ], # Refused (array input)
 
         ];
 	}
 
-    /**
-     * @dataProvider getAcceptHeaderScenarios
-     */
+    #[DataProvider('getAcceptHeaderScenarios')]
     public function testAcceptHeaderScenarios($input, $expected)
     {
         $this->assertEquals(

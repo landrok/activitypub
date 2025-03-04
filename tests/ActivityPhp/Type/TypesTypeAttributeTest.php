@@ -56,6 +56,7 @@ use ActivityPhp\Type\Extended\Object\Profile;
 use ActivityPhp\Type\Extended\Object\Relationship;
 use ActivityPhp\Type\Extended\Object\Tombstone;
 use ActivityPhp\Type\Extended\Object\Video;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class TypesTypeAttributeTest extends TestCase
@@ -124,15 +125,14 @@ class TypesTypeAttributeTest extends TestCase
 		];
 	}
 
-	/**
-	 * Check that all core objects have a correct type property.
-	 * It checks that getter is working well too.
-	 *
-	 * @dataProvider      getObjectTypeScenarios
-	 */
-	public function testObjectTypeScenarios($type, $attr, $value)
-	{
-		$object = new $type();
-		$this->assertEquals($value, $object->{$attr});
-	}
+    /**
+     * Check that all core objects have a correct type property.
+     * It checks that getter is working well too.
+     */
+    #[DataProvider('getObjectTypeScenarios')]
+    public function testObjectTypeScenarios($type, $attr, $value)
+    {
+        $object = new $type();
+        $this->assertEquals($value, $object->{$attr});
+    }
 }

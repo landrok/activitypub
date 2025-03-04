@@ -59,6 +59,7 @@ use ActivityPhp\Type\Extended\Object\Tombstone;
 use ActivityPhp\Type\Extended\Object\Video;
 use ActivityPhp\Type\Validator;
 use Exception;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class AttributeFormatValidationTest extends TestCase
@@ -1368,9 +1369,8 @@ class AttributeFormatValidationTest extends TestCase
     /**
      * Check that all core objects have a correct type property.
      * It checks that getter is working well too.
-     *
-     * @dataProvider      getValidAttributesScenarios
      */
+    #[DataProvider('getValidAttributesScenarios')]
     public function testValidAttributesScenarios($attr, $type, $value)
     {
         $object = new $type();
@@ -1396,9 +1396,7 @@ class AttributeFormatValidationTest extends TestCase
         $this->assertEquals($value, $object->{$attr});
     }
 
-    /**
-     * @dataProvider      getExceptionScenarios
-     */
+    #[DataProvider('getExceptionScenarios')]
     public function testExceptionScenarios($attr, $type, $value)
     {
         $this->expectException(Exception::class);
