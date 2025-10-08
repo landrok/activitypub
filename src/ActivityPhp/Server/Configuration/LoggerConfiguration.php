@@ -12,18 +12,17 @@
 namespace ActivityPhp\Server\Configuration;
 
 use Exception;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
+use Psr\Log\NullLogger;
 
 /**
  * Logger configuration stack
- */ 
+ */
 class LoggerConfiguration extends AbstractConfiguration
 {
     /**
      * @var string Logger class name
      */
-    protected $driver = '\Monolog\Logger';
+    protected $driver = '\Psr\Log\NullLogger';
 
     /**
      * @var string Logger stream
@@ -37,7 +36,7 @@ class LoggerConfiguration extends AbstractConfiguration
 
     /**
      * Dispatch configuration parameters
-     * 
+     *
      * @param array $params
      */
     public function __construct(array $params = [])
@@ -47,7 +46,7 @@ class LoggerConfiguration extends AbstractConfiguration
 
     /**
      * Create logger instance
-     * 
+     *
      * @return \Psr\Log\LoggerInterface
      */
     public function createLogger()
@@ -58,16 +57,7 @@ class LoggerConfiguration extends AbstractConfiguration
             );
         }
 
-        $logger = new $this->driver($this->channel);
-
-        if (method_exists($logger, 'pushHandler')) {
-            $logger->pushHandler(
-                new StreamHandler(
-                    $this->stream,
-                    Logger::DEBUG
-                )
-            );
-        }
+        $logger = new $this->driver();
 
         return $logger;
     }

@@ -72,19 +72,19 @@ ________________________________________________________________________
 
 - channel: A string defining a log channel. Default is 'global'
 
-- loglevel: Minimal loglevel. Default is Logger::DEBUG (@todo put all monolog 
-    allowed config)
-    
+- loglevel: Minimal loglevel. This is only relevant for PSR-3 compatible loggers
+    that support log levels (like Monolog)
+
 - stream: Where to put log messages. Default is 'php://stdout'.
         It can be a filename.
 
-________________________________________________________________________                
+________________________________________________________________________
 
 
 ### instance parameters
 
 - hostname
-- debug: boolean. 
+- debug: boolean.
     default = false
 
 
