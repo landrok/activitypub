@@ -73,7 +73,8 @@ If you have specific needs (Storing logs into a database, for
 instance), you may pass a custom logger driver. As it implements
 `Psr\Log\LoggerInterface`, you may pass any custom logger.
 
-By default, the driver is [Monolog\Logger](https://github.com/Seldaek/monolog).
+By default, the driver is `Psr\Log\NullLogger` which discards all log messages.
+You can use any PSR-3 compatible logger such as [Monolog](https://github.com/Seldaek/monolog).
 
 
 **stream**
