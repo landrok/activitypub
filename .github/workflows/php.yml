@@ -41,5 +41,4 @@ jobs:
     - name: Run test suite
       run: |
         php -v
-        vendor/bin/phpunit --migrate-configuration
         vendor/bin/phpunit -c phpunit.xml.dist
