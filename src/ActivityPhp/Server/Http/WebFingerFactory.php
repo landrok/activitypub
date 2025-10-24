@@ -70,7 +70,8 @@ class WebFingerFactory
         $content = Util::decodeJson(
             (new Request(
                 self::$server->config('http.timeout'),
-                self::$server->config('http.agent')
+                self::$server->config('http.agent'),
+                self::$server->config('http.cacert') ?? ''
             ))->get($url)
         );
 

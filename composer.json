@@ -16,6 +16,7 @@
         "symfony/cache": ">=4.0"
     },
     "require-dev": {
+        "paragonie/certainty": "^2|^3",
         "phpunit/phpunit": "*"
     },
     "autoload": {

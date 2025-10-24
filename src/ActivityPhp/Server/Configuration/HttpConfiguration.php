@@ -40,6 +40,11 @@ class HttpConfiguration extends AbstractConfiguration
     protected $sleep = 5;
 
     /**
+     * @var string File path for cacert.pem file for TLS validation
+     */
+    protected string $cacertPath = '';
+
+    /**
      * Dispatch configuration parameters
      *
      * @param array $params

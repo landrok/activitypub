@@ -69,7 +69,7 @@ class Request
      * @param float|int $timeout
      * @param string $agent
      */
-    public function __construct($timeout = 10.0, $agent = '')
+    public function __construct(float|int $timeout = 10.0, string $agent = '', string $cacertPath = '')
     {
         $headers = ['Accept' => self::HTTP_HEADER_ACCEPT];
 
@@ -77,10 +77,17 @@ class Request
             $headers['User-Agent'] = $agent;
         }
 
-        $this->client = new Client([
+        $clientConfig = [
             'timeout' => $timeout,
             'headers' => $headers
-        ]);
+        ];
+        if (!empty($cacertPath)) {
+            if (!is_readable($cacertPath)) {
+                throw new Exception('Cannot read cacert file path: ' . $cacertPath);
+            }
+            $clientConfig['verify'] = $cacertPath;
+        }
+        $this->client = new Client($clientConfig);
     }
 
     /**
