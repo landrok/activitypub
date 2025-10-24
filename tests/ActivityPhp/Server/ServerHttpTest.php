@@ -3,6 +3,7 @@
 namespace ActivityPhpTest\Server;
 
 use ActivityPhp\Server;
+use ParagonIE\Certainty\RemoteFetch;
 use PHPUnit\Framework\TestCase;
 
 class ServerHttpTest extends TestCase
@@ -58,6 +59,23 @@ class ServerHttpTest extends TestCase
         $this->assertEquals(
             Server::server()->config('http.agent'),
             "MyUserAgent"
+        );
+    }
+
+    public function testCaCert()
+    {
+        mkdir(__DIR__ . '/tmp');
+        $latestCaCert = (new RemoteFetch(__DIR__ . '/tmp'))
+            ->getLatestBundle(false, false)
+            ->getFilePath();
+        $server = new Server([
+            'http' => [
+                'cacert' => $latestCaCert
+            ]
+        ]);
+        $this->assertSame(
+            $latestCaCert,
+            $server->config('http.cacert')
         );
     }
 }
